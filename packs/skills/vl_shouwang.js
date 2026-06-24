@@ -6,9 +6,19 @@ export default {
     filter(event, player) {
         return event.num > 1
     },
+    check(event, player) {
+        if (player.hp <= 1) return false
+        let att = get.attitude(player, event.player)
+        let att2 = get.attitude(player, event.source)
+        let att3 = get.attitude(event.source, event.player)
+        if (att < 0 && event.player.hp <= event.num) return false
+        if (att < 0 && att2 > 0) return false
+        if (att < 0 && att3 < 0) return false
+        return true
+    },
     t: {
         name: '守望',
-        info: '每回合限一次，当一名角色受到伤害时，若此伤害大于1，你可以失去1点体力，并取消此伤害。然后你可以选择一项：1.你与其摸各2X张牌；2.其交给你X张牌（X为本次受到的伤害值）。'
+        info: '每回合限一次，当一名角色受到伤害时，若此伤害大于1，你可以失去1点体力，并取消此伤害。然后你可以选择一项：1.你与其摸各X张牌；2.其交给你X张牌（X为本次受到的伤害值）。'
     },
     usable: 1,
     async content(event, trigger, player) {
@@ -16,7 +26,7 @@ export default {
         const num = trigger.num
         trigger.cancel()
         var list = [
-            '你与其摸各' + 2 * num + '张牌',
+            '你与其摸各' + num + '张牌',
             '其交给你' + num + '张牌',
         ];
         const result = await player.chooseControl().set('prompt', get.prompt('vl_shouwang')).set('choiceList', list).set('ai', function () {
@@ -25,18 +35,17 @@ export default {
             else return 1
         }).set('forced', true).forResult();
         if (result.index == 0) {
-            await player.draw(2 * num)
-            await trigger.player.draw(2 * num)
+            await player.draw(num)
+            await trigger.player.draw(num)
         } else {
             let cardnum = Math.min(num, trigger.player.countCards('he'))
             if (cardnum <= 0 || trigger.player == player) return event.finish()
             else {
-                let result = await trigger.player.chooseCard('交给' + get.translation(player) + get.translation(cardnum) + '张牌', 'he', cardnum, true).set('ai', function (card) {
+                let result = await trigger.player.chooseToGive('交给' + get.translation(player) + get.translation(cardnum) + '张牌', 'he', player, cardnum, true).set('ai', function (card) {
                     if (_status.event.goon) return 0;
                     return 5 - get.value(card);
-                }).set('goon', get.attitude(trigger.player, player) >= 0).forResult();
+                })
             }
-            await player.gain(result.cards, trigger.player, 'giveAuto')
         }
     },
     ai: {

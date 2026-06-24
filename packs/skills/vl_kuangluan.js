@@ -24,15 +24,21 @@ export default {
         if (target.countCards('he') > 0) choiceList.push('交给' + get.translation(player) + '一张牌，然后你本回合不能使用或打出【闪】')
         const result = await target.chooseControl(true)
             .set('choiceList', choiceList)
-            .set('ai', () => 0)
+            .set('ai', () => {
+                if (choiceList.length > 1) {
+                    if (target.countCards('hs', 'shan') > 0) return 1
+                    let att = get.attitude(target, player)
+                    if (att > 0) return 0
+                    return 1
+                } else return 0
+            })
             .set('prompt', get.prompt2('vl_kuangluan'))
-        if (result.index = 0) {
+        if (result.index == 0) {
             await player.draw(2)
             player.storage.vl_kuangluan_unlimitSha[0] = target
             player.addTempSkill('vl_kuangsha_unlimitSha')
         } else {
             await target.chooseToGive(true, "he", player).set("prompt", '义父：交给' + get.translation(player) + '一张牌，然后你本回合不能使用或打出【闪】')
-
             target.addTempSkill('vl_kuangluan_noShan')
         }
     },
@@ -75,11 +81,6 @@ export default {
             intro: {
                 content: "本回合对$使用【杀】无距离和次数限制",
             },
-            "skill_id": "yuyun_sha",
-            sub: true,
-            sourceSkill: "yuyun",
-            "_priority": 0,
-
         }
     },
 }

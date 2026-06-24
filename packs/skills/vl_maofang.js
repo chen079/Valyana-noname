@@ -3,12 +3,18 @@ export default {
     trigger: {
         global: "damageBegin1",
     },
+    check(event, player) {
+        const target = event.player
+        let attr = get.attitude(player, target)
+        if (attr > 0) return false
+        return true
+    },
     t: {
         name: '茂放',
         info: '其他角色造成伤害时，你可以弃置至多X张牌，令此伤害+X（X为你已损体力值）。'
     },
     filter(event, player) {
-        return event.source != player && player.hp < player.maxHp && player.countCards('h') > 0;
+        return event.source != player && player.hp < player.maxHp && player.countDiscardableCards(player, "h") > 0;
     },
     async cost(event, trigger, player) {
         event.result = await player.chooseToDiscard('h', get.prompt2('vl_maofang', trigger.player), [1, player.maxHp - player.hp]).set('ai', (card) => {
