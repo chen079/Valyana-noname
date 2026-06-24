@@ -43,6 +43,7 @@ export default {
         order: 7,
         result: {
             player(player, target) {
+                if (player.hp <= 1) return -1
                 var att = get.attitude(player, target)
                 if (att < 0 && target.hp <= 2) return 0;
                 else return 1

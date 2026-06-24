@@ -1,5 +1,5 @@
 import { lib, game, ui, get, ai, _status } from '../../../../noname.js';
-const changelog = {
+export const changelog = {
     "1.0.0": [
         {
             type: 'text',

@@ -5,8 +5,6 @@ import { precontent } from './js/precontent/index.js';
 import { content } from './js/content.js';
 import { help } from './js/help.js';
 
-lib.init.css(lib.assetURL + 'extension/瓦尔亚纳', 'extension');
-
 let extensionPackage = {
 	name: '瓦尔亚纳',
 	editable: false,

@@ -9,26 +9,32 @@ const translate = {}
 const skill = {};
 const extendCharacter = {}
 const characterIntro = {}
-const characterSort = { Valyana: {} }
+const characterSort = {}
 const skillSet = new Set();
 
 for (const charName in character) {
     const char = character[charName]
-    const title = char.title;
-    const name = char.name;
-    const intro = char.intro
-    const skills = char.skills
-    const sort = char.sort
-    extendCharacter[charName] = [char.gender, char.bloc, char.hp, skills, char.addition]
-    if (title) characterTitle[charName] = title;
-    if (name) translate[charName] = name
-    if (intro) characterIntro[charName] = intro
-    if (sort) {
-        if (!characterSort.Valyana[sort]) characterSort.Valyana[sort] = [];
-        characterSort.Valyana[sort].push(charName);
-    }
-    if (skills && Array.isArray(skills)) {
-        skills.forEach(skillName => skillSet.add(skillName));
+    if (char.enable) {
+        const title = char.title;
+        const name = char.name;
+        const intro = char.intro
+        const skills = char.skills
+        const sort = char.sort
+        const pack = char.pack
+        const prefix = char.prefix
+        extendCharacter[charName] = [char.gender, char.bloc, char.hp, skills, char.addition]
+        if (title) characterTitle[charName] = title;
+        if (name) translate[charName] = name
+        if (prefix) translate[charName + '_prefix'] = prefix
+        if (intro) characterIntro[charName] = intro
+        if (pack && sort) {
+            if (!characterSort[pack]) characterSort[pack] = {}
+            if (!characterSort[pack][sort]) characterSort[pack][sort] = [];
+            characterSort[pack][sort].push(charName);
+        }
+        if (skills && Array.isArray(skills)) {
+            skills.forEach(skillName => skillSet.add(skillName));
+        }
     }
 }
 
@@ -75,13 +81,8 @@ const packs = function () {
         Valyana.character[i].dieAudios ??= [];
         Valyana.character[i].tempname ??= [];
         Valyana.character[i].img = `extension/瓦尔亚纳/image/character/${i}.jpg`;
-        const skin = Valyana.character[i].trashBin.find(str => str.startsWith('character:'))?.split(':')[1];
-        if (skin && files.image.character.files.includes(`${skin}.jpg`)) Valyana.character[i].img = `extension/瓦尔亚纳/image/character/${skin}.jpg`;
         Valyana.character[i].dieAudios.push('ext:瓦尔亚纳/audio/die:true');
         Valyana.translate[`#ext:瓦尔亚纳/audio/die/${i}:die`] ??= '点击播放阵亡配音';
-        if (Valyana.translate[i] && !lib.translate[i + '_prefix'] && !Valyana.translate[i + '_prefix']) {
-            if (Valyana.translate[i].startsWith('🐺')) Valyana.translate[i + '_prefix'] = '🐺';
-        }
     }
     game.addGroup('vl_quanke', '犬', '犬科', { color: '#d83843' });
     game.addGroup('vl_maoke', '猫', '猫科', { color: '#d6a800' });
