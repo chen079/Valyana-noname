@@ -7,14 +7,20 @@ export default {
         return event.num > 1
     },
     check(event, player) {
-        if (player.hp <= 1) return false
-        let att = get.attitude(player, event.player)
-        let att2 = get.attitude(player, event.source)
-        let att3 = get.attitude(event.source, event.player)
-        if (att < 0 && event.player.hp <= event.num) return false
-        if (att < 0 && att2 > 0) return false
-        if (att < 0 && att3 < 0) return false
-        return true
+        if (player.hp <= 1) return false;
+        if (event.player == player) return true;
+        let att = get.attitude(player, event.player);
+        let att2 = get.attitude(player, event.source);
+        let att3 = get.attitude(event.source, event.player);
+        if (att < 0) {
+            return false;
+        }
+        if (att > 0) {
+            if (att2 > 0 && event.num < 3) return false;
+            return true;
+        }
+        if (event.num >= 3) return true;
+        return false;
     },
     t: {
         name: '守望',
@@ -25,12 +31,11 @@ export default {
         await player.loseHp()
         const num = trigger.num
         trigger.cancel()
-        var list = [
+        const list = [
             '你与其摸各' + num + '张牌',
             '其交给你' + num + '张牌',
         ];
         const result = await player.chooseControl().set('prompt', get.prompt('vl_shouwang')).set('choiceList', list).set('ai', function () {
-            var player = _status.event.player;
             if (get.attitude(player, trigger.player) > 0) return 0;
             else return 1
         }).set('forced', true).forResult();
@@ -53,7 +58,7 @@ export default {
         result: {
             player(player, target) {
                 if (player.hp <= 1) return -1
-                var att = get.attitude(player, target)
+                const att = get.attitude(player, target)
                 if (att < 0 && target.hp <= 2) return 0;
                 else return 1
             }

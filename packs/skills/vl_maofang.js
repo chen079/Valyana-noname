@@ -7,6 +7,7 @@ export default {
         const target = event.player
         let attr = get.attitude(player, target)
         if (attr > 0) return false
+        if (event.player == player) return false
         return true
     },
     t: {

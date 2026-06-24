@@ -4,6 +4,7 @@ export default {
         player: "damageBegin3",
         source: "damageBegin1",
     },
+    log: false,
     t: {
         name: '戏命',
         info: '锁定技，你造成与受到的伤害+1。你的【杀】指定目标后，该角色的非锁定技失效直到本回合结束。',
