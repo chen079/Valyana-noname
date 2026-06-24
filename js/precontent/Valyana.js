@@ -88,8 +88,8 @@ const packs = function () {
         Valyana.character[i].dieAudios.push('ext:瓦尔亚纳/audio/die:true');
         Valyana.translate[`#ext:瓦尔亚纳/audio/die/${i}:die`] ??= '点击播放阵亡配音';
     }
-    game.addGroup('vl_quanke', '犬', '犬科', { color: '#d83843' });
-    game.addGroup('vl_maoke', '猫', '猫科', { color: '#d6a800' });
+    game.addGroup('vl_quanke', '犬', '犬科', { color: '#d83843', image: 'ext:瓦尔亚纳/image/group/quanke.png' });
+    game.addGroup('vl_maoke', '猫', '猫科', { color: '#d6a800', image: 'ext:瓦尔亚纳/image/group/maoke.png' });
     lib.config.all.sgscharacters.push('Valyana');
     lib.translate['Valyana_character_config'] = '瓦尔亚纳';
     return Valyana;

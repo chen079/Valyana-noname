@@ -6,13 +6,16 @@ import { vuffs } from '../../packs/vuffs/index.js';
 import { initVuffSystem } from '../system/vuff.js';
 import { initVpSystem } from '../system/vp.js';
 import { initBrokenSystem } from '../system/broken.js';
+import { initValyanaGallerySystem } from '../system/valyanaGallery.js';
 
 export async function precontent(ValyanaCharacters) {
     lib.init.css(lib.assetURL + 'extension/瓦尔亚纳/css', 'vp');
     lib.init.css(lib.assetURL + 'extension/瓦尔亚纳/css', 'vuff');
+    lib.init.css(lib.assetURL + 'extension/瓦尔亚纳/css', 'valyanaGallery');
     initVpSystem();
     initVuffSystem(vuffs);
     initBrokenSystem();
+    initValyanaGallerySystem();
     if (ValyanaCharacters.enable) {
         //--------------------武将包--------------------//
         game.import('character', Valyana);

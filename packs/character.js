@@ -12,7 +12,8 @@ export const character = {
         addition: [],
         pack: '武将包',
         vp: 0,
-        sort: '分类'
+        sort: '分类',
+        rank: '评级'
     },
     vl_fangsuan: {
         enable: true,
@@ -33,7 +34,8 @@ export const character = {
         skills: ['vl_ximing', 'vl_mishe', 'vl_kuangluan'],
         addition: ['zhu'],
         pack: 'Valyana',
-        sort: 'vl_kela'
+        sort: 'vl_tiaodan',
+        rank: 'legend'
     },
     vl_wangshuo: {
         enable: true,
@@ -51,6 +53,7 @@ export const character = {
         skills: ['vl_shouwang', 'vl_maofang'],
         addition: [],
         pack: 'Valyana',
-        sort: 'vl_kela'
+        sort: 'vl_tiaodan',
+        rank: 'epic'
     },
 }

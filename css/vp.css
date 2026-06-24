@@ -4,7 +4,7 @@
     bottom: 5px;
     width: 13px;
     height: 13px;
-    background-image: url('../image/others/vp.png');
+    background-image: url('../image/ui/vp.png');
     background-size: 100% 100%;
     background-repeat: no-repeat;
     z-index: 130;
@@ -24,7 +24,7 @@
     top: 0px;
     width: 15px;
     height: 15px;
-    background-image: url('../image/others/vp.png');
+    background-image: url('../image/ui/vp.png');
     background-size: 100% 100%;
     background-repeat: no-repeat;
     z-index: 130;
@@ -46,7 +46,7 @@
     bottom: 0px;
     width: 15px;
     height: 15px;
-    background-image: url('../image/others/vp.png');
+    background-image: url('../image/ui/vp.png');
     background-size: 100% 100%;
     background-repeat: no-repeat;
     z-index: 130;
@@ -67,7 +67,7 @@
     bottom: -15px;
     width: 15px;
     height: 15px;
-    background-image: url('../image/others/vp.png');
+    background-image: url('../image/ui/vp.png');
     background-size: 100% 100%;
     background-repeat: no-repeat;
     z-index: 130;
@@ -88,7 +88,7 @@
     top: -15px;
     width: 15px;
     height: 15px;
-    background-image: url('../image/others/vp.png');
+    background-image: url('../image/ui/vp.png');
     background-size: 100% 100%;
     background-repeat: no-repeat;
     z-index: 130;
