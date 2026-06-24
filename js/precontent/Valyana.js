@@ -1,19 +1,69 @@
 import { lib, game, ui, get, ai, _status } from '../../../../noname.js';
 import { character } from '../../packs/character.js'
-import { characterIntro } from '../../packs/characterIntro.js'
 import { card } from '../../packs/card.js'
-import { characterSort } from '../../packs/characterSort.js'
 import { dynamicTranslate } from '../../packs/dynamicTranslate.js'
-import translate from '../../packs/translate.js'
-import skill from '../../packs/skill.js'
+import { translation } from '../../packs/translation.js';
+
+const characterTitle = {}
+const translate = {}
+const skill = {};
+const extendCharacter = {}
+const characterIntro = {}
+const characterSort = { Valyana: {} }
+const skillSet = new Set();
+
+for (const charName in character) {
+    const char = character[charName]
+    const title = char.title;
+    const name = char.name;
+    const intro = char.intro
+    const skills = char.skills
+    const sort = char.sort
+    extendCharacter[charName] = [char.gender, char.bloc, char.hp, skills, char.addition]
+    if (title) characterTitle[charName] = title;
+    if (name) translate[charName] = name
+    if (intro) characterIntro[charName] = intro
+    if (sort) {
+        if (!characterSort.Valyana[sort]) characterSort.Valyana[sort] = [];
+        characterSort.Valyana[sort].push(charName);
+    }
+    if (skills && Array.isArray(skills)) {
+        skills.forEach(skillName => skillSet.add(skillName));
+    }
+}
+
+const skillIndex = [...skillSet];
+
+await Promise.all(skillIndex.map(async (skillName) => {
+    const module = await import(`../../packs/skills/${skillName}.js`);
+    skill[skillName] = module.default; // 取默认导出
+}));
+
+for (const skillName in skill) {
+    if (skill[skillName].t) {
+        const name = skill[skillName].t.name
+        const info = skill[skillName].t.info
+        const taici = skill[skillName].t.taici
+        if (name) translate[skillName] = name;
+        if (info) translate[skillName + '_info'] = info;
+        if (Array.isArray(taici)) {
+            taici.forEach((text, index) => {
+                translate['#ext:瓦尔亚纳/audio/skill/' + skillName + (index + 1)] = text;
+            });
+        }
+    }
+}
+
+Object.assign(translate, translation);
 
 const packs = function () {
     const Valyana = {
         name: 'Valyana',
         connect: true,
         characterSort: characterSort,
-        character: character,
+        character: extendCharacter,
         characterIntro: characterIntro,
+        characterTitle: characterTitle,
         card: card,
         skill: skill,
         dynamicTranslate: dynamicTranslate,
@@ -33,8 +83,8 @@ const packs = function () {
             if (Valyana.translate[i].startsWith('🐺')) Valyana.translate[i + '_prefix'] = '🐺';
         }
     }
-    game.addGroup('vl_quanke', '犬', '犬科', { color: '#d83843'});
-    game.addGroup('vl_maoke', '猫', '猫科', { color: '#d6a800'});
+    game.addGroup('vl_quanke', '犬', '犬科', { color: '#d83843' });
+    game.addGroup('vl_maoke', '猫', '猫科', { color: '#d6a800' });
     lib.config.all.sgscharacters.push('Valyana');
     lib.translate['Valyana_character_config'] = '瓦尔亚纳';
     return Valyana;
