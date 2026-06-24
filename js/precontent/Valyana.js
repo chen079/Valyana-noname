@@ -22,11 +22,14 @@ for (const charName in character) {
         const sort = char.sort
         const pack = char.pack
         const prefix = char.prefix
-        extendCharacter[charName] = [char.gender, char.bloc, char.hp, skills, char.addition]
+        const VP = char.vp
+        const addition = char.addition
+
         if (title) characterTitle[charName] = title;
         if (name) translate[charName] = name
         if (prefix) translate[charName + '_prefix'] = prefix
         if (intro) characterIntro[charName] = intro
+        if (VP) addition.push('VP:' + VP)
         if (pack && sort) {
             if (!characterSort[pack]) characterSort[pack] = {}
             if (!characterSort[pack][sort]) characterSort[pack][sort] = [];
@@ -35,6 +38,7 @@ for (const charName in character) {
         if (skills && Array.isArray(skills)) {
             skills.forEach(skillName => skillSet.add(skillName));
         }
+        extendCharacter[charName] = [char.gender, char.bloc, char.hp, skills, addition]
     }
 }
 

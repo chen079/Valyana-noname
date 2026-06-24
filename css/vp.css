@@ -1,0 +1,105 @@
+.player>.vp-xiaceyou {
+    display: block;
+    right: -16px;
+    bottom: 5px;
+    width: 13px;
+    height: 13px;
+    background-image: url('../image/others/vp.png');
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    z-index: 130;
+    cursor: pointer;
+    transition: none;
+}
+
+.vp-xiaceyou>.name-xiaceyou {
+    left: 0px;
+    top: -15px;
+    font-size: 13px;
+    font-family: 'xinwei';
+}
+
+.player>.vp-shangcenei {
+    left: calc(50% - 18px);
+    top: 0px;
+    width: 15px;
+    height: 15px;
+    background-image: url('../image/others/vp.png');
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    z-index: 130;
+    transition: none;
+    cursor: pointer;
+    display: block;
+}
+
+.vp-shangcenei>.name-shangcenei {
+    left: 20px;
+    top: 0px;
+    font-size: 15px;
+    font-family: 'xinwei';
+}
+
+.player>.vp-xiacenei {
+    display: block;
+    left: calc(50% - 18px);
+    bottom: 0px;
+    width: 15px;
+    height: 15px;
+    background-image: url('../image/others/vp.png');
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    z-index: 130;
+    cursor: pointer;
+    transition: none;
+}
+
+.vp-xiacenei>.name-xiacenei {
+    left: 20px;
+    top: 0px;
+    font-size: 15px;
+    font-family: 'xinwei';
+}
+
+.player>.vp-xiacewai {
+    display: block;
+    left: calc(50% - 18px);
+    bottom: -15px;
+    width: 15px;
+    height: 15px;
+    background-image: url('../image/others/vp.png');
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    z-index: 130;
+    cursor: pointer;
+    transition: none;
+}
+
+.vp-xiacewai>.name-xiacewai {
+    left: 20px;
+    top: 0px;
+    font-size: 15px;
+    font-family: 'xinwei';
+}
+
+.player>.vp-shangcewai {
+    display: block;
+    left: calc(50% - 18px);
+    top: -15px;
+    width: 15px;
+    height: 15px;
+    background-image: url('../image/others/vp.png');
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    z-index: 130;
+    cursor: pointer;
+    transition: none;
+}
+
+.vp-shangcewai>.name-shangcewai {
+    left: 20px;
+    top: 0px;
+    font-size: 15px;
+    font-family: 'xinwei';
+}
+

@@ -1,4 +1,4 @@
-import { game, ui, get } from '../../../noname.js';
+import { lib, game, ui, get } from '../../../noname.js';
 import { changelog } from '../js/precontent/changelog.js';
 
 function closeChangelogDialog(dialog, controls) {
@@ -80,5 +80,29 @@ export let config = {
         name: '点击查看更新公告',
         clear: true,
         onclick: showValyanaChangelog,
+    },
+    vpLoc: {
+        name: '<b>灵能条显示位置</b>',
+        intro: '可以设置灵能条在头像上显示的位置',
+        init: lib.config.VpBarLocation !== undefined ? lib.config.VpBarLocation : 'shangcenei',
+        item: {
+            shangcenei: '上侧靠内',
+            shangcewai: '上侧靠外',
+            xiacenei: '下侧靠内',
+            xiacewai: '下侧靠外',
+            xiaceyou: '下侧靠右',
+        },
+        onclick(item) {
+            game.saveConfig('extension_瓦尔亚纳_vpLoc', item);
+            game.saveConfig('VpBarLocation', item);
+        },
+    },
+    "vuffList": {
+        name: "<b>查看Vuff列表",
+        clear: true,
+        intro: '查看福瑞拓展的Vuff列表',
+        onclick: function () {
+            get.vuffListDialog()
+        }
     },
 }

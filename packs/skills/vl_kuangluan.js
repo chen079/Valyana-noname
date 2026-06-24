@@ -75,37 +75,37 @@ export default {
                 // 评估对目标角色的收益（负值表示负面效果，目标越不喜欢越负）
                 target: function (player, target) {
                     // 选项1损失：目标让玩家摸2张牌 + 杀无限制
-                    var loss1 = 2; // 摸2牌的基本价值
-                    var shaCount = player.getCards('sha').length;
+                    let loss1 = 2; // 摸2牌的基本价值
+                    const shaCount = player.getCards('sha').length;
                     if (shaCount > 0) loss1 += 1; // 若有杀，则杀限制取消有额外威胁
 
                     // 选项2损失：目标交给玩家1张牌 + 本回合不能使用/打出【闪】
-                    var loss2 = 1; // 失去1张牌
+                    let loss2 = 1; // 失去1张牌
                     if (target.getCards('shan').length > 0) loss2 += 1; // 有闪则损失更大
                     if (target.hp <= 2) loss2 += 1; // 残血时不能闪可能致命
 
                     // 目标会理性选择损失较小的选项，因此实际损失取 min
-                    var actualLoss = Math.min(loss1, loss2);
+                    const actualLoss = Math.min(loss1, loss2);
                     return -actualLoss; // 返回负值
                 },
 
                 // 评估对玩家自身（发动者）的收益（正值表示收益）
                 player: function (player, target) {
                     // 计算两个选项对玩家的收益（未扣弃牌成本）
-                    var gain1 = 2; // 摸2牌
-                    var shaCount = player.getCards('sha').length;
+                    let gain1 = 2; // 摸2牌
+                    const shaCount = player.getCards('sha').length;
                     if (shaCount > 0) gain1 += 1; // 杀加成收益
 
-                    var gain2 = 1; // 获得目标1张牌
+                    let gain2 = 1; // 获得目标1张牌
                     if (target.getCards('shan').length > 0) gain2 += 1; // 目标不能闪，杀必中收益
 
                     // 预测目标会选哪个选项（与 target 函数中的判断保持一致）
-                    var loss1 = 2 + (shaCount > 0 ? 1 : 0);
-                    var loss2 = 1 + (target.getCards('shan').length > 0 ? 1 : 0) + (target.hp <= 2 ? 1 : 0);
-                    var targetChoice = (loss1 < loss2) ? 1 : 2; // 目标选损失小的
+                    const loss1 = 2 + (shaCount > 0 ? 1 : 0);
+                    const loss2 = 1 + (target.getCards('shan').length > 0 ? 1 : 0) + (target.hp <= 2 ? 1 : 0);
+                    const targetChoice = (loss1 < loss2) ? 1 : 2; // 目标选损失小的
 
                     // 玩家实际获得收益（对应目标选择的选项）
-                    var playerGain = (targetChoice === 1) ? gain1 : gain2;
+                    const playerGain = (targetChoice === 1) ? gain1 : gain2;
 
                     // 扣除发动技能必须弃置的1张牌成本
                     return playerGain - 1;
