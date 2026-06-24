@@ -1,3 +1,4 @@
+import { lib, game, ui, get, ai, _status } from '../../../../noname.js';
 export default {
     trigger: {
         player: "damageBegin3",
@@ -6,6 +7,7 @@ export default {
     t: {
         name: '戏命',
         info: '锁定技，你造成与受到的伤害+1。你的【杀】指定目标后，该角色的非锁定技失效直到本回合结束。',
+        taici: ['你的性命，不过是我的玩物', '性命攸关，于我无非游戏']
     },
     forced: true,
     content() {
