@@ -1,0 +1,204 @@
+{
+  "css": {
+    "_files": [
+      "valyanaGallery.css",
+      "vp.css",
+      "vuff.css"
+    ]
+  },
+  "_files": [
+    "extension.css",
+    "extension.js",
+    "info.json",
+    "README.md"
+  ],
+  "image": {
+    "character": {
+      "_files": [
+        "vl_fangsuan.jpg",
+        "vl_wangshuo.jpg"
+      ]
+    },
+    "gallery": {
+      "_files": [
+        "galleryBackground.png",
+        "valyanaGallery.jpg"
+      ]
+    },
+    "group": {
+      "_files": [
+        "maoke.png",
+        "quanke.png"
+      ]
+    },
+    "ui": {
+      "_files": [
+        "BrokenHp.png",
+        "close.png",
+        "exit.png",
+        "vp.png",
+        "vuffDialog.png"
+      ]
+    },
+    "vuff": {
+      "_files": [
+        "bihu.png",
+        "chaofeng.png",
+        "chaoshi.png",
+        "chihuan.png",
+        "chuxue.png",
+        "dimi.png",
+        "dongshang.png",
+        "dragonfire.png",
+        "guwu.png",
+        "huisheng.png",
+        "hunluan.png",
+        "jianren.png",
+        "jinghua.png",
+        "jingji.png",
+        "kangfen.png",
+        "konghuang.png",
+        "lieshi.png",
+        "lingmi.png",
+        "mabi.png",
+        "mad.png",
+        "mianyi.png",
+        "mimang.png",
+        "mingjie.png",
+        "ningzhi.png",
+        "pibei.png",
+        "qianxing.png",
+        "qiyuan.png",
+        "ranshao.png",
+        "shisheng.png",
+        "shixue.png",
+        "shufu.png",
+        "sleep.png",
+        "xuruo.png",
+        "yanling.png",
+        "yazhi.png",
+        "yinghua.png",
+        "yingneng.png",
+        "yishang.png",
+        "youshi.png",
+        "yujian.png",
+        "zaie.png",
+        "zhenhan.png",
+        "zhongdu.png",
+        "zhongshang.png",
+        "zuijiu.png",
+        "zuzhou.png"
+      ]
+    }
+  },
+  "js": {
+    "_files": [
+      "config.js",
+      "content.js",
+      "files.json",
+      "help.js"
+    ],
+    "precontent": {
+      "_files": [
+        "changelog.js",
+        "index.js",
+        "poptips.json",
+        "Valyana.js"
+      ]
+    },
+    "scripts": {
+      "_files": [
+        "generateFiles.cjs",
+        "run.bat"
+      ]
+    },
+    "system": {
+      "_files": [
+        "broken.js",
+        "furryMigrationCompat.js",
+        "valyanaGallery.js",
+        "vp.js",
+        "vuff.js"
+      ]
+    }
+  },
+  "packs": {
+    "_files": [
+      "card.js",
+      "character.js",
+      "dynamicTranslate.js",
+      "furryMigration.js",
+      "migrationCharacter.js",
+      "migrationSkill.js",
+      "translation.js"
+    ],
+    "characters": {
+      "_files": [
+        "vl_fangsuan.json",
+        "vl_templete.json",
+        "vl_wangshuo.json"
+      ]
+    },
+    "skills": {
+      "_files": [
+        "skillTemplete.js",
+        "vl_kuangluan.js",
+        "vl_maofang.js",
+        "vl_mishe.js",
+        "vl_shouwang.js",
+        "vl_ximing.js"
+      ]
+    },
+    "vuffs": {
+      "_files": [
+        "bihu.js",
+        "chaofeng.js",
+        "chaoshi.js",
+        "chihuan.js",
+        "chuxue.js",
+        "dimi.js",
+        "dongshang.js",
+        "dragonfire.js",
+        "guwu.js",
+        "huisheng.js",
+        "hunluan.js",
+        "index.js",
+        "jianren.js",
+        "jinghua.js",
+        "jingji.js",
+        "kangfen.js",
+        "konghuang.js",
+        "lieshi.js",
+        "lingmi.js",
+        "mabi.js",
+        "mad.js",
+        "mianyi.js",
+        "mimang.js",
+        "mingjie.js",
+        "ningzhi.js",
+        "pibei.js",
+        "qianxing.js",
+        "qiyuan.js",
+        "ranshao.js",
+        "shisheng.js",
+        "shixue.js",
+        "shufu.js",
+        "sleep.js",
+        "xuruo.js",
+        "yanling.js",
+        "yazhi.js",
+        "yinghua.js",
+        "yingneng.js",
+        "yishang.js",
+        "youshi.js",
+        "yujian.js",
+        "zaie.js",
+        "zhenhan.js",
+        "zhongdu.js",
+        "zhongshang.js",
+        "zuijiu.js",
+        "zuzhou.js"
+      ]
+    }
+  }
+}

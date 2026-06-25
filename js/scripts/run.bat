@@ -1,0 +1,1 @@
+node generateFiles.cjs
