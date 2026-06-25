@@ -1,0 +1,61 @@
+import { lib, game, ui, get, ai, _status } from '../../../../noname.js';
+
+export default {
+    unique: true,
+    trigger: {
+        player: "dying",
+    },
+    mark: true,
+    skillAnimation: true,
+    limited: true,
+    animationColor: "orange",
+    init: function (player) {
+					player.storage.vl_froh_sn = false;
+				},
+    filter: function (event, player) {
+					if (player.storage.vl_froh_sn) return false;
+					return true;
+				},
+    content: async function content(event, trigger, player) {
+					player.awakenSkill('vl_froh_sn');
+					player.storage.vl_froh_sn = true;
+					await player.discard(player.getCards('hej'));
+					player.link(false);
+					await player.turnOver(false);
+					await player.gainMaxHp()
+					'step 3'
+					await player.drawTo(player.maxHp);
+					await player.recover(player.maxHp - player.hp);
+					'step 4'
+					player.changeHubian();
+					if (!player.storage.hubian) {
+						player.changeAvatarImage(player.name, player.name)
+					} else {
+						player.changeAvatarImage(player.name, player.name + '2')
+					}
+				},
+    ai: {
+        order: 1,
+        skillTagFilter: function (player, arg, target) {
+						if (player != target || player.storage.vl_froh_sn) return false;
+					},
+        save: true,
+        result: {
+            player: function (player) {
+							if (player.hp <= 0) return 10;
+							if (player.hp <= 2 && player.countCards('he') <= 1) return 10;
+							return 0;
+						},
+        },
+        threaten: function (player, target) {
+						if (!target.storage.vl_froh_sn) return 0.6;
+					},
+    },
+    intro: {
+        content: "limited",
+    },
+    t: {
+        name: "释能",
+        info: "限定技，当你进入濒死状态时，你可以获得1点体力上限、复原武将牌并弃置你区域内的所有牌，然后将你的体力值和手牌数调整至体力上限。若如此做，你改变你的「hubian」状态。",
+    },
+};

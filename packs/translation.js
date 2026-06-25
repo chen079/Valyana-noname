@@ -1,5 +1,22 @@
 export const translation = {
+    wanling: "万灵之森",
+    kela: "克拉王国",
+    yongbing: "流浪者佣兵团",
+    xueyuan: "魔法学院",
+    shoushen: "兽神传说",
+    youdangzhe: "游荡旅行者",
+    renyu: "人鱼之海",
+    jianaier: "迦奈尔联邦",
+    dragongu: "龙之谷",
+    milan: "米兰寺",
+    jixiezaowu: "机械造物",
+    franying: "暗影刺杀队",
+    tuozhanliandong: "扩展联动",
+    kechuanjuese: "客串角色",
+    setaka: "色塔卡",
+    airenzhixin: "矮人之心洞穴",
     Valyana: "瓦尔亚纳",
     vl_kela: "克拉",
-    vl_tiaodan: "挑担的游戏"
-}
+    vl_tiaodan: "挑担的游戏",
+    vl_furry_migration: "福瑞迁移",
+};

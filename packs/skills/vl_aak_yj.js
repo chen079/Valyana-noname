@@ -1,0 +1,62 @@
+import { lib, game, ui, get, ai, _status } from '../../../../noname.js';
+
+export default {
+    enable: "phaseUse",
+    filterCard: true,
+    filterTarget: true,
+    usable: 1,
+    position: "he",
+    content: function () {
+					'step 0'
+					target.damage(1, player)
+					'step 1'
+					var num = [1, 2].randomGet()
+					if (num == 1) {
+						target.draw(2)
+						player.draw(2)
+					} else {
+						if (!target.storage.vl_aak_yj_1) target.storage.vl_aak_yj_1 = 0
+						target.storage.vl_aak_yj_1 += 1
+						if (!player.storage.vl_aak_yj_1) player.storage.vl_aak_yj_1 = 0
+						player.storage.vl_aak_yj_1 += 1
+						target.addTempSkill('vl_aak_yj_1')
+						player.addTempSkill('vl_aak_yj_1')
+					}
+				},
+    ai: {
+        order: 7,
+        result: {
+            target: function (player, target) {
+							if (target.hp == 1) {
+								return -1
+							} else {
+								return 0.5
+							}
+						},
+            player: 1,
+        },
+    },
+    subSkill: {
+        "1": {
+            onremove: function (player) {
+							player.storage.vl_aak_yj_1 = 0
+						},
+            mark: true,
+            forced: true,
+            unique: true,
+            intro: {
+                content: "你可以额外使用#张杀",
+            },
+            mod: {
+                cardUsable: function (card, player, num) {
+								if (card.name == 'sha') return num + player.storage.vl_aak_yj_1;
+							},
+            },
+            sub: true,
+        },
+    },
+    t: {
+        name: "药剂",
+        info: "出牌阶段限一次，你可以弃置一张牌对一名角色造成1点伤害，然后你与其随机执行相同一项：<li>①你摸两张牌。<li>②直至回合结束，出牌阶段可以多使用一张【杀】。",
+    },
+};

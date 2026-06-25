@@ -1,0 +1,44 @@
+import { lib, game, ui, get, ai, _status } from '../../../../noname.js';
+
+export default {
+    enable: "phaseUse",
+    usable: 1,
+    filter: function (event, player) {
+					if (!player.storage.vl_kaye_yj) return true;
+					return game.hasPlayer(function (current) {
+						return !player.storage.vl_kaye_yj.includes(current);
+					});
+				},
+    filterTarget: function (card, player, target) {
+					return (!player.storage.vl_kaye_yj || !player.storage.vl_kaye_yj.includes(target) && target != player);
+				},
+    init: function (player) {
+					if (!player.storage.vl_kaye_yj) player.storage.vl_kaye_yj = [];
+				},
+    content: function () {
+					target.addVuff('xuruo', 5, player)
+					target.addVuff('yishang', 2, player)
+					if (!player.storage.vl_kaye_yj) player.storage.vl_kaye_yj = [];
+					player.storage.vl_kaye_yj.push(target);
+					player.storage.vl_kaye_yj.sortBySeat()
+					player.markSkill('vl_kaye_yj');
+				},
+    ai: {
+        order: 7,
+        threaten: 1.6,
+        expose: 0.2,
+        result: {
+            target: function (player, target) {
+							return -1;
+						},
+        },
+    },
+    intro: {
+        markcount: () => undefined,
+        content: "已对$发动过〖压制〗",
+    },
+    t: {
+        name: "压制",
+        info: "出牌阶段，你可以选择一名其他角色，若如此做，你令该角色获得2层「易伤」和5层「虚弱」。每名角色限一次。",
+    },
+};

@@ -1,0 +1,18 @@
+import { lib, game, ui, get, ai, _status } from '../../../../noname.js';
+
+export default {
+    trigger: {
+        player: "shaBegin",
+    },
+    forced: true,
+    filter: function (event, player) {
+					return get.distance(event.target, player, 'attack') > 1;
+				},
+    content: function () {
+					trigger.directHit = true;
+				},
+    t: {
+        name: "重斩",
+        info: "当你使用【杀】时，若你不在【杀】的目标的攻击范围内，此杀不可被响应。",
+    },
+};
