@@ -6,31 +6,31 @@ export default {
         player: "useCard1",
     },
     init: function (player) {
-					player.fenfaSkill('vl_kesaya_ax')
-				},
+        player.fenfaSkill('vl_kesaya_ax')
+    },
     fenfa: function (player) {
-					return [-Infinity, player.maxHp - 1]
-				},
+        return [-Infinity, player.maxHp - 1]
+    },
     forced: true,
     filter: function (event, player) {
-					return !event.audioed && event.card.name == 'sha' && player.countUsed('sha', true) > 1 && event.getParent().type == 'phase';
-				},
+        return !event.audioed && event.card.name == 'sha' && player.countUsed('sha', true) > 1 && event.getParent().type == 'phase';
+    },
     content: function () {
-					trigger.audioed = true;
-				},
+        trigger.audioed = true;
+    },
     mod: {
         cardUsable: function (card, player, num) {
-						if (card.name == 'sha') return Infinity;
-					},
+            if (card.name == 'sha') return Infinity;
+        },
     },
     ai: {
         directHit_ai: true,
         unequip: true,
         skillTagFilter: function (player, tag, arg) {
-						if (!get.zhu(player, 'shouyue')) return false;
-						if (arg && arg.name == 'sha') return true;
-						return false;
-					},
+            if (!get.zhu(player, 'shouyue')) return false;
+            if (arg && arg.name == 'sha') return true;
+            return false;
+        },
     },
     group: "vl_kesaya_ax_1",
     subSkill: {
@@ -40,8 +40,8 @@ export default {
             },
             forced: true,
             content: function () {
-							trigger.directHit = true;
-						},
+                trigger.directHit = true;
+            },
             sub: true,
         },
     },
