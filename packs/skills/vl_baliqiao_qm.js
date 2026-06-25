@@ -5,14 +5,14 @@ export default {
         global: ["loseAsyncAfter", "gainAfter"],
     },
     forced: true,
-    filter: function (event, player, name, target) {
+    filter(event, player, name, target) {
 					const cardse = event.getl(player);
 					// alert(cardse)
 					const cards = cardse.cards2.addArray(cardse.js);
 					// alert(cards.length)
 					return cards.containsSome(...event.getg(target));
 				},
-    getIndex: function getIndex(event, player) {
+    getIndex(event, player) {
 					const cardse = event.getl(player);
 					const cards = cardse.cards2.addArray(cardse.js);
 					if (!event.getg || !event.getl || !cards.length) {
@@ -39,7 +39,7 @@ export default {
                 global: "loseAsyncAfter",
             },
             forced: true,
-            filter: function filter(event, player) {
+            filter(event, player) {
 							return game.hasPlayer(current => {
 								if (current == player) return false;
 								const cardse = event.getl(current);
@@ -47,7 +47,7 @@ export default {
 								return cards.some(card => event.getg?.(player)?.includes(card));
 							});
 						},
-            content: function content(){
+            async content(event, trigger, player) {
 							player.draw();
 						},
         },

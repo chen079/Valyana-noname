@@ -8,7 +8,7 @@ export default {
     intro: {
         markcount: "expansion",
         content: "expansion",
-        onunmark: function (storage, player) {
+        onunmark(storage, player) {
 						if (storage && storage.length) {
 							player.$throw(storage, 1000);
 							game.cardsDiscard(storage);
@@ -18,10 +18,10 @@ export default {
 					},
     },
     forced: true,
-    init: function (player, storage) {
+    init(player, storage) {
 					if (!player.storage.vl_marcia_ql_color) player.storage.vl_marcia_ql_color = ['red', 'black']
 				},
-    filter: function (event, player) {
+    filter(event, player) {
 					if (event.player == player) return false
 					if (event.cards.length != 1 || event.targets.length != 1) return false
 					var bool1 = (event.card.name == 'sha');
@@ -30,10 +30,9 @@ export default {
 					return player.storage.vl_marcia_ql_color.includes(get.color(event.cards))
 				},
     logTarget: "player",
-    content: function () {
-					'step 0'
-					player.storage.vl_marcia_ql_color.remove(get.color(trigger.cards))
-					player.addToExpansion(trigger.cards, 'gain2').gaintag.add('vl_marcia_ql');
+    async content(event, trigger, player) {
+					player.storage.vl_marcia_ql_color.remove(get.color(trigger.cards));
+					await player.addToExpansion(trigger.cards, 'gain2').gaintag.add('vl_marcia_ql');
 					trigger.targets.remove(player);
 					trigger.getParent().triggeredTargets2.remove(player);
 					trigger.untrigger();
@@ -48,7 +47,7 @@ export default {
             forced: true,
             unique: true,
             popup: false,
-            content: function () {
+            async content(event, trigger, player) {
 							player.storage.vl_marcia_ql_color = ['red', 'black']
 						},
             sub: true,
@@ -57,12 +56,12 @@ export default {
             trigger: {
                 player: "phaseUseBegin",
             },
-            filter: function (event, player) {
+            filter(event, player) {
 							return player.getExpansions('vl_marcia_ql').length > 0;
 						},
             forced: true,
             unique: true,
-            content: function () {
+            async content(event, trigger, player) {
 							var cards = player.getExpansions('vl_marcia_ql');
 							if (cards.length > 0) {
 								player.gain(cards, 'gain2');

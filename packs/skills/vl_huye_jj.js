@@ -6,10 +6,10 @@ export default {
     },
     forced: true,
     locked: false,
-    filter: function (event, player) {
+    filter(event, player) {
 					return event.player.hasVuff('sleep');
 				},
-    content: function () {
+    async content(event, trigger, player) {
 					trigger.num += 1
 				},
     t: {

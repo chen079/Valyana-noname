@@ -4,21 +4,21 @@ export default {
     position: "hes",
     linkage: "light",
     enable: "chooseToUse",
-    filterCard: function (card) {
+    filterCard(card) {
 					return get.color(card) == 'red';
 				},
-    filter: function (event, player) {
+    filter(event, player) {
 					return ((player.name1 == 'vl_kulun_light') || (player.name2 == 'vl_kulun_light'));
 				},
     viewAs: {
         name: "huogong",
         nature: "fire",
     },
-    viewAsFilter: function (player) {
+    viewAsFilter(player) {
 					if (!player.countCards('hes', { color: 'red' })) return false;
 				},
     prompt: "将一张红色牌当火攻使用",
-    check: function (card) {
+    check(card) {
 					var player = _status.currentPhase;
 					if (player.countCards('h') > player.hp) {
 						return 6 - get.value(card);
@@ -32,11 +32,11 @@ export default {
             value: [3, 1],
             useful: 0.6,
         },
-        wuxie: function (target, card, player, viewer, status) {
+        wuxie(target, card, player, viewer, status) {
 						if (status * get.attitude(viewer, target) < 0 || get.attitude(viewer, player) >= 0 || Math.random() * 4 > player.countCards('h')) return 0;
 					},
         result: {
-            player: function (player, target) {
+            player(player, target) {
 							let evt = _status.event,
 								h = 1,
 								suits = [];
@@ -79,7 +79,7 @@ export default {
 							}
 							return -1;
 						},
-            target: function (player, target) {
+            target(player, target) {
 							if (target.countCards('h') == 0) return 0;
 							let evt = _status.event,
 								h = 1,

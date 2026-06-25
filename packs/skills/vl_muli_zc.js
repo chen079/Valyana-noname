@@ -5,13 +5,13 @@ export default {
         source: ["damageBegin1", "die"],
     },
     mark: true,
-    init: function (player) {
+    init(player) {
 					if (!player.storage.vl_muli_zc) player.storage.vl_muli_zc = 0
 				},
     intro: {
         content: "当前有$个标记",
     },
-    filter: function (event, player) {
+    filter(event, player) {
 					if (event.name == 'damage') {
 						return event.num > 0
 					}
@@ -19,17 +19,15 @@ export default {
 				},
     marktext: "策",
     direct: true,
-    content: function () {
-					"step 0"
-					var target = trigger.player
-					target.addSkill('vl_muli_zc')
-					target.storage.vl_muli_zc += player.storage.vl_muli_zc
-					player.storage.vl_muli_zc = 0
-					if (!player.hasSkill('vl_muli_cm')) player.loseHp()
-					"step 1"
-					player.removeSkill('vl_muli_zc')
-					player.unmarkSkill('vl_muli_zc')
-				},
+    async content(event, trigger, player) {
+					const target = trigger.player
+        					target.addSkill('vl_muli_zc')
+        					target.storage.vl_muli_zc += player.storage.vl_muli_zc
+        					player.storage.vl_muli_zc = 0
+        					if (!player.hasSkill('vl_muli_cm')) player.loseHp()
+player.removeSkill('vl_muli_zc')
+        					player.unmarkSkill('vl_muli_zc')
+    },
     group: ["vl_muli_zc_1", "vl_muli_zc_2"],
     subSkill: {
         "1": {
@@ -37,7 +35,7 @@ export default {
                 player: "phaseAfter",
             },
             forced: true,
-            filter: function (event, player) {
+            filter(event, player) {
 							return player.hasSkill('vl_muli_zc') && player.storage.vl_muli_zc != 0
 						},
             content: async function content(event, trigger, player) {
@@ -54,22 +52,20 @@ export default {
             forceDie: true,
             locked: true,
             direct: true,
-            content: function () {
-							'step 0'
-							player.chooseTarget('请选择〖终策〗的目标', '选择一名其他角色，令其获得技能〖终策〗', true, lib.filter.notMe).set('forceDie', true).set('ai', function (target) {
-								return -get.attitude(_status.event.player, target);
-							});
-							'step 1'
-							if (result.bool) {
-								var target = result.targets[0]
-								player.logSkill('vl_muli_zc', target)
-								target.addSkill('vl_muli_zc')
-								target.storage.vl_muli_zc += player.storage.vl_muli_zc
-								player.storage.vl_muli_zc = 0
-								player.removeSkill('vl_muli_zc')
-								player.unmarkSkill('vl_muli_zc')
-							}
-						},
+            async content(event, trigger, player) {
+						const result = await player.chooseTarget('请选择〖终策〗的目标', '选择一名其他角色，令其获得技能〖终策〗', true, lib.filter.notMe).set('forceDie', true).set('ai', function (target) {
+        								return -get.attitude(_status.event.player, target);
+        							}).forResult();
+						if (result.bool) {
+        								const target = result.targets[0]
+        								player.logSkill('vl_muli_zc', target)
+        								target.addSkill('vl_muli_zc')
+        								target.storage.vl_muli_zc += player.storage.vl_muli_zc
+        								player.storage.vl_muli_zc = 0
+        								player.removeSkill('vl_muli_zc')
+        								player.unmarkSkill('vl_muli_zc')
+        							}
+    },
             sub: true,
         },
     },

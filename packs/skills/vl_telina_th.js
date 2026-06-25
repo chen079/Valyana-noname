@@ -5,14 +5,14 @@ export default {
         player: "phaseBegin",
     },
     direct: true,
-    init: function (player) {
+    init(player) {
 					if (!player.storage.vl_telina_th) player.storage.vl_telina_th = 0
 				},
     mark: true,
     intro: {
-        content: function (storage, player, skill) { return '当前有' + storage + '个标记' },
+        content(storage, player, skill) { return '当前有' + storage + '个标记' },
     },
-    content: function () {
+    async content(event, trigger, player) {
 					if (player.storage.vl_telina_th > 0) { player.addTempSkill("qixi", "phaseEnd") }
 					if (player.storage.vl_telina_th > 1) { player.addTempSkill("duanliang", "phaseEnd") }
 					if (player.storage.vl_telina_th > 2) { player.addTempSkill("guose", "phaseEnd") }
@@ -25,7 +25,7 @@ export default {
             trigger: {
                 player: "phaseAfter",
             },
-            content: function () {
+            async content(event, trigger, player) {
 							player.storage.vl_telina_th = 0
 							player.updateMark("vl_telina_th")
 						},
@@ -34,6 +34,6 @@ export default {
     },
     t: {
         name: "预见",
-        info: "你的回合开始时，根据本轮你〖慧视〗预言成功的次数获得以下技能效果： 一次：「qixi」；两次：「duanliang」；三次：「guose」；四次：「luanji」",
+        info: `你的回合开始时，根据本轮你〖慧视〗预言成功的次数获得以下技能效果： 一次：${get.poptip("qixi")}；两次：${get.poptip("duanliang")}；三次：${get.poptip("guose")}；四次：${get.poptip("luanji")}`,
     },
 };

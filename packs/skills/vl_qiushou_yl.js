@@ -2,7 +2,7 @@ import { lib, game, ui, get, ai, _status } from '../../../../noname.js';
 
 export default {
     enable: "chooseToUse",
-    filter: function (event, player) {
+    filter(event, player) {
 					if (player.countCards("h") === 0 || player.countCards("he") <= 1) return false;
 					const list = player.getStorage("vl_qiushou_yl");
 					for (const card of player.getCards("h")) {
@@ -12,7 +12,7 @@ export default {
 					return false;
 				},
     chooseButton: {
-        dialog: function (event, player) {
+        dialog(event, player) {
 						const cards = [];
 						const list = player.getStorage("vl_qiushou_yl");
 						for (const card of player.getCards("h")) {
@@ -21,7 +21,7 @@ export default {
 						}
 						return ui.create.dialog("刈论", [cards, "card"], "hidden");
 					},
-        backup: function (links, player) {
+        backup(links, player) {
 						return {
 							check: function (card) {
 								return 1 / Math.max(0.1, get.value(card));
@@ -46,7 +46,7 @@ export default {
 							},
 						};
 					},
-        prompt: function (links, player) {
+        prompt(links, player) {
 						return "将一张牌当作" + get.translation(links[0]) + "使用";
 					},
     },

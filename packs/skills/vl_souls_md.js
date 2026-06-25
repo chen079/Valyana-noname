@@ -8,22 +8,20 @@ export default {
     intro: {
         content: "你本轮发动此技能的次数为：#",
     },
-    init: function (player) {
+    init(player) {
 					if (!player.storage.vl_souls_md) player.storage.vl_souls_md = 0
 				},
-    check: function (event, player) {
+    check(event, player) {
 					return get.attitude(player, event.player) > 1 && !event.player.hasSkillTag('maixie') && event.num < event.player.hp
 				},
-    filter: function (event, player) {
+    filter(event, player) {
 					return player.Vp > 0 && player.storage.vl_souls_md + 1 <= player.Vp
 				},
-    content: function () {
-					'step 0'
-					player.consumeVp(player.storage.vl_souls_md + 1)
-					player.storage.vl_souls_md += 1
-					'step 1'
-					trigger.cancel()
-				},
+    async content(event, trigger, player) {
+						await player.consumeVp(player.storage.vl_souls_md + 1)
+						player.storage.vl_souls_md += 1
+						trigger.cancel()
+    },
     group: "vl_souls_md_round",
     subSkill: {
         round: {
@@ -34,7 +32,7 @@ export default {
             direct: true,
             forced: true,
             charlotte: true,
-            content: function () {
+            async content(event, trigger, player) {
 							player.storage.vl_souls_md = 0
 						},
         },

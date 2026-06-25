@@ -2,17 +2,17 @@ import { lib, game, ui, get, ai, _status } from '../../../../noname.js';
 
 export default {
     enable: "phaseUse",
-    filter: function (event, player) {
+    filter(event, player) {
 					return player.countCards('he') > 1;
 				},
     filterCard: true,
     position: "he",
     selectCard: [2, null],
-    check: function (card) {
+    check(card) {
 					if (ui.selected.cards.length > 1) return 0;
 					return 4 - get.value(card);
 				},
-    content: function () {
+    async content(event, trigger, player) {
 					var num = 0;
 					for (var i = 0; i < cards.length; i++) {
 						var cardnum = get.number(cards[i], player)

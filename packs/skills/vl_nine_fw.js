@@ -5,7 +5,7 @@ export default {
         player: "loseAfter",
         global: ["equipAfter", "addJudgeAfter", "gainAfter", "loseAsyncAfter", "addToExpansionAfter"],
     },
-    filter: function (event, player) {
+    filter(event, player) {
 					var evt = event.getl(player);
 					if (!lib.phaseName.some(i => Object.keys(event.getParent(i)).length > 0)) return false;
 					return !player.hasSkill('vl_nine_fw_blocker') && evt && evt.cards2 && evt.cards2.length > 0
@@ -14,7 +14,7 @@ export default {
     intro: {
         content: "可以发动〖附尾〗",
     },
-    onremove: function (player) {
+    onremove(player) {
 					player.removeSkill('vl_nine_fw_blocker')
 					player.unmarkSkill('vl_nine_fw')
 				},
@@ -138,10 +138,10 @@ export default {
     subSkill: {
         blocker: {
             charlotte: true,
-            init: function (player) {
+            init(player) {
 							player.unmarkSkill("vl_nine_fw");
 						},
-            onremove: function (player) {
+            onremove(player) {
 							player.markSkill("vl_nine_fw");
 						},
             sub: true,

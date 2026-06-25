@@ -7,11 +7,11 @@ export default {
     init: (player) => {
 					if (!player.storage.vl_yinlong_jh) player.storage.vl_yinlong_jh = [2, 1]
 				},
-    filter: function (event, player) {
+    filter(event, player) {
 					return event.cards.some(i => get.suit(i) == 'club' && get.position(i) == 'd')
 				},
     frequent: true,
-    content: function () {
+    async content(event, trigger, player) {
 					player.draw(player.storage.vl_yinlong_jh[0]);
 					if (player.countCards('hs') > 0) player.chooseToUse()
 					if (player.storage.vl_yinlong_jh[1] === 2) {
@@ -29,7 +29,7 @@ export default {
 							if (!player.storage.vl_yinlong_jh_discard) player.storage.vl_yinlong_jh_discard = 0
 						},
             forced: true,
-            content: function () {
+            async content(event, trigger, player) {
 							if (!player.isMaxHandcard(true)) {
 								player.storage.vl_yinlong_jh_discard += 2
 								player.markSkill('vl_yinlong_jh_discard')
@@ -42,7 +42,7 @@ export default {
 							}
 						},
             mod: {
-                maxHandcard: function (player, num) {
+                maxHandcard(player, num) {
 								return num + player.storage.vl_yinlong_jh_discard;
 							},
             },

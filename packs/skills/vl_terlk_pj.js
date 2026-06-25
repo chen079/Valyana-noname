@@ -5,11 +5,11 @@ export default {
         player: "useCardToPlayered",
     },
     forced: true,
-    filter: function (event, player) {
+    filter(event, player) {
 					return event.card.name == 'sha' && !event.getParent().directHit.includes(event.target);
 				},
     logTarget: "target",
-    content: function () {
+    async content(event, trigger, player) {
 					var id = trigger.target.playerid;
 					var map = trigger.getParent().customArgs;
 					if (!map[id]) map[id] = {};
@@ -22,7 +22,7 @@ export default {
 				},
     ai: {
         directHit_ai: true,
-        skillTagFilter: function (player, tag, arg) {
+        skillTagFilter(player, tag, arg) {
 						if (arg.card.name != 'sha' || arg.target.countCards('h', 'shan') > arg.target.getDamagedHp()) return false;
 					},
     },

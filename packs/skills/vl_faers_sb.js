@@ -3,7 +3,7 @@ import { lib, game, ui, get, ai, _status } from '../../../../noname.js';
 export default {
     enable: "phaseUse",
     usable: 1,
-    check: function (card) {
+    check(card) {
 					var player = _status.event.player;
 					if (get.position(card) == 'h' && !player.countCards('h', 'du') && (player.hp > 2 || !player.countCards('h', function (card) {
 						return get.value(card) >= 8;
@@ -12,7 +12,7 @@ export default {
 					}
 					return 6 - get.value(card)
 				},
-    content: function () {
+    async content(event, trigger, player) {
 					var card = player.getCards('h')
 					player.discard(card)
 				},

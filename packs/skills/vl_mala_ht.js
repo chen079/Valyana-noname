@@ -2,13 +2,13 @@ import { lib, game, ui, get, ai, _status } from '../../../../noname.js';
 
 export default {
     mod: {
-        targetInRange: function (card, player, target) {
+        targetInRange(card, player, target) {
 						return true;
 					},
-        cardUsable: function (card, player, num) {
+        cardUsable(card, player, num) {
 						return Infinity
 					},
-        selectTarget: function (card, player, range) {
+        selectTarget(card, player, range) {
 						if (range[0] != 1 || range[1] != 1) return;
 						var range2 = get.select(get.info(card)?.selectTarget);
 						if (range2[0] != 1 && range2[1] != 1) return;
@@ -19,10 +19,10 @@ export default {
         player: "phaseZhunbeiBegin",
     },
     forced: true,
-    filter: function (event, player) {
+    filter(event, player) {
 					return player.countCards('j') > 0
 				},
-    content: function () {
+    async content(event, trigger, player) {
 					player.discard(player.getCards('j').randomGet());
 				},
     t: {

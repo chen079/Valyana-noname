@@ -4,11 +4,11 @@ export default {
     trigger: {
         player: "damageBegin4",
     },
-    filter: function (event, player) {
+    filter(event, player) {
 					return event.source != player
 				},
     mod: {
-        maxHandcard: function (player, num) {
+        maxHandcard(player, num) {
 						return num + game.countPlayer(function (current) {
 							return current.countMark('vl_nashu_sg') > 0
 						});
@@ -20,7 +20,7 @@ export default {
     },
     logTarget: "player",
     forced: true,
-    content: function () {
+    async content(event, trigger, player) {
 					trigger.source.addMark('vl_nashu_sg', trigger.num)
 				},
     group: "vl_nashu_sg_gain",
@@ -30,29 +30,22 @@ export default {
                 player: "phaseUseBegin",
             },
             forced: true,
-            filter: function (event, player) {
+            filter(event, player) {
 							return game.hasPlayer(function (current) {
 								return current.countMark('vl_nashu_sg') > 0
 							})
 						},
-            content: function () {
-							'step 0'
-							event.targets = game.filterPlayer(function (current) {
-								return current.countMark('vl_nashu_sg') > 0
-							})
-							'step 1'
-							event.target = event.targets.shift()
-							'step 2'
-							event.target.chooseCard(Math.min(event.target.countCards('he'), event.target.countMark('vl_nashu_sg')), 'he', true).set('ai', function (card) {
-								return 100 - get.value(card)
-							}).set('prompt', '交给' + get.translation(player) + get.cnNumber(Math.min(event.target.countCards('he'), event.target.countMark('vl_nashu_sg'))) + '张牌')
-							'step 3'
-							player.gain(result.cards, event.target, 'giveAuto')
-							'step 4'
-							if (event.targets.length) {
-								event.goto(1)
+            async content(event, trigger, player) {
+							const targets = game.filterPlayer(function (current) {
+        								return current.countMark('vl_nashu_sg') > 0
+        							});
+							for (const target of targets) {
+								const result = await target.chooseCard(Math.min(target.countCards('he'), target.countMark('vl_nashu_sg')), 'he', true).set('ai', function (card) {
+        								return 100 - get.value(card)
+        							}).set('prompt', '交给' + get.translation(player) + get.cnNumber(Math.min(target.countCards('he'), target.countMark('vl_nashu_sg'))) + '张牌').forResult();
+								await player.gain(result.cards, target, 'giveAuto');
 							}
-						},
+    },
         },
     },
     t: {

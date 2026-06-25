@@ -10,10 +10,10 @@ export default {
     animationStr: "献生",
     limited: true,
     animationColor: "orange",
-    init: function (player) {
+    init(player) {
 					player.storage.vl_mountainbear_xs = false;
 				},
-    filter: function (event, player) {
+    filter(event, player) {
 					if (!player.storage.vl_lucifer_cc || player.storage.vl_mountainbear_xs) return false;
 					if (player.storage.vl_lucifer_cc != event.player) return false;
 					return true;
@@ -28,7 +28,7 @@ export default {
 				},
     ai: {
         order: 1,
-        skillTagFilter: function (player) {
+        skillTagFilter(player) {
 						if (player.storage.vl_lucifer_cc.maxHp <= 1) return false;
 						if (player.storage.vl_lucifer_cc.hp > 0) return false;
 						if (player.storage.vl_lucifer_cc.countCards('h') == 0) return false;

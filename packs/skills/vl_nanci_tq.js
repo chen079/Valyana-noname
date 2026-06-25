@@ -5,10 +5,10 @@ export default {
     trigger: {
         player: "phaseJieshuBegin",
     },
-    init: function (player) {
+    init(player) {
 					if (!player.storage.vl_nanci_tq) player.storage.vl_nanci_tq = []
 				},
-    content: function () {
+    async content(event, trigger, player) {
 					var list = [];
 					game.getGlobalHistory('cardMove', function (evt) {
 						if (evt.name == 'lose') {
@@ -28,7 +28,7 @@ export default {
 					});
 					list = list.filterInD('d')
 					var cards = list.slice(0, 2)
-					if(!cards.length)event.finish();
+					if(!cards.length)return;
 					player.gain(cards, 'gain2')
 					player.storage.vl_nanci_tq = cards
 				},

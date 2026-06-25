@@ -7,7 +7,7 @@ export default {
     marktext: "引",
     intro: {
         markcount: "expansion",
-        mark: function (dialog, content, player) {
+        mark(dialog, content, player) {
 						var content = player.getExpansions('vl_rasali_ly');
 						if (content && content.length) {
 							if (player == game.me || player.isUnderControl()) {
@@ -18,7 +18,7 @@ export default {
 							}
 						}
 					},
-        content: function (content, player) {
+        content(content, player) {
 						var content = player.getExpansions('vl_rasali_ly');
 						if (content && content.length) {
 							if (player == game.me || player.isUnderControl()) {
@@ -28,7 +28,7 @@ export default {
 						}
 					},
     },
-    onremove: function (player, skill) {
+    onremove(player, skill) {
 					var cards = player.getExpansions(skill);
 					if (cards.length) player.loseToDiscardpile(cards);
 				},
@@ -37,9 +37,7 @@ export default {
     content: async function content(event, trigger, player) {
 					await player.addToExpansion(get.cards(4), 'gain2').gaintag.add('vl_rasali_ly');
 					let cards = player.getExpansions('vl_rasali_ly');
-					if (!cards.length) {
-						return;
-					}
+					if (!cards.length) return
 					if (player.countCards('h')) {
 						var next = player.chooseToMove('对' + get.translation(trigger.player) + '发动【灵引】：交换“引”和手牌？');
 						next.set('list', [
@@ -110,23 +108,21 @@ export default {
             },
             marktext: "善",
             intro: {
-                mark: function (dialog, storage, player) {
+                mark(dialog, storage, player) {
 								dialog.addText('你可以免疫接下来' + get.cnNumber(storage) + '次伤害，若此伤害有来源，' + get.translation(player) + '对伤害来源造成1点伤害。')
 							},
             },
             direct: true,
-            filter: function (event, player) {
+            filter(event, player) {
 							return event.player.countMark('vl_rasali_ly_shan') > 0 && event.num > 0
 						},
-            content: function () {
-							'step 0'
-							trigger.cancel()
-							if (trigger.source) {
-								trigger.source.damage(player)
-							}
-							'step 1'
-							trigger.player.removeMark('vl_rasali_ly_shan', 1)
-						},
+            async content(event, trigger, player) {
+trigger.cancel()
+        							if (trigger.source) {
+        								await trigger.source.damage(player)
+        							}
+trigger.player.removeMark('vl_rasali_ly_shan', 1)
+    },
         },
     },
     t: {

@@ -5,10 +5,10 @@ export default {
         player: "phaseDrawBegin2",
     },
     frequent: true,
-    filter: function (event, player) {
+    filter(event, player) {
 					return !event.numFixed;
 				},
-    content: function () {
+    async content(event, trigger, player) {
 					var num = 2
 					if (get.mode() == 'identity') {
 						if (player.identity == 'zhu') {
@@ -30,7 +30,7 @@ export default {
     subSkill: {
         "2": {
             mod: {
-                maxHandcardBase: function (player, num) {
+                maxHandcardBase(player, num) {
 								return player.maxHp;
 							},
             },

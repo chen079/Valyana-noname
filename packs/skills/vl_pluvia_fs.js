@@ -4,13 +4,13 @@ export default {
     trigger: {
         source: "damageSource",
     },
-    filter: function (event, player) {
+    filter(event, player) {
 					return event.player != player && event.player.isIn() && event.player.countCards('he') > 0
 				},
-    check: function (event, player) {
+    check(event, player) {
 					return get.attitude(player, event.player) > 0
 				},
-    content: async function content(event, trigger, player) {
+    async content(event, trigger, player) {
 					const result = await trigger.player.chooseCard('he', '是否对' + get.translation(player) + '发动【复苏】？', '交给' + get.translation(player) + '一张牌并回复1点体力').set('ai', function (card) {
 						var player = _status.event.player
 						if (player.hp <= 2) {
@@ -21,7 +21,6 @@ export default {
 							return 5 - get.value(card)
 						}
 					}).forResult();
-					"step 1"
 					if (result.bool) {
 						await trigger.player.recover();
 						await trigger.player.give(result.cards,player);

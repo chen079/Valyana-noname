@@ -3,12 +3,12 @@ import { lib, game, ui, get, ai, _status } from '../../../../noname.js';
 export default {
     direct: true,
     enable: ["chooseToUse", "chooseToRespond"],
-    hiddenCard: function (player, name) {
+    hiddenCard(player, name) {
 					if (!['sha', 'shan', 'tao', 'jiu'].includes(name)) return false;
 					if (player.countCards('hes', { color: 'red' }) == 0 || player.countCards('hes', { color: 'black' }) == 0) return false;
 					return player.countCards('hes') > 0;
 				},
-    filter: function (event, player) {
+    filter(event, player) {
 					if (player.countCards('h', { color: 'red' }) == 0 || player.countCards('h', { color: 'black' }) == 0) return false;
 					if (event.filterCard({ name: 'sha' }, player, event) ||
 						event.filterCard({ name: 'shan' }, player, event) ||
@@ -19,7 +19,7 @@ export default {
 					return false;
 				},
     chooseButton: {
-        dialog: function (event, player) {
+        dialog(event, player) {
 						var list = [];
 						if (event.filterCard({ name: 'sha' }, player, event)) {
 							list.push(['基本', '', 'sha']);
@@ -36,7 +36,7 @@ export default {
 						}
 						return ui.create.dialog('降龙', [list, 'vcard'], 'hidden');
 					},
-        check: function (button) {
+        check(button) {
 						var player = _status.event.player;
 						var card = { name: button.link[2], nature: button.link[3] };
 						if (_status.event.getParent().type != 'phase' || game.hasPlayer(function (current) {
@@ -55,7 +55,7 @@ export default {
 						}
 						return 0;
 					},
-        backup: function (links, player) {
+        backup(links, player) {
 						return {
 							filterCard: function (card, player, event) {
 								if (ui.selected.cards.length) {
@@ -74,12 +74,12 @@ export default {
 							popname: true,
 						}
 					},
-        prompt: function (links, player) {
+        prompt(links, player) {
 						return '将两张颜色不同的牌当做' + get.translation(links[0][3] || '') + get.translation(links[0][2]) + '使用或打出';
 					},
     },
     ai: {
-        order: function () {
+        order() {
 						var player = _status.event.player;
 						var event = _status.event;
 						if (event.filterCard({ name: 'jiu' }, player, event) && get.effect(player, { name: 'jiu' }) > 0) {
@@ -87,7 +87,7 @@ export default {
 						}
 						return 3.1;
 					},
-        skillTagFilter: function (player, tag, arg) {
+        skillTagFilter(player, tag, arg) {
 						if (tag == 'fireAttack') return true;
 						return player.countCards('hes') > 0;
 					},

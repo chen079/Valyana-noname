@@ -5,19 +5,20 @@ export default {
         global: "damageBefore",
     },
     popup: false,
-    filter: function (event, player) {
+    filter(event, player) {
 					return event.source && event.source != player && event.player != player && event.player != event.source && event.player.countCards('h') > 0
 				},
-    check: function (event, player) {
+    check(event, player) {
 					return get.attitude(player, event.player) > 0 && player.hp > 1
 				},
-    content: async function content(event,trigger,player) {
+    async content(event, trigger, player) {
+					const target = trigger.player;
 					const result = await trigger.player.chooseCard(Math.max(1, Math.floor(trigger.player.countCards('h') / 2)), 'h')
 						.set('prompt', '###是否对' + get.translation(trigger.source) + '发动【讨雠】？###交给' + get.translation(player) + get.cnNumber(Math.max(1, Math.floor(trigger.player.countCards('h') / 2))) + '张手牌，然后将此伤害转移给' + get.translation(player) + '并令其摸' + get.cnNumber(player.getDamagedHp() + 1) + '张牌')
 						.set('ai', function (card) {
-							var player = _status.event.player
-							var target = _status.event.target
-							var att = get.attitude(player, target)
+							const player = _status.event.player;
+							const target = _status.event.target;
+							const att = get.attitude(player, target)
 							if (trigger.num > 1 || (player.hp == 1 && player.countCards('hs', 'tao') == 0)) {
 								return 9 - get.value(card)
 							}
@@ -30,7 +31,6 @@ export default {
 							}
 						}).set('target', player)
 						.forResult();
-					'step 1'
 					if (result.bool) {
 						await trigger.player.give(result.cards, player)
 						trigger.player = player

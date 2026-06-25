@@ -3,13 +3,13 @@ import { lib, game, ui, get, ai, _status } from '../../../../noname.js';
 export default {
     enable: "phaseUse",
     multitarget: true,
-    filterTarget: function (card, player, target) {
+    filterTarget(card, player, target) {
 					if (ui.selected.targets.length) {
 						return target.countCards('h') != ui.selected.targets[0].countCards('h')
 					}
 					return true;
 				},
-    filter: function (event, player) {
+    filter(event, player) {
 					if (!player.storage.vl_linyan_kr || player.storage.vl_linyan_kr == false) {
 						return game.hasPlayer(function (current1) {
 							return game.hasPlayer(function (current2) {
@@ -22,7 +22,7 @@ export default {
 						})
 					}
 				},
-    selectTarget: function () {
+    selectTarget() {
 					var player = _status.event.player
 					if (!player.storage.vl_linyan_kr || player.storage.vl_linyan_kr == false) {
 						return 2
@@ -34,7 +34,7 @@ export default {
 					}
 				},
     usable: 1,
-    check: function (target) {
+    check(target) {
 					if (!player.storage.vl_linyan_kr || player.storage.vl_linyan_kr == false) {
 						if (!ui.selected.targets) {
 							return 1 - 2 * Math.random()
@@ -49,7 +49,7 @@ export default {
 				},
     position: "h",
     filterCard: true,
-    selectCard: function () {
+    selectCard() {
 					var player = _status.event.player
 					if (!player.storage.vl_linyan_kr || player.storage.vl_linyan_kr == false) {
 						return 0
@@ -60,36 +60,33 @@ export default {
 					}
 				},
     zhuanhuanji: true,
-    init: function (player) {
+    init(player) {
 					if (!player.storage.vl_linyan_kr) player.storage.vl_linyan_kr = false
 				},
-    content: function () {
-					'step 0'
+    async content(event, trigger, player) {
 					if (player.storage.vl_linyan_kr == false) {
-						var num = Math.floor((targets[0].countCards('h') + targets[1].countCards('h')) / 2)
-						event.num = num
+						const average = Math.floor((targets[0].countCards('h') + targets[1].countCards('h')) / 2);
 						for (var i = 0; i < targets.length; i++) {
-							var num = targets[i].countCards('h') - event.num
+							const num = targets[i].countCards('h') - average;
 							if (num > 0) {
-								targets[i].chooseToDiscard('h', num, true)
+								await targets[i].chooseToDiscard('h', num, true);
 							} else {
-								targets[i].draw(-num)
+								await targets[i].draw(-num);
 							}
 						}
 					} else {
 						for (var i = 0; i < targets.length; i++) {
 							if (targets[i].countCards('h') < targets[i].maxHp) {
-								targets[i].draw(Math.min((targets[i].maxHp - targets[i].countCards('h')), 5))
+								await targets[i].draw(Math.min((targets[i].maxHp - targets[i].countCards('h')), 5));
 							}
 						}
 					}
-					'step 1'
-					player.changeZhuanhuanji('vl_linyan_kr')
+					player.changeZhuanhuanji('vl_linyan_kr');
 				},
     ai: {
         order: 14,
         player: 1,
-        target: function (player, target, card) {
+        target(player, target, card) {
 						if (!player.storage.vl_linyan_kr || player.storage.vl_linyan_kr == false) {
 							if (!ui.selected.targets) {
 								return 1 - 2 * Math.random()

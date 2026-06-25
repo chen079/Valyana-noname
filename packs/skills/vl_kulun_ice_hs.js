@@ -4,13 +4,13 @@ export default {
     trigger: {
         source: "damageSource",
     },
-    filter: function (event, player) {
+    filter(event, player) {
 					return event.player.isAlive() && event.player.countCards('he') > 0
 				},
-    check: function (event, player) {
+    check(event, player) {
 					return get.attitude(player, event.player) < 0
 				},
-    content: function () {
+    async content(event, trigger, player) {
 					player.discardPlayerCard(trigger.player, 'he', 2, true)
 				},
     t: {

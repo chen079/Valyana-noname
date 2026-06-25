@@ -5,16 +5,16 @@ export default {
         source: "damageSource",
     },
     forced: true,
-    filter: function (event, player) {
+    filter(event, player) {
 					return event.card && event.card.name == 'sha' && _status.currentPhase == player;
 				},
-    content: function () {
+    async content(event, trigger, player) {
 					player.getStat().card.sha--;
 				},
     mark: true,
     intro: {
-        mark: function (dialog, storage, player) {
-						var num = player.getHistory('useCard', function (evt1) {
+        mark(dialog, storage, player) {
+						const num = player.getHistory('useCard', function (evt1) {
 							return player.getHistory('sourceDamage', function (evt2) {
 								return evt1 && evt2 && evt1.card && evt1.card.name == 'sha' && evt1.card == evt2.card
 							}).length > 0
@@ -23,7 +23,7 @@ export default {
 					},
     },
     mod: {
-        cardUsable: function (card, player, num) {
+        cardUsable(card, player, num) {
 						if (card.name == 'sha') return num + 1;
 					},
     },
@@ -34,16 +34,14 @@ export default {
                 global: "phaseEnd",
             },
             frequent: true,
-            content: function () {
-							'step 0'
-							event.num = player.getHistory('useCard', function (evt1) {
+            async content(event, trigger, player) {
+							const num = player.getHistory('useCard', function (evt1) {
 								return player.getHistory('sourceDamage', function (evt2) {
 									return evt1 && evt2 && evt1.card && evt1.card.name == 'sha' && evt1.card == evt2.card
 								}).length > 0
 							}).length;
-							'step 1'
-							player.draw(2 * event.num)
-						},
+							await player.draw(2 * num)
+    },
         },
     },
     t: {

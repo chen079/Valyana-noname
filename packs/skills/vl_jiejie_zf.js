@@ -2,13 +2,13 @@ import { lib, game, ui, get, ai, _status } from '../../../../noname.js';
 
 export default {
     forced: true,
-    filter: function (event, player) {
+    filter(event, player) {
 					return event.player.countMark('vl_jiejie_zr_1') > 2;
 				},
     trigger: {
         global: "phaseBefore",
     },
-    content: function () {
+    async content(event, trigger, player) {
 					trigger.player.removeMark('vl_jiejie_zr_1', trigger.player.countMark("vl_jiejie_zr_1"))
 					trigger.player.removeSkill('vl_jiejie_zr_2')
 					trigger.player.loseHp(3)

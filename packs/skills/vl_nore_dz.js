@@ -7,7 +7,7 @@ export default {
     },
     forced: true,
     popup: false,
-    content: function () {
+    async content(event, trigger, player) {
 					trigger.source = null
 				},
     ai: {

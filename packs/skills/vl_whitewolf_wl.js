@@ -4,7 +4,7 @@ export default {
     trigger: {
         global: "damageEnd",
     },
-    check: function (event, player) {
+    check(event, player) {
 					var att1 = get.attitude(player, event.player);
 					var att2 = get.attitude(player, event.source)
 					return att2 < 0 && att1 > 0
@@ -13,7 +13,7 @@ export default {
     intro: {
         content: "本回合已对$发动过本技能",
     },
-    filter: function (event, player) {
+    filter(event, player) {
 					return event.cards && event.source != player && event.source && get.distance(player, event.player) <= 1 && event.player.isIn() && !player.storage.vl_whitewolf_wl.includes(event.player)
 				},
     content: async function content(event, trigger, player) {
@@ -36,7 +36,7 @@ export default {
             },
             popup: false,
             forced: true,
-            content: function () {
+            async content(event, trigger, player) {
 							player.storage.vl_whitewolf_wl = []
 						},
         },

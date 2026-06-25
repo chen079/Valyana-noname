@@ -6,10 +6,10 @@ export default {
         player: "enterGame",
     },
     forced: true,
-    filter: function (event, player) {
+    filter(event, player) {
 					return (event.name != 'phase' || game.phaseNumber == 0);
 				},
-    content: function () {
+    async content(event, trigger, player) {
 					var cards = [];
 					for (var i = 2; i < 10; i++) {
 						cards.push(game.createCard2('tao', i % 2 ? 'club' : 'spade', i));
@@ -20,10 +20,10 @@ export default {
 					})
 				},
     mod: {
-        ignoredHandcard: function (card, player) {
+        ignoredHandcard(card, player) {
 						if (get.name(card) == 'tao') return true;
 					},
-        cardDiscardable: function (card, player, name) {
+        cardDiscardable(card, player, name) {
 						if (name == 'phaseDiscard' && get.name(card) == 'tao') return false;
 					},
     },
@@ -34,7 +34,7 @@ export default {
                 player: "taoBegin",
             },
             forced: true,
-            content: function () {
+            async content(event, trigger, player) {
 							trigger.baseDamage++;
 						},
             sub: true,

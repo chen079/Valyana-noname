@@ -6,7 +6,7 @@ export default {
     },
     forced: true,
     direct: true,
-    filter: function (event, player) {
+    filter(event, player) {
 					return event.player.hujia > 0
 				},
     content: async function content(event, trigger, player) {
@@ -17,7 +17,7 @@ export default {
     subSkill: {
         "1": {
             mod: {
-                targetEnabled: function (card, player, target) {
+                targetEnabled(card, player, target) {
 								if (get.type(card) == 'delay') {
 									return false;
 								}
@@ -27,7 +27,7 @@ export default {
                 player: ["phaseZhunbeiBefore", "phaseJieshuBefore"],
             },
             forced: true,
-            content: function () {
+            async content(event, trigger, player) {
 							trigger.cancel();
 							game.log(player, '跳过了', event.triggername == 'phaseZhunbeiBefore' ? '准备阶段' : '结束阶段');
 						},
@@ -39,7 +39,7 @@ export default {
                 player: "phaseJudgeBefore",
             },
             forced: true,
-            content: function () {
+            async content(event, trigger, player) {
 							trigger.cancel();
 							game.log(player, '跳过了判定阶段');
 						},

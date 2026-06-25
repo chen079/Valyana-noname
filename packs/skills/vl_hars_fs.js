@@ -13,10 +13,10 @@ export default {
     forceDie: true,
     forced: true,
     silent: true,
-    content: function () {
+    async content(event, trigger, player) {
 					player.removeSkill('vl_hars_fs');
 				},
-    onremove: function (player) {
+    onremove(player) {
 					if (player == game.me) {
 						if (!game.notMe) game.swapPlayerAuto(player._trueMe)
 						else delete game.notMe;

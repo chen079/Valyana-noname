@@ -5,62 +5,75 @@ export default {
     trigger: {
         target: "useCardToTargeted",
     },
-    check: function (event, player) {
+    check(event, player) {
 					return get.effect(player, event.card, event.player, player) < 0;
 				},
-    filter: function (event, player) {
+    filter(event, player) {
 					return (event.card.name == 'sha' || (get.type(event.card) == 'trick' && get.tag(event.card, 'damage'))) && event.player != player;
 				},
     frequent: true,
     logTarget: "player",
-    content: function () {
-					'step 0'
-					trigger.player.chooseBool('是否令此牌对' + get.translation(player) + '无效，并令其摸两张牌')
-						.set('ai', function () {
-							var player = _status.event.player
-							var target = _status.event.target
-							return get.attitude(player, target) > 0 && get.effect(target, trigger.card, player, target) < 0
-						}).set('target', player)
-					'step 1'
-					if (result.bool) {
-						trigger.excluded.add(player);
-						player.draw(2)
-					}
-				},
+    async content(event, trigger, player) {
+        const result = await trigger.player.chooseBool('是否令此牌对' + get.translation(player) + '无效，并令其摸两张牌').set('ai', function () {
+            let source = _status.event.player;
+            let target = _status.event.target;
+            return get.attitude(source, target) > 0 && get.effect(target, trigger.card, source, target) < 0;
+        }).set('target', player).forResult();
+        if (result.bool) {
+            trigger.excluded.add(player);
+            await player.draw(2);
+        }
+    },
     subSkill: {
         gola: {
             enable: "phaseUse",
-            filter: function (event, player) {
+            filter(event, player) {
 							return game.hasPlayer(function (current) {
 								return current != player && current.hasSkill('vl_hars_hr');
 							});
 						},
-            filterTarget: function (card, player, target) {
+            filterTarget(card, player, target) {
 							return player != target && target.hasSkill('vl_hars_hr');
 						},
             lose: false,
             discard: false,
             delay: false,
-            check: function (card) {
+            check(card) {
 							return 8 - get.value(card)
 						},
             filterCard: true,
             selectCard: [1, 2],
             usable: 1,
             prompt: "出牌阶段限一次，你可以交给拥有技能【浩然】的角色至多两张牌。",
-            content: function () {
-							target.gain(cards, player, 'giveAuto')
-						},
+            async content(event, trigger, player) {
+                const result = await player.chooseCardTarget({
+                    filterTarget(card, player, target) {
+                        return player != target && target.hasSkill('vl_hars_hr');
+                    },
+                    selectTarget: 1,
+                    filterCard: true,
+                    selectCard: [1, 2],
+                    prompt: "出牌阶段限一次，你可以交给拥有技能【浩然】的角色至多两张牌。",
+                    ai1(card) {
+                        return 8 - get.value(card);
+                    },
+                    ai2(target) {
+                        return get.attitude(player, target);
+                    },
+                }).forResult();
+                if (!result.bool) return;
+                await result.targets[0].gain(result.cards, player, 'giveAuto');
+            },
             ai: {
                 order: 10,
                 expose: 0.2,
                 result: {
-                    player: function (player, target) {
-									var target = game.findPlayer(function (current) {
+                    player(player, target) {
+									const bystander = game.findPlayer(function (current) {
 										return current.hasSkill('bolan');
 									});
-									if (target) {
-										return get.attitude(player, target);
+									if (bystander) {
+										return get.attitude(player, bystander);
 									}
 								},
                 },

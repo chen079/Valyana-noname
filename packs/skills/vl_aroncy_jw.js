@@ -4,11 +4,11 @@ export default {
     trigger: {
         global: "phaseDrawEnd",
     },
-    filter: function (event, player) {
+    filter(event, player) {
 					if (get.mode() == 'guozhan' && source.isFriendOf(player)) return false
 					return event.player != player && event.player.countCards('h') > player.countCards('h')
 				},
-    check: function (event, player) {
+    check(event, player) {
 					const target = event.player;
 					if (get.attitude(player, target) >= 0) return false;
 					if (target.countCards('h') > 2) return true
@@ -26,26 +26,27 @@ export default {
 						await player.gain(result.links[0]);
 					}
 					result = await player.chooseCardTarget({
-						filterTarget: function (card, player, target) {
+						filterTarget(card, player, target) {
 							if (target == player) return false;
-							var stat = player.getStat('skill').vl_aroncy_jw_targets;
+							const stat = player.getStat('skill').vl_aroncy_jw_targets;
 							return !stat || !stat.includes(target);
 						},
-						filter: function (event, player) {
+						filter(event, player) {
 							return player.countCards('h') > 0 && game.hasPlayer((current) => lib.skill.vl_aroncy_jw.filterTarget(null, player, current));
 						},
 						discard: false,
 						lose: false,
 						delay: false,
 						filterCard: true,
-						ai1: function (card) {
+						ai1(card) {
 							if (get.tag(card, 'recover') && !game.hasPlayer(function (current) {
 								return get.attitude(current, player) > 0 && !current.hasSkillTag('nogain');
 							})) return 0;
 							return 1 / Math.max(0.1, get.value(card));
 						},
-						ai2: function (target) {
-							var player = _status.event.player, att = get.attitude(player, target);
+						ai2(target) {
+							const player = _status.event.player;
+							const att = get.attitude(player, target);
 							if (target.hasSkillTag('nogain')) att /= 9;
 							return 4 + att;
 						},
@@ -68,10 +69,10 @@ export default {
             },
             forced: true,
             charlotte: true,
-            filter: function (event, player) {
+            filter(event, player) {
 							return event.player.hasHistory('lose', function (evt) {
 								if (evt.getParent() != event) return false;
-								for (var i in evt.gaintag_map) {
+								for (const i in evt.gaintag_map) {
 									if (evt.gaintag_map[i].includes('vl_aroncy_jw')) {
 										if (event.player.hasHistory('sourceDamage', function (evt) {
 											return evt.card == event.card;
@@ -93,16 +94,16 @@ export default {
         },
         use: {
             mod: {
-                targetInRange: function (card) {
+                targetInRange(card) {
 								if (!card.cards) return;
-								for (var i of card.cards) {
+								for (const i of card.cards) {
 									if (i.hasGaintag('vl_aroncy_jw')) return true;
 								}
 							},
-                cardDiscardable: function (card, player, name) {
+                cardDiscardable(card, player, name) {
 								if (name == 'phaseDiscard' && card.hasGaintag('vl_aroncy_jw')) return false;
 							},
-                aiOrder: function (player, card, num) {
+                aiOrder(player, card, num) {
 								if (get.itemtype(card) == 'card' && card.hasGaintag('vl_aroncy_jw')) return num + 1;
 							},
             },

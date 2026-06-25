@@ -5,17 +5,15 @@ export default {
         player: "phaseJieshuBegin",
     },
     direct: true,
-    content: function () {
-					'step 0'
-					player.chooseTarget(function (card, player, target) {
-						return player != target
+    async content(event, trigger, player) {
+					const result = await player.chooseTarget(function (card, player, target) {
+						return player != target;
 					}).set('ai', function (target) {
-						var player = _status.event.player
-						return get.attitude(player, target) + target == player.storage.vl_lucifer_cc ? 0 : 3
-					}).set('prompt', get.prompt('vl_lucifer_xz')).set('prompt2', '令一名其他角色获得【祝福】直到其回合结束。')
-					'step 1'
+						var player = _status.event.player;
+						return get.attitude(player, target) + target == player.storage.vl_lucifer_cc ? 0 : 3;
+					}).set('prompt', get.prompt('vl_lucifer_xz')).set('prompt2', '令一名其他角色获得【祝福】直到其回合结束。').forResult();
 					if (result.bool) {
-						result.targets[0].addTempSkill('vl_zhufu', { player: 'phaseEnd' })
+						result.targets[0].addTempSkill('vl_zhufu', { player: 'phaseEnd' });
 					}
 				},
     ai: {
@@ -28,25 +26,23 @@ export default {
                 player: "damageEnd",
             },
             direct: true,
-            content: function () {
-							'step 0'
-							player.chooseTarget().set('ai', function (target) {
-								var player = _status.event.player
+            async content(event, trigger, player) {
+							const result = await player.chooseTarget().set('ai', function (target) {
+								var player = _status.event.player;
 								if (player.storage.vl_lucifer_cc) {
-									return get.attitude(player, target) + (target == player.storage.vl_lucifer_cc) ? (7 - player.storage.vl_lucifer_cc.hujia) : 0
+									return get.attitude(player, target) + (target == player.storage.vl_lucifer_cc) ? (7 - player.storage.vl_lucifer_cc.hujia) : 0;
 								} else {
-									return get.attitude(player, target)
+									return get.attitude(player, target);
 								}
-							}).set('prompt', get.prompt('vl_lucifer_xz')).set('prompt2', '令一名角色获得1点护甲。')
-							'step 1'
+							}).set('prompt', get.prompt('vl_lucifer_xz')).set('prompt2', '令一名角色获得1点护甲。').forResult();
 							if (result.bool) {
-								result.targets[0].changeHujia(1,null,true)
+								result.targets[0].changeHujia(1,null,true);
 							}
 						},
         },
     },
     t: {
         name: "谐震",
-        info: "结束阶段，你可以令一名其他角色获得「vl_zhufu」直到其回合结束；当你受到伤害后，你可以令一名角色获得1点护甲。",
+        info: `结束阶段，你可以令一名其他角色获得${get.poptip("vl_zhufu")}直到其回合结束；当你受到伤害后，你可以令一名角色获得1点护甲。`,
     },
 };

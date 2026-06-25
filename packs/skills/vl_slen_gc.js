@@ -7,7 +7,7 @@ export default {
     },
     forced: true,
     logTarget: _status.currentPhase,
-    filter: function filter(event, player) {
+    filter(event, player) {
 					if(!_status.currentPhase || _status.currentPhase == player || _status.currentPhase.countGainableCards('he') == 0) return false;
 					let evt = event.getl(player);
 					return (
@@ -15,7 +15,7 @@ export default {
 						evt.cards2.length
 					);			
 				},
-    content: function content() {
+    async content(event, trigger, player) {
 					var target = _status.currentPhase;
 					player.gainPlayerCard(target, 'he',"获得"+get.translation(target)+"的一张牌",true);
 				},

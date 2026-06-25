@@ -4,24 +4,22 @@ export default {
     trigger: {
         source: "damageSource",
     },
-    filter: function (event, player) {
+    filter(event, player) {
 					return event.player != player
 				},
     forced: true,
-    content: function () {
-					"step 0"
-					trigger.player.addSkill('vl_mala_hy_damage')
-					trigger.player.storage.vl_mala_hy_damage += 1
-					"step 1"
-					trigger.player.updateMark('vl_mala_hy_damage')
+    async content(event, trigger, player) {
+					trigger.player.addSkill('vl_mala_hy_damage');
+					trigger.player.storage.vl_mala_hy_damage += 1;
+					trigger.player.updateMark('vl_mala_hy_damage');
 				},
     subSkill: {
         damage: {
             unique: true,
-            init: function (player) {
+            init(player) {
 							if (!player.storage.vl_mala_hy_damage) player.storage.vl_mala_hy_damage = 0;
 						},
-            filter: function (event, player) {
+            filter(event, player) {
 							return player.storage.vl_mala_hy_damage
 						},
             mark: true,
@@ -32,14 +30,12 @@ export default {
             trigger: {
                 player: "phaseUseEnd",
             },
-            content: function () {
-							"step 0"
-							player.chooseToDiscard(player.storage.vl_mala_hy_damage).set('ai', function (card) {
+            async content(event, trigger, player) {
+							const result = await player.chooseToDiscard(player.storage.vl_mala_hy_damage).set('ai', function (card) {
 								return get.unuseful(card) + 2.5 * (5 - get.owner(card).hp);
-							});
-							"step 1"
+							}).forResult();
 							if (result.bool == false) {
-								player.damage(player.storage.vl_mala_hy_damage, 'fire', 'nosource');
+								await player.damage(player.storage.vl_mala_hy_damage, 'fire', 'nosource');
 							}
 						},
             sub: true,

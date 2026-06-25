@@ -4,19 +4,17 @@ export default {
     trigger: {
         source: "damageBegin2",
     },
-    check: function (event, player) {
+    check(event, player) {
 					return player.hp > 2 && event.player.hp > event.num && !event.player.hasSkillTag('filterDamage', null, {
 						player: player,
 						card: event.card,
 					}) && get.attitude(player, event.player) < 0;
 				},
-    filter: function (event, player) {
+    filter(event, player) {
 					return event.player != player
 				},
-    content: function () {
-					"step 0"
-					player.loseHp()
-					"step 1"
+    async content(event, trigger, player) {
+					await player.loseHp();
 					trigger.num = trigger.num * 2;
 				},
     group: "vl_mala_sz_1",
@@ -26,7 +24,7 @@ export default {
                 player: "damageEnd",
             },
             forced: true,
-            content: function () {
+            async content(event, trigger, player) {
 							var evt = _status.event.getParent('phaseUse');
 							if (evt && evt.name == 'phaseUse') {
 								evt.skipped = true;

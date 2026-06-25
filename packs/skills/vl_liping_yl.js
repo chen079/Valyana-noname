@@ -4,29 +4,26 @@ export default {
     trigger: {
         global: "damageEnd",
     },
-    filter: function (event, player) {
+    filter(event, player) {
 					return event.card && event.notLink()
 				},
     direct: true,
-    content: function () {
-					'step 0'
+    async content(event, trigger, player) {
 					if (player.getCards('he').some(card => get.type2(card) == get.type2(trigger.card))) {
-						player.chooseToDiscard('he', get.prompt2('vl_liping_yl'), function (card) {
-							return get.type2(card) == get.type2(trigger.card)
+						const result = await player.chooseToDiscard('he', get.prompt2('vl_liping_yl'), function (card) {
+							return get.type2(card) == get.type2(trigger.card);
 						}).set('ai', function (card) {
 							if (get.attitude(player, trigger.player) < 0) {
-								return -1
+								return -1;
 							} else {
-								return 7 - get.value(card)
+								return 7 - get.value(card);
 							}
-						})
+						}).forResult();
+						if (result.bool) {
+							await trigger.player.recover();
+						}
 					} else {
-						player.gain(get.cardPile(card => get.type2(card) == get.type2(trigger.card)))
-						event.finish()
-					}
-					'step 1'
-					if (result.bool) {
-						trigger.player.recover()
+						await player.gain(get.cardPile(card => get.type2(card) == get.type2(trigger.card)));
 					}
 				},
     t: {

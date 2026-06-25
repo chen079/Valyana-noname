@@ -6,10 +6,10 @@ export default {
     },
     skillAnimation: true,
     animationColor: "orange",
-    init: function (player) {
+    init(player) {
 					if (!player.storage.vl_zhan_jf) player.storage.vl_zhan_jf = 0
 				},
-    filter: function (event, player) {
+    filter(event, player) {
 					return player.storage.vl_zhan_jf >= 2 * player.hp
 				},
     juexingji: true,
@@ -46,7 +46,7 @@ export default {
                 player: "damageBegin4",
                 source: "damageBegin2",
             },
-            content: function () {
+            async content(event, trigger, player) {
 							player.storage.vl_zhan_jf += trigger.num
 							player.updateMark('vl_zhan_jf')
 						},
@@ -55,6 +55,6 @@ export default {
     },
     t: {
         name: "解放",
-        info: "觉醒技，准备阶段，若你累计受到与造成过的伤害之和不小于你体力上限两倍，你增加1点体力上限并回复1点体力，然后失去「vl_zhan_sf」并获得「vl_zhan_jn」与「vl_zhan_zb」，然后你可以令至多X名其他角色获得3层「灾厄」（X为场上角色数的一半并向下取整）。",
+        info: `觉醒技，准备阶段，若你累计受到与造成过的伤害之和不小于你体力上限两倍，你增加1点体力上限并回复1点体力，然后失去${get.poptip("vl_zhan_sf")}并获得${get.poptip("vl_zhan_jn")}与${get.poptip("vl_zhan_zb")}，然后你可以令至多X名其他角色获得3层「灾厄」（X为场上角色数的一半并向下取整）。`,
     },
 };

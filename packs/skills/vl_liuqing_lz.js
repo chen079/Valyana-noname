@@ -4,7 +4,7 @@ export default {
     trigger: {
         player: "useCardToPlayered",
     },
-    filter: function filter(event, player) {
+    filter(event, player) {
 					return event.card && event.isFirstTarget && event.card.name === "sha" && player.countCards("e") > 0;
 				},
     cost: async function cost(event, trigger, player) {
@@ -28,7 +28,7 @@ export default {
 					// 	.vars({ num: event.cards.filter(card => get.type(card) === "equip").length });
 				},
     mod: {
-        cardUsable: function cardUsable(card, player, num) {
+        cardUsable(card, player, num) {
 						if (card.name === "sha") return num + 1;
 					},
     },

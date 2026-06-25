@@ -4,13 +4,12 @@ export default {
     trigger: {
         global: "useCardToPlayer",
     },
-    filter: function (event, player) {
+    filter(event, player) {
 					if (!player.countCards('h')) return false;
 					return event.player != player && event.card.name == 'sha' && !event.targets.includes(player) && event.player.inRange(player)
 				},
     direct: true,
-    content: function () {
-					"step 0"
+    async content(event, trigger, player) {
 					var effect = 0;
 					for (var i = 0; i < trigger.targets.length; i++) {
 						effect -= get.effect(trigger.targets[i], trigger.card, trigger.player, player);
@@ -34,39 +33,29 @@ export default {
 							effect += 6;
 						}
 					}
-					player.chooseCard('h', get.prompt2('vl_mierk_jc', trigger.player)).set('ai', function (card) {
-						if (get.attitude(player, trigger.player) > 0) return 0
+					const result = await player.chooseCard('h', get.prompt2('vl_mierk_jc', trigger.player)).set('ai', function (card) {
+						if (get.attitude(player, trigger.player) > 0) return 0;
 						if (_status.event.effect >= 0) {
 							var val = get.value(card);
 							if (val < 0) return 10 - val;
 							return _status.event.effect - val;
 						}
 						return 0;
-					}).set('effect', effect).set('logSkill', ['vl_mierk_jc', trigger.player]);
-					"step 1"
-					if (result.bool && result.cards) {
-						event.card = result.cards[0];
-						trigger.targets.length = 0;
-						trigger.getParent().triggeredTargets1.length = 0;
-					}
-					else {
-						event.finish();
-					}
-					"step 2"
-					if (!event.isMine()) game.delayx();
-					"step 3"
-					if (event.card) {
-						player.logSkill('vl_mierk_jc', trigger.player);
-						player.lose(event.card, ui.cardPile, 'visible', 'insert');
-						player.$throw(event.card, 1000);
-						game.log(player, '将', card, '置于牌堆顶');
-					}
-					"step 4"
-					trigger.player.addVuff('shisheng')
-					trigger.player.addVuff('zhenhan', player)
+					}).set('effect', effect).set('logSkill', ['vl_mierk_jc', trigger.player]).forResult();
+					if (!result.bool || !result.cards) return;
+					const card = result.cards[0];
+					trigger.targets.length = 0;
+					trigger.getParent().triggeredTargets1.length = 0;
+					if (!event.isMine()) await game.delayx();
+					player.logSkill('vl_mierk_jc', trigger.player);
+					await player.lose(card, ui.cardPile, 'visible', 'insert');
+					player.$throw(card, 1000);
+					game.log(player, '将', card, '置于牌堆顶');
+					trigger.player.addVuff('shisheng');
+					trigger.player.addVuff('zhenhan', player);
 					trigger.getParent().targets.push(player);
 					trigger.player.line(player);
-					game.delay();
+					await game.delay();
 				},
     ai: {
         threaten: 1.1,

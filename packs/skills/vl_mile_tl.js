@@ -6,7 +6,7 @@ export default {
     filterCard: card => card.name != 'fr_card_xysx' && !card.hasGaintag('vl_mile_tl'),
     filterTarget: true,
     selectTarget: 1,
-    check: function (card) {
+    check(card) {
 					if (get.type(card) != 'basic' && get.type(card) != 'trick') return 0;
 					return get.value(card) - 7.5;
 				},
@@ -15,14 +15,13 @@ export default {
     discard: false,
     lose: false,
     delay: false,
-    content: () => {
-					'step 0'
+    async content(event, trigger, player) {
 					var card = cards[0];
 					var cardx = game.createCard(card.name, card.suit, card.number, card.nature);
-					player.markSkill('vl_mile_tl')
-					targets[0].gain(cardx).gaintag.add('vl_mile_tl');
+					player.markSkill('vl_mile_tl');
+					await targets[0].gain(cardx).gaintag.add('vl_mile_tl');
 					targets[0].addSkill('vl_mile_tl_effect');
-					targets[0].storage.vl_mile_tl_effect = player
+					targets[0].storage.vl_mile_tl_effect = player;
 				},
     ai: {
         order: 15,
@@ -33,13 +32,13 @@ export default {
     subSkill: {
         effect: {
             mod: {
-                aiOrder: function (player, card, num) {
+                aiOrder(player, card, num) {
 								if (num > 0 && get.itemtype(card) === 'card' && card.hasGaintag('vl_mile_tl')) return num + 0.16;
 							},
-                aiValue: function (player, card, num) {
+                aiValue(player, card, num) {
 								if (num > 0 && get.itemtype(card) === 'card' && card.hasGaintag('vl_mile_tl')) return 2 * num;
 							},
-                aiUseful: function (player, card, num) {
+                aiUseful(player, card, num) {
 								if (num > 0 && !player._vl_mile_tl_mod && get.itemtype(card) === 'card' && card.hasGaintag('vl_mile_tl')) {
 									if (player.canIgnoreHandcard(card)) return Infinity;
 									player._vl_mile_tl_mod = true;
@@ -56,7 +55,7 @@ export default {
             },
             charlotte: true,
             forced: true,
-            filter: function (event, player) {
+            filter(event, player) {
 							return player.hasHistory('lose', function (evt) {
 								if (evt.getParent() != event) return false;
 								for (var i in evt.gaintag_map) {
@@ -69,8 +68,7 @@ export default {
 								return false;
 							});
 						},
-            content: function () {
-							'step 0'
+            async content(event, trigger, player) {
 							var cards = [];
 							player.getHistory('lose', function (evt) {
 								if (evt.getParent() != trigger) return false;
@@ -84,9 +82,9 @@ export default {
 								}
 							});
 							if (cards.length) {
-								player.gain(cards, 'gain2').gaintag.addArray(['vl_mile_tl', 'vl_mile_tl_clear']);
+								await player.gain(cards, 'gain2').gaintag.addArray(['vl_mile_tl', 'vl_mile_tl_clear']);
 								player.addTempSkill('vl_mile_tl_clear');
-								player.storage.vl_mile_tl_effect.draw()
+								await player.storage.vl_mile_tl_effect.draw();
 							}
 						},
             sub: true,
@@ -94,11 +92,11 @@ export default {
         },
         clear: {
             charlotte: true,
-            onremove: function (player) {
+            onremove(player) {
 							player.removeGaintag('vl_mile_tl_clear');
 						},
             mod: {
-                cardEnabled2: function (card, player) {
+                cardEnabled2(card, player) {
 								var cards = [];
 								if (card.cards) cards.addArray(cards);
 								if (get.itemtype(card) == 'card') cards.push(card);
@@ -106,7 +104,7 @@ export default {
 									if (cardx.hasGaintag('vl_mile_tl_clear')) return false;
 								}
 							},
-                cardRespondable: function (card, player) {
+                cardRespondable(card, player) {
 								var cards = [];
 								if (card.cards) cards.addArray(cards);
 								if (get.itemtype(card) == 'card') cards.push(card);
@@ -114,7 +112,7 @@ export default {
 									if (cardx.hasGaintag('vl_mile_tl_clear')) return false;
 								}
 							},
-                cardSavable: function (card, player) {
+                cardSavable(card, player) {
 								var cards = [];
 								if (card.cards) cards.addArray(cards);
 								if (get.itemtype(card) == 'card') cards.push(card);
@@ -129,6 +127,6 @@ export default {
     },
     t: {
         name: "通灵",
-        info: "出牌阶段限一次，你可以选择一张非“灵体”手牌复制之（「fr_card_xysx」除外），然后交给一名角色称为“灵体”。一名角色使用或打出此“灵体”结算结束后(装备牌除外)，其获得之，然后其本回合不能再使用或打出此牌并令你摸一张牌。",
+        info: `出牌阶段限一次，你可以选择一张非“灵体”手牌复制之（${get.poptip("fr_card_xysx")}除外），然后交给一名角色称为“灵体”。一名角色使用或打出此“灵体”结算结束后(装备牌除外)，其获得之，然后其本回合不能再使用或打出此牌并令你摸一张牌。`,
     },
 };

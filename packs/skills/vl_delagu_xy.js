@@ -4,18 +4,16 @@ export default {
     trigger: {
         global: "loseHpAfter",
     },
-    check: function (event, player) {
+    check(event, player) {
 					return player.getDamagedHp > 1
 				},
-    filter: function (event, player) {
+    filter(event, player) {
 					return !event.player.isDying() && event.player != player && event.player.isIn();
 				},
-    content: function () {
-					'step 0'
-					player.recover()
-					'step 1'
-					player.draw(player.getDamagedHp())
-				},
+    async content(event, trigger, player) {
+        await player.recover();
+        await player.draw(player.getDamagedHp());
+    },
     ai: {
         result: {
             player: 1,

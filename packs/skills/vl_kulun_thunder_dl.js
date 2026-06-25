@@ -4,20 +4,20 @@ export default {
     linkage: "metal",
     enable: "phaseUse",
     usable: 1,
-    filterTarget: function (card, player, target) {
+    filterTarget(card, player, target) {
 					return target != player
 				},
-    filter: function (event, player) {
+    filter(event, player) {
 					if(!game.hasPlayer(c=>c!=player)) return;
 					return ((player.name1 == 'vl_kulun_metal') || (player.name2 == 'vl_kulun_metal'));
 				},
     selectTarget: -1,
-    content: function () {
+    async content(event, trigger, player) {
 					target.link()
 				},
     ai: {
         order: 9,
-        target: function (player, target) {
+        target(player, target) {
 						if (target.isLinked()) return 1
 						if (!target.isLinked()) return -1
 					},

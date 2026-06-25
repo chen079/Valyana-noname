@@ -6,7 +6,7 @@ export default {
     zhuanhuanji: true,
     marktext: "☯",
     intro: {
-        content: function (storage, player, skill) {
+        content(storage, player, skill) {
 						if (player.storage.vl_krikt_th == true) return '锁定技，出牌阶段，你的【杀】无使用次数限制，你的黑色【杀】均视为雷【杀】；每当你对其他角色造成1点伤害，你弃置其一张手牌。';
 						return '锁定技，你的【杀】可以额外指定一个目标，你的红色【杀】均视为火【杀】；每当你对其他角色造成1点伤害，你摸一张牌。';
 					},
@@ -15,41 +15,40 @@ export default {
         player: "phaseUseBegin",
     },
     forced: true,
-    content: function () {
-					'step 0'
-					if (player.storage.vl_krikt_th == true) {
-						player.storage.vl_krikt_th = false;
-						player.addTempSkill('vl_krikt_th_2', 'phaseUseAfter');
-					}
-					else {
-						player.storage.vl_krikt_th = true;
-						player.addTempSkill('vl_krikt_th_1', 'phaseUseAfter');
-					};
-					player.updateMark('vl_krikt_th')
-				},
+    async content(event, trigger, player) {
+if (player.storage.vl_krikt_th == true) {
+        						player.storage.vl_krikt_th = false;
+        						player.addTempSkill('vl_krikt_th_2', 'phaseUseAfter');
+        					}
+        					else {
+        						player.storage.vl_krikt_th = true;
+        						player.addTempSkill('vl_krikt_th_1', 'phaseUseAfter');
+        					};
+        					player.updateMark('vl_krikt_th')
+    },
     subSkill: {
         "1": {
             trigger: {
                 source: "damageSource",
             },
-            filter: function (event, player) {
+            filter(event, player) {
 							return player != event.player
 						},
-            content: function () {
-							player.discardPlayerCard(trigger.num, trigger.player, 'h', true)
+            async content(event, trigger, player) {
+							await player.discardPlayerCard(trigger.num, trigger.player, 'h', true)
 						},
             forced: true,
             mod: {
-                cardUsable: function (card) {
+                cardUsable(card) {
 								if (card.name == 'sha') return Infinity;
 							},
-                cardnature: function (card, player) {
+                cardnature(card, player) {
 								if (card.name == 'sha' && get.color(card) == 'black') return 'thunder';
 							},
             },
             ai: {
                 effect: {
-                    target: function (card, player, target, current) {
+                    target(card, player, target, current) {
 									if (get.tag(card, 'respondSha') && current < 0) return 0.6
 								},
                 },
@@ -61,21 +60,21 @@ export default {
             trigger: {
                 source: "damageSource",
             },
-            filter: function (event, player) {
+            filter(event, player) {
 							return player != event.player
 						},
-            content: function () {
-							player.draw(trigger.num)
+            async content(event, trigger, player) {
+							await player.draw(trigger.num)
 						},
             forced: true,
             mod: {
-                targetInRange: function (card, player) {
+                targetInRange(card, player) {
 								if (card.name == 'sha') return true;
 							},
-                cardnature: function (card, player) {
+                cardnature(card, player) {
 								if (card.name == 'sha' && get.color(card) == 'red') return 'fire';
 							},
-                selectTarget: function (card, player, range) {
+                selectTarget(card, player, range) {
 								if (card.name == 'sha' && range[1] != -1) {
 									range[1]++;
 								}
@@ -83,7 +82,7 @@ export default {
             },
             ai: {
                 effect: {
-                    target: function (card, player, target, current) {
+                    target(card, player, target, current) {
 									if (get.tag(card, 'respondSha') && current < 0) return 0.6
 								},
                 },

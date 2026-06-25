@@ -5,7 +5,7 @@ export default {
         source: "damageBegin2",
     },
     usable: 1,
-    filter: function (event, player) {
+    filter(event, player) {
 					if (player.storage.vl_death_sp) {
 						return event.player != player
 					} else {
@@ -13,52 +13,49 @@ export default {
 					}
 				},
     mod: {
-        targetInRange: function (card, player, target) {
+        targetInRange(card, player, target) {
 						if (target == player.storage.vl_death_sy) {
 							return true;
 						}
 					},
     },
-    check: function (event, player) {
+    check(event, player) {
 					return get.attitude(player, event.player) < 0
 				},
-    content: function () {
-					'step 0'
-					if (player.storage.vl_death_sp) {
-						trigger.num += 1
-						player.gainPlayerCard(trigger.player, 'h', true)
-						event.finish()
-					}
-					'step 1'
-					player.chooseControl().set('choiceList', ['①令此次对' + get.translation(trigger.player) + '造成的伤害+1', '②令' + get.translation(trigger.player) + '弃置两张牌', '③背水：失去1点体力'])
-					'step 2'
-					if (result.index == 0) {
-						trigger.num += 1
-					} else if (result.index == 1) {
-						trigger.player.chooseToDiscard('he', 2, true)
-					} else {
-						trigger.num += 1
-						trigger.player.chooseToDiscard('he', 2, true)
-						player.loseHp()
-					}
-				},
+    async content(event, trigger, player) {
+        if (player.storage.vl_death_sp) {
+        						trigger.num += 1
+        						await player.gainPlayerCard(trigger.player, 'h', true)
+        						return
+        					}
+        const result = await player.chooseControl().set('choiceList', ['①令此次对' + get.translation(trigger.player) + '造成的伤害+1', '②令' + get.translation(trigger.player) + '弃置两张牌', '③背水：失去1点体力']).forResult();
+        if (result.index == 0) {
+        						trigger.num += 1
+        					} else if (result.index == 1) {
+        						await trigger.player.chooseToDiscard('he', 2, true)
+        					} else {
+        						trigger.num += 1
+        						await trigger.player.chooseToDiscard('he', 2, true)
+        						await player.loseHp()
+        					}
+    },
     group: "vl_death_sl_double",
     subSkill: {
         double: {
             trigger: {
                 player: "useCardToPlayered",
             },
-            check: function (event, player) {
+            check(event, player) {
 							return get.attitude(player, event.target) < 0
 						},
-            filter: function (event, player) {
+            filter(event, player) {
 							return event.card.name == 'sha' && event.getParent(2).name != 'vl_death_sl_double'
 						},
-            prompt2: function (event, player) {
+            prompt2(event, player) {
 							return '视为对' + get.translation(event.target) + '使用一张【杀】。'
 						},
-            content: function () {
-							player.useCard({ name: 'sha' }, trigger.target)
+            async content(event, trigger, player) {
+							await player.useCard({ name: 'sha' }, trigger.target)
 						},
         },
     },

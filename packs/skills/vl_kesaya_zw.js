@@ -2,11 +2,11 @@ import { lib, game, ui, get, ai, _status } from '../../../../noname.js';
 
 export default {
     enable: "phaseUse",
-    filter: function (event, player) {
+    filter(event, player) {
 					return player.isHealthy();
 				},
     forced: true,
-    content: function () {
+    async content(event, trigger, player) {
 					player.loseHp()
 					player.draw(3)
 				},
@@ -15,7 +15,7 @@ export default {
             order: 1,
         },
         result: {
-            player: function (player) {
+            player(player) {
 							if (player.countCards('hs', 'tao') >= 1) return 1;
 							return -1;
 						},
@@ -28,10 +28,10 @@ export default {
             trigger: {
                 player: ["gameDrawAfter", "changeHp", "loseMaxHp", "gainMaxHp"],
             },
-            filter: function (event, player) {
+            filter(event, player) {
 							return player.maxHp != 2
 						},
-            content: function () {
+            async content(event, trigger, player) {
 							player.maxHp = 2
 							player.update()
 						},

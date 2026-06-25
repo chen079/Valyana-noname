@@ -3,7 +3,7 @@ import { lib, game, ui, get, ai, _status } from '../../../../noname.js';
 export default {
     enable: "phaseUse",
     sunbenSkill: true,
-    filterTarget: function (card, player, target) {
+    filterTarget(card, player, target) {
 					if(target==player && !player.countDiscardableCards(player,"he")) return;
 					return target.countCards('h') == player.countCards('h');
 				},
@@ -36,7 +36,7 @@ export default {
     ai: {
         expose: 0.3,
         result: {
-            target: function (player, target) {
+            target(player, target) {
 							if (target.countCards('h') <= 3) {
 								return get.damageEffect(target, player, target, 'fire') + get.effect(target, { name: 'guohe_copy2' }, player, player);;
 							} else {
@@ -49,7 +49,7 @@ export default {
     subSkill: {
         "1": {
             mod: {
-                vuffIgnore: function (player, buff, type) {
+                vuffIgnore(player, buff, type) {
 								if (buff == 'lieshi' && type == 'reduceVuff') return true
 							},
             },
@@ -66,7 +66,7 @@ export default {
             forced: true,
             popup: false,
             firstDo: true,
-            content: function content() {
+            async content(event, trigger, player) {
 							player.removeSkill('vl_bwol_mb_recover');
 							player.popup('魔爆');
 							player.restoreSkill("vl_bwol_mb");

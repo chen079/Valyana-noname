@@ -5,10 +5,10 @@ export default {
         source: "damageSource",
     },
     forced: true,
-    filter: function (event, player) {
+    filter(event, player) {
 					return event.card && event.card.name == 'sha' && _status.currentPhase == player;
 				},
-    content: function () {
+    async content(event, trigger, player) {
 					player.getStat().card.sha--;
 				},
     t: {

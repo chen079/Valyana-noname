@@ -4,10 +4,10 @@ export default {
     trigger: {
         source: "damageBegin2",
     },
-    filter: function (event, player) {
+    filter(event, player) {
 					return event.player != player && event.num > 0 && !event.player.hasSkill('vl_whitewolf_fz_1')
 				},
-    check: function (event, player) {
+    check(event, player) {
 					var att = get.attitude(player, event.player)
 					if (att > 0) {
 						if (event.player.hp == 1) {
@@ -23,7 +23,7 @@ export default {
 						}
 					}
 				},
-    content: function (event, player) {
+    content(event, player) {
 					trigger.player.addTempSkill('vl_whitewolf_fz_1', { player: "phaseBegin" })
 					trigger.player.storage.vl_whitewolf_fz = [player]
 					if (!player.storage.vl_whitewolf_fz) player.storage.vl_whitewolf_fz = []
@@ -38,24 +38,24 @@ export default {
                 content: "你的红色手牌均视为【闪】，黑色手牌均视为【无懈可击】，直到其下个回合开始。",
             },
             mod: {
-                cardname: function (card, player) {
+                cardname(card, player) {
 								if (get.color(card) == 'red') return 'shan';
 								if (get.color(card) == 'black') return 'wuxie'
 							},
             },
         },
         disable: {
-            onremove: function (player) {
+            onremove(player) {
 							delete player.storage.vl_whitewolf_fz
 						},
             mark: true,
             intro: {
-                mark: function (dialog, storage, player) {
+                mark(dialog, storage, player) {
 								dialog.addText('你本回合只能对' + get.translation(player.storage.vl_whitewolf_fz) + '使用牌')
 							},
             },
             mod: {
-                playerEnabled: function (card, player, target, now) {
+                playerEnabled(card, player, target, now) {
 								if (!player.storage.vl_whitewolf_fz.includes(target)) return false;
 							},
             },

@@ -2,17 +2,17 @@ import { lib, game, ui, get, ai, _status } from '../../../../noname.js';
 
 export default {
     enable: "phaseUse",
-    filterCard: function (card, target) {
+    filterCard(card, target) {
 					return get.number(card) == 13
 				},
     lose: false,
     discard: false,
     delay: false,
     position: "hes",
-    filterTarget: function (card, player, target) {
+    filterTarget(card, player, target) {
 					return target != player
 				},
-    filter: function (event, player) {
+    filter(event, player) {
 					return player.countCards('hes', function (card) {
 						return get.number(card) == 13
 					}) > 0
@@ -30,11 +30,11 @@ export default {
             },
             zhuSkill: true,
             forced: true,
-            filter: function (event, player) {
+            filter(event, player) {
 							if (event.player != player) return false;
 							return player.isDying()
 						},
-            content: function () {
+            async content(event, trigger, player) {
 							trigger.baseDamage++;
 						},
         },

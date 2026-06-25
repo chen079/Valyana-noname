@@ -4,50 +4,46 @@ export default {
     trigger: {
         player: "loseAfter",
     },
-    init: function (player) {
+    init(player) {
 					if (!player.storage.vl_luciya_hl) player.storage.vl_luciya_hl = 0
 				},
     usable: 1,
-    filter: function (event, player) {
+    filter(event, player) {
 					return player != _status.currentPhase && event.hs && event.hs.length > 0 && ['useCard', 'respond'].includes(event.getParent().name);
 				},
     direct: true,
     intro: {
-        content: function (storage, player, skill) { return '当前判定成功' + storage + '次' },
+        content(storage, player, skill) { return '当前判定成功' + storage + '次' },
     },
     mark: true,
-    content: function () {
-					"step 0"
-					player.chooseTarget(get.prompt2('vl_luciya_hl'), function (card, player, target) {
+    async content(event, trigger, player) {
+					const chooseResult = await player.chooseTarget(get.prompt2('vl_luciya_hl'), function (card, player, target) {
 						return target != player;
-					}).ai = function (target) {
+					}).set('ai', function (target) {
 						if (target.hasSkill('hongyan')) return 0;
 						return get.damageEffect(target, _status.event.player, _status.event.player, 'thunder');
+					}).forResult();
+					if (!chooseResult.bool) return;
+					const target = chooseResult.targets[0];
+					const next = target.judge(function (card) {
+						if (get.suit(card) == 'spade' && get.number(card) > 1 && get.number(card) < 10) {
+							return -4;
+						}
+						return 0;
+					});
+					next.judge2 = function (result) {
+						return result.bool == false ? true : false;
 					};
-					"step 1"
-					if (result.bool) {
-						event.target = result.targets[0]
-						event.target.judge(function (card) {
-							if (get.suit(card) == 'spade' && get.number(card) > 1 && get.number(card) < 10) {
-								return -4
-							}
-							return 0
-						}).judge2 = function (result) {
-							return result.bool == false ? true : false;
-						};
-					} else {
-						event.finish()
-					}
-					"step 2"
-					if (result.bool == false) {
-						var num = Math.max(1, player.storage.vl_luciya_hl)
-						event.target.damage(num, 'thunder', 'nosource')
-						player.storage.vl_luciya_hl += 1
+					const judgeResult = await next.forResult();
+					if (judgeResult.bool == false) {
+						var num = Math.max(1, player.storage.vl_luciya_hl);
+						await target.damage(num, 'thunder', 'nosource');
+						player.storage.vl_luciya_hl += 1;
 					}
 				},
     ai: {
         effect: {
-            target: function (card, player, target, current) {
+            target(card, player, target, current) {
 							var hastarget = game.hasPlayer(function (current) {
 								return get.attitude(target, current) < 0;
 							});

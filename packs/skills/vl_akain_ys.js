@@ -5,22 +5,19 @@ export default {
         global: "damageEnd",
     },
     usable: 1,
-    filter: function (event, player) {
+    filter(event, player) {
 					return player.group != 'wei' && event.player.group == player.group
 				},
-    content: function () {
-					'step 0'
-					player.changeGroup('wei')
-					if (trigger.player != player) {
-						player.chooseBool('是否视为对' + get.translation(trigger.player) + '使用一张【杀】')
-					} else {
-						event.finish()
-					}
-					'step 1'
-					if (result.bool) {
-						player.useCard({ name: 'sha' }, trigger.player, false);
-					}
-				},
+    async content(event, trigger, player) {
+        player.changeGroup('wei')
+        if (trigger.player == player) {
+        						return
+        					}
+        const result = await player.chooseBool('是否视为对' + get.translation(trigger.player) + '使用一张【杀】').forResult();
+        if (result.bool) {
+        						await player.useCard({ name: 'sha' }, trigger.player, false);
+        					}
+    },
     group: "vl_akain_ys_fire",
     subSkill: {
         fire: {
@@ -28,10 +25,10 @@ export default {
                 source: ["damageBefore"],
             },
             direct: true,
-            filter: function (event, player) {
+            filter(event, player) {
 							return player.group != 'wei'
 						},
-            content: function () {
+            async content(event, trigger, player) {
 							game.setNature(trigger, 'fire');
 						},
         },

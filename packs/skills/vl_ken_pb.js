@@ -3,7 +3,7 @@ import { lib, game, ui, get, ai, _status } from '../../../../noname.js';
 export default {
     forced: true,
     mod: {
-        targetEnabled: function (card, player, target) {
+        targetEnabled(card, player, target) {
 						if (get.type(card) == "delay") return false;
 					},
     },

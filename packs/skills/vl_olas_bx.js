@@ -5,10 +5,10 @@ export default {
         source: "damageBegin2",
     },
     forced: true,
-    filter: function (event, player) {
+    filter(event, player) {
 					return event.player != player && event.getParent().name == 'sha'
 				},
-    content: function () {
+    async content(event, trigger, player) {
 					var cards = trigger.player.getCards('h', 'sha')
 					if(!cards.length)return;
 					player.gain(cards, 'gain2')

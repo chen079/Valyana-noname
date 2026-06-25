@@ -5,7 +5,7 @@ export default {
         player: "phaseDrawBegin1",
     },
     forced: true,
-    content: function () {
+    async content(event, trigger, player) {
 					if (player.isMinHandcard()) {
 						trigger.num += 2
 					} else {

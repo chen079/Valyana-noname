@@ -5,9 +5,9 @@ export default {
         player: "phaseBegin",
     },
     forced: true,
-    content: function () {
-					player.loseHp()
-				},
+    async content(event, trigger, player) {
+        await player.loseHp()
+    },
     group: "vl_aak_gj_1",
     subSkill: {
         "1": {
@@ -15,9 +15,9 @@ export default {
                 player: "recoverBefore",
             },
             forced: true,
-            content: function () {
-							trigger.num += 1
-						},
+            async content(event, trigger, player) {
+                trigger.num += 1
+            },
         },
     },
     t: {

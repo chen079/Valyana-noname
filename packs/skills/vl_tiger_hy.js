@@ -5,10 +5,10 @@ export default {
     multitarget: true,
     multiline: true,
     usable: 1,
-    filterTarget: function (card, player, target) {
+    filterTarget(card, player, target) {
 					return player.canCompare(target);
 				},
-    check: function (target) {
+    check(target) {
 					var player = _status.event.player, targets = _status.event.getTrigger().targets;
 					var num = 0, card = { name: 'sha', nature: 'fire', isCard: true };
 					var hs = player.getCards('h').sort((a, b) => get.number(b) - get.number(a));
@@ -19,28 +19,26 @@ export default {
 					return get.effect(target, { name: 'guohe_copy2' }, player, player) / 2 + get.effect(target, card, player, player);
 				},
     selectTarget: -1,
-    content: function () {
-					'step 0'
-					player.draw(2)
-					if(targets.length == 0) event.finish();
-					'step 1'
-					if (targets.length == 1) {
-						player.chooseToCompare(targets[0])
-					} else {
-						player.chooseToCompare(targets).setContent('chooseToCompareMeanwhile')
-					}
-					'step 2'
-					if (result.winner) {
-						var targets = [player].addArray(event.targets).sortBySeat(player);
-						targets.remove(result.winner);
-						for (var i = 0; i < targets.length; i++) {
-							if (!result.winner.canUse({ name: 'sha', nature: 'fire', isCard: true }, targets[i], false) || !lib.filter.targetEnabled2({ name: 'sha', nature: 'fire', isCard: true }, result.winner, targets[i])) {
-								targets.remove(targets[i])
-							}
-						}
-						result.winner.useCard({ name: 'sha', nature: 'fire', isCard: true }, targets, 'noai').set('addCount', false);
-					}
-				},
+    async content(event, trigger, player) {
+await player.draw(2)
+        					if(targets.length == 0) return;
+let result;
+if (targets.length == 1) {
+        						result = await player.chooseToCompare(targets[0]).forResult()
+        					} else {
+        						result = await player.chooseToCompare(targets).setContent('chooseToCompareMeanwhile').forResult()
+        					}
+if (result.winner) {
+        						var targets = [player].addArray(event.targets).sortBySeat(player);
+        						targets.remove(result.winner);
+        						for (var i = 0; i < targets.length; i++) {
+        							if (!result.winner.canUse({ name: 'sha', nature: 'fire', isCard: true }, targets[i], false) || !lib.filter.targetEnabled2({ name: 'sha', nature: 'fire', isCard: true }, result.winner, targets[i])) {
+        								targets.remove(targets[i])
+        							}
+        						}
+        						await result.winner.useCard({ name: 'sha', nature: 'fire', isCard: true }, targets, 'noai').set('addCount', false);
+        					}
+    },
     ai: {
         order: 4,
         result: {

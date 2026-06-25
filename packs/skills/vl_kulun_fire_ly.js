@@ -3,25 +3,25 @@ import { lib, game, ui, get, ai, _status } from '../../../../noname.js';
 export default {
     enable: "phaseUse",
     usable: 1,
-    filterTarget: function (card, player, target) {
+    filterTarget(card, player, target) {
 					return target != player
 				},
-    selectTarget: function () {
+    selectTarget() {
 					return ui.selected.cards.length
 				},
     complexCard: true,
-    filterCard: function (card) {
+    filterCard(card) {
 					if (ui.selected.cards.length) {
 						return get.color(card) != get.color(ui.selected.cards[0]);
 					}
 					return true;
 				},
     position: "he",
-    filter: function (event, player) {
+    filter(event, player) {
 					return player.countCards('he') > 0
 				},
     selectCard: [1, 2],
-    content: function () {
+    async content(event, trigger, player) {
 					target.damage(player, 'fire')
 					target.addVuff('ranshao')
 				},

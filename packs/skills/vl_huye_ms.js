@@ -3,20 +3,20 @@ import { lib, game, ui, get, ai, _status } from '../../../../noname.js';
 export default {
     enable: "phaseUse",
     usable: 1,
-    filter: function (event, player) {
+    filter(event, player) {
 					return player.countCards('he') > 0;
 				},
     mod: {
-        targetInRange: function (card, player, target) {
+        targetInRange(card, player, target) {
 						if (target.hasVuff('sleep')) {
 							return true;
 						}
 					},
     },
-    filterTarget: function (card, player, target) {
+    filterTarget(card, player, target) {
 					return target != player && !target.hasVuff('sleep');
 				},
-    filterCard: function (card) {
+    filterCard(card) {
 					var suit = get.suit(card);
 					for (var i = 0; i < ui.selected.cards.length; i++) {
 						if (get.suit(ui.selected.cards[i]) == suit) return false;
@@ -25,33 +25,31 @@ export default {
 				},
     complexCard: true,
     selectCard: [1, 4],
-    check: function (card) {
+    check(card) {
 					return 8 - get.value(card)
 				},
-    selectTarget: function () {
+    selectTarget() {
 					return ui.selected.cards.length
 				},
-    contentBefore: function () {
+    contentBefore() {
 					player.draw(cards.length)
 				},
-    content: function () {
-					'step 0'
-					target.chooseToRespond({ name: 'shan' }).set('ai', function (card) {
-						if (_status.event.player.isImmVuff('sleep')) {
-							return -1
-						} else {
-							return 1
-						}
-					})
-					'step 1'
-					if (!result.bool) target.addVuff('sleep');
-				},
+    async content(event, trigger, player) {
+const result = await target.chooseToRespond({ name: 'shan' }).set('ai', function (card) {
+        						if (_status.event.player.isImmVuff('sleep')) {
+        							return -1
+        						} else {
+        							return 1
+        						}
+        					}).forResult()
+if (!result.bool) target.addVuff('sleep');
+    },
     ai: {
-        order: function order(item,player){
+        order(item,player) {
 						return get.order({name:"sha"})+1;
 					},
         result: {
-            target: function (player, target) {
+            target(player, target) {
 							return Math.min(-0.1, -1 - target.countCards('h') + Math.sqrt(target.hp) / 2);
 						},
         },

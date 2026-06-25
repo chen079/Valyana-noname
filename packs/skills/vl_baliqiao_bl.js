@@ -5,20 +5,19 @@ export default {
         player: "gainBegin",
     },
     forced: true,
-    filter: function (event, player) {
+    filter(event, player) {
 					return _status.currentPhase != player
 				},
-    content: function () {
-					'step 0'
-					trigger.gaintag.add('vl_baliqiao_bl')
-				},
+    async content(event, trigger, player) {
+        trigger.gaintag.add('vl_baliqiao_bl');
+    },
     mod: {
-        ignoredHandcard: function (card, player) {
+        ignoredHandcard(card, player) {
 						if (card.hasGaintag('vl_baliqiao_bl')) {
 							return true;
 						}
 					},
-        cardDiscardable: function (card, player, name) {
+        cardDiscardable(card, player, name) {
 						if (name == 'phaseDiscard' && card.hasGaintag('vl_baliqiao_bl')) {
 							return false;
 						}

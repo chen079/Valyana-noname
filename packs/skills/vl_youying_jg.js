@@ -1,5 +1,10 @@
 import { lib, game, ui, get, ai, _status } from '../../../../noname.js';
 
+const getUseCardHistoryEvent = (player, offset = 0) => {
+    const history = player.getAllHistory ? player.getAllHistory("useCard") : player.getHistory("useCard");
+    return history && history.length > offset ? history[history.length - 1 - offset] : null;
+};
+
 export default {
     trigger: {
         player: "useCard",
@@ -7,66 +12,61 @@ export default {
     locked: false,
     frequent: true,
     filter: (event, player) => {
-					var evt = player.getLastAllUsed(1)
+					const evt = getUseCardHistoryEvent(player, 1)
 					if (!evt || !evt.card) return false
 					return true
 				},
     mark: true,
     intro: {
-        mark: function (dialog, storage, player) {
-						var card = ''
-						if (player.getLastAllUsed() && player.getLastAllUsed().card) {
-							card = get.translation(player.getLastAllUsed().card)
+        mark(dialog, storage, player) {
+						let card = ''
+						if (getUseCardHistoryEvent(player, 0) && getUseCardHistoryEvent(player, 0).card) {
+							card = get.translation(getUseCardHistoryEvent(player, 0).card)
 						}
 						dialog.addText('使用的上一张牌为：' + card)
 					},
     },
-    filterx: function (event) {
+    filterx(event) {
 					if (event.targets.length == 0) return false;
-					var type = get.type(event.card);
+					const type = get.type(event.card);
 					if (type != 'basic' && type != 'trick') return false;
 					return true;
 				},
-    content: function () {
-					'step 0'
-					var evt = player.getLastAllUsed(1)
-					if (get.is.yayun(get.translation(trigger.card.name), get.translation(evt.card.name))) {
-						player.draw()
-						event.goto(2)
-					} else {
-						if (player.countCards('he') > 0) {
-							player.chooseCard('he', 1, '是否重铸一张牌').set('ai', function (card) {
-								return 8 - get.value(card)
-							})
-						} else {
-							event.finish()
-						}
-					}
-					'step 1'
-					if (result.bool) {
-						player.recast(result.cards)
-					}
-					'step 2'
-					if (lib.skill.vl_youying_jg.filterx(trigger) && player.hasCard(card => get.is.yayun(get.translation(trigger.card.name), get.translation(card.name)), 'he')) {
-						player.chooseToDiscard('he', function (card) {
-							return get.is.yayun(get.translation(trigger.card.name), get.translation(card.name))
-						}, get.prompt('vl_youying_jg')).set('ai', card => 4 - get.value(card))
-							.set('prompt2', '弃置一张牌令' + get.translation(trigger.card) + '额外结算一次')
-					} else {
-						event.finish()
-					}
-					'step 3'
-					if (result.bool) {
-						trigger.effectCount++;
-						game.log(trigger.card, '额外结算一次');
-					}
-				},
+    async content(event, trigger, player) {
+        const evt = getUseCardHistoryEvent(player, 1)
+        					if (get.is.yayun(get.translation(trigger.card.name), get.translation(evt.card.name))) {
+        						await player.draw()
+        					} else {
+        						if (player.countCards('he') > 0) {
+        							const recastResult = await player.chooseCard('he', 1, '是否重铸一张牌').set('ai', function (card) {
+        								return 8 - get.value(card)
+        							}).forResult()
+        							if (recastResult.bool) {
+        								await player.recast(recastResult.cards)
+        							}
+        						} else {
+        							return
+        						}
+        					}
+        if (lib.skill.vl_youying_jg.filterx(trigger) && player.hasCard(card => get.is.yayun(get.translation(trigger.card.name), get.translation(card.name)), 'he')) {
+        						const discardResult = await player.chooseToDiscard('he', function (card) {
+        							return get.is.yayun(get.translation(trigger.card.name), get.translation(card.name))
+        						}, get.prompt('vl_youying_jg')).set('ai', card => 4 - get.value(card))
+        							.set('prompt2', '弃置一张牌令' + get.translation(trigger.card) + '额外结算一次').forResult()
+        						if (discardResult.bool) {
+        							trigger.effectCount++;
+        							game.log(trigger.card, '额外结算一次');
+        						}
+        					} else {
+        						return
+        					}
+    },
     mod: {
-        aiOrder: function (player, card, num) {
+        aiOrder(player, card, num) {
 						if (typeof card == 'object' && !get.tag(card, 'norepeat')) {
-							var history = player.getAllHistory('useCard');
+							const history = player.getAllHistory('useCard');
 							if (history.length > 0) {
-								var cardx = history[history.length - 1].card;
+								const cardx = history[history.length - 1].card;
 								if (get.is.yayun(get.translation(cardx.name), get.translation(card.name))) return num + 20;
 							}
 						}

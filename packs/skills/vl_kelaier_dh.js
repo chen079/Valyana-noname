@@ -3,34 +3,42 @@ import { lib, game, ui, get, ai, _status } from '../../../../noname.js';
 export default {
     enable: "phaseUse",
     usable: 1,
-    filter: function (event, player) {
+    filter(event, player) {
 					return player.countCards('h') > 0
 				},
     filterTarget: true,
     filterCard: true,
-    content: function () {
-					"step 0"
-					player.judge()
-					"step 1"
-					switch (result.color) {
-						case "red": target.recover(1); target.addTempSkill("vl_kelaier_dh_2", { player: "phaseUseBefore" }); break;
-						case "black": target.draw(2); target.addTempSkill("vl_kelaier_dh_1", { player: "phaseUseBefore" }); break;
-					}
-				},
+    async content(event, trigger, player) {
+const result = await player.judge().forResult()
+switch (result.color) {
+        						case "red": {
+        							const next = target.recover(1);
+        							target.addTempSkill("vl_kelaier_dh_2", { player: "phaseUseBefore" });
+        							await next;
+        							break;
+        						}
+        						case "black": {
+        							const next = target.draw(2);
+        							target.addTempSkill("vl_kelaier_dh_1", { player: "phaseUseBefore" });
+        							await next;
+        							break;
+        						}
+        					}
+    },
     order: 9,
     result: {
-        target: function (player, target) {
+        target(player, target) {
 						return 2 / Math.max(1, Math.sqrt(target.hp));
 					},
     },
     subSkill: {
         "1": {
             forced: true,
-            init: function (player) {
+            init(player) {
 							player.changeHujia(1,null,true);
 						},
             charlotte: true,
-            onremove: function (player) {
+            onremove(player) {
 							player.changeHujia(-1);
 						},
             intro: {
@@ -38,7 +46,7 @@ export default {
             },
             mark: true,
             mod: {
-                suit: function (card, suit) {
+                suit(card, suit) {
 								if (suit == 'spade') return 'club';
 							},
             },
@@ -47,10 +55,10 @@ export default {
         "2": {
             forced: true,
             charlotte: true,
-            init: function (player) {
+            init(player) {
 							player.changeHujia(1,null,true);
 						},
-            onremove: function (player) {
+            onremove(player) {
 							player.changeHujia(-1);
 						},
             intro: {
@@ -58,7 +66,7 @@ export default {
             },
             mark: true,
             mod: {
-                suit: function (card, suit) {
+                suit(card, suit) {
 								if (suit == 'diamond') return 'heart';
 							},
             },

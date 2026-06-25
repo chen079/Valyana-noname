@@ -4,41 +4,39 @@ export default {
     trigger: {
         global: "loseHpEnd",
     },
-    check: function (event, player) {
+    check(event, player) {
 					return get.attitude(player, event.player) > 0
 				},
-    filter: function (event, player) {
+    filter(event, player) {
 					return event.player.isAlive() && get.gainableSkillsName(event.player.name, function (info, skill, name) {
 						return !get.is.locked(skill) && !get.is.blocked(skill, event.player)
 					}).length > 0
 				},
-    content: function () {
-					'step 0'
-					player.chooseSkill(trigger.player, get.prompt2('vl_zhanggu_yl'), function (info, skill, name) {
-						return !get.is.locked(skill) && !get.is.blocked(skill, trigger.player)
-					})
-					'step 1'
-					if (!trigger.player.storage.vl_zhanggu_yl_blocker) trigger.player.storage.vl_zhanggu_yl_blocker = []
-					trigger.player.storage.vl_zhanggu_yl_blocker.push(result.skill)
-					if (!trigger.player.hasSkill('vl_zhanggu_yl_blocker')) trigger.player.addTempSkill('vl_zhanggu_yl_blocker', { player: 'phaseAfter' })
-				},
+    async content(event, trigger, player) {
+						const result = await player.chooseSkill(trigger.player, get.prompt2('vl_zhanggu_yl'), function (info, skill, name) {
+							return !get.is.locked(skill) && !get.is.blocked(skill, trigger.player)
+						}).forResult();
+						if (!trigger.player.storage.vl_zhanggu_yl_blocker) trigger.player.storage.vl_zhanggu_yl_blocker = []
+						trigger.player.storage.vl_zhanggu_yl_blocker.push(result.skill)
+						if (!trigger.player.hasSkill('vl_zhanggu_yl_blocker')) trigger.player.addTempSkill('vl_zhanggu_yl_blocker', { player: 'phaseAfter' })
+    },
     subSkill: {
         blocker: {
-            init: function (player, skill) {
+            init(player, skill) {
 							player.addSkillBlocker(skill);
 						},
-            onremove: function (player, skill) {
+            onremove(player, skill) {
 							player.removeSkillBlocker(skill);
 							player.storage.vl_zhanggu_yl_blocker = []
 						},
             charlotte: true,
-            skillBlocker: function (skill, player) {
+            skillBlocker(skill, player) {
 							return player.storage.vl_zhanggu_yl_blocker.includes(skill);
 						},
             mark: true,
             intro: {
-                content: function (storage, player, skill) {
-								var list = player.getSkills(null, false, false).filter(function (i) {
+                content(storage, player, skill) {
+								const list = player.getSkills(null, false, false).filter(function (i) {
 									return lib.skill.vl_zhanggu_yl_blocker.skillBlocker(i, player);
 								});
 								if (list.length) return '失效技能：' + get.translation(list);

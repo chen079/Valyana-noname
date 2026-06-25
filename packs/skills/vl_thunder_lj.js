@@ -5,54 +5,47 @@ export default {
     filterCard: true,
     selectCard: 1,
     usable: 1,
-    filter: function filter(event, player) {
+    filter(event, player) {
 					return game.hasPlayer(current => current != player);
 				},
-    content: function () {
-					'step 0'
-					event.targets = game.filterPlayer(current => current != player)
-					event.targets.sortBySeat(player)
-					event.total = []
-					event.num = 0
-					event.cards = cards
-					'step 1'
-					event.target = event.targets.shift()
-					event.target.chooseToRespond('请打出一张点数为' + get.number(event.cards[0]) + '或花色为' + get.translation(get.suit(event.cards[0])) + '的牌，否则' + get.translation(player) + '对你造成1点伤害。', function (card) {
-						return get.number(card) == get.number(event.cards[0]) || get.suit(card) == get.suit(event.cards[0])
-					}).set('ai', function (card) {
-						if (get.attitude(event.target, player) > 0) {
-							return 5 - get.value(card)
-						} else {
-							return 7 - get.value(card)
-						}
-					})
-					'step 2'
-					if (result.bool) {
-						event.cards = result.cards
-						event.total.push(event.cards[0])
-					} else {
-						event.target.damage(player, 'thunder')
-						event.num++
-					}
-					'step 3'
-					if (event.targets.length) {
-						game.delay()
-						event.goto(1)
-					} else {
-						if (event.total.length && event.num > 0) {
-							player.chooseCardButton('获得其中至多' + get.cnNumber(event.num) + '张牌', [1, event.num], event.total)
-								.set('ai', function (button) {
-									get.useful(button.link);
-								})
-						} else {
-							event.finish()
-						}
-					}
-					'step 4'
-					if (result.bool) {
-						player.gain(result.links, 'gain2')
-					}
-				},
+    async content(event, trigger, player) {
+        event.targets = game.filterPlayer(current => current != player)
+        					event.targets.sortBySeat(player)
+        					event.total = []
+        					event.num = 0
+        while (event.targets.length) {
+        event.target = event.targets.shift()
+        					const result = await event.target.chooseToRespond('请打出一张点数为' + get.number(event.cards[0]) + '或花色为' + get.translation(get.suit(event.cards[0])) + '的牌，否则' + get.translation(player) + '对你造成1点伤害。', function (card) {
+        						return get.number(card) == get.number(event.cards[0]) || get.suit(card) == get.suit(event.cards[0])
+        					}).set('ai', function (card) {
+        						if (get.attitude(event.target, player) > 0) {
+        							return 5 - get.value(card)
+        						} else {
+        							return 7 - get.value(card)
+        						}
+        					}).forResult()
+        if (result.bool) {
+        						event.cards = result.cards
+        						event.total.push(event.cards[0])
+        					} else {
+        						const damageEvent = event.target.damage(player, 'thunder')
+        						event.num++
+        						await damageEvent
+        					}
+        if (event.targets.length) {
+        						await game.delay()
+        					}
+        }
+        if (event.total.length && event.num > 0) {
+        					const result = await player.chooseCardButton('获得其中至多' + get.cnNumber(event.num) + '张牌', [1, event.num], event.total)
+        						.set('ai', function (button) {
+        							get.useful(button.link);
+        						}).forResult()
+        					if (result.bool) {
+        						await player.gain(result.links, 'gain2')
+        					}
+        				}
+    },
     ai: {
         order: 7,
         result: {
@@ -68,16 +61,16 @@ export default {
             trigger: {
                 source: "damageSource",
             },
-            prompt2: function (event, player) {
+            prompt2(event, player) {
 							return '令' + get.translation(event.player) + '回复1点体力并摸一张牌。'
 						},
-            filter: function (event, player) {
+            filter(event, player) {
 							return event.nature == 'thunder' && event.num > 0 && event.player.isAlive()
 						},
-            check: function (event, player) {
+            check(event, player) {
 							return get.attitude(player, event.player) > 0
 						},
-            content: function () {
+            async content(event, trigger, player) {
 							trigger.player.recover()
 							trigger.player.draw()
 						},

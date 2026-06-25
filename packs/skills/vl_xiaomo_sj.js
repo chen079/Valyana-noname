@@ -1,7 +1,7 @@
 import { lib, game, ui, get, ai, _status } from '../../../../noname.js';
 
 export default {
-    filter: function (event, player) {
+    filter(event, player) {
 					return event.card && event.card.name == 'sha' && player.hujia > 0
 				},
     trigger: {
@@ -53,10 +53,10 @@ export default {
                 player: "phaseDrawBegin2",
             },
             direct: true,
-            filter: function (event, player) {
+            filter(event, player) {
 							return !event.numFixed;
 						},
-            content: function () {
+            async content(event, trigger, player) {
 							trigger.num += player.hujia;
 						},
             ai: {

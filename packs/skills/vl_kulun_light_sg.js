@@ -5,22 +5,21 @@ export default {
     filterCard: true,
     position: "he",
     usable: 1,
-    check: function (card) {
+    check(card) {
 					return 9 - get.value(card)
 				},
-    filter: function (event, player) {
+    filter(event, player) {
 					return player.countCards('he') > 0
 				},
-    filterTarget: function (card, player, target) {
+    filterTarget(card, player, target) {
 					return player != target
 				},
-    content: function () {
-					'step 0'
-					var buffs = game.findVuff('type', 'buff')
-					player.addVuff(buffs.randomGet())
-					target.addVuff(buffs.randomGet())
-					target.recover()
-				},
+    async content(event, trigger, player) {
+var buffs = game.findVuff('type', 'buff')
+        					player.addVuff(buffs.randomGet())
+        					target.addVuff(buffs.randomGet())
+        					await target.recover()
+    },
     ai: {
         order: 9,
         result: {

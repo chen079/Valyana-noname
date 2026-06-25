@@ -3,10 +3,10 @@ import { lib, game, ui, get, ai, _status } from '../../../../noname.js';
 export default {
     enable: "phaseUse",
     usable: 1,
-    filter: function (event, player) {
+    filter(event, player) {
 					return player.countCards('h') >= 1;
 				},
-    filterTarget: function (card, player, target) {
+    filterTarget(card, player, target) {
 					return target != player;
 				},
     filterCard: true,
@@ -25,7 +25,7 @@ export default {
         threaten: 1.5,
         order: 2.1,
         result: {
-            target: function (player, target) {
+            target(player, target) {
 							if (target.hasSkillTag('nogain')) return 0;
 							if (get.attitude(player, target) < 3) return 0;
 							if (target.hasJudge('lebu')) return 0;

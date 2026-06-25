@@ -3,7 +3,7 @@ import { lib, game, ui, get, ai, _status } from '../../../../noname.js';
 export default {
     enable: "phaseUse",
     usable: 1,
-    filter: function (event, player) {
+    filter(event, player) {
 					return event.filterCard({
 						name: 'fr_card_gzbj',
 					}, player, event) || event.filterCard({
@@ -11,21 +11,21 @@ export default {
 					}, player, event);
 				},
     chooseButton: {
-        dialog: function () {
+        dialog() {
 						return ui.create.dialog('多谋', [['fr_card_gzbj', 'diaobingqianjiang'], 'vcard']);
 					},
-        filter: function (button, player) {
+        filter(button, player) {
 						var evt = _status.event.getParent();
 						return evt.filterCard({
 							name: button.link[2],
 						}, player, evt);
 					},
-        check: function (button) {
+        check(button) {
 						return _status.event.player.getUseValue({
 							name: button.link[2],
 						}) * (button.link[2] == 'diaobingqianjiang' ? 3 : 1);
 					},
-        backup: function (links) {
+        backup(links) {
 						return {
 							viewAs: { name: links[0][2] },
 							filterCard: true,
@@ -36,12 +36,12 @@ export default {
 							selectCard: 2,
 						}
 					},
-        prompt: function (links) {
+        prompt(links) {
 						return '将两张手牌当做【' + get.translation(links[0][2]) + '】使用';
 					},
     },
     ai: {
-        order: function (item, player) {
+        order(item, player) {
 						return Math.max(get.order({ name: 'fr_card_gzbj' }), get.order({ name: 'diaobingqianjiang' })) + 0.2;
 					},
         result: {

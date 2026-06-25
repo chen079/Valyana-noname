@@ -6,37 +6,30 @@ export default {
         player: "phaseZhunbeiBegin",
     },
     direct: true,
-    content: function () {
-					"step 0"
-					event.num = Math.ceil(game.players.length / 2)
-					'step 1'
-					player.chooseTarget(get.prompt2(event.name), 1, function (card, player, target) {
-						return target.countCards('hej') > 0
-					}, function (target) {
-						var player = _status.event.player;
-						return get.effect(target, { name: 'guohe_copy2' }, player, player);
-					});
-					"step 2"
-					if (result.bool) {
-						event.target = result.targets[0];
-						player.choosePlayerCard('hej', [1, event.num], event.target, true).set('prompt', '选择' + get.translation(event.target) + '的至多' + get.cnNumber(event.num) + '张牌');
-					} else {
-						event.finish();
+    async content(event, trigger, player) {
+					let num = Math.ceil(game.players.length / 2);
+					while (num > 0) {
+						const targetResult = await player.chooseTarget(get.prompt2(event.name), 1, function (card, player, target) {
+        						return target.countCards('hej') > 0
+        					}, function (target) {
+        						var player = _status.event.player;
+        						return get.effect(target, { name: 'guohe_copy2' }, player, player);
+        					}).forResult();
+						if (!targetResult.bool) return;
+						const target = targetResult.targets[0];
+						const cardResult = await player.choosePlayerCard('hej', [1, num], target, true)
+							.set('prompt', '选择' + get.translation(target) + '的至多' + get.cnNumber(num) + '张牌')
+							.forResult();
+						if (!cardResult.bool) return;
+						num -= cardResult.cards.length;
+						await player.addToExpansion(cardResult.cards, target, 'give').gaintag.add('vl_lamas_zj');
 					}
-					"step 3"
-					if (result.bool) {
-						event.num -= result.cards.length
-						player.addToExpansion(result.cards, event.target, 'give').gaintag.add('vl_lamas_zj');
-						if (event.num) {
-							event.goto(1);
-						}
-					}
-				},
+    },
     intro: {
         content: "expansion",
         markcount: "expansion",
     },
-    onremove: function (player) {
+    onremove(player) {
 					var cards = player.getExpansions('vl_lamas_zj');
 					if (cards.length) player.loseToDiscardpile(cards);
 				},
@@ -46,23 +39,23 @@ export default {
     subSkill: {
         "1": {
             enable: "chooseToUse",
-            filter: function (event, player) {
+            filter(event, player) {
 							return player.getExpansions('vl_lamas_zj').length > 0 && event.filterCard({ name: 'sha', isCard: true }, player, event);
 						},
             direct: true,
             chooseButton: {
-                dialog: function (event, player) {
+                dialog(event, player) {
 								return ui.create.dialog('战尽', player.getExpansions('vl_lamas_zj'), 'hidden');
 							},
-                backup: function (links, player) {
+                backup(links, player) {
 								return {
 									viewAs: { name: 'sha', isCard: true },
 									filterCard: () => false,
 									selectCard: -1,
 									card: links[0],
-									precontent: function () {
+									async precontent(event, trigger, player) {
 										player.logSkill('vl_lamas_zj');
-										player.loseToDiscardpile(lib.skill.vl_lamas_zj_1_backup.card);
+										await player.loseToDiscardpile(lib.skill.vl_lamas_zj_1_backup.card);
 										delete event.result.skill;
 									},
 								};
@@ -70,7 +63,7 @@ export default {
                 prompt: () => '请选择【杀】的目标',
             },
             ai: {
-                order: function () {
+                order() {
 								return get.order({ name: 'sha' }) + 0.6;
 							},
                 result: {
@@ -83,7 +76,7 @@ export default {
                 target: "shaBefore",
             },
             direct: true,
-            content: function () {
+            async content(event, trigger, player) {
 							var cards = player.getExpansions('vl_lamas_zj');
 							if (cards.length) player.gain(cards, 'gain2');
 						},

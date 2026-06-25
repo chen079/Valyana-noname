@@ -73,7 +73,7 @@ export default {
         result: {
             result: {
                 // 评估对目标角色的收益（负值表示负面效果，目标越不喜欢越负）
-                target: function (player, target) {
+                target(player, target) {
                     // 选项1损失：目标让玩家摸2张牌 + 杀无限制
                     let loss1 = 2; // 摸2牌的基本价值
                     const shaCount = player.getCards('sha').length;
@@ -90,7 +90,7 @@ export default {
                 },
 
                 // 评估对玩家自身（发动者）的收益（正值表示收益）
-                player: function (player, target) {
+                player(player, target) {
                     // 计算两个选项对玩家的收益（未扣弃牌成本）
                     let gain1 = 2; // 摸2牌
                     const shaCount = player.getCards('sha').length;

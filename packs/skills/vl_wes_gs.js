@@ -4,14 +4,14 @@ export default {
     trigger: {
         player: "damageEnd",
     },
-    filter: function (event, player) {
+    filter(event, player) {
 					return event.source && event.source != player && event.source != player.storage.vl_wes_ts[0]
 				},
     frequent: true,
-    check: function (event, player, storage) {
+    check(event, player, storage) {
 					return get.attitude(player, player.storage.vl_wes_ts[0])
 				},
-    content: function () {
+    async content(event, trigger, player) {
 					for (var i = 0; i < trigger.num; i++) {
 						player.storage.vl_wes_ts[0].damage(1, trigger.nature, trigger.source, 'unreal')
 						game.delay(2)

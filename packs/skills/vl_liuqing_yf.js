@@ -4,7 +4,7 @@ export default {
     enable: "phaseUse",
     usable: 1,
     filterTarget: lib.filter.notMe,
-    selectTarget: function selectTarget() {
+    selectTarget() {
 					return [1, _status.event.player.countCards("he")];
 				},
     multitarget: true,

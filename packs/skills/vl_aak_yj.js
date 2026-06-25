@@ -6,27 +6,25 @@ export default {
     filterTarget: true,
     usable: 1,
     position: "he",
-    content: function () {
-					'step 0'
-					target.damage(1, player)
-					'step 1'
-					var num = [1, 2].randomGet()
-					if (num == 1) {
-						target.draw(2)
-						player.draw(2)
-					} else {
-						if (!target.storage.vl_aak_yj_1) target.storage.vl_aak_yj_1 = 0
-						target.storage.vl_aak_yj_1 += 1
-						if (!player.storage.vl_aak_yj_1) player.storage.vl_aak_yj_1 = 0
-						player.storage.vl_aak_yj_1 += 1
-						target.addTempSkill('vl_aak_yj_1')
-						player.addTempSkill('vl_aak_yj_1')
-					}
-				},
+    async content(event, trigger, player) {
+        await target.damage(1, player);
+        const num = [1, 2].randomGet();
+        if (num == 1) {
+            await target.draw(2);
+            await player.draw(2);
+        } else {
+            if (!target.storage.vl_aak_yj_1) target.storage.vl_aak_yj_1 = 0;
+            target.storage.vl_aak_yj_1 += 1;
+            if (!player.storage.vl_aak_yj_1) player.storage.vl_aak_yj_1 = 0;
+            player.storage.vl_aak_yj_1 += 1;
+            target.addTempSkill('vl_aak_yj_1');
+            player.addTempSkill('vl_aak_yj_1');
+        }
+    },
     ai: {
         order: 7,
         result: {
-            target: function (player, target) {
+            target(player, target) {
 							if (target.hp == 1) {
 								return -1
 							} else {
@@ -38,7 +36,7 @@ export default {
     },
     subSkill: {
         "1": {
-            onremove: function (player) {
+            onremove(player) {
 							player.storage.vl_aak_yj_1 = 0
 						},
             mark: true,
@@ -48,7 +46,7 @@ export default {
                 content: "你可以额外使用#张杀",
             },
             mod: {
-                cardUsable: function (card, player, num) {
+                cardUsable(card, player, num) {
 								if (card.name == 'sha') return num + player.storage.vl_aak_yj_1;
 							},
             },

@@ -3,7 +3,7 @@ import { lib, game, ui, get, ai, _status } from '../../../../noname.js';
 export default {
     enable: "phaseUse",
     usable: 1,
-    mostColor: function (player) {
+    mostColor(player) {
 					if (player.countCards('h', { color: 'red' }) > player.countCards('h', { color: 'black' })) {
 						return ['red']
 					}
@@ -14,16 +14,17 @@ export default {
 						return ['red', 'black']
 					}
 				},
-    filterCard: function (card, player) {
-					var colors = lib.skill.vl_baixi_bm.mostColor(player)
+    filterCard(card, player) {
+					const colors = lib.skill.vl_baixi_bm.mostColor(player)
 					return colors.includes(get.color(card))
 				},
     selectCard: 1,
-    filterTarget: function (card, player, target) {
+    filterTarget(card, player, target) {
 					return player != target
 				},
     selectTarget: 1,
-    content: function () {
+    async content(event, trigger, player) {
+					const target = event.target;
 					target.addTempSkill('vl_baixi_bm_1')
 					target.addTempSkill('vl_baixi_bm_2', { player: 'phaseEnd' })
 					target.storage.vl_baixi_bm_2 = player
@@ -35,13 +36,13 @@ export default {
                 content: "本回合不能使用或打出牌",
             },
             mod: {
-                cardEnabled: function () {
+                cardEnabled() {
 								return false;
 							},
-                cardRespondable: function () {
+                cardRespondable() {
 								return false;
 							},
-                cardSavable: function () {
+                cardSavable() {
 								return false;
 							},
             },
@@ -50,10 +51,10 @@ export default {
             trigger: {
                 player: "phaseDrawBegin2",
             },
-            init: function (player) {
+            init(player) {
 							player.markSkill('vl_baixi_bm_2')
 						},
-            onremove: function (player) {
+            onremove(player) {
 							player.unmarkSkill('vl_baixi_bm_2')
 						},
             intro: {
@@ -61,17 +62,17 @@ export default {
             },
             forced: true,
             charlotte: true,
-            content: function () {
+            async content(event, trigger, player) {
 							trigger.cancel()
-							player.drawTo(4)
-							if (player.storage.vl_baixi_bm_2.isIn()) player.storage.vl_baixi_bm_2.drawTo(4)
+							await player.drawTo(4)
+							if (player.storage.vl_baixi_bm_2.isIn()) await player.storage.vl_baixi_bm_2.drawTo(4)
 						},
         },
     },
     ai: {
         order: 7,
         result: {
-            target: function (player, target) {
+            target(player, target) {
 							if (target.countCards('h') < 4) return 0.4 * (4 - target.countCards('h'))
 							if (target.countCards('h') >= 4) return -2
 						},

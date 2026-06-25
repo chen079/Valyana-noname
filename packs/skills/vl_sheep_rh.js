@@ -2,22 +2,22 @@ import { lib, game, ui, get, ai, _status } from '../../../../noname.js';
 
 export default {
     enable: "phaseUse",
-    filter: function (event, player) {
+    filter(event, player) {
 					return player.countCards('he', function (card) {
 						return get.type(card) == 'equip'
 					}) >= 2
 				},
-    filterCard: function (card) {
+    filterCard(card) {
 					if (ui.selected.cards.length && card.name == ui.selected.cards[0].name) return false;
 					var info = get.info(card);
 					return info.type == 'equip';
 				},
     selectCard: 2,
     position: "he",
-    check: function (card) {
+    check(card) {
 					return get.value(card);
 				},
-    content: function () {
+    async content(event, trigger, player) {
 					var name = cards[0].name + '_' + cards[1].name;
 					var info1 = get.info(cards[0]), info2 = get.info(cards[1]);
 					if (!lib.card[name]) {
@@ -145,10 +145,10 @@ export default {
         recover: {
             prompt: "重铸一张装备牌，然后将体力回复至1点。",
             enable: "chooseToUse",
-            filterCard: function (card) {
+            filterCard(card) {
 							return get.type(card) == 'equip';
 						},
-            filter: function (event, player) {
+            filter(event, player) {
 							if (event.type == 'dying') {
 								if (player != event.dying) return false;
 								return player.countCards('he', function (card) {
@@ -157,26 +157,24 @@ export default {
 							}
 							return false;
 						},
-            check: function () {
+            check() {
 							return 1;
 						},
             position: "he",
             discard: false,
             loseTo: "discardPile",
-            prepare: function (cards, player) {
+            prepare(cards, player) {
 							player.$throw(cards, 1000);
 							game.log(player, '将', cards, '置入了弃牌堆')
 						},
-            content: function () {
-							'step 0'
-							player.draw();
-							'step 1'
-							var num = 1 - player.hp;
-							if (num) player.recover(num);
-						},
+            async content(event, trigger, player) {
+await player.draw();
+var num = 1 - player.hp;
+        							if (num) await player.recover(num);
+    },
             ai: {
                 order: 0.5,
-                skillTagFilter: function (player, arg, target) {
+                skillTagFilter(player, arg, target) {
 								if (player != target) return false;
 								return player.countCards('he', function (card) {
 									if (_status.connectMode && get.position(card) == 'h') return true;
@@ -185,7 +183,7 @@ export default {
 							},
                 save: true,
                 result: {
-                    player: function (player) {
+                    player(player) {
 									return 10;
 								},
                 },
@@ -194,6 +192,6 @@ export default {
     },
     t: {
         name: "熔合",
-        info: " 出牌阶段，你可以将两张装备牌“「hecheng」”为一张装备牌；当你处于濒死状态时，你可以重铸一张装备牌，然后将体力回复至1点。",
+        info: ` 出牌阶段，你可以将两张装备牌“${get.poptip("hecheng")}”为一张装备牌；当你处于濒死状态时，你可以重铸一张装备牌，然后将体力回复至1点。`,
     },
 };

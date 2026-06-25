@@ -3,7 +3,7 @@ import { lib, game, ui, get, ai, _status } from '../../../../noname.js';
 export default {
     enable: "phaseUse",
     usable: 1,
-    filterTarget: function (card, player, target) {
+    filterTarget(card, player, target) {
 					return target != player;
 				},
     content: async function content(event,trigger,player){
@@ -18,7 +18,7 @@ export default {
     ai: {
         order: 7,
         result: {
-            target: function (player, target) {
+            target(player, target) {
 							if (target.countCards('he') == 1) return -2
 							if (target.countCards('he') == 2) return -1
 							if (target.countCards('he') >= 3 && target.countCards('hs', 'shan') == 0) return 0.5

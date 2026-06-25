@@ -5,12 +5,12 @@ export default {
         player: "phaseDrawAfter",
     },
     direct: true,
-    filter: function (event, player) {
+    filter(event, player) {
 					return player.getExpansions('vl_markn_yz').length > 0 && player.countCards('h') > 0;
 				},
     intro: {
         markcount: "expansion",
-        mark: function (dialog, content, player) {
+        mark(dialog, content, player) {
 						var content = player.getExpansions('vl_markn_yz');
 						if (content && content.length) {
 							if (player == game.me || player.isUnderControl()) {
@@ -21,7 +21,7 @@ export default {
 							}
 						}
 					},
-        content: function (content, player) {
+        content(content, player) {
 						var content = player.getExpansions('vl_markn_yz');
 						if (content && content.length) {
 							if (player == game.me || player.isUnderControl()) {
@@ -65,13 +65,12 @@ export default {
             trigger: {
                 player: "phaseZhunbeiBegin",
             },
-            filter: function (event, player) {
+            filter(event, player) {
 							return player.getExpansions('vl_markn_yz').length > 0;
 						},
             frequent: true,
-            content: function () {
-							'step 0';
-							player.chooseToGuanxing(player.getExpansions('vl_markn_yz').length)
+            async content(event, trigger, player) {
+							await player.chooseToGuanxing(player.getExpansions('vl_markn_yz').length);
 						},
             ai: {
                 threaten: 1.2,
@@ -84,9 +83,8 @@ export default {
                 source: "damageSource",
             },
             direct: true,
-            content: function () {
-							var cards = player.getExpansions('vl_markn_yz')
-							player.addToExpansion(get.cards(trigger.num), 'gain2').gaintag.add('vl_markn_yz');
+            async content(event, trigger, player) {
+							await player.addToExpansion(get.cards(trigger.num), 'gain2').gaintag.add('vl_markn_yz');
 						},
             sub: true,
         },

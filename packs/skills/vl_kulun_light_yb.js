@@ -4,7 +4,7 @@ export default {
     linkage: "fire",
     ai: {
         viewHandcard: true,
-        skillTagFilter: function (player, tag, arg) {
+        skillTagFilter(player, tag, arg) {
 						if (!(player.name1 == 'vl_kulun_fire' || player.name2 == 'vl_kulun_fire')) return false;
 					},
     },

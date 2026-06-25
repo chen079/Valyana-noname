@@ -8,22 +8,20 @@ export default {
                 target: "useCardToTargeted",
             },
             prompt2: "当你成为【杀】的目标后，你可以与此【杀】使用者拼点，若你赢，此【杀】对你无效，否则，你获得拼点牌。",
-            check: function (event, player) {
+            check(event, player) {
 							return get.effect(player, event.card, event.player, player) < 0;
 						},
-            filter: function (event, player) {
+            filter(event, player) {
 							return event.card.name == 'sha' && player.canCompare(event.player)
 						},
             logTarget: "player",
-            content: function () {
-							'step 0'
+            async content(event, trigger, player) {
 							player.when('chooseToCompareAfter').then(() => {
 								if (trigger.num2 >= trigger.num1) {
-									player.gain([trigger.card2, trigger.card1].filterInD('od'), 'gain2', 'log')
+									player.gain([trigger.card2, trigger.card1].filterInD('od'), 'gain2', 'log');
 								}
-							})
-							player.chooseToCompare(trigger.player);
-							'step 1'
+							});
+							const result = await player.chooseToCompare(trigger.player).forResult();
 							if (result.bool) {
 								trigger.getParent().excluded.add(player);
 							}
@@ -37,38 +35,32 @@ export default {
                 player: "useCardToPlayered",
             },
             direct: true,
-            filter: function (event, player) {
+            filter(event, player) {
 							return event.card.name == 'sha' && game.hasPlayer(current => current != event.target && current.canCompare(event.target))
 						},
             logTarget: "target",
-            content: function () {
-							'step 0'
-							player.chooseTarget('是否发动【讽蔑】？', function (card, player, target) {
-								return target.canCompare(trigger.target)
+            async content(event, trigger, player) {
+							const chooseResult = await player.chooseTarget('是否发动【讽蔑】？', function (card, player, target) {
+								return target.canCompare(trigger.target);
 							}).set('prompt2', '当你使用【杀】指定目标后，你可以选择一名除目标外的角色，然后令目标角色与该角色拼点，若该角色赢，此【杀】视为该角色使用且不可响应。')
 								.set('ai', function (target) {
 									if (get.attitude(trigger.target, player) > 0) {
-										return -1
+										return -1;
 									} else if (trigger.target.hp <= 1) {
-										return get.attitude(player, target)
+										return get.attitude(player, target);
 									} else {
-										return -get.attitude(player, target)
+										return -get.attitude(player, target);
 									}
-								})
-							'step 1'
-							if (result.bool) {
-								event.target = result.targets[0]
-								event.target.chooseToCompare(trigger.target)
-							} else {
-								event.finish()
-							}
-							'step 2'
-							if (result.winner == event.target) {
-								if (event.target != player) {
+								}).forResult();
+							if (!chooseResult.bool) return;
+							const target = chooseResult.targets[0];
+							const compareResult = await target.chooseToCompare(trigger.target).forResult();
+							if (compareResult.winner == target) {
+								if (target != player) {
 									trigger.untrigger();
-									trigger.getParent().player = event.target;
-									game.log(event.target, '成为了', trigger.card, '的使用者');
-									event.target.line(trigger.target)
+									trigger.getParent().player = target;
+									game.log(target, '成为了', trigger.card, '的使用者');
+									target.line(trigger.target);
 								}
 								trigger.getParent().directHit.add(trigger.target);
 							}
@@ -77,7 +69,7 @@ export default {
     },
     ai: {
         directHit_ai: true,
-        skillTagFilter: function (player, tag, arg) {
+        skillTagFilter(player, tag, arg) {
 						if (player._vl_mierk_fm_temp) return false;
 						player._vl_mierk_fm_temp = true;
 						var bool = function () {
@@ -99,7 +91,7 @@ export default {
 						return bool;
 					},
         effect: {
-            target: function (card, player, target, current) {
+            target(card, player, target, current) {
 							if (card.name == 'sha' && current < 0) return 0.7;
 						},
         },

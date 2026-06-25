@@ -6,10 +6,10 @@ export default {
         player: "damageEnd",
         source: "damageSource",
     },
-    filter: function (event, player) {
+    filter(event, player) {
 					return player.hp != player.countCards('h')
 				},
-    content: function () {
+    async content(event, trigger, player) {
 					var num = player.hp - player.countCards('h')
 					if (num > 0) {
 						player.draw(num)

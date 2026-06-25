@@ -5,7 +5,7 @@ export default {
         global: ["dieBegin"],
     },
     priority: -1,
-    filter: function (event, player) {
+    filter(event, player) {
 					return event.player.hp <= 0 && !event.player.hasSkill('vl_hars_yb') && player.isAlive() && event.player != player;
 				},
     logTarget: "player",
@@ -39,13 +39,13 @@ export default {
             trigger: {
                 global: "phaseBeginStart",
             },
-            filter: function (event, player) {
+            filter(event, player) {
 							return player != event.player && !event.player._trueMe && event.player.hasSkill('vl_hars_yb');
 						},
             logTarget: "player",
             skillAnimation: true,
             animationColor: "key",
-            content: function () {
+            async content(event, trigger, player) {
 							trigger.player._trueMe = player;
 							game.addGlobalSkill('autoswap');
 							if (trigger.player == game.me) {
@@ -66,10 +66,10 @@ export default {
             forceDie: true,
             forced: true,
             silent: true,
-            content: function () {
+            async content(event, trigger, player) {
 							player.removeSkill('vl_hars_sz_2');
 						},
-            onremove: function (player) {
+            onremove(player) {
 							if (player == game.me) {
 								if (!game.notMe) game.swapPlayerAuto(player._trueMe)
 								else delete game.notMe;

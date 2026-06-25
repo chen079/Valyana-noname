@@ -7,7 +7,7 @@ export default {
     forced: true,
     charlotte: true,
     supercharlotte: true,
-    content: function () {
+    async content(event, trigger, player) {
 					trigger.finish()
 					trigger.cancel()
 					var num = player.maxHp

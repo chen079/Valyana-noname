@@ -6,7 +6,7 @@ export default {
         player: "turnOverBegin",
     },
     firstDo: true,
-    content: function () {
+    async content(event, trigger, player) {
 					trigger.cancel()
 				},
     ai: {
@@ -19,7 +19,7 @@ export default {
             },
             forced: true,
             popup: false,
-            content: function () {
+            async content(event, trigger, player) {
 							player.storage.vl_mala_bc_draw = true;
 							player.storage.vl_mala_bc_use = true;
 						},
@@ -31,7 +31,7 @@ export default {
             },
             forced: true,
             popup: false,
-            content: function () {
+            async content(event, trigger, player) {
 							player.storage.vl_mala_bc_draw = false;
 						},
             sub: true,
@@ -42,7 +42,7 @@ export default {
             },
             forced: true,
             popup: false,
-            content: function () {
+            async content(event, trigger, player) {
 							player.storage.vl_mala_bc_use = false;
 						},
             sub: true,
@@ -52,11 +52,11 @@ export default {
                 player: "phaseDiscardBefore",
             },
             forced: true,
-            filter: function (event, player) {
+            filter(event, player) {
 							if (player.storage.vl_mala_bc_use) return true;
 							return false;
 						},
-            content: function () {
+            async content(event, trigger, player) {
 							trigger.cancel();
 						},
             sub: true,
@@ -66,11 +66,11 @@ export default {
                 player: "phaseJieshuBegin",
             },
             forced: true,
-            filter: function (event, player) {
+            filter(event, player) {
 							if (player.storage.vl_mala_bc_draw) return true;
 							return false;
 						},
-            content: function () {
+            async content(event, trigger, player) {
 							player.draw(3);
 						},
             sub: true,

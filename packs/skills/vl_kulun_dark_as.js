@@ -2,7 +2,7 @@ import { lib, game, ui, get, ai, _status } from '../../../../noname.js';
 
 export default {
     mod: {
-        cardUsable: function (card, player, num) {
+        cardUsable(card, player, num) {
 						if (card.name == 'sha' && get.color(card) == 'black') return Infinity;
 					},
     },

@@ -5,7 +5,7 @@ export default {
     trigger: {
         player: "damageBegin4",
     },
-    filter: function (event, player) {
+    filter(event, player) {
 					return event.source && event.source != player && game.getGlobalHistory(
 						"everything",
 						evt => {
@@ -26,7 +26,7 @@ export default {
         maixie_defend: true,
         threaten: 0.9,
         effect: {
-            target: function (card, player, target) {
+            target(card, player, target) {
 							if (player.hasSkillTag('jueqing')) return;
 							if (target.hujia) return;
 							if (player._vl_xiaomo_ld_tmp) return;
@@ -64,9 +64,7 @@ export default {
 										}
 										if (num < 2) {
 											var enemies = player.getEnemies();
-											if (enemies.length == 1 && enemies[0] == target && player.needsToDiscard()) {
-												return;
-											}
+											if (enemies.length == 1 && enemies[0] == target && player.needsToDiscard()) return
 											return 0;
 										}
 									}

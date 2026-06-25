@@ -4,7 +4,7 @@ export default {
     trigger: {
         player: "useCardAfter",
     },
-    filter: function filter(event, player) {
+    filter(event, player) {
 					const suit = get.suit(event.card);
 					return !player.hasHistory("useCard", evt => evt !== event && get.suit(evt.card) === suit, event);
 				},

@@ -3,7 +3,7 @@ import { lib, game, ui, get, ai, _status } from '../../../../noname.js';
 export default {
     enable: "phaseUse",
     usable: 2,
-    filter: function (event, player) {
+    filter(event, player) {
 					return !player.hasSkill('vl_delagu_xj_blocker')
 				},
     content: async function content(event, trigger, player) {
@@ -19,7 +19,7 @@ export default {
             },
             direct: true,
             popup: false,
-            filter: function (event, player) {
+            filter(event, player) {
 							return event.reason && event.reason.getParent().name == 'vl_delagu_xj';
 						},
             content: async function content(event, trigger, player) {
@@ -32,7 +32,7 @@ export default {
     },
     ai: {
         order: 4,
-        player: function (player, target) {
+        player(player, target) {
 						if (player.hp == 3) return -1
 						return 1
 					},

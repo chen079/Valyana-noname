@@ -6,32 +6,30 @@ export default {
         source: "damageSource",
     },
     frequent: true,
-    content: function () {
-					'step 0'
-					event.num = trigger.num
-					'step 1'
-					event.cards = get.cards(2);
-					player.showCards(event.cards)
-					player.chooseCardButton(1, event.cards, get.prompt2('vl_thunder_fz'), true).set('ai', function (button) {
-						get.useful(button.link);
-					})
-					'step 2'
-					player.gain(result.links[0])
-					event.cards.remove(result.links[0])
-					ui.cardPile.insertBefore(event.cards[0].fix(), ui.cardPile.firstChild);
-					event.num--
-					"step 3"
-					game.delay();
-					"step 4"
-					if (event.num) {
-						player.chooseBool(get.prompt2('vl_thunder_fz'))
-					} else event.finish();
-					'step 5'
-					if (result.bool) {
-						player.logSkill('vl_thunder_fz');
-						event.goto(1);
-					}
-				},
+    async content(event, trigger, player) {
+        event.num = trigger.num
+        while (event.num) {
+        event.cards = get.cards(2);
+        					player.showCards(event.cards)
+        					const result = await player.chooseCardButton(1, event.cards, get.prompt2('vl_thunder_fz'), true).set('ai', function (button) {
+        						get.useful(button.link);
+        					}).forResult()
+        const gainEvent = player.gain(result.links[0])
+        					event.cards.remove(result.links[0])
+        					ui.cardPile.insertBefore(event.cards[0].fix(), ui.cardPile.firstChild);
+        					event.num--
+        await gainEvent;
+        await game.delay();
+        if (event.num) {
+        						const again = await player.chooseBool(get.prompt2('vl_thunder_fz')).forResult()
+        						if (again.bool) {
+        						player.logSkill('vl_thunder_fz');
+        							continue;
+        						}
+        					}
+        					return;
+        }
+    },
     ai: {
         maixie: true,
         maixie_hp: true,

@@ -5,10 +5,10 @@ export default {
     trigger: {
         global: "dieAfter",
     },
-    filter: function (event, player, card) {
+    filter(event, player, card) {
 					return event.player.countMark("vl_jiejie_zr_1") > 0
 				},
-    content: function () {
+    async content(event, trigger, player) {
 					player.loseMaxHp(trigger.player.countMark("vl_jiejie_zr_1"))
 					trigger.player.removeMark('vl_jiejie_zr_1', trigger.player.countMark('vl_jiejie_zr_1'))
 				},
@@ -19,10 +19,10 @@ export default {
             trigger: {
                 global: "phaseBegin",
             },
-            filter: function (event, player, card) {
+            filter(event, player, card) {
 							return event.player.countMark("vl_jiejie_zr_1") > 0
 						},
-            content: function () {
+            async content(event, trigger, player) {
 							player.draw(trigger.player.countMark("vl_jiejie_zr_1"))
 						},
             sub: true,

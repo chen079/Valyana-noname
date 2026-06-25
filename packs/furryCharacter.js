@@ -172,7 +172,7 @@ export const furryCharacter = {
         addition: [],
         pack: "Valyana",
         vp: 0,
-        sort: "vl_furry_migration",
+        sort: "youdangzhe",
         rank: "epic",
     },
     vl_rabby: {
@@ -220,7 +220,7 @@ export const furryCharacter = {
         addition: [],
         pack: "Valyana",
         vp: 0,
-        sort: "vl_furry_migration",
+        sort: "tuozhanliandong",
         rank: "epic",
     },
     vl_yinlong: {
@@ -236,7 +236,7 @@ export const furryCharacter = {
         addition: [],
         pack: "Valyana",
         vp: 0,
-        sort: "vl_furry_migration",
+        sort: "tuozhanliandong",
         rank: "epic",
     },
     vl_mierk: {
@@ -268,7 +268,7 @@ export const furryCharacter = {
         addition: [],
         pack: "Valyana",
         vp: 0,
-        sort: "vl_furry_migration",
+        sort: "kechuanjuese",
         rank: "epic",
     },
     vl_kulun_light: {
@@ -444,7 +444,7 @@ export const furryCharacter = {
         addition: [],
         pack: "Valyana",
         vp: 0,
-        sort: "vl_furry_migration",
+        sort: "kela",
         rank: "epic",
     },
     vl_akain: {
@@ -476,7 +476,7 @@ export const furryCharacter = {
         addition: [],
         pack: "Valyana",
         vp: 0,
-        sort: "vl_furry_migration",
+        sort: "kechuanjuese",
         rank: "epic",
     },
     vl_sainit: {
@@ -572,7 +572,7 @@ export const furryCharacter = {
         addition: [],
         pack: "Valyana",
         vp: 0,
-        sort: "vl_furry_migration",
+        sort: "airenzhixin",
         rank: "rare",
     },
     vl_lans: {
@@ -604,7 +604,7 @@ export const furryCharacter = {
         addition: [],
         pack: "Valyana",
         vp: 0,
-        sort: "vl_furry_migration",
+        sort: "jianaier",
         rank: "epic",
     },
     vl_neises: {
@@ -684,7 +684,7 @@ export const furryCharacter = {
         addition: [],
         pack: "Valyana",
         vp: 0,
-        sort: "vl_furry_migration",
+        sort: "shoushen",
         rank: "legend",
     },
     vl_dolina: {
@@ -764,7 +764,7 @@ export const furryCharacter = {
         addition: ["unseen"],
         pack: "Valyana",
         vp: 0,
-        sort: "vl_furry_migration",
+        sort: "kela",
         rank: "legend",
     },
     vl_gairtelu: {
@@ -780,7 +780,7 @@ export const furryCharacter = {
         addition: ["zhu", "unseen"],
         pack: "Valyana",
         vp: 0,
-        sort: "vl_furry_migration",
+        sort: "kela",
         rank: "epic",
     },
     vl_tails: {
@@ -828,7 +828,7 @@ export const furryCharacter = {
         addition: [],
         pack: "Valyana",
         vp: 0,
-        sort: "vl_furry_migration",
+        sort: "jixiezaowu",
         rank: "legend",
     },
     vl_rasali: {
@@ -844,7 +844,7 @@ export const furryCharacter = {
         addition: ["unseen"],
         pack: "Valyana",
         vp: 0,
-        sort: "vl_furry_migration",
+        sort: "shoushen",
         rank: "legend",
     },
     vl_nashu: {
@@ -860,7 +860,7 @@ export const furryCharacter = {
         addition: [],
         pack: "Valyana",
         vp: 0,
-        sort: "vl_furry_migration",
+        sort: "shoushen",
         rank: "legend",
     },
     vl_derk: {
@@ -908,7 +908,7 @@ export const furryCharacter = {
         addition: ["unseen", "forbidai"],
         pack: "Valyana",
         vp: 0,
-        sort: "vl_furry_migration",
+        sort: "jixiezaowu",
         rank: "legend",
     },
     vl_dier: {
@@ -924,7 +924,7 @@ export const furryCharacter = {
         addition: ["unseen"],
         pack: "Valyana",
         vp: 0,
-        sort: "vl_furry_migration",
+        sort: "dragongu",
         rank: "epic",
     },
     vl_francium: {
@@ -940,7 +940,7 @@ export const furryCharacter = {
         addition: ["unseen"],
         pack: "Valyana",
         vp: 0,
-        sort: "vl_furry_migration",
+        sort: "shoushen",
         rank: "legend",
     },
     vl_kmjia: {
@@ -972,7 +972,7 @@ export const furryCharacter = {
         addition: [],
         pack: "Valyana",
         vp: 0,
-        sort: "vl_furry_migration",
+        sort: "milan",
         rank: "epic",
     },
     vl_liona: {
@@ -988,7 +988,7 @@ export const furryCharacter = {
         addition: ["unseen", "zhu"],
         pack: "Valyana",
         vp: 0,
-        sort: "vl_furry_migration",
+        sort: "kela",
         rank: "epic",
     },
     vl_nanci: {
@@ -1004,7 +1004,7 @@ export const furryCharacter = {
         addition: [],
         pack: "Valyana",
         vp: 0,
-        sort: "vl_furry_migration",
+        sort: "renyu",
         rank: "legend",
     },
     vl_shark: {
@@ -1020,7 +1020,7 @@ export const furryCharacter = {
         addition: [],
         pack: "Valyana",
         vp: 0,
-        sort: "vl_furry_migration",
+        sort: "renyu",
         rank: "rare",
     },
     vl_tiger: {
@@ -1036,7 +1036,7 @@ export const furryCharacter = {
         addition: [],
         pack: "Valyana",
         vp: 0,
-        sort: "vl_furry_migration",
+        sort: "kela",
         rank: "epic",
     },
     vl_linyan: {
@@ -1052,7 +1052,7 @@ export const furryCharacter = {
         addition: [],
         pack: "Valyana",
         vp: 0,
-        sort: "vl_furry_migration",
+        sort: "milan",
         rank: "rare",
     },
     vl_horn: {
@@ -1068,7 +1068,7 @@ export const furryCharacter = {
         addition: [],
         pack: "Valyana",
         vp: 0,
-        sort: "vl_furry_migration",
+        sort: "milan",
         rank: "epic",
     },
     vl_qima: {
@@ -1084,7 +1084,7 @@ export const furryCharacter = {
         addition: ["forbidai"],
         pack: "Valyana",
         vp: 0,
-        sort: "vl_furry_migration",
+        sort: "youdangzhe",
         rank: "legend",
     },
     vl_zhongyu: {
@@ -1100,7 +1100,7 @@ export const furryCharacter = {
         addition: [],
         pack: "Valyana",
         vp: 0,
-        sort: "vl_furry_migration",
+        sort: "youdangzhe",
         rank: "legend",
     },
     vl_hynea: {
@@ -1132,7 +1132,7 @@ export const furryCharacter = {
         addition: ["unseen", "zhu"],
         pack: "Valyana",
         vp: 0,
-        sort: "vl_furry_migration",
+        sort: "jianaier",
         rank: "rare",
     },
     vl_tiers: {
@@ -1148,7 +1148,7 @@ export const furryCharacter = {
         addition: [],
         pack: "Valyana",
         vp: 0,
-        sort: "vl_furry_migration",
+        sort: "jianaier",
         rank: "rare",
     },
     vl_yifeng: {
@@ -1164,7 +1164,7 @@ export const furryCharacter = {
         addition: ["unseen"],
         pack: "Valyana",
         vp: 0,
-        sort: "vl_furry_migration",
+        sort: "wanling",
         rank: "rare",
     },
     vl_hars: {
@@ -1180,7 +1180,7 @@ export const furryCharacter = {
         addition: ["unseen"],
         pack: "Valyana",
         vp: 0,
-        sort: "vl_furry_migration",
+        sort: "shoushen",
         rank: "rare",
     },
     vl_wes: {
@@ -1196,7 +1196,7 @@ export const furryCharacter = {
         addition: ["unseen"],
         pack: "Valyana",
         vp: 0,
-        sort: "vl_furry_migration",
+        sort: "kela",
         rank: "legend",
     },
     vl_sam: {
@@ -1212,7 +1212,7 @@ export const furryCharacter = {
         addition: ["unseen"],
         pack: "Valyana",
         vp: 0,
-        sort: "vl_furry_migration",
+        sort: "kela",
         rank: "epic",
     },
     vl_yada: {
@@ -1228,7 +1228,7 @@ export const furryCharacter = {
         addition: [],
         pack: "Valyana",
         vp: 0,
-        sort: "vl_furry_migration",
+        sort: "franying",
         rank: "rare",
     },
     vl_fengkn: {
@@ -1276,7 +1276,7 @@ export const furryCharacter = {
         addition: [],
         pack: "Valyana",
         vp: 0,
-        sort: "vl_furry_migration",
+        sort: "dragongu",
         rank: "rare",
     },
     vl_klif: {
@@ -1292,7 +1292,7 @@ export const furryCharacter = {
         addition: ["unseen"],
         pack: "Valyana",
         vp: 0,
-        sort: "vl_furry_migration",
+        sort: "jixiezaowu",
         rank: "rare",
     },
     vl_milis: {
@@ -1340,7 +1340,7 @@ export const furryCharacter = {
         addition: [],
         pack: "Valyana",
         vp: 0,
-        sort: "vl_furry_migration",
+        sort: "franying",
         rank: "legend",
     },
     vl_ken: {
@@ -1356,7 +1356,7 @@ export const furryCharacter = {
         addition: ["unseen"],
         pack: "Valyana",
         vp: 0,
-        sort: "vl_furry_migration",
+        sort: "jixiezaowu",
         rank: "epic",
     },
     vl_west: {
@@ -1404,7 +1404,7 @@ export const furryCharacter = {
         addition: [],
         pack: "Valyana",
         vp: 0,
-        sort: "vl_furry_migration",
+        sort: "dragongu",
         rank: "rare",
     },
     vl_jackson: {
@@ -1436,7 +1436,7 @@ export const furryCharacter = {
         addition: ["unseen"],
         pack: "Valyana",
         vp: 0,
-        sort: "vl_furry_migration",
+        sort: "kela",
         rank: "common",
     },
     vl_sayisu: {
@@ -1452,7 +1452,7 @@ export const furryCharacter = {
         addition: [],
         pack: "Valyana",
         vp: 0,
-        sort: "vl_furry_migration",
+        sort: "dragongu",
         rank: "common",
     },
     vl_telina: {
@@ -1468,7 +1468,7 @@ export const furryCharacter = {
         addition: [],
         pack: "Valyana",
         vp: 0,
-        sort: "vl_furry_migration",
+        sort: "wanling",
         rank: "junk",
     },
     vl_oert: {
@@ -1484,7 +1484,7 @@ export const furryCharacter = {
         addition: ["unseen"],
         pack: "Valyana",
         vp: 0,
-        sort: "vl_furry_migration",
+        sort: "shoushen",
         rank: "epic",
     },
     vl_rest: {
@@ -1500,7 +1500,7 @@ export const furryCharacter = {
         addition: [],
         pack: "Valyana",
         vp: 0,
-        sort: "vl_furry_migration",
+        sort: "renyu",
         rank: "rare",
     },
     vl_krikt: {
@@ -1516,7 +1516,7 @@ export const furryCharacter = {
         addition: ["unseen"],
         pack: "Valyana",
         vp: 0,
-        sort: "vl_furry_migration",
+        sort: "youdangzhe",
         rank: "legend",
     },
     vl_tery: {
@@ -1532,7 +1532,7 @@ export const furryCharacter = {
         addition: ["unseen"],
         pack: "Valyana",
         vp: 0,
-        sort: "vl_furry_migration",
+        sort: "franying",
         rank: "legend",
     },
     vl_sisk: {
@@ -1548,7 +1548,7 @@ export const furryCharacter = {
         addition: [],
         pack: "Valyana",
         vp: "2/5",
-        sort: "vl_furry_migration",
+        sort: "yongbing",
         rank: "epic",
     },
     vl_lens: {
@@ -1564,7 +1564,7 @@ export const furryCharacter = {
         addition: [],
         pack: "Valyana",
         vp: 0,
-        sort: "vl_furry_migration",
+        sort: "franying",
         rank: "rare",
     },
     vl_milism: {
@@ -1580,7 +1580,7 @@ export const furryCharacter = {
         addition: [],
         pack: "Valyana",
         vp: 0,
-        sort: "vl_furry_migration",
+        sort: "xueyuan",
         rank: "legend",
     },
     vl_miya: {
@@ -1596,7 +1596,7 @@ export const furryCharacter = {
         addition: [],
         pack: "Valyana",
         vp: 0,
-        sort: "vl_furry_migration",
+        sort: "youdangzhe",
         rank: "legend",
     },
     vl_skry: {
@@ -1612,7 +1612,7 @@ export const furryCharacter = {
         addition: [],
         pack: "Valyana",
         vp: 0,
-        sort: "vl_furry_migration",
+        sort: "franying",
         rank: "epic",
     },
     vl_lusiya: {
@@ -1628,7 +1628,7 @@ export const furryCharacter = {
         addition: [],
         pack: "Valyana",
         vp: 0,
-        sort: "vl_furry_migration",
+        sort: "xueyuan",
         rank: "epic",
     },
     vl_kersm: {
@@ -1644,7 +1644,7 @@ export const furryCharacter = {
         addition: [],
         pack: "Valyana",
         vp: 0,
-        sort: "vl_furry_migration",
+        sort: "yongbing",
         rank: "epic",
     },
     vl_kert: {
@@ -1660,7 +1660,7 @@ export const furryCharacter = {
         addition: [],
         pack: "Valyana",
         vp: 0,
-        sort: "vl_furry_migration",
+        sort: "yongbing",
         rank: "rare",
     },
     vl_keya: {
@@ -1676,7 +1676,7 @@ export const furryCharacter = {
         addition: ["zhu"],
         pack: "Valyana",
         vp: 0,
-        sort: "vl_furry_migration",
+        sort: "yongbing",
         rank: "rare",
     },
     vl_harald: {
@@ -1692,7 +1692,7 @@ export const furryCharacter = {
         addition: [],
         pack: "Valyana",
         vp: 0,
-        sort: "vl_furry_migration",
+        sort: "kela",
         rank: "legend",
     },
     vl_klier: {
@@ -1708,7 +1708,7 @@ export const furryCharacter = {
         addition: [],
         pack: "Valyana",
         vp: 0,
-        sort: "vl_furry_migration",
+        sort: "yongbing",
         rank: "rare",
     },
     vl_faers: {
@@ -1724,7 +1724,7 @@ export const furryCharacter = {
         addition: ["unseen", "zhu"],
         pack: "Valyana",
         vp: 0,
-        sort: "vl_furry_migration",
+        sort: "shoushen",
         rank: "legend",
     },
     vl_aroncy: {
@@ -1772,7 +1772,7 @@ export const furryCharacter = {
         addition: [],
         pack: "Valyana",
         vp: 0,
-        sort: "vl_furry_migration",
+        sort: "dragongu",
         rank: "epic",
     },
     vl_xit: {
@@ -1788,7 +1788,7 @@ export const furryCharacter = {
         addition: [],
         pack: "Valyana",
         vp: 0,
-        sort: "vl_furry_migration",
+        sort: "dragongu",
         rank: "common",
     },
     vl_markn: {
@@ -1836,7 +1836,7 @@ export const furryCharacter = {
         addition: [],
         pack: "Valyana",
         vp: 0,
-        sort: "vl_furry_migration",
+        sort: "dragongu",
         rank: "epic",
     },
     vl_yas_klin: {
@@ -1868,7 +1868,7 @@ export const furryCharacter = {
         addition: ["unseen"],
         pack: "Valyana",
         vp: 0,
-        sort: "vl_furry_migration",
+        sort: "setaka",
         rank: "common",
     },
     vl_patxi: {
@@ -1900,7 +1900,7 @@ export const furryCharacter = {
         addition: [],
         pack: "Valyana",
         vp: 0,
-        sort: "vl_furry_migration",
+        sort: "renyu",
         rank: "common",
     },
     vl_nore: {
@@ -1996,7 +1996,7 @@ export const furryCharacter = {
         addition: [],
         pack: "Valyana",
         vp: 0,
-        sort: "vl_furry_migration",
+        sort: "renyu",
         rank: "epic",
     },
     vl_peter_likes: {
@@ -2012,7 +2012,7 @@ export const furryCharacter = {
         addition: [],
         pack: "Valyana",
         vp: 0,
-        sort: "vl_furry_migration",
+        sort: "kela",
         rank: "legend",
     },
     vl_dmoa: {
@@ -2076,7 +2076,7 @@ export const furryCharacter = {
         addition: ["unseen"],
         pack: "Valyana",
         vp: 0,
-        sort: "vl_furry_migration",
+        sort: "youdangzhe",
         rank: "epic",
     },
     vl_taber: {
@@ -2092,7 +2092,7 @@ export const furryCharacter = {
         addition: [],
         pack: "Valyana",
         vp: 0,
-        sort: "vl_furry_migration",
+        sort: "youdangzhe",
         rank: "epic",
     },
     vl_yinhu: {
@@ -2108,7 +2108,7 @@ export const furryCharacter = {
         addition: ["unseen"],
         pack: "Valyana",
         vp: 0,
-        sort: "vl_furry_migration",
+        sort: "shoushen",
         rank: "legend",
     },
     vl_dragon: {
@@ -2124,7 +2124,7 @@ export const furryCharacter = {
         addition: [],
         pack: "Valyana",
         vp: 0,
-        sort: "vl_furry_migration",
+        sort: "dragongu",
         rank: "epic",
     },
     vl_terz: {
@@ -2156,7 +2156,7 @@ export const furryCharacter = {
         addition: ["unseen", "hiddenSkill"],
         pack: "Valyana",
         vp: 0,
-        sort: "vl_furry_migration",
+        sort: "shoushen",
         rank: "legend",
     },
     vl_slen: {
@@ -2204,7 +2204,7 @@ export const furryCharacter = {
         addition: [],
         pack: "Valyana",
         vp: 0,
-        sort: "vl_furry_migration",
+        sort: "wanling",
         rank: "junk",
     },
     vl_pluvia: {
@@ -2316,7 +2316,7 @@ export const furryCharacter = {
         addition: [],
         pack: "Valyana",
         vp: 0,
-        sort: "vl_furry_migration",
+        sort: "wanling",
         rank: "epic",
     },
     vl_jgby: {
@@ -2364,7 +2364,7 @@ export const furryCharacter = {
         addition: [],
         pack: "Valyana",
         vp: 0,
-        sort: "vl_furry_migration",
+        sort: "wanling",
         rank: "junk",
     },
     vl_fate: {
@@ -2380,7 +2380,7 @@ export const furryCharacter = {
         addition: [],
         pack: "Valyana",
         vp: 0,
-        sort: "vl_furry_migration",
+        sort: "kela",
         rank: "epic",
     },
     vl_liya: {
@@ -2396,7 +2396,7 @@ export const furryCharacter = {
         addition: [],
         pack: "Valyana",
         vp: 0,
-        sort: "vl_furry_migration",
+        sort: "kela",
         rank: "junk",
     },
     vl_laays: {
@@ -2412,7 +2412,7 @@ export const furryCharacter = {
         addition: [],
         pack: "Valyana",
         vp: 0,
-        sort: "vl_furry_migration",
+        sort: "youdangzhe",
         rank: "junk",
     },
     vl_whitewolf: {
@@ -2428,7 +2428,7 @@ export const furryCharacter = {
         addition: [],
         pack: "Valyana",
         vp: 0,
-        sort: "vl_furry_migration",
+        sort: "kela",
         rank: "epic",
     },
     vl_blackwolf: {
@@ -2444,7 +2444,7 @@ export const furryCharacter = {
         addition: ["unseen"],
         pack: "Valyana",
         vp: 0,
-        sort: "vl_furry_migration",
+        sort: "kela",
         rank: "epic",
     },
     vl_mala: {
@@ -2460,7 +2460,7 @@ export const furryCharacter = {
         addition: ["unseen"],
         pack: "Valyana",
         vp: 0,
-        sort: "vl_furry_migration",
+        sort: "shoushen",
         rank: "junk",
     },
     vl_zeta: {
@@ -2476,7 +2476,7 @@ export const furryCharacter = {
         addition: ["unseen"],
         pack: "Valyana",
         vp: 0,
-        sort: "vl_furry_migration",
+        sort: "dragongu",
         rank: "epic",
     },
     vl_fox: {
@@ -2524,7 +2524,7 @@ export const furryCharacter = {
         addition: [],
         pack: "Valyana",
         vp: 0,
-        sort: "vl_furry_migration",
+        sort: "dragongu",
         rank: "legend",
     },
     vl_qiushou: {

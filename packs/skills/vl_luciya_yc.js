@@ -4,20 +4,20 @@ export default {
     trigger: {
         global: "judgeEnd",
     },
-    frequent: function (event) {
+    frequent(event) {
 					if (event.result.card.name == 'du') return false;
 					//if(get.mode()=='guozhan') return false;
 					return true;
 				},
     preHidden: true,
-    check: function (event) {
+    check(event) {
 					if (event.result.card.name == 'du') return false;
 					return true;
 				},
-    filter: function (event, player) {
+    filter(event, player) {
 					return event.result && event.result.card && get.position(event.result.card, true) == 'o' && event.result.card != player.storage.vl_luciya_xl;
 				},
-    content: function () {
+    async content(event, trigger, player) {
 					player.gain(trigger.result.card, 'gain2')
 				},
     group: "vl_luciya_yc_1",
@@ -29,9 +29,9 @@ export default {
                 target: ["chooseToCompareAfter", "compareMultipleAfter"],
             },
             frequent: true,
-            filter: function (event, player) { return [event.card1, event.card2].filterInD('od').length > 0 },
-            check: function (event, player) { return event.card1.name == 'du' || event.card2.name == 'du'; },
-            content: function () {
+            filter(event, player) { return [event.card1, event.card2].filterInD('od').length > 0 },
+            check(event, player) { return event.card1.name == 'du' || event.card2.name == 'du'; },
+            async content(event, trigger, player) {
 							player.gain([trigger.card1, trigger.card2].filterInD('od'), 'gain2', 'log')
 						},
             sub: true,
@@ -40,7 +40,7 @@ export default {
             trigger: {
                 global: "respondEnd",
             },
-            filter: function (event, player) {
+            filter(event, player) {
 							if (event.player == player) return false;
 							if (event.cards) {
 								for (var i = 0; i < event.cards.length; i++) {
@@ -50,7 +50,7 @@ export default {
 							return false;
 						},
             frequent: true,
-            content: function () {
+            async content(event, trigger, player) {
 							var cards = trigger.cards.slice(0);
 							for (var i = 0; i < cards.length; i++) {
 								if (get.position(cards[i], true) != 'o') {

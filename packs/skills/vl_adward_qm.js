@@ -5,33 +5,19 @@ export default {
         player: ["phaseUseBegin", "phaseJieshuBegin"],
     },
     direct: true,
-    filter: function (event, player) {
-					var str
-					if (event.name == 'phaseUse') {
-						str = 'red'
-					} else {
-						str = 'black'
-					}
+    filter(event, player) {
+					const str = event.name == 'phaseUse' ? 'red' : 'black';
 					return player.countCards('h', { color: str }) > 0
 				},
-    content: function () {
-					'step 0'
-					var str
-					if (trigger.name == 'phaseUse') {
-						str = 'red'
-					} else {
-						str = 'black'
+    async content(event, trigger, player) {
+					const color = trigger.name == 'phaseUse' ? 'red' : 'black';
+					while (player.countCards('h', { color }) > 0) {
+						const cards = player.getCards('h').filter(card => get.color(card) == color);
+						if (!cards.length) return;
+						player.logSkill("vl_adward_qm");
+						await player.recast(cards);
 					}
-					event.color = str
-					'step 1'
-					var cards = player.getCards('h')
-					player.logSkill("vl_adward_qm")
-					player.recast(cards.filter(card => get.color(card) == event.color))
-					'step 2'
-					if (player.countCards('h', { color: event.color }) > 0) {
-						event.goto(1)
-					}
-				},
+    },
     t: {
         name: "千面",
         info: "出牌阶段开始时，你重铸手牌中的所有红色牌，直至没有红色牌；结束阶段，你重铸你手牌中的所有黑色牌，直至没有黑色牌。",

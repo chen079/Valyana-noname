@@ -2,13 +2,13 @@ import { lib, game, ui, get, ai, _status } from '../../../../noname.js';
 
 export default {
     mod: {
-        targetInRange: function (card, player) {
+        targetInRange(card, player) {
 						if (card.name == 'sha' && get.color(card) == 'black') return true;
 					},
-        cardUsable: function (card) {
+        cardUsable(card) {
 						if (card.name == 'sha') return Infinity;
 					},
-        selectTarget: function (card, player, range) {
+        selectTarget(card, player, range) {
 						if (card.name == 'sha' && range[1] != -1 && get.color(card) == 'black') {
 							range[1]++;
 						}
@@ -18,10 +18,10 @@ export default {
         source: "damageBegin",
     },
     forced: true,
-    filter: function (event, player) {
+    filter(event, player) {
 					return !get.is.altered('vl_kert_dp') && event.card && event.card.name == 'sha' && get.color(event.card) == 'red' && event.notLink();
 				},
-    content: function () {
+    async content(event, trigger, player) {
 					trigger.num += 2;
 				},
     group: "vl_kert_dp_1",
@@ -31,7 +31,7 @@ export default {
                 source: "dying",
             },
             forced: true,
-            content: function () {
+            async content(event, trigger, player) {
 							player.loseMaxHp();
 							player.removeSkill('vl_kert_dp');
 						},

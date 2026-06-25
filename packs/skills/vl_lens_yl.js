@@ -4,33 +4,30 @@ export default {
     trigger: {
         source: "damageBegin1",
     },
-    check: function (event, player) {
+    check(event, player) {
 					return get.attitude(player, event.player) < 0;
 				},
-    filter: function (event, card, player) {
+    filter(event, card, player) {
 					if (!event.cards) return false
 					return !event.nature
 				},
-    content: function () {
-					"step 0"
-					event.colors = get.color(trigger.cards[0])
-					event.suits = get.suit(trigger.cards[0])
-					player.judge('vl_lens_yl', function (card) {
-						if (get.suit(card) == event.suits) return 2.5
-						if (get.color(card) == event.colors) return 1.5
-						return -0.5
-					})
-						.judge2 = function (result) {
-							return result.bool;
-						};
-					"step 1"
+    async content(event, trigger, player) {
+					const colors = get.color(trigger.cards[0]);
+					const suits = get.suit(trigger.cards[0]);
+					const next = player.judge('vl_lens_yl', function (card) {
+						if (get.suit(card) == suits) return 2.5;
+						if (get.color(card) == colors) return 1.5;
+						return -0.5;
+					});
+					next.judge2 = function (result) {
+						return result.bool;
+					};
+					const result = await next.forResult();
 					if (result.judge > 0) {
-						switch (result.color) {
-							case 'red': game.setNature(trigger, 'fire');; break;
-							case 'black': game.setNature(trigger, 'thunder');; break;
-						}
-						if (result.suit == event.suits) {
-							trigger.num += 2
+						if (result.color == 'red') game.setNature(trigger, 'fire');
+						if (result.color == 'black') game.setNature(trigger, 'thunder');
+						if (result.suit == suits) {
+							trigger.num += 2;
 						}
 					}
 				},

@@ -3,7 +3,7 @@ import { lib, game, ui, get, ai, _status } from '../../../../noname.js';
 export default {
     enable: "phaseUse",
     usable: 1,
-    filterCard: function (card) {
+    filterCard(card) {
 					var suit = get.suit(card);
 					for (var i = 0; i < ui.selected.cards.length; i++) {
 						if (get.suit(ui.selected.cards[i]) == suit) return false;
@@ -12,29 +12,29 @@ export default {
 				},
     complexCard: true,
     selectCard: [1, 4],
-    check: function (card) {
+    check(card) {
 					return 7 - get.value(card)
 				},
     filterTarget: true,
-    selectTarget: function () {
+    selectTarget() {
 					if (ui.selected.targets.length > ui.selected.cards.length) {
 						game.uncheck('target');
 					}
 					return ui.selected.cards.length;
 				},
     position: "he",
-    content: function () {
-					'step 1'
+    async content(event, trigger, player) {
+					const target = event.target;
 					if (target.isLinked()) {
-						target.damage('fire', player)
+						await target.damage('fire', player);
 					} else {
-						target.link()
+						await target.link();
 					}
-				},
+    },
     ai: {
         order: 7,
         result: {
-            target: function (target, player) {
+            target(target, player) {
 							if (target == player) return 3
 							else if (target.isLinked()) return -2
 							else {

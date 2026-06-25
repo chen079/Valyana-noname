@@ -6,23 +6,21 @@ export default {
     },
     direct: true,
     filter: (event, player) => player.countVuffNum('kangfen') > 0,
-    content: () => {
-					'step 0'
-					var num = player.countVuffNum('kangfen')
-					if (num < player.countCards('he')) {
-						player.chooseCard('重铸' + get.cnNumber(num) + '张牌', 'he', num, true).set('ai', function (card) {
-							return 100 - get.value(card)
-						})
-					} else {
-						player.recast(player.getCards('he'))
-						player.addTempSkill("vl_kasers_kb_use")
-						event.finish()
-					}
-					'step 1'
-					if (result.bool) {
-						player.recast(result.cards)
-					}
-				},
+    async content(event, trigger, player) {
+var num = player.countVuffNum('kangfen')
+        					if (num < player.countCards('he')) {
+        						const result = await player.chooseCard('重铸' + get.cnNumber(num) + '张牌', 'he', num, true).set('ai', function (card) {
+        							return 100 - get.value(card)
+        						}).forResult()
+        						if (result.bool) {
+        							await player.recast(result.cards)
+        						}
+        					} else {
+        						await player.recast(player.getCards('he'))
+        						player.addTempSkill("vl_kasers_kb_use")
+        						return
+        					}
+    },
     subSkill: {
         use: {
             mark: true,
@@ -31,7 +29,7 @@ export default {
             },
             onremove: true,
             mod: {
-                cardname: function (card, player, name) {
+                cardname(card, player, name) {
 								var type = lib.card[card.name].type
 								if (type == 'trick' || type == 'delay') return 'sha';
 							},

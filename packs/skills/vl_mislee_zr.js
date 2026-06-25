@@ -4,12 +4,12 @@ export default {
     group: "vl_mislee_zr_1",
     enable: "phaseUse",
     usable: 1,
-    check: function (card) {
+    check(card) {
 					return 7 - get.value(card);
 				},
     multitarget: true,
     targetprompt: ["被移走", "移动目标"],
-    filterTarget: function (card, player, target) {
+    filterTarget(card, player, target) {
 					if (ui.selected.targets.length) {
 						var from = ui.selected.targets[0];
 						var judges = from.getCards('j');
@@ -29,37 +29,29 @@ export default {
 					}
 				},
     selectTarget: 2,
-    content: function () {
-					"step 0"
-					if (targets.length == 2) {
-						player.choosePlayerCard(true,'ej', function (button) {
-							if (get.attitude(player, targets[0]) > get.attitude(player, targets[1])) {
-								return get.position(button.link) == 'j' ? 10 : 0;
-							}
-							else {
-								if (get.position(button.link) == 'j') return -10;
-								return get.equipValue(button.link);
-							}
-						}, targets[0]);
-					}
-					else {
-						event.finish();
-					}
-					"step 1"
-					if (result.bool) {
-						if (get.position(result.buttons[0].link) == 'e') {
-							event.targets[1].equip(result.buttons[0].link);
-						}
-						else if (result.buttons[0].link.viewAs) {
-							event.targets[1].addJudge({ name: result.buttons[0].link.viewAs }, [result.buttons[0].link]);
-						}
-						else {
-							event.targets[1].addJudge(result.buttons[0].link);
-						}
-						event.targets[0].$give(result.buttons[0].link, event.targets[1])
-						game.delay();
-					}
-				},
+    async content(event, trigger, player) {
+        if (targets.length != 2) return;
+        const result = await player.choosePlayerCard(true, 'ej', function (button) {
+            if (get.attitude(player, targets[0]) > get.attitude(player, targets[1])) {
+                return get.position(button.link) == 'j' ? 10 : 0;
+            } else {
+                if (get.position(button.link) == 'j') return -10;
+                return get.equipValue(button.link);
+            }
+        }, targets[0]).forResult();
+        if (result.bool) {
+            const card = result.buttons[0].link;
+            if (get.position(card) == 'e') {
+                await targets[1].equip(card);
+            } else if (card.viewAs) {
+                await targets[1].addJudge({ name: card.viewAs }, [card]);
+            } else {
+                await targets[1].addJudge(card);
+            }
+            targets[0].$give(card, targets[1]);
+            game.delay();
+        }
+    },
     subSkill: {
         "1": {
             trigger: {
@@ -68,7 +60,7 @@ export default {
             },
             forced: true,
             locked: false,
-            getIndex: function getIndex(event, player) {
+            getIndex(event, player) {
 							const evt = event.getl(player);
 							if (evt && evt.player === player && evt.es?.length) {
 								return 1;
@@ -82,7 +74,7 @@ export default {
                 noe: true,
                 reverseEquip: true,
                 effect: {
-                    target: function target(card, player, target, current) {
+                    target(card, player, target, current) {
 									if (get.type(card) == "equip" && !get.cardtag(card, "gifts")) {
 										return [1, 3];
 									}
@@ -94,7 +86,7 @@ export default {
     ai: {
         order: 10,
         result: {
-            target: function (player, target) {
+            target(player, target) {
 							if (ui.selected.targets.length == 0) {
 								if (target.countCards('j') && get.attitude(player, target) > 0) return 1;
 								if (get.attitude(player, target) < 0) {

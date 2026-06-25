@@ -5,16 +5,16 @@ export default {
     zhuanhuanji: true,
     enable: "phaseUse",
     usable: 1,
-    init: function (player, storage) {
+    init(player, storage) {
 					if (!player.storage.vl_adward_yt) player.storage.vl_adward_yt = false
 				},
     intro: {
-        content: function (storage, player, skill) {
+        content(storage, player, skill) {
 						if (player.storage.vl_adward_yt == true) return '你可令一名体力值最多的角色将体力值失去至与体力值最少的角色相同';
 						return '你可令一名体力值最少的角色将体力值回复至与体力值最多的角色相同';
 					},
     },
-    filter: function (event, player) {
+    filter(event, player) {
 					if (player.storage.vl_adward_yt == true) {
 						return game.findPlayer(function (current) {
 							return current.isMaxHp() && !current.isMinHp()
@@ -25,44 +25,45 @@ export default {
 						})
 					}
 				},
-    filterTarget: function (card, player, target, skill) {
+    filterTarget(card, player, target, skill) {
 					if (player.storage.vl_adward_yt == true) {
 						return target.isMaxHp() && !target.isMinHp()
 					} else {
 						return target.isMinHp() && !target.isMaxHp() && target.hp != target.maxHp
 					}
 				},
-    content: function () {
+    async content(event, trigger, player) {
+					const target = event.target;
 					if (player.storage.vl_adward_yt == false) {
-						var ones = game.filterPlayer(function (current) {
+						const ones = game.filterPlayer(function (current) {
 							return current.isMaxHp()
 						})
-						var num = Math.min(3, ones[0].hp - target.hp)
-						target.recover(num);
+						const num = Math.min(3, ones[0].hp - target.hp)
+						await target.recover(num);
 					} else {
-						var ones = game.filterPlayer(function (current) {
+						const ones = game.filterPlayer(function (current) {
 							return current.isMinHp()
 						})
-						var num = Math.min(3, target.hp - ones[0].hp)
-						target.loseHp(num);
+						const num = Math.min(3, target.hp - ones[0].hp)
+						await target.loseHp(num);
 					}
 					player.changeZhuanhuanji('vl_adward_yt')
 				},
     ai: {
         order: 14,
         result: {
-            target: function (player, target, storage) {
+            target(player, target, storage) {
 							if (player.storage.vl_adward_yt) {
-								var ones = game.filterPlayer(function (current) {
+								const ones = game.filterPlayer(function (current) {
 									return current.isMinHp()
 								})
-								var num = Math.min(3, Math.abs(ones[0].hp - target.hp))
+								const num = Math.min(3, Math.abs(ones[0].hp - target.hp))
 								return -2 * num
 							} else {
-								var ones = game.filterPlayer(function (current) {
+								const ones = game.filterPlayer(function (current) {
 									return current.isMaxHp()
 								})
-								var num = Math.min(3, Math.abs(target.hp - ones[0].hp))
+								const num = Math.min(3, Math.abs(target.hp - ones[0].hp))
 								return 2 * num
 							}
 						},

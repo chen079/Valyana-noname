@@ -5,14 +5,14 @@ export default {
         player: "discardAfter",
     },
     forced: true,
-    filter: function (event, player) {
+    filter(event, player) {
 					if (!event.cards) return false;
 					for (var i = 0; i < event.cards.length; i++) {
 						if (get.name(event.cards[i]) == 'tao') return true;
 					}
 					return false;
 				},
-    content: function () {
+    async content(event, trigger, player) {
 					player.recover()
 				},
     t: {

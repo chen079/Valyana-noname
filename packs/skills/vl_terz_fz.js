@@ -3,27 +3,27 @@ import { lib, game, ui, get, ai, _status } from '../../../../noname.js';
 export default {
     enable: "phaseUse",
     usable: 1,
-    filter: function (event, player) {
+    filter(event, player) {
 					return game.hasPlayer(function (current) {
 						return current.hasSkill('vl_terz_ly')
 					})
 				},
-    filterTarget: function (card, player, target) {
+    filterTarget(card, player, target) {
 					return target.hasSkill('vl_terz_ly')
 				},
-    content: function () {
-					'step 0'
-					var skill = 'vl_terz_ly'
-					if (!target.storage.vl_terz_ly) target.storage.vl_terz_ly = false
-					target.storage.vl_terz_ly = !target.storage.vl_terz_ly
-					target.popup(skill, 'wood');
-					game.log(target, '的', '#g【' + get.translation(skill) + '】', '发生了状态变更');
-					game.delayx();
-				},
+    async content(event, trigger, player) {
+        const target = event.target;
+        const skill = 'vl_terz_ly'
+        					if (!target.storage.vl_terz_ly) target.storage.vl_terz_ly = false
+        					target.storage.vl_terz_ly = !target.storage.vl_terz_ly
+        					target.popup(skill, 'wood');
+        					game.log(target, '的', '#g【' + get.translation(skill) + '】', '发生了状态变更');
+        					await game.delayx();
+    },
     ai: {
         order: 8,
         result: {
-            target: function (player, target) {
+            target(player, target) {
 							return target.storage.vl_terz_ly ? -1 : 1;
 						},
         },
@@ -36,27 +36,26 @@ export default {
                 source: "damageSource",
             },
             direct: true,
-            filter: function (event, player) {
+            filter(event, player) {
 							return game.hasPlayer(function (current) {
 								return current.hasSkill('vl_terz_ly')
 							})
 						},
-            content: function () {
-							'step 0'
-							player.chooseTarget(lib.skill.vl_terz_fz.filterTarget, get.prompt('vl_terz_fz'), '变更一名角色的〖流域〗的状态').set('ai', function (target) {
-								var player = _status.event.player;
-								return get.effect(target, 'vl_terz_fz', player, player);
-							});
-							'step 1'
-							if (result.bool) {
-								var target = result.targets[0];
-								player.logSkill('vl_terz_fz', target);
-								var next = game.createEvent('vl_terz_fz');
-								next.player = player;
-								next.target = target;
-								next.setContent(lib.skill.vl_terz_fz.content);
-							}
-						},
+            async content(event, trigger, player) {
+                const result = await player.chooseTarget(lib.skill.vl_terz_fz.filterTarget, get.prompt('vl_terz_fz'), '变更一名角色的〖流域〗的状态').set('ai', function (target) {
+        								const player = _status.event.player;
+        								return get.effect(target, 'vl_terz_fz', player, player);
+        							}).forResult();
+                if (result.bool) {
+        								const target = result.targets[0];
+        								player.logSkill('vl_terz_fz', target);
+        								const next = game.createEvent('vl_terz_fz');
+        								next.player = player;
+        								next.target = target;
+        								next.setContent(lib.skill.vl_terz_fz.content);
+        								await next;
+        							}
+    },
             sub: true,
         },
     },

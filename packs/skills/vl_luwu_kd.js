@@ -4,7 +4,7 @@ export default {
     trigger: {
         global: "phaseZhunbeiBegin",
     },
-    filter: function (event, player) {
+    filter(event, player) {
 					return !event.player.isLinked()
 				},
     content: async function content(event, trigger, player) {
@@ -18,17 +18,15 @@ export default {
                 global: "phaseJieshuBegin",
             },
             direct: true,
-            filter: function (event, player) {
+            filter(event, player) {
 							return game.filterPlayer(current => current.isLinked() && current != player).length > 0 && player.getHistory('damage').length
 						},
-            content: function () {
-							'step 0'
-							event.players = game.filterPlayer(current => current.isLinked() && current != player).sortBySeat()
-							'step 1'
-							event.player = event.players.shift()
-							event.player.discardPlayerCard(player, 1, 'he', true)
-							if (event.players.length) event.redo()
-						},
+            async content(event, trigger, player) {
+							const targets = game.filterPlayer(current => current.isLinked() && current != player).sortBySeat();
+							for (const target of targets) {
+								await target.discardPlayerCard(player, 1, 'he', true);
+							}
+    },
         },
     },
     t: {

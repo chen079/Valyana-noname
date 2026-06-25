@@ -4,27 +4,25 @@ export default {
     trigger: {
         player: "phaseBegin",
     },
-    content: function () {
-					"step 0"
-					player.chooseTarget(1, true).set("filterTarget", function (card, player, target) {
-						return target != player
-					}).set("ai", function (target) {
-						var player = _status.event.player;
-						return -get.attitude(player, target) / (1 + target.hp)
-					})
-					"step 1"
-					var target = result.targets[0]
-					target.addSkill('vl_jiejie_zr_1')
-					target.loseHp()
-					target.updateMark('vl_jiejie_zr_1')
-					target.storage.vl_jiejie_zr_1 += 1
-					player.gainMaxHp()
-					player.recover()
-				},
+    async content(event, trigger, player) {
+const result = await player.chooseTarget(1, true).set("filterTarget", function (card, player, target) {
+        						return target != player
+        					}).set("ai", function (target) {
+        						var player = _status.event.player;
+        						return -get.attitude(player, target) / (1 + target.hp)
+        					}).forResult()
+var target = result.targets[0]
+        					target.addSkill('vl_jiejie_zr_1')
+        					await target.loseHp()
+        					target.updateMark('vl_jiejie_zr_1')
+        					target.storage.vl_jiejie_zr_1 += 1
+        					await player.gainMaxHp()
+        					await player.recover()
+    },
     subSkill: {
         "1": {
             mark: true,
-            init: function (player) {
+            init(player) {
 							if (!player.storage.vl_jiejie_zr_1) player.storage.vl_jiejie_zr_1 = 0;
 						},
             marktext: "势",

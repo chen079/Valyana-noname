@@ -5,15 +5,16 @@ export default {
     enable: "phaseUse",
     skillAnimation: true,
     animationColor: "gray",
-    filterTarget: function (card, player, target) {
+    filterTarget(card, player, target) {
 					return target != player;
 				},
-    filter: function (event, player) {
+    filter(event, player) {
 					return !player.isDisabled('equip1') && !player.isDisabled('equip2') && !player.isDisabled('equip2') && !player.isDisabled('equip4') && !player.isDisabled('equip5')
 				},
-    content: function () {
-					var cards = player.getCards('e')
-					player.gain(cards, 'gain2')
+    async content(event, trigger, player) {
+					const target = event.target;
+					const cards = player.getCards('e')
+					await player.gain(cards, 'gain2')
 					player.disableEquip('equip1');
 					player.disableEquip('equip2');
 					player.disableEquip('equip3');
@@ -27,21 +28,21 @@ export default {
     group: "vl_blame_jj_3",
     subSkill: {
         "1": {
-            onremove: function (player) {
+            onremove(player) {
 							player.storage.vl_blame_jj_1.removeSkill('vl_blame_jj_2');
 							player.storage.vl_blame_jj_1.unmarkSkill('vl_blame_jj_1');
 							delete player.storage.vl_blame_jj_1;
 						},
             mod: {
-                targetInRange: function (card, player, target) {
+                targetInRange(card, player, target) {
 								if (target.hasSkill('vl_blame_jj_2')) {
 									return true;
 								}
 							},
-                cardname: function (card, player) {
+                cardname(card, player) {
 								if (get.type(card, null, false) == 'equip') return 'sha';
 							},
-                cardUsableTarget: function (card, player, target) {
+                cardUsableTarget(card, player, target) {
 								if (target.hasSkill('vl_blame_jj_2')) return true;
 							},
             },
@@ -49,13 +50,13 @@ export default {
         },
         "2": {
             mod: {
-                cardEnabled2: function (card, player) {
+                cardEnabled2(card, player) {
 								if (get.position(card) == 'h') return false;
 							},
             },
             ai: {
                 effect: {
-                    target: function (card, player, target) {
+                    target(card, player, target) {
 									if (get.tag(card, 'damage')) return [0, -999999];
 								},
                 },
@@ -67,24 +68,24 @@ export default {
                 global: "phaseUseBegin",
             },
             direct: true,
-            filter: function (event, player) {
+            filter(event, player) {
 							return event.player != player && event.player.countCards('h') > player.countCards('h') && player.countDisabled() > 0
 						},
-            content: function () {
-							player.draw(trigger.player.countCards('h') - player.countCards('h'))
-							player.chooseToEnable();
+            async content(event, trigger, player) {
+							await player.draw(trigger.player.countCards('h') - player.countCards('h'))
+							await player.chooseToEnable();
 						},
         },
     },
     ai: {
         order: 13,
         result: {
-            target: function (player, target) {
+            target(player, target) {
 							if (target.getEquip('bagua') || target.getEquip('rewrite_bagua')) return 0;
-							var hs = player.countCards('h', function (card) {
+							const hs = player.countCards('h', function (card) {
 								return ['sha', 'juedou'].includes(card.name) && get.effect(target, card, player, player) != 0;
 							});
-							var ts = target.hp;
+							const ts = target.hp;
 							if (hs >= ts && ts > 1) return -1;
 							return 0;
 						},

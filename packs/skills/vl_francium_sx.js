@@ -10,14 +10,14 @@ export default {
     multiline: true,
     discard: false,
     usable: 1,
-    filterTarget: function (card, player, target) {
+    filterTarget(card, player, target) {
 					if (player.storage.hubian) {
 						return target.countCards('h') > 0
 					} else {
 						return player.canUse({ name: 'sha' }, target, false)
 					}
 				},
-    selectTarget: function () {
+    selectTarget() {
 					var player = _status.event.player
 					if (player.storage.hubian) {
 						return 2
@@ -26,14 +26,14 @@ export default {
 					}
 				},
     filterCard: true,
-    filter: function (event, player) {
+    filter(event, player) {
 					if (player.storage.hubian) {
 						return true
 					} else {
 						return player.countCards('h') > 0
 					}
 				},
-    selectCard: function () {
+    selectCard() {
 					var player = _status.event.player
 					if (player.storage.hubian) {
 						return 0
@@ -41,7 +41,7 @@ export default {
 						return -1
 					}
 				},
-    content: async function content(event,trigger,player) {
+    async content(event, trigger, player) {
 					if (player.storage.hubian) {
 						await event.targets[0].swapHandcards(event.targets[1]);
 						await player.draw(2)
@@ -53,9 +53,7 @@ export default {
 						}).length) {
 							await player.draw(Math.min(6, event.targets[0].maxHp))
 						}
-					}
-					'step 1'
-				},
+					}},
     ai: {
         threaten: 4.5,
         pretao: true,
@@ -64,7 +62,7 @@ export default {
         expose: 0.2,
         result: {
             player: 4,
-            target: function (player, target) {
+            target(player, target) {
 							if (player.storage.hubian) {
 								if (!ui.selected.targets.length) return -Math.sqrt(target.countCards('h'));
 								var h1 = ui.selected.targets[0].getCards('h'), h2 = target.getCards('h');
@@ -80,6 +78,6 @@ export default {
     },
     t: {
         name: "生息",
-        info: "「hubianji」，出牌阶段限一次，<li>圣咏：你可以令两名有手牌的角色交换手牌，然后你摸两张牌并回复1点体力；<li>暗涌：你可以将所有手牌当无距离与次数限制的【杀】对一名其他角色使用，若此【杀】造成伤害，你摸X张牌（X为该角色体力上限且至多为6）。",
+        info: `${get.poptip("hubianji")}，出牌阶段限一次，<li>圣咏：你可以令两名有手牌的角色交换手牌，然后你摸两张牌并回复1点体力；<li>暗涌：你可以将所有手牌当无距离与次数限制的【杀】对一名其他角色使用，若此【杀】造成伤害，你摸X张牌（X为该角色体力上限且至多为6）。`,
     },
 };

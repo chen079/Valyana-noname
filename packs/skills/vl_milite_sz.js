@@ -5,10 +5,10 @@ export default {
         player: "shaBegin",
     },
     forced: true,
-    filter: function (event, player) {
+    filter(event, player) {
 					return get.distance(event.target, player, 'attack') > 1;
 				},
-    content: function () {
+    async content(event, trigger, player) {
 					trigger.directHit = true;
 				},
     t: {

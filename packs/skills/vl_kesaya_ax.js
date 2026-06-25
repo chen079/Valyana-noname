@@ -5,28 +5,28 @@ export default {
     trigger: {
         player: "useCard1",
     },
-    init: function (player) {
+    init(player) {
         player.fenfaSkill('vl_kesaya_ax')
     },
-    fenfa: function (player) {
+    fenfa(player) {
         return [-Infinity, player.maxHp - 1]
     },
     forced: true,
-    filter: function (event, player) {
+    filter(event, player) {
         return !event.audioed && event.card.name == 'sha' && player.countUsed('sha', true) > 1 && event.getParent().type == 'phase';
     },
-    content: function () {
+    async content(event, trigger, player) {
         trigger.audioed = true;
     },
     mod: {
-        cardUsable: function (card, player, num) {
+        cardUsable(card, player, num) {
             if (card.name == 'sha') return Infinity;
         },
     },
     ai: {
         directHit_ai: true,
         unequip: true,
-        skillTagFilter: function (player, tag, arg) {
+        skillTagFilter(player, tag, arg) {
             if (!get.zhu(player, 'shouyue')) return false;
             if (arg && arg.name == 'sha') return true;
             return false;
@@ -39,7 +39,7 @@ export default {
                 player: "shaBegin",
             },
             forced: true,
-            content: function () {
+            async content(event, trigger, player) {
                 trigger.directHit = true;
             },
             sub: true,
@@ -47,6 +47,6 @@ export default {
     },
     t: {
         name: "暗袭",
-        info: "「fenfa」(-∞, maxHp)，锁定技，你使用【杀】无次数限制，且不可被响应。",
+        info: `${get.poptip("fenfa")}(-∞, maxHp)，锁定技，你使用【杀】无次数限制，且不可被响应。`,
     },
 };

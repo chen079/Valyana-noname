@@ -4,39 +4,39 @@ export default {
     enable: "phaseUse",
     usable: 1,
     forced: true,
-    content: function () {
+    async content(event, trigger, player) {
 					player.storage.vl_baixi_lj = !player.storage.vl_baixi_lj
 				},
-    init: function (player, skill) {
+    init(player, skill) {
 					player.addSkillBlocker(skill);
 					if (!player.storage.vl_baixi_lj) player.storage.vl_baixi_lj = false
 				},
-    onremove: function (player, skill) {
+    onremove(player, skill) {
 					player.removeSkillBlocker(skill);
 				},
-    skillBlocker: function (skill, player) {
+    skillBlocker(skill, player) {
 					return skill == 'vl_baixi_lj_change' && !player.storage.vl_baixi_lj;
 				},
     mod: {
-        ignoredHandcard: function (card, player) {
+        ignoredHandcard(card, player) {
 						if (get.color(card) == 'red') {
 							return true;
 						}
 					},
-        cardDiscardable: function (card, player, name) {
+        cardDiscardable(card, player, name) {
 						if (name == 'phaseDiscard' && get.color(card) == 'red') return false;
 					},
-        targetInRange: function (card, player) {
+        targetInRange(card, player) {
 						if (get.color(card) == 'black') return true;
 					},
-        cardUsable: function (card, player) {
+        cardUsable(card, player) {
 						if (get.color(card) == 'black') return Infinity;
 					},
     },
     subSkill: {
         change: {
             mod: {
-                suit: function (card, suit) {
+                suit(card, suit) {
 								if (suit == 'spade' && get.position(card) == 'h') return 'heart';
 								if (suit == 'heart' && get.position(card) == 'h') return 'spade';
 								if (suit == 'club' && get.position(card) == 'h') return 'diamond';

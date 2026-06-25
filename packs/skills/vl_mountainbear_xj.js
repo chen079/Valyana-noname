@@ -6,7 +6,7 @@ export default {
     },
     shaRelated: true,
     direct: true,
-    filter: function (event, player) {
+    filter(event, player) {
 					if(event.card.name != "sha")return;
 					return player.hujia > 0;
 				},

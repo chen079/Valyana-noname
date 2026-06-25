@@ -3,7 +3,7 @@ import { lib, game, ui, get, ai, _status } from '../../../../noname.js';
 export default {
     enable: "phaseUse",
     usable: 1,
-    contentBefore: function () {
+    contentBefore() {
 					const apiUrl = "https://api.linhun.vip/api/miyu";
 					const apiKey = "16562ba900c4eb3189bbc09b0a50bc24";
 					// 构造GET请求的URL，将apiKey作为查询参数传递
@@ -20,46 +20,50 @@ export default {
 							console.error("Error fetching data:", error);
 						});
 				},
-    content: function () {
-					'step 0'
-					event.puzzle = player.storage.vl_puzzles
-					player.chooseText(true).set('ai', function () {
-						return event.puzzle.Answer.replace(/\([^)]*\)/g, '')
-					}).set('prompt2', event.puzzle.name + '(' + event.puzzle.Tips + ')')
-						.set('prompt', get.prompt('vl_puzzles'))
-					'step 1'
-					game.log(player, '回答了' + result.text)
-					if (result.text == event.puzzle.Answer.replace(/\([^)]*\)/g, '')) {
-						game.log(player, '回答正确')
-						player.draw(3)
-						player.chooseCardTarget({
-							position: 'he',
-							filterCard: true,
-							forced: false,
-							selectCard: 3,
-							filterTarget: function (card, player, target) {
-								return player != target;
-							},
-							ai1: function (card) {
-								return 1;
-							},
-							ai2: function (target) {
-								var att = get.attitude(_status.event.player, target);
-								return att;
-							},
-							prompt: '请选择要送人的三张卡牌',
-						});
-					} else {
-						game.log(player, '回答错误')
-					}
-					'step 2'
-					if (result.bool) {
-						var target = result.targets[0]
-						player.give(result.cards, target)
-					} else {
-						player.chooseToDiscard('he', 3, true)
-					}
-				},
+    async content(event, trigger, player) {
+      event.puzzle = player.storage.vl_puzzles;
+      const result = await player
+        .chooseText(true)
+        .set('ai', function () {
+          return event.puzzle.Answer.replace(/\([^)]*\)/g, '');
+        })
+        .set('prompt2', event.puzzle.name + '(' + event.puzzle.Tips + ')')
+        .set('prompt', get.prompt('vl_puzzles'))
+        .forResult();
+
+      game.log(player, '回答了' + result.text);
+      if (result.text == event.puzzle.Answer.replace(/\([^)]*\)/g, '')) {
+        game.log(player, '回答正确');
+        await player.draw(3);
+        const giveResult = await player
+          .chooseCardTarget({
+            position: 'he',
+            filterCard: true,
+            forced: false,
+            selectCard: 3,
+            filterTarget(card, player, target) {
+              return player != target;
+            },
+            ai1(card) {
+              return 1;
+            },
+            ai2(target) {
+              var att = get.attitude(_status.event.player, target);
+              return att;
+            },
+            prompt: '请选择要送人的三张卡牌',
+          })
+          .forResult();
+        if (giveResult.bool) {
+          var target = giveResult.targets[0];
+          player.give(giveResult.cards, target);
+        } else {
+          await player.chooseToDiscard('he', 3, true);
+        }
+      } else {
+        game.log(player, '回答错误');
+      }
+    },
     ai: {
         order: 10,
         result: {

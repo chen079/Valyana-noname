@@ -6,17 +6,17 @@ export default {
     },
     forced: true,
     linkage: "water",
-    filter: function (event, player) {
+    filter(event, player) {
 					return ((player.name1 == 'vl_kulun_water') || (player.name2 == 'vl_kulun_water'));
 				},
-    content: function () {
+    async content(event, trigger, player) {
 					trigger.directHit.addArray(game.filterPlayer(current => {
 						return current.getHistory('lose').length > 0
 					}));
 				},
     ai: {
         directHit_ai: true,
-        skillTagFilter: function (player, tag, arg) {
+        skillTagFilter(player, tag, arg) {
 						return player.getHistory('lose').length > 0 && player.group == arg.target.group;
 					},
     },

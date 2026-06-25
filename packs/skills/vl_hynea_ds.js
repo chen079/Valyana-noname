@@ -4,22 +4,20 @@ export default {
     enable: "phaseUse",
     usable: 1,
     unique: true,
-    filter: function (event, player) {
+    filter(event, player) {
 					return player.storage.vl_hynea_cg > 0
 				},
-    check: function (event, player) {
+    check(event, player) {
 					return player.storage.vl_hynea_cg > player.hp
 				},
-    filterTarget: function (card, player, target) {
+    filterTarget(card, player, target) {
 					return player != target;
 				},
-    content: function () {
-					'step 0'
-					player.storage.vl_hynea_cg -= 1
-					target.damage(1, player)
-					'step 1'
-					player.updateMark('vl_hynea_cg')
-				},
+    async content(event, trigger, player) {
+player.storage.vl_hynea_cg -= 1
+        					await target.damage(1, player)
+player.updateMark('vl_hynea_cg')
+    },
     ai: {
         order: 9.5,
         expose: 0.2,

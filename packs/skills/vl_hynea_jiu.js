@@ -3,7 +3,7 @@ import { lib, game, ui, get, ai, _status } from '../../../../noname.js';
 export default {
     unique: true,
     mod: {
-        cardname: function (card, player) {
+        cardname(card, player) {
 						if (card.name == 'tao' || card.name == 'shan') return 'jiu';
 					},
     },

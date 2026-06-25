@@ -5,7 +5,7 @@ export default {
         player: "drawBegin",
     },
     forced: true,
-    content: function () {
+    async content(event, trigger, player) {
 					trigger.bottom = true;
 				},
     group: ["vl_nine_dx_wash", "vl_nine_dx_discard", "vl_nine_dx_judge"],
@@ -16,11 +16,10 @@ export default {
             },
             forced: true,
             popup: false,
-            content: function () {
-							"step 0"
-							event.card = get.bottomCards()[0];
-							trigger.directresult = event.card
-						},
+    async content(event, trigger, player) {
+event.card = get.bottomCards()[0];
+        							trigger.directresult = event.card
+    },
         },
         wash: {
             trigger: {
@@ -50,7 +49,7 @@ export default {
                 player: "gainEnd",
             },
             forced: true,
-            filter: function (event, player) {
+            filter(event, player) {
 							var bool = true
 							for (var i = 0; i < 5; i++) {
 								if (player.hasSkill(event.getParent(i).name) && (event.getParent(i).name != 'vl_nine_dx_judge' && event.getParent(i).name != 'vl_nine_dx')) {
@@ -60,15 +59,15 @@ export default {
 							}
 							return _status.currentPhase != player && bool
 						},
-            content: function () {
-							player.discard(trigger.cards)
-							player.draw()
+            async content(event, trigger, player) {
+							await player.discard(trigger.cards)
+							await player.draw()
 						},
         },
         ai: {
             threaten: 1.2,
             nogain: 1,
-            skillTagFilter: function (player) {
+            skillTagFilter(player) {
 							return player != _status.currentPhase;
 						},
         },

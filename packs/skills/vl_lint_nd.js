@@ -5,12 +5,12 @@ export default {
     usable: 1,
     position: "h",
     filterCard: true,
-    check: function (card) {
+    check(card) {
 					return 7 - get.value(card)
 				},
     filterTarget: true,
     selectCard: 1,
-    content: function () {
+    async content(event, trigger, player) {
 					if (get.color(cards[0]) == 'red') {
 						if (target.hasSkill('vl_lint_nd_lose')) {
 							target.removeSkill('vl_lint_nd_lose')
@@ -26,7 +26,7 @@ export default {
     ai: {
         order: 14,
         result: {
-            target: function (player, target) {
+            target(player, target) {
 							if (get.color(ui.selected.cards[0]) == 'black') return -2;
 							if (get.color(ui.selected.cards[0]) == 'red') return 2;
 						},
@@ -39,19 +39,19 @@ export default {
             },
             direct: true,
             locked: true,
-            init: function (player) {
+            init(player) {
 							player.markSkill('vl_lint_nd_gain')
 						},
             intro: {
                 content: "你的出牌阶段开始和结束时，你将手牌数摸至五张。",
             },
-            onremove: function (player) {
+            onremove(player) {
 							player.unmarkSkill('vl_lint_nd_gain')
 						},
-            filter: function (event, player) {
+            filter(event, player) {
 							return player.countCards('h') < 5
 						},
-            content: function () {
+            async content(event, trigger, player) {
 							player.draw(5 - player.countCards('h'));
 						},
             sub: true,
@@ -60,20 +60,20 @@ export default {
             trigger: {
                 player: ["phaseUseBegin", "phaseUseEnd"],
             },
-            init: function (player) {
+            init(player) {
 							player.markSkill('vl_lint_nd_lose')
 						},
             intro: {
                 content: "你的出牌阶段开始和结束时，你将手牌数弃至一张。",
             },
-            onremove: function (player) {
+            onremove(player) {
 							player.unmarkSkill('vl_lint_nd_lose')
 						},
             direct: true,
-            filter: function (event, player) {
+            filter(event, player) {
 							return player.countCards('h') > 1
 						},
-            content: function () {
+            async content(event, trigger, player) {
 							player.chooseToDiscard(player.countCards('h') - 1, 'h', true)
 						},
             sub: true,

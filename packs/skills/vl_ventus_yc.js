@@ -5,10 +5,10 @@ export default {
         player: "useCardToBegin",
     },
     direct: true,
-    filter: function (event, player) {
+    filter(event, player) {
 					return event.card.name == 'sha' && event.target != player && event.target
 				},
-    content: function () {
+    async content(event, trigger, player) {
 					trigger.target.loseHp()
 				},
     group: "vl_ventus_yc_draw",
@@ -18,7 +18,7 @@ export default {
                 player: "phaseDrawBegin1",
             },
             direct: true,
-            content: function () {
+            async content(event, trigger, player) {
 							var card1 = get.cardPile2(function (card) {
 								return get.name(card, false) == 'sha';
 							});

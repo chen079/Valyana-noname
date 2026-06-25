@@ -6,10 +6,10 @@ export default {
         "1": {
             forced: true,
             mod: {
-                ignoredHandcard: function (card, player) {
+                ignoredHandcard(card, player) {
 								if (get.color(card) == 'black' && get.name(card) == 'sha') return true;
 							},
-                cardDiscardable: function (card, player, name) {
+                cardDiscardable(card, player, name) {
 								if (name == 'phaseDiscard' && get.color(card) == 'black' && get.name(card) == 'sha') return false;
 							},
             },
@@ -18,7 +18,7 @@ export default {
         "2": {
             forced: true,
             mod: {
-                cardUsable: function (card, player, num) {
+                cardUsable(card, player, num) {
 								if (card.name == 'sha') return num + 1;
 							},
             },

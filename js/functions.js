@@ -7,7 +7,6 @@ import { chooseButtonControl } from './functions/chooseButtonControl.js'
 import { changeAvatarImage, avatarPath } from './functions/avatarPath.js'
 import { fenfaSkill } from './functions/fenfaSkill.js'
 import { initShunfaSkill } from './functions/initShunfaSkill.js'
-import { vlIntroduce, dialogIntro } from './functions/introduces.js'
 
 export const initFunctions = function (lib, game, ui, get, _status) {
     const importBody = {
@@ -29,9 +28,7 @@ export const initFunctions = function (lib, game, ui, get, _status) {
             'hubian': hubianSkill
         },
         get: {
-            'avatarPath': avatarPath,
-            'vlIntroduce': vlIntroduce,
-            'dialogIntro': dialogIntro
+            'avatarPath': avatarPath
         }
     }
 

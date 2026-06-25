@@ -3,10 +3,10 @@ import { lib, game, ui, get, ai, _status } from '../../../../noname.js';
 export default {
     forced: true,
     mod: {
-        globalFrom: function (from, to, distance) {
+        globalFrom(from, to, distance) {
 						return distance - 1;
 					},
-        globalTo: function (from, to, distance) {
+        globalTo(from, to, distance) {
 						return distance + 1;
 					},
     },

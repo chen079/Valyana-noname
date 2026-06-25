@@ -5,33 +5,31 @@ export default {
         global: "roundStart",
         player: "enterGame",
     },
-    init: function (player) {
+    init(player) {
 					if (!player.storage.vl_mliy_lf_num) player.storage.vl_mliy_lf_num = [];
 				},
     frequent: true,
     mark: true,
     intro: {
-        content: function (storage, player, skill) {
+        content(storage, player, skill) {
 						if (player.storage.vl_mliy_lf_num) { return "已记录花色：" + get.translation(player.storage.vl_mliy_lf_num) }
 					},
         onunmark: true,
     },
-    filter: function (event, player) {
+    filter(event, player) {
 					if (player.storage.vl_mliy_lf_num.length == 4) return false
 					return true
 				},
-    content: function () {
-					"step 0"
-					player.judge()
-					"step 1"
-					if (!player.getStorage('vl_mliy_lf_num').includes(result.suit)) {
-						player.markAuto('vl_mliy_lf_num', [result.suit]);
-					}
-					var suit = player.getStorage('vl_mliy_lf_num')
-					game.broadcastAll(function (player, suit) {
-						if (player.marks.vl_mliy_lf) player.marks.vl_mliy_lf.firstChild.innerHTML = "流风 " + get.translation(suit[0]) + get.translation(suit[1]) + get.translation(suit[2]) + get.translation(suit[3]);
-					}, player, suit);
-				},
+    async content(event, trigger, player) {
+  const result = await player.judge().forResult();
+if (!player.getStorage('vl_mliy_lf_num').includes(result.suit)) {
+        						player.markAuto('vl_mliy_lf_num', [result.suit]);
+        					}
+        					let suit = player.getStorage('vl_mliy_lf_num')
+        					game.broadcastAll(function (player, suit) {
+        						if (player.marks.vl_mliy_lf) player.marks.vl_mliy_lf.firstChild.innerHTML = "流风 " + get.translation(suit[0]) + get.translation(suit[1]) + get.translation(suit[2]) + get.translation(suit[3]);
+        					}, player, suit);
+    },
     group: "vl_mliy_lf_1",
     subSkill: {
         "1": {
@@ -40,12 +38,12 @@ export default {
                 player: "loseAfter",
                 global: ["equipAfter", "addJudgeAfter", "gainAfter", "loseAsyncAfter", "addToExpansionAfter"],
             },
-            filter: function (event, player) {
+            filter(event, player) {
 							const evt=event.getl(player);
 							if(evt?.cards2?.length) return;
 							return player != _status.currentPhase;
 						},
-            getIndex: function getIndex(event, player){
+            getIndex(event, player) {
 							let num = 0
 							const evt=event.getl(player);
 							for (let i = 0; i < evt.cards2.length; i++) {
@@ -55,8 +53,8 @@ export default {
 							}
 							return num;
 						},
-            content: function () {
-							player.draw(num);
+            async content(event, trigger, player) {
+							player.draw(event.getIndex(trigger, player));
 						},
             sub: true,
         },

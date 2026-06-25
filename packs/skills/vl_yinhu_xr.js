@@ -6,24 +6,22 @@ export default {
         global: "roundStart",
         player: "enterGame",
     },
-    filter: function (event, player) {
+    filter(event, player) {
 					return game.players.length > 1;
 				},
     direct: true,
-    content: function () {
-					"step 0"
-					player.chooseTarget([1, Math.floor(game.countPlayer() / 2)], "令至多" + get.translation(Math.floor(game.countPlayer() / 2)) + "名角色获得〖祝福〗", false)
-						.set('ai', function (target) {
-							return get.attitude(_status.event.player, target) * (1 + target.countCards('j'))
-						})
-					"step 1"
-					if (result.bool) {
-						for (var i = 0; i < result.targets.length; i++) {
-							result.targets[i].addTempSkill('vl_zhufu', { player: "phaseAfter" })
-							result.targets[i].addVuff('qiyuan', 1)
-						}
-					}
-				},
+    async content(event, trigger, player) {
+        const result = await player.chooseTarget([1, Math.floor(game.countPlayer() / 2)], "令至多" + get.translation(Math.floor(game.countPlayer() / 2)) + "名角色获得〖祝福〗", false)
+            .set('ai', function (target) {
+                return get.attitude(_status.event.player, target) * (1 + target.countCards('j'));
+            }).forResult();
+        if (result.bool) {
+            for (var i = 0; i < result.targets.length; i++) {
+                result.targets[i].addTempSkill('vl_zhufu', { player: "phaseAfter" });
+                result.targets[i].addVuff('qiyuan', 1);
+            }
+        }
+    },
     ai: {
         threaten: 2.5,
     },

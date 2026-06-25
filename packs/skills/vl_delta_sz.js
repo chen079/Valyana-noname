@@ -4,13 +4,13 @@ export default {
     trigger: {
         source: "damageBegin1",
     },
-    check: function (event, player) {
+    check(event, player) {
 					return player.hp > 2 && event.player.hp > event.num && !event.player.hasSkillTag('filterDamage', null, {
 						player: player,
 						card: event.card,
 					}) && get.attitude(player, event.player) < 0;
 				},
-    filter: function (event, player) {
+    filter(event, player) {
 					return event.player != player
 				},
     content: async function content(event, trigger, player) {
@@ -24,7 +24,7 @@ export default {
             trigger: {
                 player: "damageBegin3",
             },
-            check: function () {
+            check() {
 							return true
 						},
             content: async function content(event, trigger, player) {

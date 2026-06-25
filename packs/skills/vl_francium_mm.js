@@ -7,10 +7,10 @@ export default {
     skillAnimation: true,
     limited: true,
     animationColor: "orange",
-    init: function (player) {
+    init(player) {
 					player.storage.vl_francium_mm = false;
 				},
-    filter: function (event, player) {
+    filter(event, player) {
 					if (player.storage.vl_francium_mm) return false;
 					if (event.type == 'dying') {
 						if (player != event.dying) return false;
@@ -18,29 +18,27 @@ export default {
 					}
 					return false;
 				},
-    content: function () {
-					'step 0'
-					player.awakenSkill('vl_francium_mm');
-					'step 1'
-					if (player.hp < 2) {
-						player.recover(2 - player.hp);
-					}
-					player.removeSkill('vl_francium_ch')
-				},
+    async content(event, trigger, player) {
+player.awakenSkill('vl_francium_mm');
+if (player.hp < 2) {
+        						await player.recover(2 - player.hp);
+        					}
+        					player.removeSkill('vl_francium_ch')
+    },
     ai: {
         order: 1,
-        skillTagFilter: function (player, arg, target) {
+        skillTagFilter(player, arg, target) {
 						if (player != target || player.storage.vl_francium_mm) return false;
 					},
         save: true,
         result: {
-            player: function (player) {
+            player(player) {
 							if (player.hp <= 0) return 10;
 							if (player.hp <= 2 && player.countCards('he') <= 1) return 10;
 							return 0;
 						},
         },
-        threaten: function (player, target) {
+        threaten(player, target) {
 						if (!target.storage.vl_francium_mm) return 0.6;
 					},
     },
@@ -49,6 +47,6 @@ export default {
     },
     t: {
         name: "明灭",
-        info: "限定技，当你进入濒死状态时，你可以将体力值回复至2点并失去技能「vl_francium_ch」。",
+        info: `限定技，当你进入濒死状态时，你可以将体力值回复至2点并失去技能${get.poptip("vl_francium_ch")}。`,
     },
 };

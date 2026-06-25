@@ -5,73 +5,65 @@ export default {
         player: "damageEnd",
         source: "damageSource",
     },
-    init: function (player) {
+    init(player) {
 					if (!player.storage.vl_sayisu_fp) player.storage.vl_sayisu_fp = [[], []];
 				},
     mark: true,
     direct: true,
-    content: function () {
-					"step 0"
-					player.draw(trigger.num)
-					if (game.hasPlayer(function (current) {
-						return !player.storage.vl_sayisu_fp[1].includes(current);
-					})) {
-						player.chooseTarget(get.prompt2('vl_sayisu_fp'), function (card, player, target) {
-							return player != target && (!player.storage.vl_sayisu_fp[1] || !player.storage.vl_sayisu_fp[1].includes(target))
-						}).set('ai', function (target) { return Math.random() })
-					} else {
-						event.finish()
-					}
-					"step 1"
-					if (result.bool) {
-						event.target = result.targets[0]
-						player.logSkill(event.name, event.target)
-						if (!player.storage.vl_sayisu_fp) player.storage.vl_sayisu_fp = [[], []];
-						if (player.storage.vl_sayisu_fp[0].includes(event.target)) {
-							player.chooseBool("是否对" + get.translation(event.target) + "造成1点伤害").set('ai', function () {
-								var player = _status.event.player
-								var target = _status.event.target
-								return get.attitude(player, target) < 0
-							}).set('target', event.target)
-						} else {
-							event.goto(3)
-						}
-					} else {
-						event.finish()
-					}
-					"step 2"
-					if (result.bool) {
-						event.target.damage(1, player)
-						player.storage.vl_sayisu_fp[1].push(event.target);
-						player.storage.vl_sayisu_fp[1].sortBySeat();
-						event.finish()
-					}
-					"step 3"
-					player.chooseCard(1, '选择交给' + get.translation(event.target) + '的牌', true).set('ai', function (card) {
-						return 100 - get.value(card)
-					})
-					"step 4"
-					if (result.bool) {
-						event.target.gain(result.cards, player, 'give')
-					}
-					if (!player.storage.vl_sayisu_fp[0].includes(event.target)) {
-						player.draw(2)
-						player.storage.vl_sayisu_fp[0].push(event.target);
-						player.storage.vl_sayisu_fp[0].sortBySeat();
-					}
-				},
+    async content(event, trigger, player) {
+        await player.draw(trigger.num);
+        if (!game.hasPlayer(function (current) {
+        	return !player.storage.vl_sayisu_fp[1].includes(current);
+        })) return;
+        const targetResult = await player.chooseTarget(get.prompt2('vl_sayisu_fp'), function (card, player, target) {
+        	return player != target && (!player.storage.vl_sayisu_fp[1] || !player.storage.vl_sayisu_fp[1].includes(target));
+        }).set('ai', function (target) {
+        	return Math.random();
+        }).forResult();
+        if (!targetResult.bool) return;
+        const target = targetResult.targets[0];
+        player.logSkill(event.name, target);
+        if (!player.storage.vl_sayisu_fp) player.storage.vl_sayisu_fp = [[], []];
+        if (player.storage.vl_sayisu_fp[0].includes(target)) {
+        	const damageResult = await player.chooseBool('是否对' + get.translation(target) + '造成1点伤害')
+        		.set('ai', function () {
+        			const currentPlayer = _status.event.player;
+        			const currentTarget = _status.event.target;
+        			return get.attitude(currentPlayer, currentTarget) < 0;
+        		})
+        		.set('target', target)
+        		.forResult();
+        	if (damageResult.bool) {
+        		await target.damage(1, player);
+        		player.storage.vl_sayisu_fp[1].push(target);
+        		player.storage.vl_sayisu_fp[1].sortBySeat();
+        		return;
+        	}
+        }
+        const cardResult = await player.chooseCard(1, '选择交给' + get.translation(target) + '的牌', true).set('ai', function (card) {
+        	return 100 - get.value(card);
+        }).forResult();
+        if (cardResult.bool) {
+        	await target.gain(cardResult.cards, player, 'give');
+        }
+        if (!player.storage.vl_sayisu_fp[0].includes(target)) {
+        	await player.draw(2);
+        	player.storage.vl_sayisu_fp[0].push(target);
+        	player.storage.vl_sayisu_fp[0].sortBySeat();
+        }
+    },
     intro: {
-        markcount: function (storage) {
+        markcount(storage) {
 						return 0;
 					},
-        mark: function (dialog, storage, player) {
+        mark(dialog, storage, player) {
 						if (!storage) return;
 						dialog.addText('已发动目标：');
 						dialog.addText(get.translation(storage[0]));
 						dialog.addText('不可选目标：');
 						dialog.addText(get.translation(storage[1]));
 					},
-        onunmark: function (storage, player) {
+        onunmark(storage, player) {
 						player.storage.vl_edmond_jz = [[], []];
 					},
     },

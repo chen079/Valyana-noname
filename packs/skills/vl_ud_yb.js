@@ -8,7 +8,7 @@ export default {
         content: "本局游戏内计算【乐不思蜀】与【兵粮寸断】的效果反转",
     },
     mod: {
-        judge: function (player, result) {
+        judge(player, result) {
 						if ((_status.event.cardname == 'lebu' || _status.event.cardname == 'bingliang')) {
 							if (result.bool == false) {
 								result.bool = true;

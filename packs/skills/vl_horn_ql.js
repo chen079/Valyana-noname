@@ -5,11 +5,11 @@ export default {
     trigger: {
         source: "damageSource",
     },
-    check: function (event, player) {
+    check(event, player) {
 					return event.player.next != player && event.player.previous != player
 				},
     usable: 1,
-    filter: function (event, player) {
+    filter(event, player) {
 					return event.player != player
 				},
     content: async function content(event, trigger, player) {
@@ -23,6 +23,6 @@ export default {
 				},
     t: {
         name: "强流",
-        info: "「qianghua」，每回合限一次，当你对一名其他角色造成伤害后，你可以对该角色造成1点火焰伤害。强化：你可以对其上、下家的角色各造成X点同属性伤害。（X为此次伤害值的一半并向下取整且至少为1）。",
+        info: `${get.poptip("qianghua")}，每回合限一次，当你对一名其他角色造成伤害后，你可以对该角色造成1点火焰伤害。强化：你可以对其上、下家的角色各造成X点同属性伤害。（X为此次伤害值的一半并向下取整且至少为1）。`,
     },
 };

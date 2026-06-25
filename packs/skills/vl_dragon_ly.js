@@ -4,11 +4,11 @@ export default {
     trigger: {
         player: "damageBegin3",
     },
-    filter: function (event, player) {
+    filter(event, player) {
 					return event.nature == 'fire' || event.nature == 'thunder';
 				},
     forced: true,
-    content: function () {
+    async content(event, trigger, player) {
 					trigger.cancel();
 				},
     group: "vl_dragon_ly_1",
@@ -18,10 +18,10 @@ export default {
                 player: "damageEnd",
             },
             forced: true,
-            filter: function (event, player) {
+            filter(event, player) {
 							return event.num > 0;
 						},
-            content: function () {
+            async content(event, trigger, player) {
 							var cards = [];
 							while (cards.length < trigger.num) {
 								var card = get.cardPile(function (card) {
@@ -40,7 +40,7 @@ export default {
         maixie: true,
         nothunder: true,
         effect: {
-            target: function (card, player, target, current) {
+            target(card, player, target, current) {
 							if (get.tag(card, 'fireDamage')) return 'zerotarget';
 							if (get.tag(card, 'thunderDamage')) return 'zerotarget';
 							if (card.name == 'tiesuo') return 'zeroplayertarget';

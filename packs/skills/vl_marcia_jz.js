@@ -3,13 +3,13 @@ import { lib, game, ui, get, ai, _status } from '../../../../noname.js';
 export default {
     usable: 1,
     enable: "phaseUse",
-    filter: function (event, player) {
+    filter(event, player) {
 					return player.countCards('h') > 0
 				},
-    init: function (player) {
+    init(player) {
 					if (!player.storage.vl_marcia_jz_suit) player.storage.vl_marcia_jz_suit = [];
 				},
-    filterCard: function (card) {
+    filterCard(card) {
 					var suit = get.suit(card);
 					for (var i = 0; i < ui.selected.cards.length; i++) {
 						if (get.suit(ui.selected.cards[i]) == suit) return false;
@@ -18,27 +18,25 @@ export default {
 				},
     complexCard: true,
     selectCard: [1, 4],
-    check: function (card) {
+    check(card) {
 					return 7 - get.value(card)
 				},
     prompt2: "你可以弃置任意数量的牌，然后本回合若你使用的牌的花色与你弃置过的花色相同，此牌不可被响应。",
     mark: true,
     intro: {
-        content: function (storage, player, skill) {
+        content(storage, player, skill) {
 						if (player.storage.vl_marcia_jz_suit) { return "已记录花色：" + get.translation(player.storage.vl_marcia_jz_suit) }
 					},
         onunmark: true,
     },
-    content: function () {
-					"step 0"
-					player.draw(cards.length)
+    async content(event, trigger, player) {
+					await player.draw(cards.length);
 					for (var i = 0; i < cards.length; i++) {
 						if (!player.storage.vl_marcia_jz_suit.includes(get.suit(cards[i]))) {
-							player.storage.vl_marcia_jz_suit.push(get.suit(cards[i]))
+							player.storage.vl_marcia_jz_suit.push(get.suit(cards[i]));
 						}
 					}
-					"step 1"
-					player.addTempSkill("vl_marcia_jz_1")
+					player.addTempSkill("vl_marcia_jz_1");
 				},
     ai: {
         order: 7,
@@ -53,14 +51,14 @@ export default {
                 player: "useCard",
             },
             forced: true,
-            filter: function (event, player) {
+            filter(event, player) {
 							return event.card.name == 'sha' && player.storage.vl_marcia_jz_suit.includes(get.suit(event.card));
 						},
-            content: function () {
+            async content(event, trigger, player) {
 							trigger.directHit.addArray(game.players)
 						},
             mod: {
-                wuxieRespondable: function (card, player) {
+                wuxieRespondable(card, player) {
 								if (player.storage.vl_marcia_jz_suit.includes(get.suit(card))) return false;
 							},
             },
@@ -75,7 +73,7 @@ export default {
             trigger: {
                 player: "phaseAfter",
             },
-            content: function () {
+            async content(event, trigger, player) {
 							player.storage.vl_marcia_jz_suit = []
 						},
             sub: true,

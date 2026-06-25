@@ -5,10 +5,10 @@ export default {
         player: "damageBegin3",
     },
     forced: true,
-    filter: function (event, player) {
+    filter(event, player) {
 					return event.nature == 'fire'
 				},
-    content: function () {
+    async content(event, trigger, player) {
 					trigger.cancel()
 					player.recover()
 				},
@@ -19,10 +19,10 @@ export default {
                 global: "damageEnd",
             },
             forced: true,
-            filter: function (event, player) {
+            filter(event, player) {
 							return event.nature == 'fire'
 						},
-            content: function () {
+            async content(event, trigger, player) {
 							player.draw()
 						},
         },

@@ -44,7 +44,7 @@ export default {
             await trigger.player.draw(num)
         } else {
             let cardnum = Math.min(num, trigger.player.countCards('he'))
-            if (cardnum <= 0 || trigger.player == player) return event.finish()
+            if (cardnum <= 0 || trigger.player == player) return
             else {
                 let result = await trigger.player.chooseToGive('交给' + get.translation(player) + get.translation(cardnum) + '张牌', 'he', player, cardnum, true).set('ai', function (card) {
                     if (_status.event.goon) return 0;

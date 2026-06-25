@@ -5,7 +5,7 @@ export default {
         player: "damageEnd",
     },
     forced: true,
-    filter: function filter(event, player) {
+    filter(event, player) {
 					return game.filterPlayer().slice(0).remove(player).length > 0;
 				},
     content: async function content(event, trigger, player) {
@@ -38,6 +38,6 @@ export default {
 				},
     t: {
         name: "戕怒",
-        info: "「hubianji」，锁定技。当你受到伤害后，<li>暗涌：所有其他角色可以交给你一张牌，交给你牌的角色与你各获得1层「预见」与「鼓舞」<li>圣咏：你视为对所有其他角色造成过1点伤害。",
+        info: `${get.poptip("hubianji")}，锁定技。当你受到伤害后，<li>暗涌：所有其他角色可以交给你一张牌，交给你牌的角色与你各获得1层「预见」与「鼓舞」<li>圣咏：你视为对所有其他角色造成过1点伤害。`,
     },
 };

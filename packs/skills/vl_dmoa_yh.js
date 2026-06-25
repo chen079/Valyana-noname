@@ -1,10 +1,15 @@
 import { lib, game, ui, get, ai, _status } from '../../../../noname.js';
 
+const getUseCardHistoryEvent = (player, offset = 0) => {
+    const history = player.getAllHistory ? player.getAllHistory("useCard") : player.getHistory("useCard");
+    return history && history.length > offset ? history[history.length - 1 - offset] : null;
+};
+
 export default {
     enable: ["chooseToUse", "chooseToRespond"],
     prompt: "将红色牌当做【闪】，黑色牌当做【无懈可击】使用或打出",
-    viewAs: function (cards, player) {
-					var name = false;
+    viewAs(cards, player) {
+					let name = false;
 					switch (get.color(cards[0], player)) {
 						case 'red': name = 'shan'; break;
 						case 'black': name = 'wuxie'; break;
@@ -14,31 +19,31 @@ export default {
 				},
     mark: true,
     intro: {
-        mark: function (dialog, storage, player) {
-						var evt = player.getLastAllUsed()
+        mark(dialog, storage, player) {
+						const evt = getUseCardHistoryEvent(player, 0)
 						if (evt && evt.card) {
 							dialog.addText('你上一张使用的牌为' + get.translation(evt.card.name) + '【' + get.translation(evt.card.suit) + get.translation(evt.card.number) + '】');
 						}
 					},
     },
     position: "hes",
-    filterCard: function (card, player, event) {
+    filterCard(card, player, event) {
 					event = event || _status.event;
-					var filter = event._backup.filterCard;
-					var name = get.color(card, player);
+					const filter = event._backup.filterCard;
+					const name = get.color(card, player);
 					if (name == 'red' && filter({ name: 'shan', cards: [card] }, player, event)) return true;
 					if (name == 'black' && filter({ name: 'wuxie', cards: [card] }, player, event)) return true;
 					return false;
 				},
-    filter: function (event, player) {
-					var filter = event.filterCard;
-					if (filter({ name: 'shan' }, player, event) && player.countCards('hes', { color: 'red' } > 0)) return true;
+    filter(event, player) {
+					const filter = event.filterCard;
+					if (filter({ name: 'shan' }, player, event) && player.countCards('hes', { color: 'red' }) > 0) return true;
 					if (filter({ name: 'wuxie' }, player, event) && player.countCards('hes', { color: 'black' })) return true;
 					return false;
 				},
-    precontent: function () {
-					var evt = player.getLastAllUsed()
-					var card = event.result.cards[0]
+    precontent() {
+					const evt = getUseCardHistoryEvent(player, 0)
+					const card = event.result.cards[0]
 					if (evt && evt.card) {
 						if (player.storage.vl_dmoa_sg === '点数不大于其') {
 							if (get.number(evt.card) >= get.number(card)) player.draw();
@@ -54,8 +59,8 @@ export default {
     ai: {
         respondSha: true,
         respondShan: true,
-        skillTagFilter: function (player, tag) {
-						var name;
+        skillTagFilter(player, tag) {
+						let name;
 						switch (tag) {
 							case 'respondSha': name = 'black'; break;
 						}
@@ -63,7 +68,7 @@ export default {
 					},
         order: 2,
     },
-    hiddenCard: function (player, name) {
+    hiddenCard(player, name) {
 					if (name == 'wuxie' && _status.connectMode && player.countCards('hes') > 0) return true;
 					if (name == 'wuxie') return player.countCards('hes', { color: 'black' }) > 0;
 				},

@@ -4,12 +4,12 @@ export default {
     trigger: {
         player: "useCard",
     },
-    filter: function (event, player) {
+    filter(event, player) {
 					return player.isPhaseUsing()
 				},
     forced: true,
     locked: false,
-    content: function () {
+    async content(event, trigger, player) {
 					player.addTempSkill('vl_zenia_ld_2');
 					player.addMark('vl_zenia_ld_2', 1, false);
 				},
@@ -20,7 +20,7 @@ export default {
                 content: "手牌上限+#",
             },
             mod: {
-                maxHandcard: function (player, num) {
+                maxHandcard(player, num) {
 								return num + player.countMark('vl_zenia_ld_2');
 							},
             },

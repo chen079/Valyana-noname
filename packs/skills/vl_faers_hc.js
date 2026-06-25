@@ -6,7 +6,7 @@ export default {
         global: ["equipAfter", "addJudgeAfter", "gainAfter", "loseAsyncAfter", "addToExpansionAfter"],
     },
     forced: true,
-    filter: function filter(event, player) {
+    filter(event, player) {
 					if (event.name == "gain" && event.player == player) {
 						return player.countCards("h") > player.getHp();
 					}
@@ -39,7 +39,7 @@ export default {
             },
             forced: true,
             popup: false,
-            content: function () {
+            async content(event, trigger, player) {
 							trigger.cancel();
 							game.log(player, '跳过了', event.triggername == 'phaseDrawBefore' ? '摸牌阶段' : '判定阶段')
 						},

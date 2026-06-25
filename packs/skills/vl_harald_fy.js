@@ -5,24 +5,22 @@ export default {
     usable: 1,
     preHidden: true,
     filterCard: true,
-    filterTarget: function (card, player, target) {
+    filterTarget(card, player, target) {
 					return target != player && target.countCards('he') > 0;
 				},
-    content: function () {
-					"step 0"
-					player.choosePlayerCard('hej', target, true);
-					"step 1"
-					if (result.bool && result.links && result.links.length) {
-						var card = result.links[0];
-						var cardx = get.autoViewAs({ name: 'sha' }, [card]);
-						target.useCard(cardx, [card], player, false)
-					}
-				},
+    async content(event, trigger, player) {
+const result = await player.choosePlayerCard('hej', target, true).forResult();
+if (result.bool && result.links && result.links.length) {
+        						var card = result.links[0];
+        						var cardx = get.autoViewAs({ name: 'sha' }, [card]);
+        						await target.useCard(cardx, [card], player, false)
+        					}
+    },
     ai: {
         order: 8,
         result: {
             target: -1,
-            player: function (player, target) {
+            player(player, target) {
 							if (player.hasSkillTag('maixie') || player.countCards('h', 'shan') > 0) {
 								return get.effect(target, { name: 'guohe_copy2' }, player, player)
 							}
@@ -30,7 +28,7 @@ export default {
 						},
             expose: 0.2,
             effect: {
-                target: function (card, player, target) {
+                target(card, player, target) {
 								if (card.name != 'sha') return;
 								var players = game.filterPlayer();
 								if (get.attitude(player, target) <= 0) {
@@ -61,51 +59,48 @@ export default {
     group: "vl_harald_fy_1",
     subSkill: {
         "1": {
-            content: function () {
-							"step 0"
-							player.chooseTarget(get.prompt2('vl_harald_fy'), function (card, player, target) {
-								return target != player && !_status.event.targets.includes(target) && _status.event.playerx.canUse('sha', target, false) && target.countCards('h');
-							}).set('ai', function (target) {
-								var trigger = _status.event.getTrigger();
-								var player = _status.event.player;
-								return get.effect(target, trigger.card, trigger.player, player) + 0.1;
-							}).set('targets', trigger.targets).set('playerx', trigger.player);
-							'step 1'
-							if (result.bool) {
-								event.target = result.targets[0];
-								player.logSkill('vl_harald_fy', event.target);
-								event.target.chooseCard('选择' + get.translation(player) +
-									'一张牌，若此牌不为' + get.translation(player) + '选择的花色，则也成为此【杀】的额外目标', true).set('ai', function (card) {
-										return -get.value(card, player, 'raw');
-									}).set('sourcex', player);
-								game.delay();
-							} else {
-								event.finish();
-							}
-							"step 2"
-							event.card = result.cards[0]
-							var next = player.chooseButton(['请选择一种花色', [lib.suit.map(i => ['', '', 'lukai_' + i]), 'vcard']], 1, true)
-							next.set('ai', button => {
-								return Math.random;
-							});
-							'step 3'
-							if (result.bool) {
-								var suit = result.links[0][2].slice(6);
-								target.give(event.card, player, 'give');
-								if (get.suit(event.card) != suit) {
-									trigger.getParent().targets.push(event.target);
-									trigger.getParent().triggeredTargets2.push(event.target);
-									if (event.target.countCards('h') >= player.countCards('h')) trigger.directHit.push(event.target);
-									game.log(event.target, '成为了额外目标');
-								}
-								game.delay();
-							}
-						},
+            async content(event, trigger, player) {
+const chooseTarget = await player.chooseTarget(get.prompt2('vl_harald_fy'), function (card, player, target) {
+        								return target != player && !_status.event.targets.includes(target) && _status.event.playerx.canUse('sha', target, false) && target.countCards('h');
+        							}).set('ai', function (target) {
+        								var trigger = _status.event.getTrigger();
+        								var player = _status.event.player;
+        								return get.effect(target, trigger.card, trigger.player, player) + 0.1;
+        							}).set('targets', trigger.targets).set('playerx', trigger.player).forResult();
+if (chooseTarget.bool) {
+        								event.target = chooseTarget.targets[0];
+        								player.logSkill('vl_harald_fy', event.target);
+        								const chooseCard = await event.target.chooseCard('选择' + get.translation(player) +
+        									'一张牌，若此牌不为' + get.translation(player) + '选择的花色，则也成为此【杀】的额外目标', true).set('ai', function (card) {
+        										return -get.value(card, player, 'raw');
+        									}).set('sourcex', player).forResult();
+        								await game.delay();
+        								event.card = chooseCard.cards[0]
+        							} else {
+        								return;
+        							}
+        							var next = player.chooseButton(['请选择一种花色', [lib.suit.map(i => ['', '', 'lukai_' + i]), 'vcard']], 1, true)
+        							next.set('ai', button => {
+        								return Math.random;
+        							});
+const chooseSuit = await next.forResult();
+if (chooseSuit.bool) {
+        								var suit = chooseSuit.links[0][2].slice(6);
+        								await event.target.give(event.card, player, 'give');
+        								if (get.suit(event.card) != suit) {
+        									trigger.getParent().targets.push(event.target);
+        									trigger.getParent().triggeredTargets2.push(event.target);
+        									if (event.target.countCards('h') >= player.countCards('h')) trigger.directHit.push(event.target);
+        									game.log(event.target, '成为了额外目标');
+        								}
+        								await game.delay();
+        							}
+    },
             trigger: {
                 target: "useCardToTarget",
             },
             direct: true,
-            filter: function (event, player) {
+            filter(event, player) {
 							return event.card.name == 'sha' && game.hasPlayer(function (current) {
 								return current != player && current != event.source
 							}) && game.players.length > 2;

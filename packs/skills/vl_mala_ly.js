@@ -4,11 +4,11 @@ export default {
     trigger: {
         player: "damageBegin3",
     },
-    filter: function (event, player) {
+    filter(event, player) {
 					return event.nature
 				},
     forced: true,
-    content: function () {
+    async content(event, trigger, player) {
 					trigger.cancel();
 					player.draw(trigger.num)
 				},
@@ -19,7 +19,7 @@ export default {
                 player: "loseHpBegin",
             },
             forced: true,
-            content: function () {
+            async content(event, trigger, player) {
 							trigger.cancel();
 							player.draw(trigger.num)
 						},
@@ -30,7 +30,7 @@ export default {
                 player: "phaseDrawBegin2",
             },
             forced: true,
-            content: function () {
+            async content(event, trigger, player) {
 							trigger.num += Math.ceil(player.getDamagedHp() / 2)
 						},
             sub: true,
@@ -41,7 +41,7 @@ export default {
         maixie: true,
         nothunder: true,
         effect: {
-            target: function (card, player, target, current) {
+            target(card, player, target, current) {
 							if (get.tag(card, 'fireDamage')) return 'zerotarget';
 							if (get.tag(card, 'thunderDamage')) return 'zerotarget';
 							if (card.name == 'tiesuo') return 'zeroplayertarget';

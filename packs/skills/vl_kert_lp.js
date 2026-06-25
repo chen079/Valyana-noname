@@ -7,7 +7,7 @@ export default {
     limited: true,
     frequent: false,
     unique: true,
-    content: function () {
+    async content(event, trigger, player) {
 					player.awakenSkill("vl_kert_lp");
 					player.addTempSkill("vl_kert_ql", { player: "phaseEnd" });
 					player.addTempSkill("vl_kert_dp", { player: "phaseEnd" });
@@ -17,12 +17,12 @@ export default {
         content: "limited",
     },
     skillAnimation: true,
-    init: function (player, skill) {
+    init(player, skill) {
 					player.storage[skill] = false;
 				},
     derivation: ["vl_kert_dp", "vl_kert_ql"],
     t: {
         name: "掳魄",
-        info: "限定技，结束阶段，你可以获得技能「vl_kert_ql」和「vl_kert_dp」直到你的下个回合结束。 ",
+        info: `限定技，结束阶段，你可以获得技能${get.poptip("vl_kert_ql")}和${get.poptip("vl_kert_dp")}直到你的下个回合结束。 `,
     },
 };

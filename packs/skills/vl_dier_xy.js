@@ -5,10 +5,10 @@ export default {
         player: "useCardToTargeted",
     },
     forced: true,
-    filter: function (event, player) {
+    filter(event, player) {
 					return event.card.name == 'sha'
 				},
-    content: function () {
+    async content(event, trigger, player) {
 					for (var i = 0; i < trigger.targets.length; i++) {
 						player.gainPlayerCard(trigger.targets[i], 1, true)
 					}

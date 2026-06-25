@@ -3,12 +3,12 @@ import { lib, game, ui, get, ai, _status } from '../../../../noname.js';
 export default {
     enable: "phaseUse",
     usable: 1,
-    filterCard: function (card) {
+    filterCard(card) {
 					return get.type(card) != 'basic';
 				},
     linkage: "nature",
     position: "hse",
-    filter: function (event, player) {
+    filter(event, player) {
 					return player.hasCard(function (card) {
 						return get.type(card) != 'basic';
 					}, 'hes') && ((player.name1 == 'vl_kulun_nature') || (player.name2 == 'vl_kulun_nature'));;
@@ -17,12 +17,12 @@ export default {
         name: "shuiyanqijun",
     },
     prompt: "将一张非基本牌当水淹七军使用",
-    check: function (card) { return 8 - get.value(card) },
+    check(card) { return 8 - get.value(card) },
     group: "luweiyan2",
     ai: {
         order: 9,
         result: {
-            target: function (player, target) {
+            target(player, target) {
 							if (target.countCards('e')) return -1;
 							return 0;
 						},

@@ -3,29 +3,27 @@ import { lib, game, ui, get, ai, _status } from '../../../../noname.js';
 export default {
     enable: "phaseUse",
     usable: 1,
-    filterTarget: function (card, player, target) {
+    filterTarget(card, player, target) {
 					return player != target
 				},
     filterCard: true,
     position: "he",
-    filter: function (event, player) {
+    filter(event, player) {
 					return player.countCards('he') > 0
 				},
-    content: function () {
-					"step 0"
-					player.judge()
-					"step 1"
-					switch (get.color(result.card)) {
-						case 'red': target.storage.tyname = 'basic'; break;
-						case 'black': target.storage.tyname = 'trick'; break;
-					}
-					target.addTempSkill("vl_kelaier_ty_1", { player: "phaseAfter" })
-				},
+    async content(event, trigger, player) {
+const result = await player.judge().forResult()
+switch (get.color(result.card)) {
+        						case 'red': target.storage.tyname = 'basic'; break;
+        						case 'black': target.storage.tyname = 'trick'; break;
+        					}
+        					target.addTempSkill("vl_kelaier_ty_1", { player: "phaseAfter" })
+    },
     ai: {
         order: 10,
         result: {
             player: 1,
-            target: function (player, target) {
+            target(player, target) {
 							if (target.countCards('h') > target.hp) return target.hp - target.countCards('h');
 							return -2;
 						},
@@ -35,15 +33,15 @@ export default {
     subSkill: {
         "1": {
             mod: {
-                cardEnabled: function (card, player) {
+                cardEnabled(card, player) {
 								if (get.type2(card) == player.storage.tyname) return false;
 							},
-                cardSavable: function (card, player) {
+                cardSavable(card, player) {
 								if (get.type2(card) == player.storage.tyname) return false;
 							},
             },
             intro: {
-                content: function (storage, player, skill) {
+                content(storage, player, skill) {
 								return "你不能使用" + get.translation(player.storage.tyname) + '牌'
 							},
             },

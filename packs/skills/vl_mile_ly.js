@@ -10,7 +10,7 @@ export default {
 					if (history.indexOf(event) != 0) return false;
 					return true
 				},
-    content: function () {
+    async content(event, trigger, player) {
 					player.addTempVuff('bihu')
 					player.addTempVuff('huisheng')
 				},

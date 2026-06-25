@@ -6,10 +6,10 @@ export default {
     },
     forced: true,
     usable: 1,
-    filter: function (event, player) {
+    filter(event, player) {
 					return _status.currentPhase != player && event.num > 0;
 				},
-    content: function () {
+    async content(event, trigger, player) {
 					player.addVuff('mianyi')
 					player.addVuff('bihu')
 				},

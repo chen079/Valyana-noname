@@ -3,17 +3,17 @@ import { lib, game, ui, get, ai, _status } from '../../../../noname.js';
 export default {
     marktext: "正",
     intro: {
-        mark: function (dialog, storage, player) {
+        mark(dialog, storage, player) {
 						dialog.addAuto(player.getCards('s', function (card) {
 							return card.hasGaintag('vl_sayisu_fj');
 						}));
 					},
-        markcount: function (storage, player) {
+        markcount(storage, player) {
 						return player.getCards('s', function (card) {
 							return card.hasGaintag('vl_sayisu_fj');
 						}).length;
 					},
-        onunmark: function (storage, player) {
+        onunmark(storage, player) {
 						var cards = player.getCards('s', function (card) {
 							return card.hasGaintag('vl_sayisu_fj');
 						});
@@ -25,7 +25,7 @@ export default {
 					},
     },
     mod: {
-        aiOrder: function (player, card, num) {
+        aiOrder(player, card, num) {
 						if (get.itemtype(card) == 'card' && card.hasGaintag('vl_sayisu_fj')) return num + 0.5;
 					},
     },
@@ -63,11 +63,11 @@ export default {
             trigger: {
                 player: "phaseJieshuBegin",
             },
-            filter: function (event, player) {
+            filter(event, player) {
 							return player.isMinHandcard() && player.maxHp < 5
 						},
             forced: true,
-            content: function () {
+            async content(event, trigger, player) {
 							player.gainMaxHp()
 							player.recover()
 						},

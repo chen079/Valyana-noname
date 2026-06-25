@@ -2,58 +2,46 @@ import { lib, game, ui, get, ai, _status } from '../../../../noname.js';
 
 export default {
     enable: "phaseUse",
-    filterTarget: function (card, player, target) {
+    filterTarget(card, player, target) {
 					if (player == target) return false;
 					if (player.countCards('h') == 0) return false;
 					return true;
 				},
     usable: 1,
-    content: function () {
-					'step 0'
-					event.num = 1
-					'step 1'
-					target.chooseBool('是否令' + get.translation(player) + '摸' + get.cnNumber(event.num) + '张牌').set('ai', function () {
-						var player = _status.event.player
-						var target = _status.event.target
-						if (get.attitude(player, target) > 0) {
-							return true
-						} else {
-							return false
-						}
-					}).set('target', player)
-					'step 2'
-					if (result.bool) {
-						player.draw(event.num)
-					} else {
-						event.finish()
-						return
+    async content(event, trigger, player) {
+					let num = 1;
+					while (true) {
+						const bool = await event.target.chooseBool('是否令' + get.translation(player) + '摸' + get.cnNumber(num) + '张牌').set('ai', function () {
+        						var player = _status.event.player
+        						var target = _status.event.target
+        						if (get.attitude(player, target) > 0) {
+        							return true
+        						} else {
+        							return false
+        						}
+        					}).set('target', player).forResult();
+						if (!bool.bool) return;
+						await player.draw(num);
+						const cards = await player.chooseCard('h', 2 * num, false).set('prompt', '是否交给' + get.translation(event.target) + get.cnNumber(2 * num) + '张手牌').set('ai', function (card) {
+        						var player = _status.event.player
+        						var target = _status.event.target
+        						if (get.attitude(player, target) > 0) {
+        							return 9 - get.value(card)
+        						} else {
+        							return -1
+        						}
+        					}).set('target', event.target).forResult();
+						if (!cards.bool) return;
+						await event.target.gain(cards.cards, player, 'giveAuto');
+						num++;
 					}
-					'step 3'
-					player.chooseCard('h', 2 * event.num, false).set('prompt', '是否交给' + get.translation(target) + get.cnNumber(2 * event.num) + '张手牌').set('ai', function (card) {
-						var player = _status.event.player
-						var target = _status.event.target
-						if (get.attitude(player, target) > 0) {
-							return 9 - get.value(card)
-						} else {
-							return -1
-						}
-					}).set('target', target)
-					'step 4'
-					if (result.bool) {
-						target.gain(result.cards, player, 'giveAuto')
-						event.num += 1
-						event.goto(1)
-					} else {
-						event.finish()
-						return
-					}
-				},
+    },
     ai: {
         result: {
-            target: function (player, target) {
+            target(player, target) {
 							return 1;
 						},
-            player: function (player, target) {
+            player(player, target) {
 							return 1;
 						},
         },

@@ -4,7 +4,7 @@ export default {
     trigger: {
         player: "useCard",
     },
-    filter: function (event, player) {
+    filter(event, player) {
 					return event.player.hasHistory('lose', function (evt) {
 						if (evt.getParent() != event) return false;
 						for (var i in evt.gaintag_map) {
@@ -18,7 +18,7 @@ export default {
         content: "你使用“魂怒”牌：①不可被响应、②无视防具、③不计入使用次数、④不计入手牌上限、⑤不可被其他角色弃置、⑥无距离限制。",
     },
     forced: true,
-    content: function () {
+    async content(event, trigger, player) {
 					if (trigger.card.name == 'sha') {
 						player.getStat().card.sha--;
 					}
@@ -32,24 +32,24 @@ export default {
     subSkill: {
         ig: {
             mod: {
-                ignoredHandcard: function (card, player) {
+                ignoredHandcard(card, player) {
 								if (card.hasGaintag('vl_dragon_hn')) {
 									return true;
 								}
 							},
-                targetInRange: function (card) {
+                targetInRange(card) {
 								if (!card.cards) return;
 								for (var i of card.cards) {
 									if (i.hasGaintag('vl_dragon_hn')) return true;
 								}
 							},
-                canBeDiscarded: function (card) {
+                canBeDiscarded(card) {
 								if (card.hasGaintag('vl_dragon_hn')) return false;
 							},
-                cardDiscardable: function (card, player, name) {
+                cardDiscardable(card, player, name) {
 								if (name == 'phaseDiscard' && card.hasGaintag('vl_dragon_hn')) return false;
 							},
-                aiOrder: function (player, card, num) {
+                aiOrder(player, card, num) {
 								if (_status.currentPhase == player) {
 									if (get.itemtype(card) == 'card' && card.hasGaintag('vl_dragon_hn')) return num + 1;
 								} else {

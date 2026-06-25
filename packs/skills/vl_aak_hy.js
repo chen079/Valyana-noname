@@ -5,31 +5,29 @@ export default {
         source: "damageSource",
     },
     frequent: true,
-    content: function () {
-					'step 0'
-					player.judge()
-					'step 1'
-					if (result.suit == 'heart') {
-						player.recover()
-					} else if (result.suit == 'diamond') {
-						player.draw(2)
-					} else if (result.suit == 'club') {
-						player.discardPlayerCard(1, 'he', trigger.player)
-					} else if (result.suit == 'spade') {
-						if (!trigger.player.storage.vl_aak_hy_1) trigger.player.storage.vl_aak_hy_1 = 0
-						trigger.player.storage.vl_aak_hy_1 += 1
-						trigger.player.addTempSkill('vl_aak_hy_1', { player: "phaseEnd" })
-					}
-				},
+    async content(event, trigger, player) {
+        const result = await player.judge().forResult();
+        if (result.suit == 'heart') {
+            await player.recover()
+        } else if (result.suit == 'diamond') {
+            await player.draw(2)
+        } else if (result.suit == 'club') {
+            await player.discardPlayerCard(1, 'he', trigger.player)
+        } else if (result.suit == 'spade') {
+            if (!trigger.player.storage.vl_aak_hy_1) trigger.player.storage.vl_aak_hy_1 = 0
+            trigger.player.storage.vl_aak_hy_1 += 1
+            trigger.player.addTempSkill('vl_aak_hy_1', { player: "phaseEnd" })
+        }
+    },
     subSkill: {
         "1": {
-            onremove: function (player) {
-							player.storage.vl_aak_hy_1 = 0
-						},
+            onremove(player) {
+                player.storage.vl_aak_hy_1 = 0
+            },
             mod: {
-                maxHandcard: function (player, num) {
-								return num - player.storage.vl_aak_hy_1;
-							},
+                maxHandcard(player, num) {
+                    return num - player.storage.vl_aak_hy_1;
+                },
             },
             mark: true,
             intro: {

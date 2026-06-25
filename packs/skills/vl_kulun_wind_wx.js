@@ -3,12 +3,12 @@ import { lib, game, ui, get, ai, _status } from '../../../../noname.js';
 export default {
     enable: "phaseUse",
     usable: 1,
-    filter: function (event, player) {
+    filter(event, player) {
 					return player.countCards('he') > 0;
 				},
     position: "he",
     complexCard: true,
-    filterCard: function (card) {
+    filterCard(card) {
 					var type = get.type2(card);
 					for (var i = 0; i < ui.selected.cards.length; i++) {
 						if (get.type2(ui.selected.cards[i]) != type) return false;
@@ -16,7 +16,7 @@ export default {
 					return true;
 				},
     complexTarget: true,
-    selectCard: function () {
+    selectCard() {
 					var player = _status.event.player
 					if (ui.selected.targets.length == 0) {
 						var num = Math.max(...game.players.filter(i => i != player).map(i => i.countCards('he')))
@@ -25,10 +25,10 @@ export default {
 						return [1, ui.selected.targets[0].countCards('he')]
 					}
 				},
-    filterTarget: function (card, player, target) {
+    filterTarget(card, player, target) {
 					return target != player && target.countCards('he') >= ui.selected.cards.length && target.countCards('he') > 0
 				},
-    content: function () {
+    async content(event, trigger, player) {
 					player.discardPlayerCard('he', cards.length, target)
 				},
     t: {

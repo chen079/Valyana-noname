@@ -5,14 +5,14 @@ export default {
         global: "phaseBefore",
         player: "enterGame",
     },
-    filter: function filter(event,player){
+    filter(event,player) {
 					return event.name != "phase" || game.phaseNumber == 0;
 				},
-    init: function (player) {
+    init(player) {
 					if (!player.storage.vl_dolina_sl) player.storage.vl_dolina_sl = [[], [], []]
 				},
     forced: true,
-    content: function () {
+    async content(event, trigger, player) {
 					for (var i of lib.inpile) {
 						var card = { name: i, isCard: true };
 						if (get.tag(card, 'damage')) {
@@ -30,21 +30,21 @@ export default {
         use: {
             enable: "phaseUse",
             direct: true,
-            filter: function (event, player) {
+            filter(event, player) {
 							return player.storage.vl_dolina_sl[1].length > 0 && player.countCards('hes') > 0
 						},
             chooseButton: {
-                dialog: function (event, player) {
+                dialog(event, player) {
 								return ui.create.dialog('噬浪', [player.storage.vl_dolina_sl[1], 'vcard']);
 							},
-                filter: function (button, player) {
+                filter(button, player) {
 								return lib.filter.filterCard({ name: button.link[2] }, player, _status.event.getParent());
 							},
-                check: function (button) {
+                check(button) {
 								var player = _status.event.player;
 								return player.getUseValue({ name: button.link[2] });
 							},
-                backup: function (links, player) {
+                backup(links, player) {
 								return {
 									filterCard: true,
 									selectCard: 1,
@@ -75,7 +75,7 @@ export default {
 									},
 								}
 							},
-                prompt: function (links, player) {
+                prompt(links, player) {
 								return '将一张牌当作' + get.translation(links[0][3]) + get.translation(links[0][2]) + '使用';
 							},
             },

@@ -3,7 +3,7 @@ import { lib, game, ui, get, ai, _status } from '../../../../noname.js';
 export default {
     intro: {
         content: "cards",
-        onunmark: function (storage, player) {
+        onunmark(storage, player) {
 						if (storage && storage.length) {
 							player.$throw(storage, 1000);
 							game.cardsDiscard(storage);
@@ -14,32 +14,30 @@ export default {
     },
     enable: "phaseUse",
     usable: 1,
-    init: function (player, skill) {
+    init(player, skill) {
 					if (!player.storage[skill]) player.storage[skill] = [];
 				},
-    filter: function (event, player) {
+    filter(event, player) {
 					return player.storage.vl_rest_qf.length < 4 && player.countCards('h') > 0;
 				},
     visible: true,
     filterCard: true,
-    selectCard: function () {
+    selectCard() {
 					var player = _status.event.player;
 					return [1, 4 - player.storage.vl_rest_qf.length];
 				},
     discard: false,
     toStorage: true,
     delay: false,
-    content: function () {
-					'step 0'
-					//player.lose(cards,ui.special,'toStorage')
+    async content(event, trigger, player) {
 					player.$give(cards, player, false);
 					player.storage.vl_rest_qf = player.storage.vl_rest_qf.concat(cards);
 					player.markSkill('vl_rest_qf');
 				},
-    check: function (card) {
+    check(card) {
 					return 8 - get.value(card);
 				},
-    onremove: function (player, skill) {
+    onremove(player, skill) {
 					var cards = player.storage.vl_rest_qf;
 					if (cards.length) player.loseToDiscardpile(cards);
 				},
@@ -56,18 +54,16 @@ export default {
                 source: "damageSource",
             },
             frequent: true,
-            check: function (event, player) {
+            check(event, player) {
 							return get.attitude(player, event.player) < 0
 						},
-            content: function () {
-							"step 0"
-							player.judge()
-							"step 1"
+            async content(event, trigger, player) {
+							const result = await player.judge().forResult();
 							if (result.color == 'red') {
-								player.draw()
+								await player.draw();
 							}
 							if (result.color == 'black') {
-								player.discardPlayerCard(1, trigger.player, 'h', true)
+								await player.discardPlayerCard(1, trigger.player, 'h', true);
 							}
 						},
             sub: true,

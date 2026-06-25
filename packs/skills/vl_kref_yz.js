@@ -5,12 +5,12 @@ export default {
     trigger: {
         global: "damageEnd",
     },
-    checkx: function (event, player) {
+    checkx(event, player) {
 					var att1 = get.attitude(player, event.player);
 					var att2 = get.attitude(player, event.source);
 					return att1 > 0 && att2 <= 0;
 				},
-    filter: function (event, player) {
+    filter(event, player) {
 					return (event.source && !event.player.isDead() && player.countCards('he') && event.source !== player);
 				},
     direct: true,
@@ -47,7 +47,7 @@ export default {
         maixie: true,
         maixie_hp: true,
         effect: {
-            target: function (card, player, target) {
+            target(card, player, target) {
 							if (player.hasSkillTag('jueqing', false, target)) return [1, -1];
 							if (get.tag(card, 'damage')) return [1, 0.55];
 						},

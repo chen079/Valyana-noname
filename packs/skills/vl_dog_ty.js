@@ -4,7 +4,7 @@ export default {
     onremove: true,
     mark: true,
     intro: {
-        mark: function (dialog, content, player) {
+        mark(dialog, content, player) {
 						if (player != game.me) return get.translation(player) + '观看牌堆中...';
 						if (get.itemtype(_status.pileTop) != 'card') return '牌堆顶无牌';
 						dialog.add([_status.pileTop]);

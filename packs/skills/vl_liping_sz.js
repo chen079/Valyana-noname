@@ -3,54 +3,51 @@ import { lib, game, ui, get, ai, _status } from '../../../../noname.js';
 export default {
     enable: "phaseUse",
     usable: 1,
-    filterTarget: function (card, player, target) {
+    filterTarget(card, player, target) {
 					return target.countCards('h') > 0
 				},
-    content: function () {
-					'step 0'
-					player.viewHandcards(target);
-					'step 1'
-					var choice = [], choiceList = []
-					var cards = target.getCards('h')
+    async content(event, trigger, player) {
+					await player.viewHandcards(target);
+					var choice = [], choiceList = [];
+					var cards = target.getCards('h');
 					if (cards.some(i => get.color(i) == 'black')) {
-						choice.push('black')
-						choiceList.push(cards.filter(i => get.color(i) == 'black').map(i => get.translation(i)))
+						choice.push('black');
+						choiceList.push(cards.filter(i => get.color(i) == 'black').map(i => get.translation(i)));
 					}
 					if (cards.some(i => get.color(i) == 'red')) {
-						choice.push('red')
-						choiceList.push(cards.filter(i => get.color(i) == 'red').map(i => get.translation(i)))
+						choice.push('red');
+						choiceList.push(cards.filter(i => get.color(i) == 'red').map(i => get.translation(i)));
 					}
-					player.chooseControl(choice).set('choiceList', choiceList).set('ai', function () {
+					const result = await player.chooseControl(choice).set('choiceList', choiceList).set('ai', function () {
 						var blackvalue = cards.reduce((previous, current) => {
 							if (get.color(current) == 'black') {
-								return previous + get.value(current, player)
+								return previous + get.value(current, player);
 							} else {
-								return previous
+								return previous;
 							}
-						}, 0) / (cards.filter(i => get.color(i) == 'black').length + 1)
+						}, 0) / (cards.filter(i => get.color(i) == 'black').length + 1);
 						var redvalue = cards.reduce((previous, current) => {
 							if (get.color(current) == 'red') {
-								return previous + get.value(current, player)
+								return previous + get.value(current, player);
 							} else {
-								return previous
+								return previous;
 							}
-						}, 0) / (cards.filter(i => get.color(i) == 'red').length + 1)
-						if (blackvalue > redvalue && choice.includes('black')) return 'black'
-						if (redvalue > blackvalue && choice.includes('red')) return 'red'
-						return choice.randomGet()
-					})
-					'step 2'
+						}, 0) / (cards.filter(i => get.color(i) == 'red').length + 1);
+						if (blackvalue > redvalue && choice.includes('black')) return 'black';
+						if (redvalue > blackvalue && choice.includes('red')) return 'red';
+						return choice.randomGet();
+					}).forResult();
 					if (result.control == 'red') {
-						target.recast(target.getCards('h', { color: 'red' }))
+						await target.recast(target.getCards('h', { color: 'red' }));
 					} else {
-						target.recast(target.getCards('h', { color: 'black' }))
+						await target.recast(target.getCards('h', { color: 'black' }));
 					}
-					target.recover()
+					await target.recover();
 				},
     ai: {
         order: 9,
         result: {
-            target: function (player, target) {
+            target(player, target) {
 							if (target.hp == 1) return 5 + target.countCards('h');
 							if (player == target) return 5 + target.countCards('h');
 							return 2;

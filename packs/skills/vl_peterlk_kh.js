@@ -2,54 +2,51 @@ import { lib, game, ui, get, ai, _status } from '../../../../noname.js';
 
 export default {
     enable: "phaseUse",
-    usable: function usable(skill,player){
+    usable(skill,player) {
 					return player.getDamagedHp()+2;
 				},
-    filter: function (event, player) {
+    filter(event, player) {
 					return player.countCards('h', 'sha') > 0 || player.countCards('h', { type: ['trick', 'delay'] }) > 0
 						&& player.countCards('h', { type: 'trick' }) != player.countCards('h', 'wuxie')
 				},
-    filterCard: function (card, player, target) {
+    filterCard(card, player, target) {
 					return (card.name == 'sha' || get.type(card, 'trick') == 'trick') && card.name != 'wuxie';
 				},
     discard: false,
     lose: false,
     delay: false,
     selectCard: 1,
-    filterTarget: function (card, player, target) {
+    filterTarget(card, player, target) {
 					return target != player;
 				},
-    ai1: function (card) {
+    ai1(card) {
 					return 6 - get.value(card);
 				},
-    ai2: function (target) {
+    ai2(target) {
 					var att = get.attitude(_status.event.player, target);
 					return att;
 				},
     position: "h",
-    content: function () {
-					"step 0"
-					targets[0].gain(cards, player, 'give')
-					"step 1"
-					if (game.hasPlayer(function (current) {
-						return targets[0].canUse(cards[0], current);
-					})) {
-						player.chooseTarget(get.prompt('vl_peterlk_kh'), '控魂：选择' + get.translation(cards[0]) + '的目标？', function (card, player, target) {
-							const playerx = _status.event.source;
-							return playerx.canUse(_status.event.card, target);
-						}).set('ai', function (target) {
-							const player = _status.event.source;
-							const card = _status.event.card;
-							return get.effect(target, card, player, _status.event.player);
-						}).set('card', cards[0]).set('source', targets[0]).setHiddenSkill(event.name);
-					} else {
-						event.finish()
-					}
-					"step 2"
-					if (result.bool) {
-						targets[0].useCard(cards[0], result.targets[0], false)
-					}
-				},
+    async content(event, trigger, player) {
+await targets[0].gain(cards, player, 'give')
+if (game.hasPlayer(function (current) {
+        						return targets[0].canUse(cards[0], current);
+        					})) {
+        						const result = await player.chooseTarget(get.prompt('vl_peterlk_kh'), '控魂：选择' + get.translation(cards[0]) + '的目标？', function (card, player, target) {
+        							const playerx = _status.event.source;
+        							return playerx.canUse(_status.event.card, target);
+        						}).set('ai', function (target) {
+        							const player = _status.event.source;
+        							const card = _status.event.card;
+        							return get.effect(target, card, player, _status.event.player);
+        						}).set('card', cards[0]).set('source', targets[0]).setHiddenSkill(event.name).forResult();
+        						if (result.bool) {
+        							await targets[0].useCard(cards[0], result.targets[0], false)
+        						}
+        					} else {
+        						return
+        					}
+    },
     ai: {
         order: 8,
         result: {

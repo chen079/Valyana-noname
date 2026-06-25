@@ -5,7 +5,7 @@ export default {
         global: "phaseAfter",
     },
     round: 1,
-    filter: function (event, player) {
+    filter(event, player) {
 					return event.player != player;
 				},
     content: async function content(event, trigger, player) {

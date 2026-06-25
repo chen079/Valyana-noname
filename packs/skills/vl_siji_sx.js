@@ -2,7 +2,7 @@ import { lib, game, ui, get, ai, _status } from '../../../../noname.js';
 
 export default {
     mod: {
-        targetEnabled: function (card, player, target, now) {
+        targetEnabled(card, player, target, now) {
 						if (card.name == 'bingliang') return false;
 					},
     },

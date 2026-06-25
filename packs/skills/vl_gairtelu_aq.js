@@ -6,7 +6,7 @@ export default {
         player: "chooseCardBegin",
     },
     forced: true,
-    filter: function filter(event, player) {
+    filter(event, player) {
 					return event.getParent(2).name === "chooseToDebate";
 				},
     content: async function content(event, trigger, player) {
@@ -35,7 +35,7 @@ export default {
             trigger: {
                 global: "debateShowOpinion",
             },
-            filter: function filter(event, player) {
+            filter(event, player) {
 							return event.targets.includes(player);
 						},
             forced: true,

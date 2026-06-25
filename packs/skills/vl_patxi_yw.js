@@ -6,7 +6,7 @@ export default {
     },
     silent: true,
     forced: true,
-    content: function () {
+    async content(event, trigger, player) {
 					var cards = [];
 					var card1 = get.cardPile2(function (card) {
 						return get.color(card, false) == 'red';

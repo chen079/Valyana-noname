@@ -7,12 +7,11 @@ export default {
     direct: true,
     preHidden: true,
     prompt: "一名角色的判定牌生效前，你可以打出一张手牌替换之",
-    filter: function (event, player) {
+    filter(event, player) {
 					return player.countCards(get.mode() == 'guozhan' ? 'hes' : 'hs') > 0;
 				},
-    content: function () {
-					"step 0"
-					player.chooseCard(get.translation(trigger.player) + '的' + (trigger.judgestr || '') + '判定为' +
+    async content(event, trigger, player) {
+					const chooseResult = await player.chooseCard(get.translation(trigger.player) + '的' + (trigger.judgestr || '') + '判定为' +
 						get.translation(trigger.player.judging[0]) + '，' + get.prompt('vl_luciya_xl_1'), get.mode() == 'guozhan' ? 'hes' : 'hs', function (card) {
 							var player = _status.event.player;
 							var mod2 = game.checkMod(card, player, 'unchanged', 'cardEnabled2', player);
@@ -33,16 +32,11 @@ export default {
 							else {
 								return -result - get.value(card) / 2;
 							}
-						}).set('judging', trigger.player.judging[0]).setHiddenSkill('vl_luciya_xl');
-					"step 1"
-					if (result.bool) {
-						player.respond(result.cards, 'vl_luciya_xl', 'highlight', 'noOrdering');
-					}
-					else {
-						event.finish();
-					}
-					"step 2"
-					if (result.bool) {
+						}).set('judging', trigger.player.judging[0]).setHiddenSkill('vl_luciya_xl').forResult();
+					if (!chooseResult.bool) return;
+					const cards = chooseResult.cards;
+					const respondResult = await player.respond(cards, 'vl_luciya_xl', 'highlight', 'noOrdering').forResult();
+					if (respondResult.bool) {
 						if (trigger.player.judging[0].clone) {
 							trigger.player.judging[0].clone.classList.remove('thrownhighlight');
 							game.broadcast(function (card) {
@@ -53,11 +47,11 @@ export default {
 							game.addVideo('deletenode', player, get.cardsInfo([trigger.player.judging[0].clone]));
 						}
 						game.cardsDiscard(trigger.player.judging[0]);
-						trigger.player.judging[0] = result.cards[0];
-						trigger.orderingCards.addArray(result.cards);
-						game.log(trigger.player, '的判定牌改为', result.cards[0]);
-						player.storage.vl_luciya_xl = result.cards[0]
-						game.delay(2);
+						trigger.player.judging[0] = cards[0];
+						trigger.orderingCards.addArray(cards);
+						game.log(trigger.player, '的判定牌改为', cards[0]);
+						player.storage.vl_luciya_xl = cards[0];
+						await game.delay(2);
 					}
 				},
     group: ["vl_luciya_xl_1"],
@@ -75,19 +69,17 @@ export default {
             },
             usable: 1,
             prompt: "是否发动【雄略】：你的拼点牌生效前，你可以将此牌点数视为A或K",
-            filter: function (event, player) {
+            filter(event, player) {
 							if (event.iwhile) return false;
 							if (event.player == player) { return true }
 						},
-            content: function () {
-							"step 0"
-							player.chooseControl("A", "K", true).set("prompt", "请选择拼点牌视为的点数：").set('ai', function (result, control) { return "K" });
-							"step 1"
+            async content(event, trigger, player) {
+							const result = await player.chooseControl("A", "K", true).set("prompt", "请选择拼点牌视为的点数：").set('ai', function (result, control) { return "K" }).forResult();
 							if (result.index == 1) {
-								player.addTempSkill("vl_luciya_xl_2", "compareAfter")
+								player.addTempSkill("vl_luciya_xl_2", "compareAfter");
 							}
 							if (result.index == 0) {
-								player.addTempSkill("vl_luciya_xl_3", "compareAfter")
+								player.addTempSkill("vl_luciya_xl_3", "compareAfter");
 							}
 						},
             sub: true,
@@ -98,7 +90,7 @@ export default {
                 target: ["compare"],
             },
             silent: true,
-            content: function () {
+            async content(event, trigger, player) {
 							game.log(player, '拼点牌点数视为', '#yK');
 							if (player == trigger.player) {
 								trigger.num1 = 13;
@@ -117,7 +109,7 @@ export default {
                 target: ["compare"],
             },
             silent: true,
-            content: function () {
+            async content(event, trigger, player) {
 							game.log(player, '拼点牌点数视为', '#yA');
 							if (player == trigger.player) {
 								trigger.num1 = 1;

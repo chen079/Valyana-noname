@@ -2,56 +2,56 @@ import { lib, game, ui, get, ai, _status } from '../../../../noname.js';
 
 export default {
     mod: {
-        cardUsable: function (card, player, num) {
+        cardUsable(card, player, num) {
 						if (card.name == 'jiu') return Infinity;
 					},
     },
     enable: "chooseToUse",
-    filterCard: function (card) {
+    filterCard(card) {
 					return get.suit(card) == 'spade';
 				},
     viewAs: {
         name: "jiu",
     },
     position: "hs",
-    viewAsFilter: function (player) {
+    viewAsFilter(player) {
 					return player.hasCard(card => get.suit(card) == 'spade', 'hs');
 				},
     prompt: "将一张黑桃手牌当酒使用",
-    check: function (cardx, player) {
+    check(cardx, player) {
 					if (player && player == cardx.player) return true;
 					if (_status.event.type == 'dying') return 1;
-					var player = _status.event.player;
-					var shas = player.getCards('hs', function (card) {
-						return card != cardx && get.name(card, player) == 'sha';
+					const current = _status.event.player;
+					const shas = current.getCards('hs', function (card) {
+						return card != cardx && get.name(card, current) == 'sha';
 					});
 					if (!shas.length) return -1;
-					if (shas.length > 1 && (player.getCardUsable('sha') > 1 || player.countCards('hs', 'zhuge'))) {
+					if (shas.length > 1 && (current.getCardUsable('sha') > 1 || current.countCards('hs', 'zhuge'))) {
 						return 0;
 					}
 					shas.sort(function (a, b) {
 						return get.order(b) - get.order(a);
 					});
-					var card = false;
+					let card = false;
 					if (shas.length) {
-						for (var i = 0; i < shas.length; i++) {
-							if (shas[i] != cardx && lib.filter.filterCard(shas[i], player)) {
+						for (let i = 0; i < shas.length; i++) {
+							if (shas[i] != cardx && lib.filter.filterCard(shas[i], current)) {
 								card = shas[i]; break;
 							}
 						}
 					}
 					if (card) {
 						if (game.hasPlayer(function (current) {
-							return (get.attitude(player, current) < 0 &&
+							return (get.attitude(_status.event.player, current) < 0 &&
 								!current.hasShan()
-								&& current.hp + current.countCards('h', { name: ['tao', 'jiu'] }) > 1 + (player.storage.jiu || 0)
-								&& player.canUse(card, current, true, true) &&
+								&& current.hp + current.countCards('h', { name: ['tao', 'jiu'] }) > 1 + (_status.event.player.storage.jiu || 0)
+								&& _status.event.player.canUse(card, current, true, true) &&
 								!current.hasSkillTag('filterDamage', null, {
-									player: player,
+									player: _status.event.player,
 									card: card,
 									jiu: true,
 								}) &&
-								get.effect(current, card, player) > 0);
+								get.effect(current, card, _status.event.player) > 0);
 						})) {
 							return 4 - get.value(cardx);
 						}
@@ -61,7 +61,7 @@ export default {
     ai: {
         threaten: 1.5,
         basic: {
-            useful: function (card, i) {
+            useful(card, i) {
 							if (_status.event.player.hp > 1) {
 								if (i == 0) return 4;
 								return 1;
@@ -69,7 +69,7 @@ export default {
 							if (i == 0) return 7.3;
 							return 3;
 						},
-            value: function (card, player, i) {
+            value(card, player, i) {
 							if (player.hp > 1) {
 								if (i == 0) return 5;
 								return 1;
@@ -78,13 +78,13 @@ export default {
 							return 3;
 						},
         },
-        order: function () {
+        order() {
 						let so = get.order({ name: 'sha' });
 						if (so > 0) return so + 0.2;
 						return 0;
 					},
         result: {
-            target: function (player, target) {
+            target(player, target) {
 							if (target && target.isDying()) return 2;
 							if (!target || target._jiu_temp || !target.isPhaseUsing()) return 0;
 							if (!target.getCardUsable('sha') || lib.config.mode == 'stone' && !player.isMin() && player.getActCount() + 1 >= player.actcount) return 0;

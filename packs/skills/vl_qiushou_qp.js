@@ -4,7 +4,7 @@ export default {
     trigger: {
         global: "useCard",
     },
-    filter: function filter(event, player) {
+    filter(event, player) {
 					return !event.player.hasHistory("useCard", evtx => evtx !== event);
 				},
     content: async function content(event, trigger, player) {

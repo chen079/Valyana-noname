@@ -3,10 +3,10 @@ import { lib, game, ui, get, ai, _status } from '../../../../noname.js';
 export default {
     enable: "phaseUse",
     usable: 1,
-    selectCard: function () {
+    selectCard() {
 					if (!ui.selected.targets.length) {
-						var player = _status.event.player
-						var maxHandSize = -1
+						const player = _status.event.player
+						let maxHandSize = -1
 						game.players.forEach(i => {
 							if (i != player) {
 								if (i.getDamagedHp() > maxHandSize) {
@@ -24,7 +24,7 @@ export default {
 					}
 				},
     filterCard: true,
-    check: function (card) {
+    check(card) {
 					return 7 - get.value(card)
 				},
     discard: false,
@@ -36,17 +36,17 @@ export default {
     position: "he",
     filter: (event, player) => player.countCards('h') > 1,
     selectTarget: 1,
-    content: () => {
-					'step 0'
-					player.give(cards, target)
-					'step 1'
+    async content(event, trigger, player) {
+					const target = event.targets[0];
+					const cards = event.cards;
+					await player.give(cards, target)
 					target.executeDelayCardEffect('bingliang')
-					target.executeDelayCardEffect('lebu')
-				},
+        					target.executeDelayCardEffect('lebu')
+    },
     ai: {
         order: 4,
         result: {
-            target: function (player, target) {
+            target(player, target) {
 							return -3
 						},
         },

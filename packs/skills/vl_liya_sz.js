@@ -5,19 +5,19 @@ export default {
         player: "damageEnd",
     },
     mod: {
-        targetInRange: function (card, player, target) {
+        targetInRange(card, player, target) {
 						return true;
 					},
     },
     locked: false,
     frequent: true,
-    filter: function (event, player) {
+    filter(event, player) {
 					return event.source && event.source.isIn() && event.source != player
 				},
-    check: function (event, player) {
+    check(event, player) {
 					return get.attitude(player, event.source) < 0
 				},
-    content: function () {
+    async content(event, trigger, player) {
 					trigger.source.addSkill('vl_liya_sz_far')
 					trigger.source.markSkill('vl_liya_sz_far')
 				},
@@ -32,26 +32,26 @@ export default {
             forced: true,
             popup: false,
             charlotte: true,
-            filter: function (event, player) {
+            filter(event, player) {
 							return event.num > 0;
 						},
-            content: function () {
+            async content(event, trigger, player) {
 							player.removeSkill('vl_liya_sz_far');
 						},
             mod: {
-                cardname: function (card, player, name) {
+                cardname(card, player, name) {
 								if (lib.card[card.name].type == 'trick') return 'sha';
 							},
-                attackRange: function attackRange(player, num) {
+                attackRange(player, num) {
 								return 0;
 							},
-                globalFrom: function (from, to, current) {
+                globalFrom(from, to, current) {
 								return current + game.countPlayer();
 							},
             },
             ai: {
                 effect: {
-                    target: function (card, player, target, current) {
+                    target(card, player, target, current) {
 									if (get.tag(card, 'respondSha') && current < 0) return 0.6
 								},
                 },

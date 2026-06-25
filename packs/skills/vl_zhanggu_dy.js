@@ -6,10 +6,10 @@ export default {
         player: "enterGame",
     },
     forced: true,
-    filter: function (event, player) {
+    filter(event, player) {
 					return (event.name != 'phase' || game.phaseNumber == 0);
 				},
-    content: function () {
+    async content(event, trigger, player) {
 					var cards = [];
 					for (var i = 2; i < 10; i++) {
 						cards.push(game.createCard2('du', i % 2 ? 'club' : 'spade', i));
@@ -20,10 +20,10 @@ export default {
 					})
 				},
     mod: {
-        ignoredHandcard: function (card, player) {
+        ignoredHandcard(card, player) {
 						if (get.name(card) == 'du') return true;
 					},
-        cardDiscardable: function (card, player, name) {
+        cardDiscardable(card, player, name) {
 						if (name == 'phaseDiscard' && get.name(card) == 'du') return false;
 					},
     },
@@ -33,11 +33,11 @@ export default {
             trigger: {
                 player: "loseHpBegin",
             },
-            filter: function (event, player) {
+            filter(event, player) {
 							return event.type == 'du';
 						},
             forced: true,
-            content: function () {
+            async content(event, trigger, player) {
 							trigger.cancel();
 						},
             sub: true,
@@ -45,6 +45,6 @@ export default {
     },
     t: {
         name: "毒医",
-        info: "锁定技，①游戏开始时，你将8张「du」加入牌堆，②你因【毒①】失去体力时，取消之，③你的【毒】不计入手牌上限。",
+        info: `锁定技，①游戏开始时，你将8张${get.poptip("du")}加入牌堆，②你因【毒①】失去体力时，取消之，③你的【毒】不计入手牌上限。`,
     },
 };

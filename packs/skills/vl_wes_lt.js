@@ -7,22 +7,15 @@ export default {
     unique: true,
     frequent: true,
     firstDo: true,
-    content: function () {
-					"step 0"
-					event.count = trigger.num
-					"step 1"
-					player.judge()
-					"step 2"
-					switch (result.color) {
-						case 'red': player.recover(); break;
-						case 'black': player.draw(2); break;
-					}
-					"step 3"
-					event.count--
-					if (event.count > 0) {
-						event.goto(1)
-					}
-				},
+    async content(event, trigger, player) {
+for (let count = trigger.num; count > 0; count--) {
+        					const result = await player.judge().forResult();
+        					switch (result.color) {
+        						case 'red': await player.recover(); break;
+        						case 'black': await player.draw(2); break;
+        					}
+        				}
+    },
     ai: {
         maixie: true,
         maixie_hp: true,

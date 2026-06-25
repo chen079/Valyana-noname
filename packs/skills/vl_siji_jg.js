@@ -3,45 +3,41 @@ import { lib, game, ui, get, ai, _status } from '../../../../noname.js';
 export default {
     enable: "phaseUse",
     usable: 1,
-    check: function (event, player) {
+    check(event, player) {
 					return player.countCards('h', card => get.type(card) == 'basic') <= 1
 				},
-    content: function () {
-					'step 0'
-					player.showHandcards()
-					'step 1'
-					player.discard(player.getCards('h', card => get.type(card) == 'basic'))
-					'step 2'
-					player.chooseButton(['降谷：是否视为使用其中一种牌？', [['wugu', 'taoyuan'], 'vcard']]).set('filterButton', function (button) {
-						return _status.event.player.hasUseTarget({ name: button.link[2], isCard: true });
-					}).set('ai', function (button) {
-						return _status.event.player.getUseValue({ name: button.link[2], isCard: true });
-					}).set('forced', true);
-					'step 3'
-					if (result.bool) {
-						player.when("useCard2")
-							.filter((event, player) => event.card.name == 'wugu' || event.card.name == 'taoyuan' && event.targets.length > 0)
-							.then(() => {
-								player.chooseTarget([1, trigger.targets.length - 1], get.prompt('vl_siji_jg'), '为' + get.translation(trigger.card) + '减少任意个目标', function (card, player, target) {
-									return _status.event.targets.includes(target)
-								}).set('targets', trigger.targets).set('ai', function (target) {
-									var player = _status.event.player;
-									return -get.effect(target, _status.event.getTrigger().card, player, player)
-								});
-							})
-							.then(() => {
-								if (result.bool) {
-									player.logSkill('vl_siji_jg', result.targets);
-									trigger.targets.removeArray(result.targets);
-								}
-							})
-							.assign({
-								line: false,
-								direct: true,
-							})
-						player.chooseUseTarget({ name: result.links[0][2], isCard: true }, true);
-					}
-				},
+    async content(event, trigger, player) {
+await player.showHandcards()
+await player.discard(player.getCards('h', card => get.type(card) == 'basic'))
+const result = await player.chooseButton(['降谷：是否视为使用其中一种牌？', [['wugu', 'taoyuan'], 'vcard']]).set('filterButton', function (button) {
+        						return _status.event.player.hasUseTarget({ name: button.link[2], isCard: true });
+        					}).set('ai', function (button) {
+        						return _status.event.player.getUseValue({ name: button.link[2], isCard: true });
+        					}).set('forced', true).forResult();
+if (result.bool) {
+        						player.when("useCard2")
+        							.filter((event, player) => event.card.name == 'wugu' || event.card.name == 'taoyuan' && event.targets.length > 0)
+        							.then(() => {
+        								player.chooseTarget([1, trigger.targets.length - 1], get.prompt('vl_siji_jg'), '为' + get.translation(trigger.card) + '减少任意个目标', function (card, player, target) {
+        									return _status.event.targets.includes(target)
+        								}).set('targets', trigger.targets).set('ai', function (target) {
+        									var player = _status.event.player;
+        									return -get.effect(target, _status.event.getTrigger().card, player, player)
+        								});
+        							})
+        							.then(() => {
+        								if (result.bool) {
+        									player.logSkill('vl_siji_jg', result.targets);
+        									trigger.targets.removeArray(result.targets);
+        								}
+        							})
+        							.assign({
+        								line: false,
+        								direct: true,
+        							})
+        						await player.chooseUseTarget({ name: result.links[0][2], isCard: true }, true);
+        					}
+    },
     ai: {
         order: 4,
         result: {

@@ -6,7 +6,7 @@ export default {
     filterCard: true,
     position: "h",
     filterTarget: true,
-    content: function () {
+    async content(event, trigger, player) {
 					target.addVuff('jianren', player, 2)
 				},
     ai: {

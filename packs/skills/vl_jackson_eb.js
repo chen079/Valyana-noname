@@ -7,24 +7,22 @@ export default {
     },
     unique: true,
     forced: true,
-    init: function (player) {
+    init(player) {
 					if (!player.storage.vl_jackson_eb) player.storage.vl_jackson_eb = [];
 				},
-    content: function () {
-					"step 0"
-					player.chooseTarget(Math.min(2, game.players.length - 1), true, "请选择〖纵沙〗的目标", "令" + Math.min(2, game.players.length - 1) + "名角色被标记", function (card, player, target) {
-						return target != player
-					});
-					"step 1"
-					if (result.targets.length == 1) {
-						result.targets[0].addMark('vl_jackson_eb')
-					} else {
-						result.targets[0].addMark('vl_jackson_eb')
-						result.targets[1].addMark('vl_jackson_eb')
-					}
-					player.addSkill("vl_jackson_eb_1")
-					player.addSkill("vl_jackson_eb_2")
-				},
+    async content(event, trigger, player) {
+const result = await player.chooseTarget(Math.min(2, game.players.length - 1), true, "请选择〖纵沙〗的目标", "令" + Math.min(2, game.players.length - 1) + "名角色被标记", function (card, player, target) {
+        						return target != player
+        					}).forResult();
+if (result.targets.length == 1) {
+        						result.targets[0].addMark('vl_jackson_eb')
+        					} else {
+        						result.targets[0].addMark('vl_jackson_eb')
+        						result.targets[1].addMark('vl_jackson_eb')
+        					}
+        					player.addSkill("vl_jackson_eb_1")
+        					player.addSkill("vl_jackson_eb_2")
+    },
     marktext: "纵沙",
     intro: {
         name2: "纵沙",
@@ -38,13 +36,13 @@ export default {
                 global: "recoverBegin",
             },
             forced: true,
-            filter: function (event, player) {
+            filter(event, player) {
 							return event.player.hasMark('vl_jackson_eb')
 						},
             logTarget: "player",
-            content: function () {
-							player.gainMaxHp(trigger.num)
-							event.finish()
+            async content(event, trigger, player) {
+							await player.gainMaxHp(trigger.num)
+							return
 						},
             sub: true,
         },
@@ -55,22 +53,19 @@ export default {
             unique: true,
             forced: true,
             preHidden: true,
-            filter: function (event, player) {
+            filter(event, player) {
 							return event.player.hasMark('vl_jackson_eb') && game.findPlayer(function (current) {
 								return !current.hasMark('vl_jackson_eb') && current != player
 							})
 						},
-            content: function () {
-							"step 0"
-							event.togain = trigger.player.getCards('he');
-							if(event.togain.length)player.gain(event.togain, trigger.player, 'giveAuto');
-							"step 1"
-							player.chooseTarget(1, true, "请选择〖纵沙〗的目标").set("filterTarget", function (card, player, target, skill) {
-								return target.countMark('vl_jackson_eb') == 0 && player != target
-							})
-							"step 2"
-							result.targets[0].addMark('vl_jackson_eb')
-						},
+            async content(event, trigger, player) {
+event.togain = trigger.player.getCards('he');
+        							if(event.togain.length) await player.gain(event.togain, trigger.player, 'giveAuto');
+const result = await player.chooseTarget(1, true, "请选择〖纵沙〗的目标").set("filterTarget", function (card, player, target, skill) {
+        								return target.countMark('vl_jackson_eb') == 0 && player != target
+        							}).forResult()
+result.targets[0].addMark('vl_jackson_eb')
+    },
             sub: true,
         },
     },

@@ -3,27 +3,26 @@ import { lib, game, ui, get, ai, _status } from '../../../../noname.js';
 export default {
     enable: "phaseUse",
     usable: 1,
-    filterTarget: function (card, player, target) {
+    filterTarget(card, player, target) {
 					return target != player
 				},
     direct: true,
-    content: function () {
-					'step 0'
-					target.chooseToDiscard('天灭：弃置一张【闪】，否则' + get.translation(player) + '对你造成1点伤害。', function (card) {
-						return get.name(card) == 'shan';
-					}).set('ai', function (card) {
-						return 10 - get.value(card)
-					})
-					'step 1'
-					if (!result.bool) {
-						target.damage(player, 'fire')
-					}
-				},
+    async content(event, trigger, player) {
+						const target = event.target;
+						const result = await target.chooseToDiscard('天灭：弃置一张【闪】，否则' + get.translation(player) + '对你造成1点伤害。', function (card) {
+							return get.name(card) == 'shan';
+						}).set('ai', function (card) {
+							return 10 - get.value(card)
+						}).forResult();
+						if (!result.bool) {
+							await target.damage(player, 'fire')
+						}
+    },
     ai: {
         order: 7,
         fireAttack: true,
         result: {
-            target: function (player, target) {
+            target(player, target) {
 							if (target.hasSkillTag('nofire')) return 0;
 							if (lib.config.mode == 'versus') return -1;
 							if (player.hasUnknown()) return 0;

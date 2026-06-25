@@ -7,13 +7,12 @@ export default {
         player: "useCard",
     },
     frequent: true,
-    filter: function (event, player) {
+    filter(event, player) {
 					return (get.type(event.card, 'trick') == 'trick' && event.card.isCard) && ((player.name1 == 'vl_kulun_dirt') || (player.name2 == 'vl_kulun_dirt'));;
 				},
-    content: function () {
-					'step 0'
-					player.draw();
-				},
+    async content(event, trigger, player) {
+        await player.draw();
+    },
     ai: {
         threaten: 1.4,
         noautowuxie: true,

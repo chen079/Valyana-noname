@@ -4,11 +4,11 @@ export default {
     trigger: {
         source: "damageAfter",
     },
-    filter: function (event, player) {
+    filter(event, player) {
 					return event.card && event.player != player;
 				},
     forced: true,
-    content: function () {
+    async content(event, trigger, player) {
 					var target = trigger.player;
 					target.addVuff('zhongdu', player, trigger.num)
 				},
@@ -20,11 +20,11 @@ export default {
             trigger: {
                 player: "useCardToPlayered",
             },
-            filter: function (event, player) {
+            filter(event, player) {
 							return event.card.name == 'sha' && get.color(event.card) == 'black';
 						},
             logTarget: "target",
-            content: function () {
+            async content(event, trigger, player) {
 							trigger.getParent().directHit.add(trigger.target);
 						},
             sub: true,

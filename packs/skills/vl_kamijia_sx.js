@@ -9,10 +9,10 @@ export default {
     selectTarget: 2,
     complexTarget: true,
     targetprompt: ["获得牌", "使用目标"],
-    filter: function (event, player) {
+    filter(event, player) {
 					return player.countCards('h') > 0
 				},
-    filterTarget: function (card, player, target) {
+    filterTarget(card, player, target) {
 					if (ui.selected.targets.length) {
 						return true
 					} else {
@@ -22,32 +22,30 @@ export default {
     position: "h",
     filterCard: true,
     selectCard: -1,
-    content: function () {
-					'step 0'
-					targets[0].gain(cards, player, 'giveAuto')
-					targets[0].addTempSkill('vl_kamijia_sx_unuse', { player: 'phaseAfter' })
-					if (!targets[0].storage.vl_kamijia_sx_unuse) {
-						targets[0].storage.vl_kamijia_sx_unuse = {
-							source: player,
-							target: [],
-							num: 0,
-							gain: 0
-						}
-					}
-					targets[0].storage.vl_kamijia_sx_unuse.gain += cards.length
-					targets[0].storage.vl_kamijia_sx_unuse.num++
-					targets[0].storage.vl_kamijia_sx_unuse.target.push(targets[1])
-					'step 1'
-					var evt = _status.event.getParent('phaseUse');
-					if (evt) {
-						evt.skipped = true;
-					}
-				},
+    async content(event, trigger, player) {
+await targets[0].gain(cards, player, 'giveAuto')
+        					targets[0].addTempSkill('vl_kamijia_sx_unuse', { player: 'phaseAfter' })
+        					if (!targets[0].storage.vl_kamijia_sx_unuse) {
+        						targets[0].storage.vl_kamijia_sx_unuse = {
+        							source: player,
+        							target: [],
+        							num: 0,
+        							gain: 0
+        						}
+        					}
+        					targets[0].storage.vl_kamijia_sx_unuse.gain += cards.length
+        					targets[0].storage.vl_kamijia_sx_unuse.num++
+        					targets[0].storage.vl_kamijia_sx_unuse.target.push(targets[1])
+var evt = _status.event.getParent('phaseUse');
+        					if (evt) {
+        						evt.skipped = true;
+        					}
+    },
     ai: {
         order: 1,
         result: {
             player: 1,
-            target: function (player, target) {
+            target(player, target) {
 							if (ui.selected.targets.length) {
 								return -3
 							} else {
@@ -72,13 +70,13 @@ export default {
         unuse: {
             mark: true,
             intro: {
-                mark: function (dialog, storage, player) {
+                mark(dialog, storage, player) {
 								dialog.addText('<li>①出牌阶段，你可以额外使用' + get.cnNumber(player.storage.vl_kamijia_sx_unuse.num) + '张【杀】');
 								dialog.addText('<li>②你使用牌无距离限制')
 								dialog.addText(' <li>③你只能对' + get.translation(player.storage.vl_kamijia_sx_unuse.target) + '和自己使用牌。')
 							},
             },
-            onremove: function (player) {
+            onremove(player) {
 							delete player.storage.vl_kamijia_sx_unuse
 						},
             trigger: {
@@ -87,41 +85,39 @@ export default {
             },
             charlotte: true,
             forced: true,
-            filter: function (event, player) {
+            filter(event, player) {
 							if (event.type != 'discard' || event.getlx === false || event.getParent('phaseDiscard').player != player || !player.storage.vl_kamijia_sx_unuse.source || !player.storage.vl_kamijia_sx_unuse.source.isIn()) return false;
 							var evt = event.getl(player);
 							return evt && evt.cards2.filterInD('d').length > 0;
 						},
-            logTarget: function (event, player) {
+            logTarget(event, player) {
 							return player.storage.vl_kamijia_sx_unuse.source
 						},
-            content: function () {
-							'step 0'
-							if (trigger.delay === false) game.delay();
-							var cards = trigger.getl(player).cards2.filterInD('d')
-							if (Math.floor(player.storage.vl_kamijia_sx_unuse.gain / 2) != 0 && cards.length) {
-								player.storage.vl_kamijia_sx_unuse.source.chooseCardButton('获得' + get.translation(player) + '弃置的牌中至多' + get.cnNumber(Math.min(cards.length, 5, Math.floor(player.storage.vl_kamijia_sx_unuse.gain / 2))) + '张牌', [1, Math.min(cards.length, 5, Math.floor(player.storage.vl_kamijia_sx_unuse.gain / 2))], cards)
-									.set('ai', function (button) {
-										get.useful(button.link);
-									})
-							} else {
-								event.finish()
-							}
-							'step 1'
-							if (result.bool) {
-								player.storage.vl_kamijia_sx_unuse.source.gain(result.links, 'gain2')
-							} else {
-								event.finish()
-							}
-						},
+            async content(event, trigger, player) {
+if (trigger.delay === false) game.delay();
+        							var cards = trigger.getl(player).cards2.filterInD('d')
+        							if (Math.floor(player.storage.vl_kamijia_sx_unuse.gain / 2) != 0 && cards.length) {
+        								const result = await player.storage.vl_kamijia_sx_unuse.source.chooseCardButton('获得' + get.translation(player) + '弃置的牌中至多' + get.cnNumber(Math.min(cards.length, 5, Math.floor(player.storage.vl_kamijia_sx_unuse.gain / 2))) + '张牌', [1, Math.min(cards.length, 5, Math.floor(player.storage.vl_kamijia_sx_unuse.gain / 2))], cards)
+        									.set('ai', function (button) {
+        										get.useful(button.link);
+        									}).forResult()
+        								if (result.bool) {
+        									await player.storage.vl_kamijia_sx_unuse.source.gain(result.links, 'gain2')
+        								} else {
+        									return
+        								}
+        							} else {
+        								return
+        							}
+    },
             mod: {
-                targetInRange: function (card, player, target, now) {
+                targetInRange(card, player, target, now) {
 								return true
 							},
-                playerEnabled: function (card, player, target) {
+                playerEnabled(card, player, target) {
 								if (player != target && !player.storage.vl_kamijia_sx_unuse.target.includes(target)) return false;
 							},
-                cardUsable: function (card, player, num) {
+                cardUsable(card, player, num) {
 								if (card.name == 'sha') return num + player.storage.vl_kamijia_sx_unuse.num;
 							},
             },

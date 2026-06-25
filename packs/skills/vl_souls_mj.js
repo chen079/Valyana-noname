@@ -5,14 +5,14 @@ export default {
         player: "consumeVpBegin2",
     },
     frequent: true,
-    filter: function (event, player) {
-					return player.isMinHandcard()
-				},
-    content: function () {
-					player.draw()
-				},
+    filter(event, player) {
+        return player.isMinHandcard()
+    },
+    async content(event, trigger, player) {
+        await player.draw()
+    },
     t: {
         name: "得失",
-        info: "当你消耗「moli」时，若你的手牌数为全场最少，你可以摸一张牌。",
+        info: `当你消耗${get.poptip("moli")}时，若你的手牌数为全场最少，你可以摸一张牌。`,
     },
 };

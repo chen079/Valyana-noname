@@ -6,13 +6,13 @@ export default {
     enable: "phaseUse",
     animationColor: "thunder",
     skillAnimation: "epic",
-    filter: function (event, player) {
+    filter(event, player) {
 					return !player.storage.vl_mika_pl && game.players.length >= 3
 				},
-    init: function (player) {
+    init(player) {
 					player.storage.vl_mika_pl = false;
 				},
-    filterTarget: function (card, player, target) {
+    filterTarget(card, player, target) {
 					if (target == player) return false;
 					return true;
 				},
@@ -24,27 +24,22 @@ export default {
     delay: false,
     selectTarget: 2,
     multitarget: true,
-    content: function () {
-					'step 0'
+    async content(event, trigger, player) {
+					const targets = event.targets;
 					player.awakenSkill('vl_mika_pl');
-					player.storage.vl_mika_pl = true;
-					targets[0].gain(cards, player, 'give');
-					'step 1'
-					event.list = targets[0].getCards('h')
-					'step 2'
-					var card = event.list.shift()
-					if (targets[1] && targets[1].isIn() && targets[0].canUse(card, targets[1], false)) {
-						targets[0].useCard(card, targets[1], false)
+        					player.storage.vl_mika_pl = true;
+        					await targets[0].gain(event.cards, player, 'give');
+					const list = targets[0].getCards('h');
+					while (list.length) {
+						var card = list.shift()
+        					if (targets[1] && targets[1].isIn() && targets[0].canUse(card, targets[1], false)) {
+        						await targets[0].useCard(card, targets[1], false)
+        					}
+        					else {
+        						await player.gain(card)
+        					}
 					}
-					else {
-						player.gain(card)
-					}
-					if (event.list.length) {
-						event.redo()
-					} else {
-						event.finish()
-					}
-				},
+    },
     intro: {
         content: "limited",
     },
@@ -52,7 +47,7 @@ export default {
         expose: 0.4,
         order: 4,
         result: {
-            target: function (player, target) {
+            target(player, target) {
 							if (player.hasUnknown()) return 0;
 							if (ui.selected.targets.length) return -1;
 							return -0.5;

@@ -3,46 +3,45 @@ import { lib, game, ui, get, ai, _status } from '../../../../noname.js';
 export default {
     enable: "phaseUse",
     usable: 1,
-    filter: function (event, player) {
+    filter(event, player) {
 					return (player.getDamagedHp() + 1) > 0 && player.countCards('h') > 0;
 				},
-    filterTarget: function (card, player, target) {
+    filterTarget(card, player, target) {
 					return player != target
 				},
-    selectTarget: function () {
+    selectTarget() {
 					return ui.selected.cards.length;
 				},
-    selectCard: function () {
-					var player = _status.currentPhase;
+    selectCard() {
+					const player = _status.currentPhase;
 					return [1, Math.min(game.players.length - 1, player.getDamagedHp() + 1)];
 				},
     filterCard: true,
     position: "he",
-    check: function (card) {
+    check(card) {
 					if (ui.selected.cards.length == 0) {
 						return 8 - get.value(card);
 					}
 					return 6 - get.value(card);
 				},
-    content: function () {
-					"step 0"
-					target.damage('frmad');
-				},
+    async content(event, trigger, player) {
+await event.target.damage('frmad');
+    },
     ai: {
         order: 9,
         result: {
-            target: function (player, target) {
+            target(player, target) {
 							return get.damageEffect(target, player, target);
 						},
         },
-        threaten: function (player, target) {
+        threaten(player, target) {
 						if (target.hp == 1) return 2;
 						if (target.hp == 2) return 1.5;
 						return 0.5;
 					},
         maixie: true,
         effect: {
-            target: function (card, player, target) {
+            target(card, player, target) {
 							if (get.tag(card, 'damage')) {
 								if (target.hp == target.maxHp) return [0, 1];
 							}
@@ -57,10 +56,10 @@ export default {
                 source: "damageBegin1",
             },
             frequent: true,
-            filter: function (event, player) {
+            filter(event, player) {
 							return !event.nature && event.player != player
 						},
-            content: function () {
+            async content(event, trigger, player) {
 							game.setNature(trigger, 'frmad');
 						},
         },

@@ -10,7 +10,7 @@ export default {
     skillAnimation: true,
     animationColor: "thunder",
     unique: true,
-    logTarget: function (event, player) {
+    logTarget(event, player) {
 					return game.filterPlayer(function (current) {
 						return current != player
 					})

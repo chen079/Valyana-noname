@@ -6,12 +6,12 @@ export default {
         source: "damageBegin2",
     },
     forced: true,
-    filter: function (event, player) {
+    filter(event, player) {
 					if (!event.player.storage.vl_akain_fy_nature) return false
 					if (!event.nature) return false
 					return event.player.storage.vl_akain_fy_nature != event.nature
 				},
-    content: function () {
+    async content(event, trigger, player) {
 					trigger.num++
 				},
     subSkill: {
@@ -22,14 +22,14 @@ export default {
             direct: true,
             charlotte: true,
             forced: true,
-            filter: function (event, player) {
+            filter(event, player) {
 							return event.nature
 						},
             mark: true,
             intro: {
                 content: "上次受到的属性伤害为$属性",
             },
-            content: function () {
+            async content(event, trigger, player) {
 							player.markSkill('vl_akain_fy_nature')
 							player.storage.vl_akain_fy_nature = trigger.nature
 						},

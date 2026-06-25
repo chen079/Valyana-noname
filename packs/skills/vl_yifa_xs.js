@@ -11,53 +11,50 @@ export default {
     charlotte: true,
     mark: true,
     supercharlotte: true,
-    content: function () {
-					"step 0"
-					var skills = get.gainableSkills(function (info, skill) {
-						if (info.fixed || info.unique || info.zhuSkill || info.charlotte || info.yunlvSkill || info.qianghua || info.hiddenSkill || info.juexingji || info.limited || info.dutySkill || (info.unique && !info.gainable)) return false
-						if (player.hasSkill(skill)) return false
-						return true
-					}, player)
-					event.skills = skills
-					player.chooseText(6, true, event.skills.map(i => get.translation(i))).set('ai', function () {
-						return get.translation(skills.randomGet())
-					}).set('prompt', get.prompt2('vl_yifa_xs'))
-					"step 1"
-					event.choice = event.skills.filter(function (item) {
-						return get.translation(item) == result.text
-					})
-					if (event.choice.length == 1) {
-						var skills2 = event.choice[0]
-						if (trigger.name == "phaseZhunbei") {
-							player.addTempSkill(skills2, { player: "phaseEnd" });
-						} else if (trigger.name == "phaseJieshu") {
-							player.addTempSkill(skills2, { player: "phaseBegin" });
-						} else {
-							player.addTempSkill(skills2, 'roundStart');
-						}
-						player.popup(skills2);
-						game.log(player, '声明了', '#g' + '【' + get.translation(skills2) + '】');
-						event.finish()
-					} else {
-						var list = []
-						var skills = event.choice
-						for (var i = 0; i < skills.length; i++) {
-							list.push(get.translation(skills[i] + '_info'))
-						}
-						player.chooseControl().set('choiceList', list).set('prompt', '选择〖' + get.translation(skills[0]) + '〗的版本')
-					}
-					"step 2"
-					var skills2 = event.choice[result.index]
-					if (trigger.name == "phaseZhunbei") {
-						player.addTempSkill(skills2, { player: "phaseEnd" });
-					} else if (trigger.name == "phaseJieshu") {
-						player.addTempSkill(skills2, { player: "phaseBegin" });
-					} else {
-						player.addTempSkill(skills2, 'roundStart');
-					}
-					player.popup(skills2);
-					game.log(player, '声明了', '#g' + '【' + get.translation(skills2) + '】');
-				},
+    async content(event, trigger, player) {
+const skills = get.gainableSkills(function (info, skill) {
+        						if (info.fixed || info.unique || info.zhuSkill || info.charlotte || info.yunlvSkill || info.qianghua || info.hiddenSkill || info.juexingji || info.limited || info.dutySkill || (info.unique && !info.gainable)) return false
+        						if (player.hasSkill(skill)) return false
+        						return true
+        					}, player)
+        					event.skills = skills
+        					const textResult = await player.chooseText(6, true, event.skills.map(i => get.translation(i))).set('ai', function () {
+        						return get.translation(skills.randomGet())
+        					}).set('prompt', get.prompt2('vl_yifa_xs')).forResult()
+event.choice = event.skills.filter(function (item) {
+        						return get.translation(item) == textResult.text
+        					})
+        					if (event.choice.length == 1) {
+        						const skills2 = event.choice[0]
+        						if (trigger.name == "phaseZhunbei") {
+        							player.addTempSkill(skills2, { player: "phaseEnd" });
+        						} else if (trigger.name == "phaseJieshu") {
+        							player.addTempSkill(skills2, { player: "phaseBegin" });
+        						} else {
+        							player.addTempSkill(skills2, 'roundStart');
+        						}
+        						player.popup(skills2);
+        						game.log(player, '声明了', '#g' + '【' + get.translation(skills2) + '】');
+        						return
+        					} else {
+        						const list = []
+        						const choices = event.choice
+        						for (let i = 0; i < choices.length; i++) {
+        							list.push(get.translation(choices[i] + '_info'))
+        						}
+        						const choiceResult = await player.chooseControl().set('choiceList', list).set('prompt', '选择〖' + get.translation(choices[0]) + '〗的版本').forResult()
+        						const skills2 = event.choice[choiceResult.index]
+        						if (trigger.name == "phaseZhunbei") {
+        							player.addTempSkill(skills2, { player: "phaseEnd" });
+        						} else if (trigger.name == "phaseJieshu") {
+        							player.addTempSkill(skills2, { player: "phaseBegin" });
+        						} else {
+        							player.addTempSkill(skills2, 'roundStart');
+        						}
+        						player.popup(skills2);
+        						game.log(player, '声明了', '#g' + '【' + get.translation(skills2) + '】');
+        					}
+    },
     ai: {
         threaten: 6,
     },

@@ -3,16 +3,16 @@ import { lib, game, ui, get, ai, _status } from '../../../../noname.js';
 export default {
     enable: "phaseUse",
     usable: 1,
-    filter: function (event, player) {
+    filter(event, player) {
 					return player.getStorage('vl_kulun_zn').length > 0
 				},
-    content: function () {
-					'step 0'
-					var next = game.createEvent('vl_kulun_zn_clique');
-					next.player = player;
-					next.num = 4
-					next.setContent(lib.skill.vl_kulun_zn.contentx);
-				},
+    async content(event, trigger, player) {
+        const next = game.createEvent('vl_kulun_zn_clique');
+        next.player = player;
+        next.num = 4;
+        next.setContent(lib.skill.vl_kulun_zn.contentx);
+        await next;
+    },
     ai: {
         order: 14,
         result: {

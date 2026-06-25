@@ -5,7 +5,7 @@ export default {
         player: "damageBegin3",
     },
     unique: true,
-    filter: function (event, player) {
+    filter(event, player) {
 					if (!event.source) return false
 					if (event.num >= player.maxHp) return false
 					if (get.gainableSkillsName(event.source.name, function (info, skill, name) {
@@ -15,38 +15,34 @@ export default {
 					}).length > 0) return true
 					return false
 				},
-    init: function (player) {
+    init(player) {
 					if (!player.storage.vl_tery_hx) player.storage.vl_tery_hx = [[], []]
 				},
-    check: function (event, player) {
+    check(event, player) {
 					if (player.hp == player.maxHp && event.num == 1) return false
 					if (player.hp < player.maxHp - 1 || (player.hp <= 2 && event.num >= 2)) return true;
 					return false
 				},
-    content: function () {
-					'step 0'
-					trigger.cancel()
-					'step 1'
-					player.loseMaxHp(trigger.num)
-					'step 2'
-					player.chooseSkill(trigger.source.name, function (info, skill, name) {
-						if (info.fixed || info.unique || info.zhuSkill || info.charlotte || info.yunlvSkill || info.qianghua || info.hiddenSkill || info.juexingji || info.limited || info.dutySkill || (info.unique && !info.gainable)) return false
-						if (player.hasSkill(skill)) return false
-						return true
-					})
-					'step 3'
-					player.addSkill(result.skill);
-					player.popup(result.skill);
-					game.log(player, '获得技能', '【' + get.translation(result.skill) + '】');
-					trigger.source.removeSkill(result.skill)
-					game.log(trigger.source, '失去技能', '【' + get.translation(result.skill) + '】')
-					player.storage.vl_tery_hx[0].push(trigger.source)
-					player.storage.vl_tery_hx[1].push(result.skill)
-				},
+    async content(event, trigger, player) {
+trigger.cancel()
+await player.loseMaxHp(trigger.num)
+const result = await player.chooseSkill(trigger.source.name, function (info, skill, name) {
+        						if (info.fixed || info.unique || info.zhuSkill || info.charlotte || info.yunlvSkill || info.qianghua || info.hiddenSkill || info.juexingji || info.limited || info.dutySkill || (info.unique && !info.gainable)) return false
+        						if (player.hasSkill(skill)) return false
+        						return true
+        					}).forResult()
+player.addSkill(result.skill);
+        					player.popup(result.skill);
+        					game.log(player, '获得技能', '【' + get.translation(result.skill) + '】');
+        					trigger.source.removeSkill(result.skill)
+        					game.log(trigger.source, '失去技能', '【' + get.translation(result.skill) + '】')
+        					player.storage.vl_tery_hx[0].push(trigger.source)
+        					player.storage.vl_tery_hx[1].push(result.skill)
+    },
     ai: {
         maixie_defend: true,
         effect: {
-            target: function (card, player, target) {
+            target(card, player, target) {
 							if (player.hasSkillTag('jueqing', false, target)) return [1, -1];
 							return 0.8;
 							// if(get.tag(card,'damage')&&get.damageEffect(target,player,player)>0) return [1,0,0,-1.5];
@@ -60,20 +56,20 @@ export default {
             trigger: {
                 global: "die",
             },
-            filter: function (event, player) {
+            filter(event, player) {
 							return player.storage.vl_tery_hx[0].length
 						},
             direct: true,
-            content: function () {
+            async content(event, trigger, player) {
 							if (trigger.player == player) {
-								for (var i = 0; i < player.storage.vl_tery_hx[0].length; i++) {
+								for (let i = 0; i < player.storage.vl_tery_hx[0].length; i++) {
 									if (player.storage.vl_tery_hx[0][i].isAlive()) {
 										player.storage.vl_tery_hx[0][i].addSkill(player.storage.vl_tery_hx[1][i])
 										if (player.hasSkill(player.storage.vl_tery_hx[1][i])) player.removeSkill(player.storage.vl_tery_hx[1][i])
 									}
 								}
 							} else {
-								for (var i = 0; i < player.storage.vl_tery_hx[0].length; i++) {
+								for (let i = 0; i < player.storage.vl_tery_hx[0].length; i++) {
 									if (player.storage.vl_tery_hx[0][i] == trigger.player) {
 										if (player.hasSkill(player.storage.vl_tery_hx[1][i])) {
 											player.removeSkill(player.storage.vl_tery_hx[1][i])

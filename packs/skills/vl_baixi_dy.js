@@ -7,10 +7,10 @@ export default {
     },
     forced: true,
     popup: false,
-    init: function (player) {
+    init(player) {
 					if (game.online) return;
 					player.removeAdditionalSkill('vl_baixi_dy');
-					var list = [];
+					const list = [];
 					if (player.countCards('h', { color: 'red' }) > player.countCards('h', { color: 'black' })) {
 						list.push('bazhen', 'jijiu');
 					}
@@ -23,11 +23,11 @@ export default {
 					if (list.length) {
 						player.addAdditionalSkill('vl_baixi_dy', list);
 					}
-				},
+    },
     derivation: ["bazhen", "jijiu", "rewansha", "vl_baixi_jc", "reenyuan"],
-    content: function () {
+    async content(event, trigger, player) {
 					player.removeAdditionalSkill('vl_baixi_dy');
-					var list = [];
+					const list = [];
 					if (player.countCards('h', { color: 'red' }) > player.countCards('h', { color: 'black' })) {
 						list.push('bazhen', 'jijiu');
 					}
@@ -43,6 +43,6 @@ export default {
 				},
     t: {
         name: "德怨",
-        info: "锁定技，若你的红色手牌数量大于黑色，则你拥有「bazhen」、「jijiu」。若小于则你拥有「rewansha」、「vl_baixi_jc」。若等于，则你拥有「reenyuan」。",
+        info: `锁定技，若你的红色手牌数量大于黑色，则你拥有${get.poptip("bazhen")}、${get.poptip("jijiu")}。若小于则你拥有${get.poptip("rewansha")}、${get.poptip("vl_baixi_jc")}。若等于，则你拥有${get.poptip("reenyuan")}。`,
     },
 };

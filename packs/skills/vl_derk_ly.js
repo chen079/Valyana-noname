@@ -1,16 +1,21 @@
 import { lib, game, ui, get, ai, _status } from '../../../../noname.js';
 
+const getUseCardHistoryEvent = (player, offset = 0) => {
+    const history = player.getAllHistory ? player.getAllHistory("useCard") : player.getHistory("useCard");
+    return history && history.length > offset ? history[history.length - 1 - offset] : null;
+};
+
 export default {
     locked: false,
     mod: {
-        cardUsable: function (card, player) {
-						var color1 = get.color(card), evt = player.getLastAllUsed();
+        cardUsable(card, player) {
+						var color1 = get.color(card), evt = getUseCardHistoryEvent(player, 0);
 						if (evt && evt.card && color1 == get.color(evt.card)) return Infinity;
 					},
-        aiOrder: function (player, card, num) {
+        aiOrder(player, card, num) {
 						if (typeof card == 'object' && player.isPhaseUsing()) {
-							var evt = player.getLastAllUsed(1);
-							var evtb = player.getLastAllUsed(2)
+							var evt = getUseCardHistoryEvent(player, 1);
+							var evtb = getUseCardHistoryEvent(player, 2)
 							if (evt && evt.card && evtb && evtb.card && (evtb.card.number && evt.card.number && ((get.number(evt.card, false) + get.number(evtb.card, false)) % 13) == get.number(card))) {
 								return num + 10;
 							}
@@ -32,9 +37,9 @@ export default {
     },
     mark: true,
     intro: {
-        markcount: function (storage, player) {
-						var evt = player.getLastAllUsed();
-						var evt1 = player.getLastAllUsed(1);
+        markcount(storage, player) {
+						var evt = getUseCardHistoryEvent(player, 0);
+						var evt1 = getUseCardHistoryEvent(player, 1);
 						if (evt && evt1 && evt.card && evt1.card) {
 							var value = (get.number(evt.card, false) + get.number(evt1.card, false)) % 13
 							value = value == 0 ? 13 : value
@@ -42,9 +47,9 @@ export default {
 						}
 						return
 					},
-        mark: function (dialog, storage, player, skill) {
-						var evt = player.getLastAllUsed();
-						var evt1 = player.getLastAllUsed(1);
+        mark(dialog, storage, player, skill) {
+						var evt = getUseCardHistoryEvent(player, 0);
+						var evt1 = getUseCardHistoryEvent(player, 1);
 						if (evt && evt.card) {
 							dialog.addText('你上一张使用牌的点数为' + get.number(evt.card))
 							dialog.addText('你使用' + get.translation(get.color(evt.card)) + '的牌无次数限制')
@@ -57,20 +62,19 @@ export default {
 					},
     },
     frequent: true,
-    filter: function (event, player) {
-					var evt = player.getLastAllUsed(1);
+    filter(event, player) {
+					var evt = getUseCardHistoryEvent(player, 1);
 					if (!evt || !evt.card) return false;
 					if (!player.isPhaseUsing()) return false;
-					var evtb = player.getLastAllUsed(2);
+					var evtb = getUseCardHistoryEvent(player, 2);
 					if (!evtb || !evtb.card) return false;
 					var value = (get.number(evt.card, false) + get.number(evtb.card, false)) % 13
 					value = value == 0 ? 13 : value
 					return typeof get.number(evt.card, false) == 'number' && typeof get.number(evtb.card, false) == 'number' && (value == get.number(event.card));
 				},
-    content: function () {
-					'step 0'
-					player.draw(2);
-				},
+    async content(event, trigger, player) {
+        await player.draw(2);
+    },
     t: {
         name: "连语",
         info: "当你使用牌时，若此牌的点数与你使用的前两张牌的点数和对13取余（若整除则视为K）相等，你摸两张牌；锁定技，你使用与你上一张使用牌的颜色相同的牌无次数限制。",

@@ -7,17 +7,17 @@ export default {
     forced: true,
     direct: true,
     group: ["vl_mouse_bm_upstart", "vl_mouse_bm_die"],
-    filter: function (event, player) {
+    filter(event, player) {
 					return lib.skill.vl_mouse_bm.getKane(player).length;
 				},
-    getKane: function (player) {
-					var list = lib.skill.vl_mouse_bm.derivation;
+    getKane(player) {
+					let list = lib.skill.vl_mouse_bm.derivation;
 					return list.filter(mark => player.hasMark(mark));
 				},
     derivation: ["vl_mouse_bm_kaimen", "vl_mouse_bm_xiumen", "vl_mouse_bm_shengmen", "vl_mouse_bm_shangmen", "vl_mouse_bm_dumen", "vl_mouse_bm_jingmen", "vl_mouse_bm_simen", "vl_mouse_bm_jinmen"],
-    getValue: function (player, mark, target) {
-					var att = get.attitude(player, target);
-					var dis = Math.sqrt(get.distance(player, target, 'absolute') + 1);
+    getValue(player, mark, target) {
+					let att = get.attitude(player, target);
+					let dis = Math.sqrt(get.distance(player, target, 'absolute') + 1);
 					switch (mark.slice(8)) {
 						case 'kaimen':
 							return get.effect(target, { name: 'wuzhong' }, player, player) * 2.5 / dis;
@@ -37,56 +37,53 @@ export default {
 						case 'simen':
 							return -target.hp * 2;
 					}
-				},
-    content: function () {
-					'step 0'
-					player.chooseTarget('八门：令一名其他角色获得1枚“奇门”', true, (card, player, target) => {
-						return player != target && !lib.skill.vl_mouse_bm.getKane(target).length;
-					}).set('ai', target => {
-						var player = _status.event.player, kane = lib.skill.vl_mouse_bm.getKane(player);
-						return Math.abs(Math.max.apply(Math.max, kane.map(i => lib.skill.vl_mouse_bm.getValue(player, i, target))));
-					});
-					'step 1'
-					if (result.bool) {
-						var target = result.targets[0];
-						event.target = target;
-						player.logSkill('vl_mouse_bm', target);
-						var kane = lib.skill.vl_mouse_bm.getKane(player);
-						var choiceList = kane.map(i => {
-							return '<div class="skill">【' + get.translation(lib.translate[i + '_ab'] || get.translation(i).slice(0, 2)) + '】</div>' +
-								'<div>' + get.skillInfoTranslation(i, player) + '</div>';
-						});
-						player.chooseControl(kane).set('choiceList', choiceList).set('displayIndex', false).set('prompt', '选择令' + get.translation(target) + '获得的“奇门”').set('ai', () => {
-							var controls = _status.event.controls, player = _status.event.player, target = _status.event.getParent().target;
-							var list = controls.map(i => [i, lib.skill.vl_mouse_bm.getValue(player, i, target)])//.filter(i=>i[1]>=0);
+    },
+    async content(event, trigger, player) {
+					while (lib.skill.vl_mouse_bm.getKane(player).length && game.hasPlayer(current => !lib.skill.vl_mouse_bm.getKane(current).length && current != player)) {
+						const targetResult = await player.chooseTarget('八门：令一名其他角色获得1枚“奇门”', true, (card, player, target) => {
+        						return player != target && !lib.skill.vl_mouse_bm.getKane(target).length;
+        					}).set('ai', target => {
+        						let player = _status.event.player, kane = lib.skill.vl_mouse_bm.getKane(player);
+        						return Math.abs(Math.max.apply(Math.max, kane.map(i => lib.skill.vl_mouse_bm.getValue(player, i, target))));
+        					}).forResult();
+						if (!targetResult.bool) return;
+        						let target = targetResult.targets[0];
+        						player.logSkill('vl_mouse_bm', target);
+						let kaneList = lib.skill.vl_mouse_bm.getKane(player);
+						let choiceList = kaneList.map(i => {
+        							return '<div class="skill">【' + get.translation(lib.translate[i + '_ab'] || get.translation(i).slice(0, 2)) + '】</div>' +
+        								'<div>' + get.skillInfoTranslation(i, player) + '</div>';
+        						});
+        						player.chooseControl(kane).set('choiceList', choiceList).set('displayIndex', false).set('prompt', '选择令' + get.translation(target) + '获得的“奇门”').set('ai', () => {
+        							let controls = _status.event.controls, player = _status.event.player, target = _status.event.getParent().target;
+        							let list = controls.map(i => [i, lib.skill.vl_mouse_bm.getValue(player, i, target)])//.filter(i=>i[1]>=0);
+        							list.sort((a, b) => b[1] - a[1]);
+        							if (list.length) return list[0][0];
+        							return controls.randomGet();
+        						});
+						const choiceResult = await player.chooseControl(kaneList).set('choiceList', choiceList).set('displayIndex', false).set('prompt', '选择令' + get.translation(target) + '获得的“奇门”').set('ai', () => {
+							let controls = _status.event.controls, player = _status.event.player, target = _status.event.getParent().target;
+							let list = controls.map(i => [i, lib.skill.vl_mouse_bm.getValue(player, i, target)]);
 							list.sort((a, b) => b[1] - a[1]);
 							if (list.length) return list[0][0];
 							return controls.randomGet();
-						});
-					} else event.finish();
-					'step 2'
-					var kane = result.control;
-					player.removeMark(kane, 1);
-					player.popup(kane, 'metal');
-					player.addSkill('vl_mouse_bm_clear');
-					target.addMark(kane, 1);
-					target.addAdditionalSkill('vl_mouse_bm_' + player.playerid, kane);
-					game.delayx();
-					'step 3'
-					if (lib.skill.vl_mouse_bm.getKane(player).length && game.hasPlayer(function (current) {
-						return !lib.skill.vl_mouse_bm.getKane(current).length
-					})) {
-						player.chooseBool('【八门】：是否再交给一名角色一枚“奇门”？').set('ai', function () {
-							return false
-						})
-					} else {
-						event.finish()
+						}).forResult();
+        				let selectedKane = choiceResult.control;
+        					player.removeMark(selectedKane, 1);
+        					player.popup(selectedKane, 'metal');
+        					player.addSkill('vl_mouse_bm_clear');
+        					target.addMark(selectedKane, 1);
+        					target.addAdditionalSkill('vl_mouse_bm_' + player.playerid, selectedKane);
+        					await game.delayx();
+						if (!(lib.skill.vl_mouse_bm.getKane(player).length && game.hasPlayer(function (current) {
+        						return !lib.skill.vl_mouse_bm.getKane(current).length
+        					}))) return;
+						const again = await player.chooseBool('【八门】：是否再交给一名角色一枚“奇门”？').set('ai', function () {
+							return false;
+						}).forResult();
+						if (!again.bool) return;
 					}
-					'step 4'
-					if (result.bool) {
-						event.goto(0)
-					}
-				},
+    },
     subSkill: {
         mark: {
             mark: true,
@@ -94,10 +91,10 @@ export default {
             intro: {
                 name: "奇门",
                 name2: "奇门",
-                markcount: function (storage, player) {
+                markcount(storage, player) {
 								return lib.skill.vl_mouse_bm.getKane(player).length;
 							},
-                content: function (storage, player) {
+                content(storage, player) {
 								return '剩余：' + get.translation(lib.skill.vl_mouse_bm.getKane(player));
 							},
             },
@@ -109,7 +106,7 @@ export default {
             trigger: {
                 player: "phaseEnd",
             },
-            content: function () {
+            async content(event, trigger, player) {
 							player.recover(player.getDamagedHp());
 						},
             marktext: "奇门",
@@ -126,12 +123,12 @@ export default {
                 player: "enterGame",
             },
             forced: true,
-            filter: function (event, player) {
+            filter(event, player) {
 							return (event.name != 'phase' || game.phaseNumber == 0);
 						},
-            content: function () {
-							var kane = lib.skill.vl_mouse_bm.derivation;
-							for (var mark of kane) {
+            async content(event, trigger, player) {
+							let kane = lib.skill.vl_mouse_bm.derivation;
+							for (let mark of kane) {
 								player.addMark(mark, 1, false);
 								player.unmarkSkill(mark);
 							}
@@ -144,10 +141,10 @@ export default {
                 player: "phaseBegin",
             },
             forced: true,
-            filter: function (event, player) {
+            filter(event, player) {
 							return !lib.skill.vl_mouse_bm.getKane(player).length;
 						},
-            content: function () {
+            async content(event, trigger, player) {
 							player.die();
 						},
             sub: true,
@@ -161,7 +158,7 @@ export default {
             forced: true,
             popup: false,
             forceDie: true,
-            filter: function (event, player) {
+            filter(event, player) {
 							if (event.name == 'die') return true;
 							if (!lib.skill.vl_mouse_bm.getKane(event.player).length) return false;
 							if (event.player.additionalSkills['vl_mouse_bm_' + player.playerid]) {
@@ -169,13 +166,13 @@ export default {
 							}
 							return false;
 						},
-            content: function () {
+            async content(event, trigger, player) {
 							if (trigger.name == 'die') {
 								game.countPlayer(current => {
-									var skills = current.additionalSkills['vl_mouse_bm_' + player.playerid];
+									let skills = current.additionalSkills['vl_mouse_bm_' + player.playerid];
 									if (skills && skills.length) {
 										current.removeAdditionalSkill('vl_mouse_bm_' + player.playerid);
-										for (var i of skills) {
+										for (let i of skills) {
 											current.removeSkill(i);
 											current.removeMark(i, 1);
 										}
@@ -183,9 +180,9 @@ export default {
 								});
 							}
 							else {
-								var skills = trigger.player.additionalSkills['vl_mouse_bm_' + player.playerid];
+								let skills = trigger.player.additionalSkills['vl_mouse_bm_' + player.playerid];
 								trigger.player.removeAdditionalSkill('vl_mouse_bm_' + player.playerid);
-								for (var i of skills) {
+								for (let i of skills) {
 									trigger.player.removeMark(i, 1);
 									trigger.player.removeSkill(i);
 								}
@@ -199,11 +196,11 @@ export default {
             trigger: {
                 player: "phaseDrawBegin2",
             },
-            content: function () {
+            async content(event, trigger, player) {
 							trigger.num += 4;
 						},
             mod: {
-                cardUsable: function (card, player, num) {
+                cardUsable(card, player, num) {
 								if (card.name == 'sha') return num + 1;
 							},
             },
@@ -221,7 +218,7 @@ export default {
             trigger: {
                 player: "phaseBegin",
             },
-            content: function () {
+            async content(event, trigger, player) {
 							player.skip('phaseUse');
 						},
             marktext: "奇门",
@@ -238,11 +235,11 @@ export default {
             trigger: {
                 player: "phaseUseBegin",
             },
-            content: function () {
+            async content(event, trigger, player) {
 							player.loseHp();
 						},
             mod: {
-                maxHandcard: function (player, num) {
+                maxHandcard(player, num) {
 								return num - 3;
 							},
             },
@@ -260,7 +257,7 @@ export default {
             trigger: {
                 player: "damageBegin3",
             },
-            content: function () {
+            async content(event, trigger, player) {
 							trigger.num += 1
 						},
             marktext: "奇门",
@@ -277,14 +274,14 @@ export default {
             trigger: {
                 player: "damageBegin3",
             },
-            content: function () {
+            async content(event, trigger, player) {
 							trigger.cancel();
 						},
             ai: {
                 nofire: true,
                 nodamage: true,
                 effect: {
-                    target: function (card, player, target, current) {
+                    target(card, player, target, current) {
 									if (get.tag(card, 'damage') && !get.tag(card, 'thunderDamage')) return [0, 0];
 								},
                 },
@@ -303,7 +300,7 @@ export default {
             trigger: {
                 player: ["phaseJieshuBegin"],
             },
-            content: function () {
+            async content(event, trigger, player) {
 							player.loseHp(Math.min(5, player.hp))
 						},
             marktext: "奇门",
@@ -320,7 +317,7 @@ export default {
             trigger: {
                 player: ["phaseZhunbeiBegin"],
             },
-            content: function () {
+            async content(event, trigger, player) {
 							player.skip('phaseDraw');
 							player.skip('phaseDiscard');
 						},

@@ -5,20 +5,20 @@ export default {
         global: "damageAfter",
     },
     forced: true,
-    filter: function (event, player) {
+    filter(event, player) {
 					return event.nature == 'fire'
 				},
-    content: function () {
+    async content(event, trigger, player) {
 					player.draw()
 					player.addTempSkill('vl_tiger_kf_use')
 				},
     subSkill: {
         use: {
             mod: {
-                targetInRange: function (card, player, target) {
+                targetInRange(card, player, target) {
 								if (card.name == 'sha') return true
 							},
-                cardUsable: function (card, player, num) {
+                cardUsable(card, player, num) {
 								if (card.name == 'sha') return Infinity
 							},
             },

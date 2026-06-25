@@ -3,79 +3,58 @@ import { lib, game, ui, get, ai, _status } from '../../../../noname.js';
 export default {
     enable: "phaseUse",
     usable: 1,
-    filter: function (event, player) {
+    filter(event, player) {
 					return ui.cardPile.childElementCount >= 4;
-				},
-    content: function () {
-					'step 0'
-					var cards = get.cards(4);
-					player.addTempSkill("vl_delta_sy_ig")
-					game.cardsGotoOrdering(cards);
-					event.cards = cards
-					var dialog = ui.create.dialog('算演', cards, true)
-					event.dialog = dialog
-					if (!event.isMine()) {
-						player.popup('演算成功！');
-						player.gain(cards, 'gain2').gaintag.add('vl_delta_sy')
-						player.addTempSkill('vl_delta_sy_1')
-						event.dialog.close()
-						event.finish()
+    },
+    async content(event, trigger, player) {
+					const cards = get.cards(4);
+        					player.addTempSkill("vl_delta_sy_ig")
+        					game.cardsGotoOrdering(cards);
+        					var dialog = ui.create.dialog('算演', cards, true)
+        					if (!event.isMine()) {
+        						player.popup('演算成功！');
+        						await player.gain(cards, 'gain2').gaintag.add('vl_delta_sy')
+        						player.addTempSkill('vl_delta_sy_1')
+        						dialog.close()
+        						return
+        					}
+					let list = cards.map(card => get.number(card));
+					while (list.length > 1) {
+						const first = await player.chooseControl(list).set('prompt', '选择要算的第一个数字').forResult();
+						const num1 = first.control;
+						list.splice(list.indexOf(num1), 1);
+						const second = await player.chooseControl(list).set('prompt', '选择要算的第二个数字').forResult();
+						const num2 = second.control;
+						list.splice(list.indexOf(num2), 1);
+						const operator = await player.chooseControl(['+', '-', '*', '/', '重做', '放弃']).forResult();
+						if (operator.control == '重做') {
+							list = cards.map(card => get.number(card));
+							continue;
+						}
+						if (operator.control == '放弃') {
+							await player.loseToDiscardpile(cards);
+							dialog.close();
+							return;
+						}
+						let count;
+						if (operator.control == '+') count = num1 + num2;
+						if (operator.control == '-') count = num1 - num2;
+						if (operator.control == '*') count = num1 * num2;
+						if (operator.control == '/') count = num1 / num2;
+						list.push(count);
 					}
-					'step 1'
-					event.list = []
-					for (var i = 0; i < event.cards.length; i++) {
-						event.list.push(get.number(event.cards[i]))
-					}
-					'step 2'
-					player.chooseControl(event.list).set('prompt', '选择要算的第一个数字')
-					'step 3'
-					event.num1 = result.control
-					event.list.splice(event.list.indexOf(event.num1), 1)
-					player.chooseControl(event.list).set('prompt', '选择要算的第二个数字')
-					'step 4'
-					event.num2 = result.control
-					event.list.splice(event.list.indexOf(event.num2), 1)
-					player.chooseControl(['+', '-', '*', '/', '重做', '放弃']);
-					'step 5'
-					if (result.control == '+') {
-						event.count = event.num1 + event.num2
-					}
-					if (result.control == '-') {
-						event.count = event.num1 - event.num2
-					}
-					if (result.control == '*') {
-						event.count = event.num1 * event.num2
-					}
-					if (result.control == '/') {
-						event.count = event.num1 / event.num2
-					}
-					if (result.control == '重做') {
-						event.goto(1);
-					}
-					if (result.control == '放弃') {
-						player.loseToDiscardpile(event.cards)
-						event.dialog.close()
-						event.finish()
-					}
-					'step 6'
-					event.list.push(event.count)
-					'step 7'
-					if (event.list.length != 1) {
-						event.goto(2)
-					}
-					'step 8'
-					if (event.list[0] == 24) {
-						player.popup('演算成功！');
-						player.gain(event.cards, 'gain2').gaintag.add('vl_delta_sy');
-						event.dialog.close()
-						player.addTempSkill('vl_delta_sy_1')
-					} else {
-						player.popup('演算失败！');
-						player.loseToDiscardpile(event.cards)
-						event.dialog.close()
-						event.finish()
-					}
-				},
+					if (list[0] == 24) {
+        						player.popup('演算成功！');
+        						await player.gain(cards, 'gain2').gaintag.add('vl_delta_sy');
+        						dialog.close()
+        						player.addTempSkill('vl_delta_sy_1')
+        					} else {
+        						player.popup('演算失败！');
+        						await player.loseToDiscardpile(cards)
+        						dialog.close()
+        						return
+        					}
+    },
     ai: {
         order: 10,
         result: {
@@ -89,10 +68,10 @@ export default {
             popup: false,
             silent: true,
             charlotte: true,
-            init: function (player) {
+            init(player) {
 							player.markSkill('vl_delta_sy_1');
 						},
-            onremove: function (player) {
+            onremove(player) {
 							player.unmarkSkill('vl_delta_sy_1');
 						},
             trigger: {
@@ -102,24 +81,24 @@ export default {
                 content: "本回合你的【杀】无距离次数限制且无视防具。",
             },
             forced: true,
-            filter: function (event, player) {
+            filter(event, player) {
 							return event.card.name == 'sha';
 						},
             mod: {
-                targetInRange: function (card, player, target, now) {
+                targetInRange(card, player, target, now) {
 								if (card.name == 'sha') return true;
 							},
-                cardUsable: function (card, player, num) {
+                cardUsable(card, player, num) {
 								if (card.name == 'sha') return Infinity
 							},
             },
             logTarget: "target",
-            content: function () {
+            async content(event, trigger, player) {
 							trigger.target.addTempSkill('qinggang2');
 							trigger.target.storage.qinggang2.add(trigger.card);
 						},
             ai: {
-                skillTagFilter: function (player, tag, arg) {
+                skillTagFilter(player, tag, arg) {
 								if (!arg || arg.isLink || !arg.card || arg.card.name != 'sha') return false;
 								if (arg && arg.name == 'sha') return true;
 							},
@@ -129,18 +108,18 @@ export default {
         },
         ig: {
             mod: {
-                ignoredHandcard: function (card, player) {
+                ignoredHandcard(card, player) {
 								if (card.hasGaintag('vl_delta_sy')) {
 									return true;
 								}
 							},
-                cardDiscardable: function (card, player, name) {
+                cardDiscardable(card, player, name) {
 								if (name == 'phaseDiscard' && card.hasGaintag('vl_delta_sy')) {
 									return false;
 								}
 							},
             },
-            onremove: function (player) {
+            onremove(player) {
 							player.removeGaintag('vl_delta_sy');
 						},
             sub: true,
@@ -148,6 +127,6 @@ export default {
     },
     t: {
         name: "算演",
-        info: "出牌阶段限一次，你可以观看牌堆顶的四张牌并进行一次“「caclu」”，若成功：你获得这四张牌，你通过〖算演〗获得的牌不计入当前回合的手牌上限，然后本回合内你的【杀】无距离次数限制且无视防具，否则，你将这些牌置入弃牌堆。",
+        info: `出牌阶段限一次，你可以观看牌堆顶的四张牌并进行一次“${get.poptip("caclu")}”，若成功：你获得这四张牌，你通过〖算演〗获得的牌不计入当前回合的手牌上限，然后本回合内你的【杀】无距离次数限制且无视防具，否则，你将这些牌置入弃牌堆。`,
     },
 };

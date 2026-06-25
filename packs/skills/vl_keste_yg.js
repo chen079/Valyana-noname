@@ -3,10 +3,10 @@ import { lib, game, ui, get, ai, _status } from '../../../../noname.js';
 export default {
     enable: "phaseUse",
     usable: 1,
-    filterTarget: function (card, player, target) {
+    filterTarget(card, player, target) {
 					return player != target;
 				},
-    content: function () {
+    async content(event, trigger, player) {
 					var targets = game.filterPlayer(current => {
 						return current != target;
 					});

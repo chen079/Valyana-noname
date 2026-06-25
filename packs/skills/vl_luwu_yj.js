@@ -9,13 +9,13 @@ export default {
     skillAnimation: true,
     limited: true,
     animationColor: "orange",
-    init: function (player) {
+    init(player) {
 					player.storage.vl_luwu_yj = false;
 				},
-    filter: function (event, player) {
+    filter(event, player) {
 					return !player.storage.vl_luwu_yj && player.countCards('h') == 0
 				},
-    content: function () {
+    async content(event, trigger, player) {
 					player.awakenSkill('vl_luwu_yj');
 					player.storage.vl_luwu_yj = true;
 					trigger.player.damage(2, 'fire', player)

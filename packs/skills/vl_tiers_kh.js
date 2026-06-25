@@ -4,12 +4,12 @@ export default {
     trigger: {
         player: "loseHpEnd",
     },
-    filter: function (event, player) {
+    filter(event, player) {
 					if (player != _status.currentPhase) return false
 					return event.num >= 2
 				},
     forced: true,
-    content: function () {
+    async content(event, trigger, player) {
 					player.addTempSkill('vl_tiers_kh_1', { player: "phaseBegin" })
 					player.addTempSkill('vl_tiers_kh_hh', { player: "phaseUseBegin" })
 				},
@@ -19,10 +19,10 @@ export default {
                 source: "damageSource",
             },
             direct: true,
-            filter: function (event, player) {
+            filter(event, player) {
 							return event.num > 0 && event.player != event.target
 						},
-            content: function () {
+            async content(event, trigger, player) {
 							player.recover()
 						},
         },
@@ -31,7 +31,7 @@ export default {
                 player: "phaseUseAfter",
             },
             direct: true,
-            content: function () {
+            async content(event, trigger, player) {
 							player.draw(2)
 							var next = player.phaseUse();
 							event.next.remove(next);

@@ -5,39 +5,38 @@ export default {
         player: "useCardToPlayered",
     },
     linkage: "dark",
-    filter: function (event, player) {
+    filter(event, player) {
 					return event.card.name == 'sha' && ((player.name1 == 'vl_kulun_dark') || (player.name2 == 'vl_kulun_dark'));
 				},
     logTarget: "target",
-    check: function (event, player) {
+    check(event, player) {
 					var target = event.target;
 					if (get.attitude(player, target) > 0) return false;
 					return true;
 				},
-    content: function () {
-					'step 0'
-					player.chooseCard([1, 4], get.prompt2('vl_kulun_dirt_zj'), function (card) {
-						var suit = get.suit(card);
-						for (var i = 0; i < ui.selected.cards.length; i++) {
-							if (get.suit(ui.selected.cards[i]) == suit) return false;
-						}
-						return true;
-					}).set('ai', function (card) {
-						return 9 - get.value(card)
-					}).set('complexCard', true)
-					'step 1'
-					if (result.bool) {
-						player.recast(result.cards)
-						var num = Math.floor(result.cards.length / 2)
-						var map = trigger.customArgs;
-						for (var i = 0; i < trigger.targets.length; i++) {
-							var id = trigger.targets[i].playerid;
-							if (!map[id]) map[id] = {};
-							if (!map[id].extraDamage) map[id].extraDamage = 0;
-							map[id].extraDamage += num;
-						}
-					}
-				},
+    async content(event, trigger, player) {
+const result = await player.chooseCard([1, 4], get.prompt2('vl_kulun_dirt_zj'), function (card) {
+        						var suit = get.suit(card);
+        						for (var i = 0; i < ui.selected.cards.length; i++) {
+        							if (get.suit(ui.selected.cards[i]) == suit) return false;
+        						}
+        						return true;
+        					}).set('ai', function (card) {
+        						return 9 - get.value(card)
+        					}).set('complexCard', true).forResult()
+if (result.bool) {
+        						const next = player.recast(result.cards)
+        						var num = Math.floor(result.cards.length / 2)
+        						var map = trigger.customArgs;
+        						for (var i = 0; i < trigger.targets.length; i++) {
+        							var id = trigger.targets[i].playerid;
+        							if (!map[id]) map[id] = {};
+        							if (!map[id].extraDamage) map[id].extraDamage = 0;
+        							map[id].extraDamage += num;
+        						}
+        						await next
+        					}
+    },
     ai: {
         threaten: 2.5,
         halfneg: true,

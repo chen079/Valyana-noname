@@ -4,25 +4,23 @@ export default {
     trigger: {
         source: "damageSource",
     },
-    filter: function (event, player) {
+    filter(event, player) {
 					return event.player != player
 				},
     forced: true,
-    content: function () {
-					"step 0"
-					trigger.player.addSkill('vl_dragon_hy_damage')
-					trigger.player.storage.vl_dragon_hy_damage += 1
-					trigger.player.loseMaxHp()
-					"step 1"
-					trigger.player.updateMark('vl_dragon_hy_damage')
-				},
+    async content(event, trigger, player) {
+trigger.player.addSkill('vl_dragon_hy_damage')
+        					trigger.player.storage.vl_dragon_hy_damage += 1
+        					await trigger.player.loseMaxHp()
+trigger.player.updateMark('vl_dragon_hy_damage')
+    },
     subSkill: {
         damage: {
             unique: true,
-            init: function (player) {
+            init(player) {
 							if (!player.storage.vl_dragon_hy_damage) player.storage.vl_dragon_hy_damage = 0;
 						},
-            filter: function (event, player) {
+            filter(event, player) {
 							return player.storage.vl_dragon_hy_damage
 						},
             mark: true,
@@ -33,21 +31,19 @@ export default {
             trigger: {
                 player: "phaseUseEnd",
             },
-            content: function () {
-							"step 0"
-							player.chooseToDiscard('he', player.storage.vl_dragon_hy_damage).set('ai', function (card) {
-								if (card.name == 'tao') return -10;
-								if (card.name == 'jiu' && _status.event.player.hp == 1) return -10;
-								return get.unuseful(card) + 2.5 * (5 - get.owner(card).hp);
-							});
-							"step 1"
-							if (result.bool == false) {
-								player.damage(player.storage.vl_dragon_hy_damage, 'fire', 'nosource');
-							}
-							player.gainMaxHp(player.storage.vl_dragon_hy_damage)
-							player.storage.vl_dragon_hy_damage = 0
-							player.removeSkill('vl_dragon_hy_damage')
-						},
+            async content(event, trigger, player) {
+const result = await player.chooseToDiscard('he', player.storage.vl_dragon_hy_damage).set('ai', function (card) {
+        								if (card.name == 'tao') return -10;
+        								if (card.name == 'jiu' && _status.event.player.hp == 1) return -10;
+        								return get.unuseful(card) + 2.5 * (5 - get.owner(card).hp);
+        							}).forResult();
+if (result.bool == false) {
+        								await player.damage(player.storage.vl_dragon_hy_damage, 'fire', 'nosource');
+        							}
+        							await player.gainMaxHp(player.storage.vl_dragon_hy_damage)
+        							player.storage.vl_dragon_hy_damage = 0
+        							player.removeSkill('vl_dragon_hy_damage')
+    },
             sub: true,
         },
     },

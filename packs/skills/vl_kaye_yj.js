@@ -3,19 +3,19 @@ import { lib, game, ui, get, ai, _status } from '../../../../noname.js';
 export default {
     enable: "phaseUse",
     usable: 1,
-    filter: function (event, player) {
+    filter(event, player) {
 					if (!player.storage.vl_kaye_yj) return true;
 					return game.hasPlayer(function (current) {
 						return !player.storage.vl_kaye_yj.includes(current);
 					});
 				},
-    filterTarget: function (card, player, target) {
+    filterTarget(card, player, target) {
 					return (!player.storage.vl_kaye_yj || !player.storage.vl_kaye_yj.includes(target) && target != player);
 				},
-    init: function (player) {
+    init(player) {
 					if (!player.storage.vl_kaye_yj) player.storage.vl_kaye_yj = [];
 				},
-    content: function () {
+    async content(event, trigger, player) {
 					target.addVuff('xuruo', 5, player)
 					target.addVuff('yishang', 2, player)
 					if (!player.storage.vl_kaye_yj) player.storage.vl_kaye_yj = [];
@@ -28,7 +28,7 @@ export default {
         threaten: 1.6,
         expose: 0.2,
         result: {
-            target: function (player, target) {
+            target(player, target) {
 							return -1;
 						},
         },

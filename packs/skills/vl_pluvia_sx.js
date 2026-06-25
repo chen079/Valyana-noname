@@ -3,33 +3,33 @@ import { lib, game, ui, get, ai, _status } from '../../../../noname.js';
 export default {
     usable: 1,
     enable: "phaseUse",
-    filter: function (event, player) {
+    filter(event, player) {
 					return player.countCards('hes') > 2
 				},
     filterCard: true,
-    filterTarget: function (card, player, target) {
+    filterTarget(card, player, target) {
 					return target != player
 				},
     position: "hes",
     selectCard: 2,
-    check: function (card) {
+    check(card) {
 					return 7 - get.value(card)
 				},
-    content: function () {
-					"step 0"
-					player.recover()
-					target.damage(1, player, 'unreal')
-				},
+    async content(event, trigger, player) {
+						const target = event.target;
+						await player.recover()
+						await target.damage(1, player, 'unreal')
+    },
     ai: {
         order: 5,
         result: {
-            target: function (player, target) {
+            target(player, target) {
 							if (target.hp == 1) return 5;
 							if (player.countCards('h') > player.hp) return 4;
 							if (target.hp == target.maxHp) return 0
 							return 2;
 						},
-            player: function (player, target) {
+            player(player, target) {
 							if (player.hp == 1) return 5
 							if (player.hp == player.maxHp) return 0
 							return 2

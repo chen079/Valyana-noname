@@ -4,20 +4,20 @@ export default {
     direct: true,
     enable: "phaseUse",
     unique: true,
-    filter: function (event, player) {
+    filter(event, player) {
 					if (player.hasSkill('vl_hynea_jiu')) {
 						return player.countCards('hes', { name: ['jiu', 'shan', 'tao'] }) > 0;
 					} else {
 						return player.countCards('hes', { name: 'jiu' }) > 0;
 					}
 				},
-    hiddenCard: function (player, name) {
+    hiddenCard(player, name) {
 					if (!['sha', 'shan', 'tao', 'jiu', 'wuxie'].includes(name)) return false;
 					if (player.countCards('hes', { name: 'jiu' }) == 0) return false;
 					return player.countCards('hes', { name: 'jiu' }) > 0;
 				},
     chooseButton: {
-        dialog: function (event, player) {
+        dialog(event, player) {
 						var cards = player.getCards('hes');
 						var list = [];
 						for (var i of lib.inpile) {
@@ -39,14 +39,14 @@ export default {
 						}
 						return ui.create.dialog('狂辩', [list, 'vcard']);
 					},
-        filter: function (button, player) {
+        filter(button, player) {
 						return lib.filter.filterCard({ name: button.link[2] }, player, _status.event.getParent());
 					},
-        check: function (button) {
+        check(button) {
 						var player = _status.event.player;
 						return player.getUseValue({ name: button.link[2] });
 					},
-        backup: function (links, player) {
+        backup(links, player) {
 						return {
 							filterCard: function (card) {
 								return get.name(card) == 'jiu'
@@ -61,7 +61,7 @@ export default {
 							viewAs: { name: links[0][2] },
 						}
 					},
-        prompt: function (links, player) {
+        prompt(links, player) {
 						return '将一张【酒】当作' + get.translation(links[0][2]) + '使用';
 					},
     },

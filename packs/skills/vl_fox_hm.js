@@ -5,31 +5,31 @@ export default {
         player: "useCardAfter",
     },
     forced: true,
-    filter: function (event, player) {
+    filter(event, player) {
 					if (!event.targets.length) return false
 					return event.card.isCard && (get.type(event.card) == 'trick' || get.type(event.card) == 'basic') &&
 						get.position(event.cards[0], true) == 'o' && event.card.name == event.cards[0].name && event.getParent().name != 'vl_fox_hm_1'
 				},
     intro: {
-        markcount: function (storage) {
+        markcount(storage) {
 						if (!storage) return 0;
 						return storage[0].length;
 					},
-        mark: function (dialog, storage, player) {
+        mark(dialog, storage, player) {
 						if (!storage) return;
 						dialog.addAuto(storage[0]);
 						dialog.addText(get.translation(storage[1]));
 					},
-        onunmark: function (storage, player) {
+        onunmark(storage, player) {
 						player.storage.vl_fox_hm = [[], []];
 					},
     },
-    onremove: function (player, skill) {
+    onremove(player, skill) {
 					var cards = player.getExpansions(skill);
 					if (cards.length) player.loseToDiscardpile(cards);
 					delete player.storage[skill];
 				},
-    content: function () {
+    async content(event, trigger, player) {
 					var card = trigger.cards[0];
 					if (!player.storage.vl_fox_hm) player.storage.vl_fox_hm = [[], []];
 					player.addToExpansion(card, 'gain2').gaintag.add('vl_fox_hm');
@@ -44,24 +44,22 @@ export default {
                 player: "phaseJieshuBegin",
             },
             forced: true,
-            filter: function (event, player) {
+            filter(event, player) {
 							return player.storage.vl_fox_hm && player.storage.vl_fox_hm[0].length > 0;
-						},
-            content: function () {
-							var list = player.storage.vl_fox_hm, card = list[0].shift(), source = list[1].shift();
-							if (player.getExpansions('vl_fox_hm').includes(card)) {
-								for (var i = 0; i < source.length; i++) {
-									if (!source[i].isIn() || !player.canUse(card, source[i], false)) {
-										source.remove(source[i])
+            },
+            async content(event, trigger, player) {
+							var list = player.storage.vl_fox_hm;
+							while (list[0].length) {
+								var card = list[0].shift(), source = list[1].shift();
+								if (player.getExpansions('vl_fox_hm').includes(card)) {
+									for (var i = 0; i < source.length; i++) {
+										if (!source[i].isIn() || !player.canUse(card, source[i], false)) {
+											source.remove(source[i])
+										}
 									}
+									if (source.length != 0) await player.useCard(card, source, false);
+									else await player.loseToDiscardpile(card);
 								}
-								if (source.length != 0) player.useCard(card, source, false);
-								else player.loseToDiscardpile(card);
-							}
-							if (list[0].length) {
-								event.redo()
-							} else {
-								event.finish()
 							}
 						},
             sub: true,

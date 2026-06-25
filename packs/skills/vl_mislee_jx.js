@@ -3,42 +3,40 @@ import { lib, game, ui, get, ai, _status } from '../../../../noname.js';
 export default {
     position: "he",
     enable: "phaseUse",
-    filter: function (event, player) {
+    filter(event, player) {
 					var he = player.getCards('he');
 					for (var i = 0; i < he.length; i++) {
 						if (["bagua", "baiyin", "lanyinjia", "renwang", "tengjia", "zhuge"].includes(he[i].name)) return true;
 					}
 					return false;
 				},
-    filterCard: function (card) {
+    filterCard(card) {
 					return ["bagua", "baiyin", "lanyinjia", "renwang", "tengjia", "zhuge"].includes(card.name);
 				},
     discard: false,
     lose: false,
     delay: false,
-    check: function () {
+    check() {
 					return 1;
 				},
-    content: function () {
-					"step 0"
-					player.showCards(cards);
-					"step 1"
-					var card = cards[0];
-					var bool = (get.position(card) == 'e');
-					if (bool) player.removeEquipTrigger(card);
-					game.addVideo('skill', player, ['xinfu_jingxie', [bool, get.cardInfo(card)]])
-					game.broadcastAll(function (card) {
-						card.init([card.suit, card.number, 'rewrite_' + card.name]);
-					}, card);
-					if (bool) {
-						var info = get.info(card);
-						if (info.skills) {
-							for (var i = 0; i < info.skills.length; i++) {
-								player.addSkillTrigger(info.skills[i]);
-							}
-						}
-					}
-				},
+    async content(event, trigger, player) {
+        await player.showCards(cards);
+        const card = cards[0];
+        const bool = (get.position(card) == 'e');
+        if (bool) player.removeEquipTrigger(card);
+        game.addVideo('skill', player, ['xinfu_jingxie', [bool, get.cardInfo(card)]]);
+        game.broadcastAll(function (card) {
+            card.init([card.suit, card.number, 'rewrite_' + card.name]);
+        }, card);
+        if (bool) {
+            const info = get.info(card);
+            if (info.skills) {
+                for (var i = 0; i < info.skills.length; i++) {
+                    player.addSkillTrigger(info.skills[i]);
+                }
+            }
+        }
+    },
     ai: {
         basic: {
             order: 10,

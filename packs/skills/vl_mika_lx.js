@@ -5,10 +5,10 @@ export default {
         player: "phaseDrawBegin2",
     },
     forced: true,
-    filter: function (event, player) {
+    filter(event, player) {
 					return !event.numFixed;
 				},
-    content: function () {
+    async content(event, trigger, player) {
 					trigger.num += game.countGroup();
 				},
     group: "vl_mika_lx_discard",
@@ -18,11 +18,9 @@ export default {
                 player: "phaseDiscardBegin",
             },
             forced: true,
-            content: function () {
-							'step 0'
-							player.chooseToDiscard(Math.min(player.countCards('he'), game.countGroup()), 'he', true)
-							'step 1'
-							trigger.cancel()
+            async content(event, trigger, player) {
+							await player.chooseToDiscard(Math.min(player.countCards('he'), game.countGroup()), 'he', true);
+							trigger.cancel();
 						},
             sub: true,
         },

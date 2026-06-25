@@ -6,19 +6,19 @@ export default {
         player: "judgeEnd",
     },
     preHidden: true,
-    frequent: function (event) {
+    frequent(event) {
 					if (event.result.card.name == 'du') return false;
 					//if(get.mode()=='guozhan') return false;
 					return true;
 				},
-    check: function (event) {
+    check(event) {
 					if (event.result.card.name == 'du') return false;
 					return true;
 				},
-    filter: function (event, player) {
+    filter(event, player) {
 					return event.result && event.result.card && get.position(event.result.card, true) == 'o';
 				},
-    content: function () {
+    async content(event, trigger, player) {
 					player.gain(trigger.result.card, 'gain2');
 				},
     t: {

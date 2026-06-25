@@ -4,7 +4,7 @@ export default {
     trigger: {
         player: "useCardBegin",
     },
-    filter: function filter(event, player) {
+    filter(event, player) {
 					if (!event.targets) return false;
 					if (!["basic", "trick"].includes(get.type(event.card))) return false;
 					const info = get.info(event.card);
@@ -26,7 +26,7 @@ export default {
 					targets.forEach(i => i.addTempSkill("vl_gairtelu_zs_banned", { global: "phaseUseEnd" }));
 				},
     mod: {
-        targetInRange: function (card, player, target, now) {
+        targetInRange(card, player, target, now) {
 						return true;
 					},
     },
@@ -37,7 +37,7 @@ export default {
                 content: "本阶段不能成为盖尔德鲁使用牌的目标",
             },
             mod: {
-                targetEnabled: function (card, player, target, now) {
+                targetEnabled(card, player, target, now) {
 								if (player.hasSkill("vl_gairtelu_zs")) return false;
 							},
             },

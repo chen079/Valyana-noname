@@ -11,7 +11,7 @@ export default {
 					if (!evtx || evtx.player != player) return false;
 					return event.num > 0 && !player.isDying()
 				},
-    content: function () {
+    async content(event, trigger, player) {
 					trigger.cancel()
 					player.gainVp(trigger.num)
 				},
@@ -24,10 +24,10 @@ export default {
             direct: true,
             locked: true,
             lastDo: true,
-            filter: function (event, player) {
+            filter(event, player) {
 							return player.hp < player.maxHp - 1
 						},
-            content: function () {
+            async content(event, trigger, player) {
 							var num = player.maxHp - 1 - player.hp
 							player.recover(num)
 							player.consumeVp(num)

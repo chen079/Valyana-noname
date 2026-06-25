@@ -2,18 +2,18 @@ import { lib, game, ui, get, ai, _status } from '../../../../noname.js';
 
 export default {
     forced: true,
-    filter: function (event, player) {
+    filter(event, player) {
 					return (player.isLinked() ? '' : 'n')
 				},
     trigger: {
         source: "damageBefore",
     },
-    content: function () {
+    async content(event, trigger, player) {
 					trigger.player.link(true)
 				},
     ai: {
         effect: {
-            target: function (card) {
+            target(card) {
 							if (card.name == 'tiesuo') return 'zeroplayertarget';
 						},
         },
@@ -24,10 +24,10 @@ export default {
                 player: "linkBegin",
             },
             forced: true,
-            filter: function (event, player) {
+            filter(event, player) {
 							return !player.isLinked();
 						},
-            content: function () {
+            async content(event, trigger, player) {
 							trigger.cancel();
 						},
             sub: true,

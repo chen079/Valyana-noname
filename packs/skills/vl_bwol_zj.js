@@ -4,7 +4,7 @@ export default {
     trigger: {
         player: "useCard",
     },
-    filter: function (event, player) {
+    filter(event, player) {
 					if (get.suit(event.card) == 'none') return false
 					var history = player.getHistory('useCard', function (evt) {
 						return evt.card != event.card
@@ -15,7 +15,7 @@ export default {
 					})
 					return !suits.includes(get.suit(event.card))
 				},
-    check: function (event, player) {
+    check(event, player) {
 					if (player.countCards('h') < 4) return true
 					if (player.countCards('h') > 7) return false
 					return true
@@ -23,7 +23,7 @@ export default {
     mark: true,
     locked: false,
     mod: {
-        aiOrder: function (player, card, num) {
+        aiOrder(player, card, num) {
 						var history = player.getHistory('useCard')
 						var suits = []
 						history.map(i => i.card).forEach(i => {
@@ -33,7 +33,7 @@ export default {
 					},
     },
     intro: {
-        content: function (storage, player) {
+        content(storage, player) {
 						var history = player.getHistory('useCard')
 						var suits = []
 						history.map(i => i.card).forEach(i => {
@@ -42,7 +42,7 @@ export default {
 						return '你使用过的花色：' + suits.join('、');
 					},
     },
-    content: function () {
+    async content(event, trigger, player) {
 					var num = player.countCards('h');
 					if (num > 4) player.chooseToDiscard('h', true, num - 4);
 					else player.drawTo(4);

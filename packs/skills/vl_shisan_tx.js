@@ -5,87 +5,73 @@ export default {
         global: "phaseEnd",
     },
     direct: true,
-    filter: function (event, player) {
+    filter(event, player) {
 					return !player.getHistory('useCard').length;
 				},
-    content: function () {
-					'step 0'
-					player.chooseTarget(1, '###是否发动【推心】？###视为使用一张没有距离限制的【推心置腹】').set('filterTarget', function (card, player, target) {
-						return player.canUse('tuixinzhifu', target, false)
-					})
-					'step 1'
-					if (result.bool) {
-						event.target = result.targets[0]
-						player.useCard({ name: 'tuixinzhifu' }, event.target)
-					} else {
-						event.finish()
-					}
-					'step 2'
-					if (event.target.countCards('hes') == 0) {
-						return event.finish()
-					}
-					player.chooseTarget(1, true, '选择【推心】的另一个目标'
-					).set('ai', function (target) {
-						var player = _status.event.player;
-						if (event.target.countCards('h', 'sha') > 0) {
-							return get.effect(target, { name: 'sha' }, player, player);
-						} else {
-							return get.effect(target, { name: 'wuzhong' }, player, player);
-						}
-					}).set('filterTarget', function (card, player, target) {
-						return event.target != target
-					})
-					'step 3'
-					event.target1 = result.targets[0]
-					var list = []
-					var choiceList = []
-					if (event.target.countCards('h') > 0) {
-						list.push('交牌')
-						choiceList.push('交给' + get.translation(event.target1) + '两张手牌（不足则全交）。')
-					}
-					if (event.target.countCards('hs', 'sha') > 0) {
-						list.push('出杀')
-						choiceList.push('对' + get.translation(event.target1) + '使用一张【杀】')
-					}
-					if (list.length) {
-						event.target.chooseControl(list).set('choiceList', choiceList)
-							.set('ai', function () {
-								var player = _status.event.player
-								var target = _status.event.target
-								if (list.length == 1) {
-									return '交牌'
-								}
-								var att = get.attitude(player, target)
-								if (att < 0) {
-									return '出杀'
-								}
-								return '交牌'
-							}).set('target', event.target1)
-					} else {
-						event.finish()
-					}
-					'step 4'
-					if (result.control == '交牌') {
-						event.target.chooseCard(2, 'h', true).set('ai', function (card) {
-							return 100 - get.value(card)
-						})
-					} else {
-						event.goto(6)
-					}
-					'step 5'
-					event.target1.gain(event.target, result.cards, 'giveAuto')
-					event.finish()
-					'step 6'
-					event.target.chooseCard(1, 'hs', true).set('filterCard', function (card) {
-						return get.name(card) == 'sha'
-					}).set('ai', function (card) {
-						return 100 - get.value(card)
-					})
-					'step 7'
-					event.target.useCard(event.target1, result.cards, false)
-				},
+    async content(event, trigger, player) {
+        const targetResult = await player
+        	.chooseTarget(1, '###是否发动【推心】？###视为使用一张没有距离限制的【推心置腹】')
+        	.set('filterTarget', function (card, player, target) {
+        		return player.canUse('tuixinzhifu', target, false);
+        	})
+        	.forResult();
+        if (!targetResult.bool) return;
+        const target = targetResult.targets[0];
+        await player.useCard({ name: 'tuixinzhifu' }, target);
+        if (target.countCards('hes') == 0) return;
+        const otherResult = await player
+        	.chooseTarget(1, true, '选择【推心】的另一个目标')
+        	.set('ai', function (currentTarget) {
+        		const currentPlayer = _status.event.player;
+        		if (target.countCards('h', 'sha') > 0) {
+        			return get.effect(currentTarget, { name: 'sha' }, currentPlayer, currentPlayer);
+        		}
+        		return get.effect(currentTarget, { name: 'wuzhong' }, currentPlayer, currentPlayer);
+        	})
+        	.set('filterTarget', function (card, player, currentTarget) {
+        		return target != currentTarget;
+        	})
+        	.forResult();
+        if (!otherResult.bool) return;
+        const target1 = otherResult.targets[0];
+        const list = [];
+        const choiceList = [];
+        if (target.countCards('h') > 0) {
+        	list.push('交牌');
+        	choiceList.push('交给' + get.translation(target1) + '两张手牌（不足则全交）。');
+        }
+        if (target.countCards('hs', 'sha') > 0) {
+        	list.push('出杀');
+        	choiceList.push('对' + get.translation(target1) + '使用一张【杀】');
+        }
+        if (!list.length) return;
+        const choiceResult = await target.chooseControl(list).set('choiceList', choiceList)
+        	.set('ai', function () {
+        		const currentPlayer = _status.event.player;
+        		const currentTarget = _status.event.target;
+        		if (list.length == 1) return '交牌';
+        		const att = get.attitude(currentPlayer, currentTarget);
+        		if (att < 0) return '出杀';
+        		return '交牌';
+        	}).set('target', target1).forResult();
+        if (choiceResult.control == '交牌') {
+        	const giveResult = await target.chooseCard(2, 'h', true).set('ai', function (card) {
+        		return 100 - get.value(card);
+        	}).forResult();
+        	if (!giveResult.bool) return;
+        	await target1.gain(target, giveResult.cards, 'giveAuto');
+        	return;
+        }
+        const shaResult = await target.chooseCard(1, 'hs', true).set('filterCard', function (card) {
+        	return get.name(card) == 'sha';
+        }).set('ai', function (card) {
+        	return 100 - get.value(card);
+        }).forResult();
+        if (!shaResult.bool) return;
+        await target.useCard(target1, shaResult.cards, false);
+    },
     t: {
         name: "推心",
-        info: "你未使用过牌的回合结束时，你可以视为使用一张无距离限制的「tuixinzhifu」。然后目标需要对你指定的另一名角色选择一项：<li>1.使用一张无距离限制的【杀】；<li>2.交给其两张手牌（不足则全交）。",
+        info: `你未使用过牌的回合结束时，你可以视为使用一张无距离限制的${get.poptip("tuixinzhifu")}。然后目标需要对你指定的另一名角色选择一项：<li>1.使用一张无距离限制的【杀】；<li>2.交给其两张手牌（不足则全交）。`,
     },
 };

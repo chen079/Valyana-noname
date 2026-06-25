@@ -3,10 +3,10 @@ import { lib, game, ui, get, ai, _status } from '../../../../noname.js';
 export default {
     enable: "phaseUse",
     usable: 1,
-    filter: function filter(event,player){
+    filter(event,player) {
 					return game.hasPlayer(target=>target.countCards('h') && target != player);
 				},
-    filterTarget: function (card, player, target) {
+    filterTarget(card, player, target) {
 					return target.countCards('h') && target != player;
 				},
     selectTarget: -1,

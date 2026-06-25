@@ -6,10 +6,10 @@ export default {
     trigger: {
         source: "damageSource",
     },
-    filter: function (event, player) {
+    filter(event, player) {
 					return event.card.name == 'sha' & ((player.name1 == 'vl_kulun_ice') || (player.name2 == 'vl_kulun_ice'));
 				},
-    content: function () {
+    async content(event, trigger, player) {
 					trigger.player.addVuff('dongshang')
 				},
     t: {

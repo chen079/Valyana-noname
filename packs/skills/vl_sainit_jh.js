@@ -9,32 +9,29 @@ export default {
     intro: {
         content: "你选择的目标为:$",
     },
-    filter: function filter(event,player){
-					game.hasPlayer(c=>c!=player);
+    filter(event,player) {
+					return game.hasPlayer(c=>c!=player);
 				},
-    content: function () {
-					'step 0'
-					player.chooseTarget(get.prompt2('vl_sainit_jh'), function (card, player, target) {
-						return target != player
-					}, true).set('ai', function (target) {
-						return Math.random()
-					})
-					'step 1'
-					if (result.bool) {
-						game.hasPlayer(function (current) {
-							if (current != player && current.hasSkill('vl_sainit_jh_draw')) {
-								current.removeSkill('vl_sainit_jh_draw')
-							}
-						})
-						var target = result.targets[0]
-						target.storage.vl_sainit_jh = player
-						game.hasPlayer(function (current) {
-							if (current.hasSkill('vl_sainit_jh_draw')) current.removeSkill('vl_sainit_jh_draw')
-						})
-						target.addSkill('vl_sainit_jh_draw')
-						player.storage.vl_sainit_jh = target
-					}
-				},
+    async content(event, trigger, player) {
+        const result = await player.chooseTarget(get.prompt2('vl_sainit_jh'), function (card, player, target) {
+            return target != player
+        }, true).set('ai', function () {
+            return Math.random()
+        }).forResult();
+        if (!result.bool) return;
+        game.hasPlayer(function (current) {
+            if (current != player && current.hasSkill('vl_sainit_jh_draw')) {
+                current.removeSkill('vl_sainit_jh_draw')
+            }
+        })
+        const target = result.targets[0]
+        target.storage.vl_sainit_jh = player
+        game.hasPlayer(function (current) {
+            if (current.hasSkill('vl_sainit_jh_draw')) current.removeSkill('vl_sainit_jh_draw')
+        })
+        target.addSkill('vl_sainit_jh_draw')
+        player.storage.vl_sainit_jh = target
+    },
     group: "vl_sainit_jh_discard",
     subSkill: {
         discard: {
@@ -42,16 +39,16 @@ export default {
                 player: ["gainAfter"],
                 global: ["loseAsyncAfter"],
             },
-            init: function (player) {
+            init(player) {
 							if (!player.storage.vl_sainit_jh_count) player.storage.vl_sainit_jh_count = 0;
 						},
-            filter: function (event, player) {
+            filter(event, player) {
 							if(!event.getg?.(player)?.length) return;
 							return player.countCards('h') && player.countCards('h') > player.maxHp && !player.storage.vl_sainit_yq
 						},
             direct: true,
-            content: function content() {
-							player.chooseToDiscard(player.countCards('h') - player.maxHp, true);		
+            async content(event, trigger, player) {
+							await player.chooseToDiscard(player.countCards('h') - player.maxHp, true).forResult();		
 						},
         },
         draw: {
@@ -59,17 +56,17 @@ export default {
                 player: "loseAfter",
                 global: ["loseAsyncAfter", "equipAfter", "addJudgeAfter", "gainAfter", "addToExpansionAfter"],
             },
-            filter: function filter(event, player) {
+            filter(event, player) {
 							return event.getl(player)?.cards2?.length;
 						},
-            onremove: function (player) {
+            onremove(player) {
 							player.storage.vl_sainit_jh = ''
 						},
             direct: true,
             charlotte: true,
             forced: true,
-            content: function () {
-							player.storage.vl_sainit_jh.draw(trigger.cards.length);
+            async content(event, trigger, player) {
+							await player.storage.vl_sainit_jh.draw(trigger.cards.length);
 						},
         },
     },
