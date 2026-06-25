@@ -7,11 +7,11 @@ export default {
             forced: true,
             mod: {
                 ignoredHandcard(card, player) {
-								if (get.color(card) == 'black' && get.name(card) == 'sha') return true;
-							},
+                    if (get.color(card) == 'black' && get.name(card) == 'sha') return true;
+                },
                 cardDiscardable(card, player, name) {
-								if (name == 'phaseDiscard' && get.color(card) == 'black' && get.name(card) == 'sha') return false;
-							},
+                    if (name == 'phaseDiscard' && get.color(card) == 'black' && get.name(card) == 'sha') return false;
+                },
             },
             sub: true,
         },
@@ -19,8 +19,8 @@ export default {
             forced: true,
             mod: {
                 cardUsable(card, player, num) {
-								if (card.name == 'sha') return num + 1;
-							},
+                    if (card.name == 'sha') return num + 1;
+                },
             },
             ai: {
                 mapValue: 2,

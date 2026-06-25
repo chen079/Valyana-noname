@@ -8,14 +8,14 @@ export default {
     logTarget: "target",
     forced: true,
     filter(event, player) {
-					if (event.target == player) return false;
-					if (event.target.hasSkill("baiban") && event.target.hasSkill("vl_sam_wh_1")) return false;
-					return get.tag(event.card, 'damage');
-				},
+        if (event.target == player) return false;
+        if (event.target.hasSkill("baiban") && event.target.hasSkill("vl_sam_wh_1")) return false;
+        return get.tag(event.card, 'damage');
+    },
     async content(event, trigger, player) {
-					trigger.target.addTempSkill("baiban");
-					trigger.target.addTempSkill("vl_sam_wh_1");
-				},
+        trigger.target.addTempSkill("baiban");
+        trigger.target.addTempSkill("vl_sam_wh_1");
+    },
     subSkill: {
         "1": {
             charlotte: true,
@@ -31,19 +31,19 @@ export default {
                 source: "damageSource",
             },
             async content(event, trigger, player) {
-player.addTempSkill("vl_sam_wh_3");
-await player.draw(2);
-    },
+                player.addTempSkill("vl_sam_wh_3");
+                await player.draw(2);
+            },
             sub: true,
         },
         "3": {
             mod: {
                 cardUsable(card, player, num) {
-								if (card.name == 'sha') return num + 1;
-							},
+                    if (card.name == 'sha') return num + 1;
+                },
                 targetInRange(card) {
-								if (card.name == 'sha') return true;
-							},
+                    if (card.name == 'sha') return true;
+                },
             },
             sub: true,
         },

@@ -8,38 +8,38 @@ export default {
     preHidden: true,
     async content(event, trigger, player) {
         const result = await player.chooseTarget(1, false, function (card, player, target) {
-        						return target != player;
-        					}).set('ai', function (target) {
-        						return -get.attitude(_status.event.player, target) / (1 + target.countCards('h'));
-        					}).set("prompt", "是否选择一名角色发动〖死搏〗").set("prompt2", "若结果为♥，该角色翻至背面；若结果为♦，受该角色到来自你的1点伤害；若结果为♣，该角色跳过下个摸牌阶段；若结果为♠，你弃置该角色两张牌。").forResult();
+            return target != player;
+        }).set('ai', function (target) {
+            return -get.attitude(_status.event.player, target) / (1 + target.countCards('h'));
+        }).set("prompt", "是否选择一名角色发动〖死搏〗").set("prompt2", "若结果为♥，该角色翻至背面；若结果为♦，受该角色到来自你的1点伤害；若结果为♣，该角色跳过下个摸牌阶段；若结果为♠，你弃置该角色两张牌。").forResult();
         if (result.bool) {
-        						const target = result.targets[0];
-        						player.logSkill('vl_sam_bz', target);
-        						const judgeResult = await target.judge().forResult();
-        						if (judgeResult.suit == 'heart') {
-        							target.skip('phaseUse');
-        							target.addTempSkill('vl_sam_bz_2', { player: 'phaseUseSkipped' })
-        						} else if (judgeResult.suit == 'diamond') {
-        							await target.damage()
-        						} else if (judgeResult.suit == 'club') {
-        							target.skip('phaseDraw');
-        							target.addTempSkill('vl_sam_bz_1', { player: 'phaseDrawSkipped' })
-        						} else if (judgeResult.suit == 'spade') {
-        							if (target.countCards('he')) {
-        								await player.discardPlayerCard(2, target, 'he', true);
-        							}
-        						}
-        					}
+            const target = result.targets[0];
+            player.logSkill('vl_sam_bz', target);
+            const judgeResult = await target.judge().forResult();
+            if (judgeResult.suit == 'heart') {
+                target.skip('phaseUse');
+                target.addTempSkill('vl_sam_bz_2', { player: 'phaseUseSkipped' })
+            } else if (judgeResult.suit == 'diamond') {
+                await target.damage()
+            } else if (judgeResult.suit == 'club') {
+                target.skip('phaseDraw');
+                target.addTempSkill('vl_sam_bz_1', { player: 'phaseDrawSkipped' })
+            } else if (judgeResult.suit == 'spade') {
+                if (target.countCards('he')) {
+                    await player.discardPlayerCard(2, target, 'he', true);
+                }
+            }
+        }
     },
     ai: {
         maixie: true,
         maixie_defend: true,
         effect: {
             target(card, player, target) {
-							if (player.hasSkillTag('jueqing', false, target)) return [1, -1];
-							return 0.8;
-							// if(get.tag(card,'damage')&&get.damageEffect(target,player,player)>0) return [1,0,0,-1.5];
-						},
+                if (player.hasSkillTag('jueqing', false, target)) return [1, -1];
+                return 0.8;
+                // if(get.tag(card,'damage')&&get.damageEffect(target,player,player)>0) return [1,0,0,-1.5];
+            },
         },
     },
     subSkill: {

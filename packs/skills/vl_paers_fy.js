@@ -13,15 +13,15 @@ export default {
     intro: {
         markcount: (storage) => ['①', '②', '③'][(storage || 0) % 3],
         content(storage, player, skill) {
-                        return '当你不因使用或此技能而失去手牌后，若你有手牌，你'+["将一张牌置于牌堆顶","从牌堆底摸一张牌","获得一名其他角色的一张牌，然后你可以视为使用无距离限制的【杀】并失去1点体力"][(storage || 0) % 3] + '。';
-					},
+            return '当你不因使用或此技能而失去手牌后，若你有手牌，你' + ["将一张牌置于牌堆顶", "从牌堆底摸一张牌", "获得一名其他角色的一张牌，然后你可以视为使用无距离限制的【杀】并失去1点体力"][(storage || 0) % 3] + '。';
+        },
     },
     filter(event, player) {
-					if (event.getParent().name == "useCard") return false;
-					if (event.getParent().name == 'vl_paers_fy') return false;
-					if (!player.countCards("h")) return;
-					return event.getl(player)?.hs.length;
-				},
+        if (event.getParent().name == "useCard") return false;
+        if (event.getParent().name == 'vl_paers_fy') return false;
+        if (!player.countCards("h")) return;
+        return event.getl(player)?.hs.length;
+    },
     async content(event, trigger, player) {
         player.changeZhuanhuanji("vl_paers_fy");
         if (player.countMark("vl_paers_fy") % 3 == 1) {

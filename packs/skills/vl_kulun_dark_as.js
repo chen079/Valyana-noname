@@ -3,8 +3,8 @@ import { lib, game, ui, get, ai, _status } from '../../../../noname.js';
 export default {
     mod: {
         cardUsable(card, player, num) {
-						if (card.name == 'sha' && get.color(card) == 'black') return Infinity;
-					},
+            if (card.name == 'sha' && get.color(card) == 'black') return Infinity;
+        },
     },
     t: {
         name: "黯蚀",

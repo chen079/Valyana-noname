@@ -5,20 +5,20 @@ export default {
     usable: 1,
     linkage: "thunder",
     filterTarget(card, player, target) {
-					return target != player
-				},
+        return target != player
+    },
     check(target) {
-					var player = _status.event.player
-					return -get.attitude(player, target)
-				},
+        var player = _status.event.player
+        return -get.attitude(player, target)
+    },
     filter(event, player) {
-					return ((player.name1 == 'vl_kulun_thunder') || (player.name2 == 'vl_kulun_thunder'));
-				},
+        return ((player.name1 == 'vl_kulun_thunder') || (player.name2 == 'vl_kulun_thunder'));
+    },
     async content(event, trigger, player) {
-					const num = game.getInCenter().filter(i => get.color(i) == 'black').length;
-					for (let i = 0; i < num; i++) {
-						await event.target.executeDelayCardEffect('shandian');
-					}
+        const num = game.getInCenter().filter(i => get.color(i) == 'black').length;
+        for (let i = 0; i < num; i++) {
+            await event.target.executeDelayCardEffect('shandian');
+        }
     },
     ai: {
         order: 4,

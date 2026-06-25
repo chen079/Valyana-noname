@@ -9,15 +9,15 @@ export default {
     },
     mod: {
         judge(player, result) {
-						if ((_status.event.cardname == 'lebu' || _status.event.cardname == 'bingliang')) {
-							if (result.bool == false) {
-								result.bool = true;
-							}
-							else {
-								result.bool = false;
-							}
-						}
-					},
+            if ((_status.event.cardname == 'lebu' || _status.event.cardname == 'bingliang')) {
+                if (result.bool == false) {
+                    result.bool = true;
+                }
+                else {
+                    result.bool = false;
+                }
+            }
+        },
     },
     t: {
         name: "异变",

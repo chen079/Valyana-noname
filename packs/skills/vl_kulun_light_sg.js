@@ -6,19 +6,19 @@ export default {
     position: "he",
     usable: 1,
     check(card) {
-					return 9 - get.value(card)
-				},
+        return 9 - get.value(card)
+    },
     filter(event, player) {
-					return player.countCards('he') > 0
-				},
+        return player.countCards('he') > 0
+    },
     filterTarget(card, player, target) {
-					return player != target
-				},
+        return player != target
+    },
     async content(event, trigger, player) {
-var buffs = game.findVuff('type', 'buff')
-        					player.addVuff(buffs.randomGet())
-        					target.addVuff(buffs.randomGet())
-        					await target.recover()
+        var buffs = game.findVuff('type', 'buff')
+        player.addVuff(buffs.randomGet())
+        target.addVuff(buffs.randomGet())
+        await target.recover()
     },
     ai: {
         order: 9,

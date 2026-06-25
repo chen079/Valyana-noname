@@ -5,28 +5,28 @@ export default {
         source: "damageBegin2",
     },
     filter(event, player) {
-					return event.getParent().name == 'sha' && player.getExpansions('vl_xieji').length > 0
-				},
+        return event.getParent().name == 'sha' && player.getExpansions('vl_xieji').length > 0
+    },
     check(event, player) {
-					if (get.attitude(player, event.player) >= 0) return false;
-					if (event.player.hasSkillTag('filterDamage', null, {
-						player: player,
-						card: event.card,
-					})) return false;
-					return true;
-					//return player.hasMark('xinfu_falu_spade')||get.color(ui.cardPile.firstChild)=='black';
-				},
+        if (get.attitude(player, event.player) >= 0) return false;
+        if (event.player.hasSkillTag('filterDamage', null, {
+            player: player,
+            card: event.card,
+        })) return false;
+        return true;
+        //return player.hasMark('xinfu_falu_spade')||get.color(ui.cardPile.firstChild)=='black';
+    },
     usable: 1,
     prompt: "你可以弃置X张'协'令此伤害+X",
     logTarget: "player",
     async content(event, trigger, player) {
         const result = await player.chooseCardButton('选择弃置X张“协”', [1, Infinity], player.getExpansions('vl_xieji')).forResult();
         if (result.bool) {
-        						trigger.num += result.links.length
-        						await player.loseToDiscardpile(result.links)
-        					} else {
-        						return;
-        					}
+            trigger.num += result.links.length
+            await player.loseToDiscardpile(result.links)
+        } else {
+            return;
+        }
     },
     t: {
         name: "烈断",

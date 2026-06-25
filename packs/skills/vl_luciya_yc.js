@@ -5,21 +5,21 @@ export default {
         global: "judgeEnd",
     },
     frequent(event) {
-					if (event.result.card.name == 'du') return false;
-					//if(get.mode()=='guozhan') return false;
-					return true;
-				},
+        if (event.result.card.name == 'du') return false;
+        //if(get.mode()=='guozhan') return false;
+        return true;
+    },
     preHidden: true,
     check(event) {
-					if (event.result.card.name == 'du') return false;
-					return true;
-				},
+        if (event.result.card.name == 'du') return false;
+        return true;
+    },
     filter(event, player) {
-					return event.result && event.result.card && get.position(event.result.card, true) == 'o' && event.result.card != player.storage.vl_luciya_xl;
-				},
+        return event.result && event.result.card && get.position(event.result.card, true) == 'o' && event.result.card != player.storage.vl_luciya_xl;
+    },
     async content(event, trigger, player) {
-					player.gain(trigger.result.card, 'gain2')
-				},
+        player.gain(trigger.result.card, 'gain2')
+    },
     group: "vl_luciya_yc_1",
     subSkill: {
         "1": {
@@ -32,8 +32,8 @@ export default {
             filter(event, player) { return [event.card1, event.card2].filterInD('od').length > 0 },
             check(event, player) { return event.card1.name == 'du' || event.card2.name == 'du'; },
             async content(event, trigger, player) {
-							player.gain([trigger.card1, trigger.card2].filterInD('od'), 'gain2', 'log')
-						},
+                player.gain([trigger.card1, trigger.card2].filterInD('od'), 'gain2', 'log')
+            },
             sub: true,
         },
         "2": {
@@ -41,25 +41,25 @@ export default {
                 global: "respondEnd",
             },
             filter(event, player) {
-							if (event.player == player) return false;
-							if (event.cards) {
-								for (var i = 0; i < event.cards.length; i++) {
-									if (get.position(event.cards[i], true) == 'o') return true;
-								}
-							}
-							return false;
-						},
+                if (event.player == player) return false;
+                if (event.cards) {
+                    for (var i = 0; i < event.cards.length; i++) {
+                        if (get.position(event.cards[i], true) == 'o') return true;
+                    }
+                }
+                return false;
+            },
             frequent: true,
             async content(event, trigger, player) {
-							var cards = trigger.cards.slice(0);
-							for (var i = 0; i < cards.length; i++) {
-								if (get.position(cards[i], true) != 'o') {
-									cards.splice(i--, 1);
-								}
-							}
-							game.delay(0.5);
-							player.gain(cards, 'gain2');
-						},
+                var cards = trigger.cards.slice(0);
+                for (var i = 0; i < cards.length; i++) {
+                    if (get.position(cards[i], true) != 'o') {
+                        cards.splice(i--, 1);
+                    }
+                }
+                game.delay(0.5);
+                player.gain(cards, 'gain2');
+            },
             sub: true,
         },
     },

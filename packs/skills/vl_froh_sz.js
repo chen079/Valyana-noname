@@ -9,17 +9,17 @@ export default {
         return !player.storage.hubian
     },
     async content(event, trigger, player) {
-const result = await player.chooseTarget([1, Infinity], get.prompt2('vl_froh_sz'), function (card, player, target) {
-                    return !target.isImmVuff('lingmi')
-                }).set('ai', function (target) {
-                    return get.attitude(player, target) > 0 && !target.hasVuff('lingmi')
-                }).forResult()
-if (result.bool) {
-                    for (var i of result.targets) {
-                        i.addVuff('lingmi')
-                        i.addVuff('yujian')
-                    }
-                }
+        const result = await player.chooseTarget([1, Infinity], get.prompt2('vl_froh_sz'), function (card, player, target) {
+            return !target.isImmVuff('lingmi')
+        }).set('ai', function (target) {
+            return get.attitude(player, target) > 0 && !target.hasVuff('lingmi')
+        }).forResult()
+        if (result.bool) {
+            for (var i of result.targets) {
+                i.addVuff('lingmi')
+                i.addVuff('yujian')
+            }
+        }
     },
     group: ["vl_froh_sz_draw", "vl_froh_sz_sha"],
     subSkill: {

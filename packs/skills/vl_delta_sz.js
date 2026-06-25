@@ -5,19 +5,19 @@ export default {
         source: "damageBegin1",
     },
     check(event, player) {
-					return player.hp > 2 && event.player.hp > event.num && !event.player.hasSkillTag('filterDamage', null, {
-						player: player,
-						card: event.card,
-					}) && get.attitude(player, event.player) < 0;
-				},
+        return player.hp > 2 && event.player.hp > event.num && !event.player.hasSkillTag('filterDamage', null, {
+            player: player,
+            card: event.card,
+        }) && get.attitude(player, event.player) < 0;
+    },
     filter(event, player) {
-					return event.player != player
-				},
+        return event.player != player
+    },
     content: async function content(event, trigger, player) {
-					await player.loseHp()
-					await player.draw(2)
-					trigger.num = trigger.num * 2;
-				},
+        await player.loseHp()
+        await player.draw(2)
+        trigger.num = trigger.num * 2;
+    },
     group: "vl_delta_sz_hf",
     subSkill: {
         hf: {
@@ -25,13 +25,13 @@ export default {
                 player: "damageBegin3",
             },
             check() {
-							return true
-						},
+                return true
+            },
             content: async function content(event, trigger, player) {
-							await player.loseHp()
-							await player.draw(2)
-							trigger.num = Math.floor(trigger.num / 2)
-						},
+                await player.loseHp()
+                await player.draw(2)
+                trigger.num = Math.floor(trigger.num / 2)
+            },
             sub: true,
         },
     },

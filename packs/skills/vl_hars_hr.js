@@ -6,11 +6,11 @@ export default {
         target: "useCardToTargeted",
     },
     check(event, player) {
-					return get.effect(player, event.card, event.player, player) < 0;
-				},
+        return get.effect(player, event.card, event.player, player) < 0;
+    },
     filter(event, player) {
-					return (event.card.name == 'sha' || (get.type(event.card) == 'trick' && get.tag(event.card, 'damage'))) && event.player != player;
-				},
+        return (event.card.name == 'sha' || (get.type(event.card) == 'trick' && get.tag(event.card, 'damage'))) && event.player != player;
+    },
     frequent: true,
     logTarget: "player",
     async content(event, trigger, player) {
@@ -28,19 +28,19 @@ export default {
         gola: {
             enable: "phaseUse",
             filter(event, player) {
-							return game.hasPlayer(function (current) {
-								return current != player && current.hasSkill('vl_hars_hr');
-							});
-						},
+                return game.hasPlayer(function (current) {
+                    return current != player && current.hasSkill('vl_hars_hr');
+                });
+            },
             filterTarget(card, player, target) {
-							return player != target && target.hasSkill('vl_hars_hr');
-						},
+                return player != target && target.hasSkill('vl_hars_hr');
+            },
             lose: false,
             discard: false,
             delay: false,
             check(card) {
-							return 8 - get.value(card)
-						},
+                return 8 - get.value(card)
+            },
             filterCard: true,
             selectCard: [1, 2],
             usable: 1,
@@ -69,13 +69,13 @@ export default {
                 expose: 0.2,
                 result: {
                     player(player, target) {
-									const bystander = game.findPlayer(function (current) {
-										return current.hasSkill('bolan');
-									});
-									if (bystander) {
-										return get.attitude(player, bystander);
-									}
-								},
+                        const bystander = game.findPlayer(function (current) {
+                            return current.hasSkill('bolan');
+                        });
+                        if (bystander) {
+                            return get.attitude(player, bystander);
+                        }
+                    },
                 },
             },
         },

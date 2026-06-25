@@ -7,32 +7,32 @@ export default {
     },
     forced: true,
     filter(event, player) {
-					return event.name != 'phase' || game.phaseNumber == 0;
-				},
+        return event.name != 'phase' || game.phaseNumber == 0;
+    },
     async content(event, trigger, player) {
-game.countPlayer(function (current) {
-        						if (current != player) current.addSkill('vl_jbgy_pc_1');
-        					});
-        					game.log(player, '令除其以外的所有其他角色手牌均可见')
-        					await game.delayx();
+        game.countPlayer(function (current) {
+            if (current != player) current.addSkill('vl_jbgy_pc_1');
+        });
+        game.log(player, '令除其以外的所有其他角色手牌均可见')
+        await game.delayx();
     },
     subSkill: {
         "1": {
             mark: true,
             intro: {
                 mark(dialog, content, player) {
-								var cards = player.getCards('h')
-								if (cards && cards.length) {
-									dialog.addAuto(cards);
-								}
-							},
+                    var cards = player.getCards('h')
+                    if (cards && cards.length) {
+                        dialog.addAuto(cards);
+                    }
+                },
             },
             content(content, player) {
-							var cards = player.getCards('h')
-							if (cards && cards.length) {
-								return get.translation(cards);
-							}
-						},
+                var cards = player.getCards('h')
+                if (cards && cards.length) {
+                    return get.translation(cards);
+                }
+            },
             sub: true,
         },
     },

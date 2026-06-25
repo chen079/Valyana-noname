@@ -5,18 +5,18 @@ export default {
         source: "damageBegin2",
     },
     check(event, player) {
-					return player.hp > 2 && event.player.hp > event.num && !event.player.hasSkillTag('filterDamage', null, {
-						player: player,
-						card: event.card,
-					}) && get.attitude(player, event.player) < 0;
-				},
+        return player.hp > 2 && event.player.hp > event.num && !event.player.hasSkillTag('filterDamage', null, {
+            player: player,
+            card: event.card,
+        }) && get.attitude(player, event.player) < 0;
+    },
     filter(event, player) {
-					return event.player != player
-				},
+        return event.player != player
+    },
     async content(event, trigger, player) {
-					await player.loseHp();
-					trigger.num = trigger.num * 2;
-				},
+        await player.loseHp();
+        trigger.num = trigger.num * 2;
+    },
     group: "vl_mala_sz_1",
     subSkill: {
         "1": {
@@ -25,15 +25,15 @@ export default {
             },
             forced: true,
             async content(event, trigger, player) {
-							var evt = _status.event.getParent('phaseUse');
-							if (evt && evt.name == 'phaseUse') {
-								evt.skipped = true;
-							}
-							var evt = _status.event.getParent('phase');
-							if (evt && evt.name == 'phase') {
-								evt.finish();
-							}
-						},
+                var evt = _status.event.getParent('phaseUse');
+                if (evt && evt.name == 'phaseUse') {
+                    evt.skipped = true;
+                }
+                var evt = _status.event.getParent('phase');
+                if (evt && evt.name == 'phase') {
+                    evt.finish();
+                }
+            },
             ai: {
                 jueqing: true,
             },

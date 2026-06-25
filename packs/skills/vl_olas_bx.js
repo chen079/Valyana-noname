@@ -6,13 +6,13 @@ export default {
     },
     forced: true,
     filter(event, player) {
-					return event.player != player && event.getParent().name == 'sha'
-				},
+        return event.player != player && event.getParent().name == 'sha'
+    },
     async content(event, trigger, player) {
-					var cards = trigger.player.getCards('h', 'sha')
-					if(!cards.length)return;
-					player.gain(cards, 'gain2')
-				},
+        var cards = trigger.player.getCards('h', 'sha')
+        if (!cards.length) return;
+        player.gain(cards, 'gain2')
+    },
     t: {
         name: "缴械",
         info: "锁定技，当你因执行【杀】的效果对一名其他角色造成伤害时，你获得该角色的所有【杀】。",

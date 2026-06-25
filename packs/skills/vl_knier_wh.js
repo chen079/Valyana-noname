@@ -7,30 +7,30 @@ export default {
     frequent: true,
     mark: true,
     onremove(player, skill) {
-					var cards = player.getExpansions(skill);
-					if (cards.length) player.loseToDiscardpile(cards);
-				},
+        var cards = player.getExpansions(skill);
+        if (cards.length) player.loseToDiscardpile(cards);
+    },
     intro: {
         content: "expansion",
         markcount: "expansion",
     },
     filter(event, player) {
-					if (event.player == player) return false
-					if (event.cards.length != 1) return false
-					var list = []
-					var cards = player.getExpansions('vl_knier_wh')
-					if (cards.length == 0) return true
-					for (var i = 0; i < cards.length; i++) {
-						if (!list || !list.includes(get.suit(cards[i]))) {
-							list.push(get.suit(cards[i]))
-						}
-					}
-					if (!list.includes(get.suit(event.cards[0]))) return true
-					return false
-				},
+        if (event.player == player) return false
+        if (event.cards.length != 1) return false
+        var list = []
+        var cards = player.getExpansions('vl_knier_wh')
+        if (cards.length == 0) return true
+        for (var i = 0; i < cards.length; i++) {
+            if (!list || !list.includes(get.suit(cards[i]))) {
+                list.push(get.suit(cards[i]))
+            }
+        }
+        if (!list.includes(get.suit(event.cards[0]))) return true
+        return false
+    },
     async content(event, trigger, player) {
-trigger.excluded.push(player)
-await player.addToExpansion(trigger.cards, 'gain2').gaintag.add('vl_knier_wh')
+        trigger.excluded.push(player)
+        await player.addToExpansion(trigger.cards, 'gain2').gaintag.add('vl_knier_wh')
     },
     t: {
         name: "雾花",

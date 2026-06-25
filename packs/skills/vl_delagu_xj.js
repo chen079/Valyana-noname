@@ -4,12 +4,12 @@ export default {
     enable: "phaseUse",
     usable: 2,
     filter(event, player) {
-					return !player.hasSkill('vl_delagu_xj_blocker')
-				},
+        return !player.hasSkill('vl_delagu_xj_blocker')
+    },
     content: async function content(event, trigger, player) {
-					await player.loseHp()
-					player.addVuff('kangfen')
-				},
+        await player.loseHp()
+        player.addVuff('kangfen')
+    },
     group: "vl_delagu_xj_die",
     subSkill: {
         blocker: {},
@@ -20,22 +20,22 @@ export default {
             direct: true,
             popup: false,
             filter(event, player) {
-							return event.reason && event.reason.getParent().name == 'vl_delagu_xj';
-						},
+                return event.reason && event.reason.getParent().name == 'vl_delagu_xj';
+            },
             content: async function content(event, trigger, player) {
-							await player.recover();
-							game.players.slice(0).remove(player).forEach(i => i.addVuff('chuxue'))
-							player.addTempSkill('vl_delagu_xj_blocker');
-						},
+                await player.recover();
+                game.players.slice(0).remove(player).forEach(i => i.addVuff('chuxue'))
+                player.addTempSkill('vl_delagu_xj_blocker');
+            },
             _priority: 0,
         },
     },
     ai: {
         order: 4,
         player(player, target) {
-						if (player.hp == 3) return -1
-						return 1
-					},
+            if (player.hp == 3) return -1
+            return 1
+        },
     },
     t: {
         name: "血祭",

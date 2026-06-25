@@ -5,8 +5,8 @@ export default {
     ai: {
         viewHandcard: true,
         skillTagFilter(player, tag, arg) {
-						if (!(player.name1 == 'vl_kulun_fire' || player.name2 == 'vl_kulun_fire')) return false;
-					},
+            if (!(player.name1 == 'vl_kulun_fire' || player.name2 == 'vl_kulun_fire')) return false;
+        },
     },
     t: {
         name: "通明",

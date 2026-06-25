@@ -4,9 +4,9 @@ export default {
     mark: true,
     marktext: "协",
     onremove(player, skill) {
-					var cards = player.getExpansions(skill);
-					if (cards.length) player.loseToDiscardpile(cards);
-				},
+        var cards = player.getExpansions(skill);
+        if (cards.length) player.loseToDiscardpile(cards);
+    },
     intro: {
         content: "expansion",
         markcount: "expansion",
@@ -16,14 +16,14 @@ export default {
     },
     direct: true,
     filter(event, player) {
-					return player.getExpansions('vl_xieji').length > 0;
-				},
+        return player.getExpansions('vl_xieji').length > 0;
+    },
     async content(event, trigger, player) {
-					var cards = player.getExpansions('vl_xieji');
-					if (cards.length > 0) {
-						player.gain(cards, 'gain2');
-					}
-				},
+        var cards = player.getExpansions('vl_xieji');
+        if (cards.length > 0) {
+            player.gain(cards, 'gain2');
+        }
+    },
     t: {
         name: "协",
         info: "",

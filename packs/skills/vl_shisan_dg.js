@@ -6,10 +6,10 @@ export default {
         player: "useCardAfter",
     },
     filter(event, player) {
-					return ['basic', 'trick'].includes(get.type(event.card, false)) && game.hasPlayer(function (current) {
-						return current.countCards('h') >= player.countCards('h') && current.countCards('he') > 0
-					});
-				},
+        return ['basic', 'trick'].includes(get.type(event.card, false)) && game.hasPlayer(function (current) {
+            return current.countCards('h') >= player.countCards('h') && current.countCards('he') > 0
+        });
+    },
     async content(event, trigger, player) {
         const result = await player.chooseTarget(1, true, '###是否发动【达观】？###弃置一名手牌数不小于你的角色的一张牌')
             .set('ai', function (target) {

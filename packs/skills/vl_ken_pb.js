@@ -4,8 +4,8 @@ export default {
     forced: true,
     mod: {
         targetEnabled(card, player, target) {
-						if (get.type(card) == "delay") return false;
-					},
+            if (get.type(card) == "delay") return false;
+        },
     },
     t: {
         name: "屏蔽",

@@ -6,12 +6,12 @@ export default {
     },
     forced: true,
     filter(event, player) {
-					return event.nature == 'fire'
-				},
+        return event.nature == 'fire'
+    },
     async content(event, trigger, player) {
-					trigger.cancel()
-					player.recover()
-				},
+        trigger.cancel()
+        player.recover()
+    },
     group: "vl_luyezhi_zy_draw",
     subSkill: {
         draw: {
@@ -20,11 +20,11 @@ export default {
             },
             forced: true,
             filter(event, player) {
-							return event.nature == 'fire'
-						},
+                return event.nature == 'fire'
+            },
             async content(event, trigger, player) {
-							player.draw()
-						},
+                player.draw()
+            },
         },
     },
     t: {

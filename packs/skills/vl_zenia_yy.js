@@ -2,50 +2,50 @@ import { lib, game, ui, get, ai, _status } from '../../../../noname.js';
 
 export default {
     init(player) {
-					if (!player.vl_zenia_yy) player.vl_zenia_yy = '平';
-				},
+        if (!player.vl_zenia_yy) player.vl_zenia_yy = '平';
+    },
     filterTarget: true,
     mark: true,
     marktext: "🎶",
     intro: {
         content(storage, player) {
-						let str;
-						switch (player.vl_zenia_yy) {
-							case '平': str = '出牌阶段限一次，你可以令一名角色摸' + player.maxHp + '张牌，然后弃置' + player.hp + '张手牌。'; break;
-							case '仄': str = '出牌阶段限一次，你可以令一名角色弃置' + player.maxHp + '张手牌，然后摸' + player.hp + '张牌。'; break;
-						}
-						return '<li>当前韵律：' + (player.vl_zenia_yy || '平') + '<br><li>' + str;
-					},
+            let str;
+            switch (player.vl_zenia_yy) {
+                case '平': str = '出牌阶段限一次，你可以令一名角色摸' + player.maxHp + '张牌，然后弃置' + player.hp + '张手牌。'; break;
+                case '仄': str = '出牌阶段限一次，你可以令一名角色弃置' + player.maxHp + '张手牌，然后摸' + player.hp + '张牌。'; break;
+            }
+            return '<li>当前韵律：' + (player.vl_zenia_yy || '平') + '<br><li>' + str;
+        },
     },
     group: "vl_zenia_yy_zhuanyun",
     yunlvSkill: true,
     enable: "phaseUse",
     usable: 1,
     async content(event, trigger, player) {
-switch (player.vl_zenia_yy || '平') {
-        						case '平':
-        							await event.target.draw(player.maxHp);
-        							await event.target.chooseToDiscard(player.hp, 'h', true)
-        							break;
-        						case '仄':
-        							await event.target.chooseToDiscard(player.maxHp, 'h', true)
-        							await event.target.draw(player.hp);
-        							break;
-        					}
+        switch (player.vl_zenia_yy || '平') {
+            case '平':
+                await event.target.draw(player.maxHp);
+                await event.target.chooseToDiscard(player.hp, 'h', true)
+                break;
+            case '仄':
+                await event.target.chooseToDiscard(player.maxHp, 'h', true)
+                await event.target.draw(player.hp);
+                break;
+        }
     },
     ai: {
         order: 7,
         result: {
             target(player, target) {
-							if (player.hp == player.maxHp) {
-								return 1
-							} else if (player.hp != player.maxHp) {
-								if (player.vl_zenia_yy == '仄' && target.countCards('h') > player.hp && target.countCards('h') < player.maxHp) {
-									return -1
-								}
-								return 1;
-							}
-						},
+                if (player.hp == player.maxHp) {
+                    return 1
+                } else if (player.hp != player.maxHp) {
+                    if (player.vl_zenia_yy == '仄' && target.countCards('h') > player.hp && target.countCards('h') < player.maxHp) {
+                        return -1
+                    }
+                    return 1;
+                }
+            },
         },
     },
     subSkill: {
@@ -56,8 +56,8 @@ switch (player.vl_zenia_yy || '平') {
             forced: true,
             locked: false,
             async content(event, trigger, player) {
-							player.changeYun('vl_zenia_yy');
-						},
+                player.changeYun('vl_zenia_yy');
+            },
             sub: true,
         },
     },

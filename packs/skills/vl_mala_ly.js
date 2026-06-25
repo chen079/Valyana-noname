@@ -5,13 +5,13 @@ export default {
         player: "damageBegin3",
     },
     filter(event, player) {
-					return event.nature
-				},
+        return event.nature
+    },
     forced: true,
     async content(event, trigger, player) {
-					trigger.cancel();
-					player.draw(trigger.num)
-				},
+        trigger.cancel();
+        player.draw(trigger.num)
+    },
     group: ["vl_mala_ly_draw", "vl_mala_ly_hp"],
     subSkill: {
         hp: {
@@ -20,9 +20,9 @@ export default {
             },
             forced: true,
             async content(event, trigger, player) {
-							trigger.cancel();
-							player.draw(trigger.num)
-						},
+                trigger.cancel();
+                player.draw(trigger.num)
+            },
             sub: true,
         },
         draw: {
@@ -31,8 +31,8 @@ export default {
             },
             forced: true,
             async content(event, trigger, player) {
-							trigger.num += Math.ceil(player.getDamagedHp() / 2)
-						},
+                trigger.num += Math.ceil(player.getDamagedHp() / 2)
+            },
             sub: true,
         },
     },
@@ -42,10 +42,10 @@ export default {
         nothunder: true,
         effect: {
             target(card, player, target, current) {
-							if (get.tag(card, 'fireDamage')) return 'zerotarget';
-							if (get.tag(card, 'thunderDamage')) return 'zerotarget';
-							if (card.name == 'tiesuo') return 'zeroplayertarget';
-						},
+                if (get.tag(card, 'fireDamage')) return 'zerotarget';
+                if (get.tag(card, 'thunderDamage')) return 'zerotarget';
+                if (card.name == 'tiesuo') return 'zeroplayertarget';
+            },
         },
     },
     t: {

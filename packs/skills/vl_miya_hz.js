@@ -5,21 +5,21 @@ export default {
         source: "damageBegin",
     },
     filter(event, player) {
-					return event.card && event.card.name == 'sha' && event.getParent().name == 'sha'
-				},
+        return event.card && event.card.name == 'sha' && event.getParent().name == 'sha'
+    },
     init(player) {
-					if (!player.storage.vl_miya_hz) player.storage.vl_miya_hz = 0
-				},
+        if (!player.storage.vl_miya_hz) player.storage.vl_miya_hz = 0
+    },
     intro: {
         content(storage, player, skill) { return '当前有' + storage + '个标记' },
     },
     mark: true,
     direct: true,
     async content(event, trigger, player) {
-					trigger.num += player.storage.vl_miya_hz
-					player.storage.vl_miya_hz += 1
-					player.markSkill('vl_miya_hz')
-				},
+        trigger.num += player.storage.vl_miya_hz
+        player.storage.vl_miya_hz += 1
+        player.markSkill('vl_miya_hz')
+    },
     group: "vl_miya_hz_one",
     subSkill: {
         one: {
@@ -30,9 +30,9 @@ export default {
                 global: "phaseEnd",
             },
             async content(event, trigger, player) {
-							player.storage.vl_miya_hz = 0
-							player.updateMark('vl_miya_hz')
-						},
+                player.storage.vl_miya_hz = 0
+                player.updateMark('vl_miya_hz')
+            },
             sub: true,
         },
     },

@@ -5,21 +5,21 @@ export default {
         player: ["damageBegin3", "loseHpBegin"],
     },
     filter(event, player) {
-					if (event.name == 'damage') {
-						return event.nature
-					} else {
-						return true
-					}
-				},
+        if (event.name == 'damage') {
+            return event.nature
+        } else {
+            return true
+        }
+    },
     mod: {
         targetInRange(card, player, target, now) {
-						return true
-					},
+            return true
+        },
     },
     forced: true,
     async content(event, trigger, player) {
-					player.draw(trigger.num)
-				},
+        player.draw(trigger.num)
+    },
     group: ["vl_dier_ly_draw"],
     subSkill: {
         draw: {
@@ -31,8 +31,8 @@ export default {
             supercharlotte: true,
             forced: true,
             async content(event, trigger, player) {
-							trigger.num += Math.ceil(player.getDamagedHp() / 2)
-						},
+                trigger.num += Math.ceil(player.getDamagedHp() / 2)
+            },
             sub: true,
         },
     },
@@ -42,10 +42,10 @@ export default {
         nothunder: true,
         effect: {
             target(card, player, target, current) {
-							if (get.tag(card, 'fireDamage')) return 'zerotarget';
-							if (get.tag(card, 'thunderDamage')) return 'zerotarget';
-							if (card.name == 'tiesuo') return 'zeroplayertarget';
-						},
+                if (get.tag(card, 'fireDamage')) return 'zerotarget';
+                if (get.tag(card, 'thunderDamage')) return 'zerotarget';
+                if (card.name == 'tiesuo') return 'zeroplayertarget';
+            },
         },
     },
     t: {

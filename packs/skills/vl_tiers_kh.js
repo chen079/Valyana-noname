@@ -5,14 +5,14 @@ export default {
         player: "loseHpEnd",
     },
     filter(event, player) {
-					if (player != _status.currentPhase) return false
-					return event.num >= 2
-				},
+        if (player != _status.currentPhase) return false
+        return event.num >= 2
+    },
     forced: true,
     async content(event, trigger, player) {
-					player.addTempSkill('vl_tiers_kh_1', { player: "phaseBegin" })
-					player.addTempSkill('vl_tiers_kh_hh', { player: "phaseUseBegin" })
-				},
+        player.addTempSkill('vl_tiers_kh_1', { player: "phaseBegin" })
+        player.addTempSkill('vl_tiers_kh_hh', { player: "phaseUseBegin" })
+    },
     subSkill: {
         "1": {
             trigger: {
@@ -20,11 +20,11 @@ export default {
             },
             direct: true,
             filter(event, player) {
-							return event.num > 0 && event.player != event.target
-						},
+                return event.num > 0 && event.player != event.target
+            },
             async content(event, trigger, player) {
-							player.recover()
-						},
+                player.recover()
+            },
         },
         hh: {
             trigger: {
@@ -32,11 +32,11 @@ export default {
             },
             direct: true,
             async content(event, trigger, player) {
-							player.draw(2)
-							var next = player.phaseUse();
-							event.next.remove(next);
-							trigger.next.push(next);
-						},
+                player.draw(2)
+                var next = player.phaseUse();
+                event.next.remove(next);
+                trigger.next.push(next);
+            },
         },
     },
     t: {

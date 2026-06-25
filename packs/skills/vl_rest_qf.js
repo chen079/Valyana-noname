@@ -4,43 +4,43 @@ export default {
     intro: {
         content: "cards",
         onunmark(storage, player) {
-						if (storage && storage.length) {
-							player.$throw(storage, 1000);
-							game.cardsDiscard(storage);
-							game.log(storage, '被置入了弃牌堆');
-							storage.length = 0;
-						}
-					},
+            if (storage && storage.length) {
+                player.$throw(storage, 1000);
+                game.cardsDiscard(storage);
+                game.log(storage, '被置入了弃牌堆');
+                storage.length = 0;
+            }
+        },
     },
     enable: "phaseUse",
     usable: 1,
     init(player, skill) {
-					if (!player.storage[skill]) player.storage[skill] = [];
-				},
+        if (!player.storage[skill]) player.storage[skill] = [];
+    },
     filter(event, player) {
-					return player.storage.vl_rest_qf.length < 4 && player.countCards('h') > 0;
-				},
+        return player.storage.vl_rest_qf.length < 4 && player.countCards('h') > 0;
+    },
     visible: true,
     filterCard: true,
     selectCard() {
-					var player = _status.event.player;
-					return [1, 4 - player.storage.vl_rest_qf.length];
-				},
+        var player = _status.event.player;
+        return [1, 4 - player.storage.vl_rest_qf.length];
+    },
     discard: false,
     toStorage: true,
     delay: false,
     async content(event, trigger, player) {
-					player.$give(cards, player, false);
-					player.storage.vl_rest_qf = player.storage.vl_rest_qf.concat(cards);
-					player.markSkill('vl_rest_qf');
-				},
+        player.$give(cards, player, false);
+        player.storage.vl_rest_qf = player.storage.vl_rest_qf.concat(cards);
+        player.markSkill('vl_rest_qf');
+    },
     check(card) {
-					return 8 - get.value(card);
-				},
+        return 8 - get.value(card);
+    },
     onremove(player, skill) {
-					var cards = player.storage.vl_rest_qf;
-					if (cards.length) player.loseToDiscardpile(cards);
-				},
+        var cards = player.storage.vl_rest_qf;
+        if (cards.length) player.loseToDiscardpile(cards);
+    },
     ai: {
         order: 5,
         result: {
@@ -55,17 +55,17 @@ export default {
             },
             frequent: true,
             check(event, player) {
-							return get.attitude(player, event.player) < 0
-						},
+                return get.attitude(player, event.player) < 0
+            },
             async content(event, trigger, player) {
-							const result = await player.judge().forResult();
-							if (result.color == 'red') {
-								await player.draw();
-							}
-							if (result.color == 'black') {
-								await player.discardPlayerCard(1, trigger.player, 'h', true);
-							}
-						},
+                const result = await player.judge().forResult();
+                if (result.color == 'red') {
+                    await player.draw();
+                }
+                if (result.color == 'black') {
+                    await player.discardPlayerCard(1, trigger.player, 'h', true);
+                }
+            },
             sub: true,
         },
     },

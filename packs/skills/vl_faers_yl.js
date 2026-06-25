@@ -6,15 +6,15 @@ export default {
     },
     forced: true,
     filter(event, player) {
-					if (!event.cards) return false;
-					for (var i = 0; i < event.cards.length; i++) {
-						if (get.name(event.cards[i]) == 'tao') return true;
-					}
-					return false;
-				},
+        if (!event.cards) return false;
+        for (var i = 0; i < event.cards.length; i++) {
+            if (get.name(event.cards[i]) == 'tao') return true;
+        }
+        return false;
+    },
     async content(event, trigger, player) {
-					player.recover()
-				},
+        player.recover()
+    },
     t: {
         name: "命论",
         info: "锁定技，当你弃置你的【桃】后，你回复1点体力。",

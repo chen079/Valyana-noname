@@ -9,20 +9,20 @@ export default {
     animationColor: "gray",
     forced: true,
     init(player) {
-					player.addSkill("vl_sainit_yq_count");
-					if (!player.storage.vl_sainit_yq) player.storage.vl_sainit_yq = false
-				},
+        player.addSkill("vl_sainit_yq_count");
+        if (!player.storage.vl_sainit_yq) player.storage.vl_sainit_yq = false
+    },
     filter(event, player) {
-					if(event.getParent(3).name!="vl_sainit_jh_discard")return;
-					if(!(event.type == "discard" && event.getl(player)?.cards2?.length))return;
-					return player.countMark("vl_sainit_yq_count")>=12;
-				},
+        if (event.getParent(3).name != "vl_sainit_jh_discard") return;
+        if (!(event.type == "discard" && event.getl(player)?.cards2?.length)) return;
+        return player.countMark("vl_sainit_yq_count") >= 12;
+    },
     async content(event, trigger, player) {
-player.awakenSkill('vl_sainit_yq')
-        					player.storage.vl_sainit_yq = true
-        					player.unmarkSkill('vl_sainit_yq')
-        					player.addSkill('vl_sainit_yj')
-        					game.log(player, '移除了', '#g【镜华②】')
+        player.awakenSkill('vl_sainit_yq')
+        player.storage.vl_sainit_yq = true
+        player.unmarkSkill('vl_sainit_yq')
+        player.addSkill('vl_sainit_yj')
+        game.log(player, '移除了', '#g【镜华②】')
     },
     derivation: "vl_sainit_yj",
     subSkill: {
@@ -35,21 +35,21 @@ player.awakenSkill('vl_sainit_yq')
             intro: {
                 name: "影倾",
                 mark(dialog, storage, player) {
-								dialog.addText("你因【镜华】弃置了"+(player.countMark("vl_sainit_yq_count") || 0) +"张牌");
-							},
+                    dialog.addText("你因【镜华】弃置了" + (player.countMark("vl_sainit_yq_count") || 0) + "张牌");
+                },
             },
             forced: true,
             firstDo: true,
             charlotte: true,
             filter(event, player) {
-							if(event.getParent(3).name!="vl_sainit_jh_discard")return;
-							if(!(event.type == "discard" && event.getl(player)?.cards2?.length))return;
-							return true;
-							// return event.type == "discard" && event.getl(player).cards2.length;
-						},
+                if (event.getParent(3).name != "vl_sainit_jh_discard") return;
+                if (!(event.type == "discard" && event.getl(player)?.cards2?.length)) return;
+                return true;
+                // return event.type == "discard" && event.getl(player).cards2.length;
+            },
             async content(event, trigger, player) {
-							player.addMark("vl_sainit_yq_count",trigger.getl(player)?.cards2?.length);
-						},
+                player.addMark("vl_sainit_yq_count", trigger.getl(player)?.cards2?.length);
+            },
         },
     },
     t: {

@@ -52,10 +52,10 @@ export default {
                 global: "useCard2",
             },
             filter(event, player) {
-							if (!(event.card.name == 'sha' || get.type(event.card, null, false) == 'trick')) return false;
-							if (event.player.getExpansions('vl_xieji').length == 0) return false
-							return true;
-						},
+                if (!(event.card.name == 'sha' || get.type(event.card, null, false) == 'trick')) return false;
+                if (event.player.getExpansions('vl_xieji').length == 0) return false
+                return true;
+            },
             direct: true,
             async content(event, trigger, player) {
                 const info = get.info(trigger.card);

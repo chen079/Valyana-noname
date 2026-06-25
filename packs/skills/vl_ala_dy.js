@@ -5,11 +5,11 @@ export default {
         player: ["damageBegin"],
     },
     filter(event, player) {
-					return event.source && event.num > 0 && event.source != player && event.source.isAlive()
-				},
+        return event.source && event.num > 0 && event.source != player && event.source.isAlive()
+    },
     check(event, player) {
-					return get.attitude(player, event.source) < 0
-				},
+        return get.attitude(player, event.source) < 0
+    },
     async content(event, trigger, player) {
         player.line(trigger.source, 'green');
         const result = await player.chooseToDuiben(trigger.source).forResult();

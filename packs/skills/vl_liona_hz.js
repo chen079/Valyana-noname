@@ -9,21 +9,21 @@ export default {
     derivation: ["vl_liona_zz"],
     group: "vl_liona_hz_extra",
     filter(event, player) {
-					return game.hasPlayer(function (current) {
-						return !current.hasSkill('vl_liona_zz');
-					}) && player.storage.baonvezhi > 0;
-				},
+        return game.hasPlayer(function (current) {
+            return !current.hasSkill('vl_liona_zz');
+        }) && player.storage.baonvezhi > 0;
+    },
     async content(event, trigger, player) {
-					const result = await player.chooseTarget([1, player.storage.baonvezhi], get.prompt('vl_liona_hz'), '令至多X名角色获得〖整战〗直到回合结束。', (card, player, target) => {
-						return !target.hasSkill('vl_liona_zz');
-					}).set('ai', target => get.attitude(player, target) - 2).forResult();
-					if (result.bool) {
-						lib.skill.baonvezhi.change(player, -result.targets.length);
-						for (var i = 0; i < result.targets.length; i++) {
-							result.targets[i].addTempSkill('vl_liona_zz', 'roundStart');
-						}
-					}
-				},
+        const result = await player.chooseTarget([1, player.storage.baonvezhi], get.prompt('vl_liona_hz'), '令至多X名角色获得〖整战〗直到回合结束。', (card, player, target) => {
+            return !target.hasSkill('vl_liona_zz');
+        }).set('ai', target => get.attitude(player, target) - 2).forResult();
+        if (result.bool) {
+            lib.skill.baonvezhi.change(player, -result.targets.length);
+            for (var i = 0; i < result.targets.length; i++) {
+                result.targets[i].addTempSkill('vl_liona_zz', 'roundStart');
+            }
+        }
+    },
     subSkill: {
         extra: {
             trigger: {
@@ -32,12 +32,12 @@ export default {
             forced: true,
             locked: false,
             filter(event, player) {
-							return event.source && event.source.hasSkill('vl_liona_zz') && event.source != player;
-						},
+                return event.source && event.source.hasSkill('vl_liona_zz') && event.source != player;
+            },
             logTarget: "source",
             async content(event, trigger, player) {
-							lib.skill.baonvezhi.change(player, trigger.num);
-						},
+                lib.skill.baonvezhi.change(player, trigger.num);
+            },
             sub: true,
         },
     },

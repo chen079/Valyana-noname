@@ -6,8 +6,8 @@ export default {
     },
     mod: {
         maxHandcardBase(player, num) {
-						return player.maxHp + player.hujia;
-					},
+            return player.maxHp + player.hujia;
+        },
     },
     forced: true,
     async content(event, trigger, player) {

@@ -8,12 +8,12 @@ export default {
     dutySkill: true,
     forced: true,
     filter(event, player) {
-					return !event.numFixed;
-				},
+        return !event.numFixed;
+    },
     derivation: "vl_hynea_kb",
     async content(event, trigger, player) {
-					trigger.num += Math.ceil(player.storage.vl_hynea_cg / 2)
-				},
+        trigger.num += Math.ceil(player.storage.vl_hynea_cg / 2)
+    },
     group: ["vl_hynea_rx_achieve", "vl_hynea_rx_fail"],
     subSkill: {
         achieve: {
@@ -21,17 +21,17 @@ export default {
                 player: "phaseZhunbeiBegin",
             },
             filter(event, player) {
-							return player.storage.vl_hynea_cg == 0
-						},
+                return player.storage.vl_hynea_cg == 0
+            },
             forced: true,
             skillAnimation: true,
             animationColor: "fire",
             content(event, player) {
-							game.log(player, '成功完成使命');
-							player.awakenSkill('vl_hynea_rx');
-							player.removeSkill('vl_hynea_ds')
-							player.addSkillLog('vl_hynea_kb')
-						},
+                game.log(player, '成功完成使命');
+                player.awakenSkill('vl_hynea_rx');
+                player.removeSkill('vl_hynea_ds')
+                player.addSkillLog('vl_hynea_kb')
+            },
         },
         fail: {
             trigger: {
@@ -39,12 +39,12 @@ export default {
             },
             forced: true,
             async content(event, trigger, player) {
-game.log(player, '使命失败');
-        							player.awakenSkill('vl_hynea_rx');
-        							await player.recover(3 - player.hp)
-await player.draw(3)
-        							await player.loseMaxHp();
-    },
+                game.log(player, '使命失败');
+                player.awakenSkill('vl_hynea_rx');
+                await player.recover(3 - player.hp)
+                await player.draw(3)
+                await player.loseMaxHp();
+            },
             sub: true,
         },
     },

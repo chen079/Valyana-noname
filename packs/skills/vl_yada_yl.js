@@ -6,8 +6,8 @@ export default {
     },
     forced: true,
     filter(event, player) {
-					return event.source && event.source.isIn() && event.player.isIn() && event.player.countCards('h') > 0
-				},
+        return event.source && event.source.isIn() && event.player.isIn() && event.player.countCards('h') > 0
+    },
     async content(event, trigger, player) {
         const result = await trigger.source.choosePlayerCard('h', trigger.player, true).forResult();
         const card = result.cards[0];

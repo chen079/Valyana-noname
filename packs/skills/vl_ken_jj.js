@@ -6,15 +6,15 @@ export default {
     },
     forced: true,
     async content(event, trigger, player) {
-					var evt = _status.event.getParent('phaseUse');
-					if (evt && evt.name == 'phaseUse') {
-						evt.skipped = true;
-					}
-					var evt = _status.event.getParent('phase');
-					if (evt && evt.name == 'phase') {
-						evt.finish();
-					}
-				},
+        var evt = _status.event.getParent('phaseUse');
+        if (evt && evt.name == 'phaseUse') {
+            evt.skipped = true;
+        }
+        var evt = _status.event.getParent('phase');
+        if (evt && evt.name == 'phase') {
+            evt.finish();
+        }
+    },
     ai: {
         maixie_defend: true,
     },

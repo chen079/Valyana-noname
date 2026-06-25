@@ -6,21 +6,21 @@ export default {
     },
     mod: {
         targetInRange(card, player, target) {
-						return true;
-					},
+            return true;
+        },
     },
     locked: false,
     frequent: true,
     filter(event, player) {
-					return event.source && event.source.isIn() && event.source != player
-				},
+        return event.source && event.source.isIn() && event.source != player
+    },
     check(event, player) {
-					return get.attitude(player, event.source) < 0
-				},
+        return get.attitude(player, event.source) < 0
+    },
     async content(event, trigger, player) {
-					trigger.source.addSkill('vl_liya_sz_far')
-					trigger.source.markSkill('vl_liya_sz_far')
-				},
+        trigger.source.addSkill('vl_liya_sz_far')
+        trigger.source.markSkill('vl_liya_sz_far')
+    },
     ai: {
         maixie_defend: true,
     },
@@ -33,27 +33,27 @@ export default {
             popup: false,
             charlotte: true,
             filter(event, player) {
-							return event.num > 0;
-						},
+                return event.num > 0;
+            },
             async content(event, trigger, player) {
-							player.removeSkill('vl_liya_sz_far');
-						},
+                player.removeSkill('vl_liya_sz_far');
+            },
             mod: {
                 cardname(card, player, name) {
-								if (lib.card[card.name].type == 'trick') return 'sha';
-							},
+                    if (lib.card[card.name].type == 'trick') return 'sha';
+                },
                 attackRange(player, num) {
-								return 0;
-							},
+                    return 0;
+                },
                 globalFrom(from, to, current) {
-								return current + game.countPlayer();
-							},
+                    return current + game.countPlayer();
+                },
             },
             ai: {
                 effect: {
                     target(card, player, target, current) {
-									if (get.tag(card, 'respondSha') && current < 0) return 0.6
-								},
+                        if (get.tag(card, 'respondSha') && current < 0) return 0.6
+                    },
                 },
                 respondSha: true,
             },

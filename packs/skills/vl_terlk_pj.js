@@ -6,25 +6,25 @@ export default {
     },
     forced: true,
     filter(event, player) {
-					return event.card.name == 'sha' && !event.getParent().directHit.includes(event.target);
-				},
+        return event.card.name == 'sha' && !event.getParent().directHit.includes(event.target);
+    },
     logTarget: "target",
     async content(event, trigger, player) {
-					var id = trigger.target.playerid;
-					var map = trigger.getParent().customArgs;
-					if (!map[id]) map[id] = {};
-					if (typeof map[id].shanRequired == 'number') {
-						map[id].shanRequired += trigger.target.hp - 1;
-					}
-					else {
-						map[id].shanRequired = trigger.target.hp;
-					}
-				},
+        var id = trigger.target.playerid;
+        var map = trigger.getParent().customArgs;
+        if (!map[id]) map[id] = {};
+        if (typeof map[id].shanRequired == 'number') {
+            map[id].shanRequired += trigger.target.hp - 1;
+        }
+        else {
+            map[id].shanRequired = trigger.target.hp;
+        }
+    },
     ai: {
         directHit_ai: true,
         skillTagFilter(player, tag, arg) {
-						if (arg.card.name != 'sha' || arg.target.countCards('h', 'shan') > arg.target.getDamagedHp()) return false;
-					},
+            if (arg.card.name != 'sha' || arg.target.countCards('h', 'shan') > arg.target.getDamagedHp()) return false;
+        },
     },
     t: {
         name: "披荆",

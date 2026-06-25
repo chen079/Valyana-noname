@@ -8,8 +8,8 @@ export default {
     forced: true,
     popup: false,
     async content(event, trigger, player) {
-					trigger.source = null
-				},
+        trigger.source = null
+    },
     ai: {
         jueqing: true,
     },

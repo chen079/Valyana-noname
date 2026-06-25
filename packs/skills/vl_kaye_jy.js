@@ -7,8 +7,8 @@ export default {
     position: "h",
     filterTarget: true,
     async content(event, trigger, player) {
-					target.addVuff('jianren', player, 2)
-				},
+        target.addVuff('jianren', player, 2)
+    },
     ai: {
         order: 7,
         threaten: 1.6,

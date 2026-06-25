@@ -6,9 +6,9 @@ export default {
     },
     direct: true,
     filter(event, player) {
-					if (get.itemtype(event.cards) != 'cards') return false;
-					return true
-				},
+        if (get.itemtype(event.cards) != 'cards') return false;
+        return true
+    },
     async content(event, trigger, player) {
         player.storage.vl_olas_fh = 0;
         event.num = 0;
@@ -46,12 +46,12 @@ export default {
             forced: true,
             popup: false,
             filter(event, player) {
-							return event.card && event.card.name == 'sha' && player.storage.vl_olas_fh > 0 && event.parent.name != '_lianhuan' && event.parent.name != '_lianhuan2';
-						},
+                return event.card && event.card.name == 'sha' && player.storage.vl_olas_fh > 0 && event.parent.name != '_lianhuan' && event.parent.name != '_lianhuan2';
+            },
             async content(event, trigger, player) {
-							trigger.num += player.storage.vl_olas_fh;
-							player.storage.vl_olas_fh = 0;
-						},
+                trigger.num += player.storage.vl_olas_fh;
+                player.storage.vl_olas_fh = 0;
+            },
             sub: true,
         },
         "3": {
@@ -60,8 +60,8 @@ export default {
             },
             silent: true,
             async content(event, trigger, player) {
-							player.storage.vl_olas_fh = 0;
-						},
+                player.storage.vl_olas_fh = 0;
+            },
             forced: true,
             popup: false,
             sub: true,

@@ -7,35 +7,35 @@ export default {
     skillAnimation: true,
     animationColor: "orange",
     init(player) {
-					if (!player.storage.vl_zhan_jf) player.storage.vl_zhan_jf = 0
-				},
+        if (!player.storage.vl_zhan_jf) player.storage.vl_zhan_jf = 0
+    },
     filter(event, player) {
-					return player.storage.vl_zhan_jf >= 2 * player.hp
-				},
+        return player.storage.vl_zhan_jf >= 2 * player.hp
+    },
     juexingji: true,
     forced: true,
     mark: true,
     intro: {
         content: "当前累计受到与造成了总计$点伤害",
     },
-    content: async function content(event,trigger,player) {
-					player.awakenSkill('vl_zhan_jf');
-					await player.gainMaxHp();
-					await player.recover()
-					player.removeSkill('vl_zhan_sf')
-					player.addSkill('vl_zhan_jn')
-					player.addSkill('vl_zhan_zb')
-					const result = await player.chooseTarget([1, Math.floor(game.countPlayer() / 2)], "令至多" + get.translation(Math.floor(game.countPlayer() / 2)) + "名角色获得3层「灾厄」", function (card, target, player) {
-						return target != player
-					}, false).set('ai', function (target) {
-						return -get.attitude(_status.event.player, target) * (1 + target.countCards('j'))
-					}).forResult();
-					if (result.bool) {
-						for (var i = 0; i < result.targets.length; i++) {
-							result.targets[i].addVuff('zaie', 3)
-						}
-					}
-				},
+    content: async function content(event, trigger, player) {
+        player.awakenSkill('vl_zhan_jf');
+        await player.gainMaxHp();
+        await player.recover()
+        player.removeSkill('vl_zhan_sf')
+        player.addSkill('vl_zhan_jn')
+        player.addSkill('vl_zhan_zb')
+        const result = await player.chooseTarget([1, Math.floor(game.countPlayer() / 2)], "令至多" + get.translation(Math.floor(game.countPlayer() / 2)) + "名角色获得3层「灾厄」", function (card, target, player) {
+            return target != player
+        }, false).set('ai', function (target) {
+            return -get.attitude(_status.event.player, target) * (1 + target.countCards('j'))
+        }).forResult();
+        if (result.bool) {
+            for (var i = 0; i < result.targets.length; i++) {
+                result.targets[i].addVuff('zaie', 3)
+            }
+        }
+    },
     derivation: ["vl_zhan_jn", "vl_zhan_zb"],
     group: "vl_zhan_jf_count",
     subSkill: {
@@ -47,9 +47,9 @@ export default {
                 source: "damageBegin2",
             },
             async content(event, trigger, player) {
-							player.storage.vl_zhan_jf += trigger.num
-							player.updateMark('vl_zhan_jf')
-						},
+                player.storage.vl_zhan_jf += trigger.num
+                player.updateMark('vl_zhan_jf')
+            },
             sub: true,
         },
     },

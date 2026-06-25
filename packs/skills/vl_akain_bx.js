@@ -5,14 +5,14 @@ export default {
         global: "drawAfter",
     },
     filter(event, player, onrewrite) {
-					return player.group == 'wei' && event.player.isMaxHandcard(true) && event.player.group != player.group
-				},
+        return player.group == 'wei' && event.player.isMaxHandcard(true) && event.player.group != player.group
+    },
     direct: true,
     async content(event, trigger, player) {
         const result = await player.chooseBool('是否将势力改为与' + get.translation(trigger.player) + '相同（' + get.translation(trigger.player.group) + '）').set("ai", () => true).forResult();
         if (result.bool) {
-        						player.changeGroup(trigger.player.group)
-        					}
+            player.changeGroup(trigger.player.group)
+        }
     },
     group: "vl_akain_bx_ice",
     subSkill: {
@@ -22,11 +22,11 @@ export default {
             },
             direct: true,
             filter(event, player) {
-							return player.group == 'wei'
-						},
+                return player.group == 'wei'
+            },
             async content(event, trigger, player) {
-							game.setNature(trigger, 'ice');
-						},
+                game.setNature(trigger, 'ice');
+            },
         },
     },
     t: {

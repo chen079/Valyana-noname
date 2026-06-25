@@ -7,17 +7,17 @@ export default {
     silent: true,
     forced: true,
     async content(event, trigger, player) {
-					var cards = [];
-					var card1 = get.cardPile2(function (card) {
-						return get.color(card, false) == 'red';
-					});
-					if (card1) cards.push(card1);
-					var card2 = get.cardPile2(function (card) {
-						return get.color(card, false) == 'black';
-					});
-					if (card2) cards.push(card2);
-					if (cards.length) player.gain(cards, 'gain2');
-				},
+        var cards = [];
+        var card1 = get.cardPile2(function (card) {
+            return get.color(card, false) == 'red';
+        });
+        if (card1) cards.push(card1);
+        var card2 = get.cardPile2(function (card) {
+            return get.color(card, false) == 'black';
+        });
+        if (card2) cards.push(card2);
+        if (cards.length) player.gain(cards, 'gain2');
+    },
     popup: false,
     t: {
         name: "勇往",

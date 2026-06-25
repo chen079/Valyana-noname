@@ -5,8 +5,8 @@ export default {
         global: ["phaseEnd"],
     },
     filter: (event, player, onrewrite) => {
-					return event.player != player && event.player.countCards('e') > 0 && event.player.getHistory('useCard').length == 0;
-				},
+        return event.player != player && event.player.countCards('e') > 0 && event.player.getHistory('useCard').length == 0;
+    },
     direct: true,
     async content(event, trigger, player) {
         const result = await player.chooseToDiscard(1, 'h', get.prompt2('vl_rabby_xj')).set('ai', function (card) {

@@ -6,21 +6,21 @@ export default {
     },
     forced: true,
     filter(event, player) {
-					return event.nature == 'fire'
-				},
+        return event.nature == 'fire'
+    },
     async content(event, trigger, player) {
-					player.draw()
-					player.addTempSkill('vl_tiger_kf_use')
-				},
+        player.draw()
+        player.addTempSkill('vl_tiger_kf_use')
+    },
     subSkill: {
         use: {
             mod: {
                 targetInRange(card, player, target) {
-								if (card.name == 'sha') return true
-							},
+                    if (card.name == 'sha') return true
+                },
                 cardUsable(card, player, num) {
-								if (card.name == 'sha') return Infinity
-							},
+                    if (card.name == 'sha') return Infinity
+                },
             },
         },
     },

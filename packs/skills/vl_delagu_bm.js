@@ -5,22 +5,22 @@ export default {
         player: "dying",
     },
     filter(event, player) {
-					var target = _status.currentPhase;
-					return target != player;
-				},
+        var target = _status.currentPhase;
+        return target != player;
+    },
     check(event, player) {
-					return player.maxHp > 1
-				},
+        return player.maxHp > 1
+    },
     async content(event, trigger, player) {
         await player.loseMaxHp()
         await player.recover(1 - player.hp)
         await player.chooseUseTarget({ name: 'sha', nature: 'frmad' }, false, 'nodistance')
         await player.chooseUseTarget({ name: 'sha', nature: 'frmad' }, false, 'nodistance')
         player.when({ global: 'phaseAfter' }).then(() => {
-        						phase.insertPhase();
-        					}).vars({
-        						phase: player
-        					})
+            phase.insertPhase();
+        }).vars({
+            phase: player
+        })
     },
     t: {
         name: "不灭",

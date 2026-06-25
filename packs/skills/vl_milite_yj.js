@@ -6,14 +6,14 @@ export default {
     },
     usable: 2,
     check(event, player) {
-					if (get.attitude(player, event.player) >= 0) return false;
-					if (get.effect(event.player, { name: 'sha' }, player, player) <= 0) return false;
-					if (get.effect(player, { name: 'sha' }, event.player, player) >= 0) return true;
-					return player.hasShan() && player.hp >= event.player.hp;
-				},
+        if (get.attitude(player, event.player) >= 0) return false;
+        if (get.effect(event.player, { name: 'sha' }, player, player) <= 0) return false;
+        if (get.effect(player, { name: 'sha' }, event.player, player) >= 0) return true;
+        return player.hasShan() && player.hp >= event.player.hp;
+    },
     filter(event, player) {
-					return player != event.player && Array.isArray(event.result) && event.result.length > 0;
-				},
+        return player != event.player && Array.isArray(event.result) && event.result.length > 0;
+    },
     logTarget: "player",
     async content(event, trigger, player) {
         player.viewCards(get.translation(trigger.player) + '摸到的牌', trigger.result);

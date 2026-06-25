@@ -7,14 +7,14 @@ export default {
     vpSkill: true,
     forced: true,
     filter: (event, player) => {
-					var evtx = event.getParent('phaseUse');
-					if (!evtx || evtx.player != player) return false;
-					return event.num > 0 && !player.isDying()
-				},
+        var evtx = event.getParent('phaseUse');
+        if (!evtx || evtx.player != player) return false;
+        return event.num > 0 && !player.isDying()
+    },
     async content(event, trigger, player) {
-					trigger.cancel()
-					player.gainVp(trigger.num)
-				},
+        trigger.cancel()
+        player.gainVp(trigger.num)
+    },
     group: "vl_sisk_yx_recover",
     subSkill: {
         recover: {
@@ -25,13 +25,13 @@ export default {
             locked: true,
             lastDo: true,
             filter(event, player) {
-							return player.hp < player.maxHp - 1
-						},
+                return player.hp < player.maxHp - 1
+            },
             async content(event, trigger, player) {
-							var num = player.maxHp - 1 - player.hp
-							player.recover(num)
-							player.consumeVp(num)
-						},
+                var num = player.maxHp - 1 - player.hp
+                player.recover(num)
+                player.consumeVp(num)
+            },
         },
     },
     t: {

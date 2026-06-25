@@ -5,59 +5,59 @@ export default {
         global: "phaseUseBegin",
     },
     filter(event, player) {
-					return player.countCards('h') > 0
-				},
+        return player.countCards('h') > 0
+    },
     check(event, player) {
-					if (player.countCards('h') < 2) return false
-					if (get.attitude(player, event.player) > 0) return true
-					return false;
-				},
+        if (player.countCards('h') < 2) return false
+        if (get.attitude(player, event.player) > 0) return true
+        return false;
+    },
     logTarget: "player",
     preHidden: true,
     prompt2: "你可以弃置任意张不同花色的牌，然后使当前角色摸等量的牌并获得以下效果：♠：【杀】指定目标后令其本回合技能失效，♥：【杀】本回合无视防具，♣：【杀】本回合造成的伤害+1，♦：【杀】本回合无距离次数限制。",
     async content(event, trigger, player) {
-let save = false;
-        					if (get.attitude(player, event.player) > 0) {
-        						save = true;
-        					}
-        					const next = player.chooseToDiscard('h', [1, Infinity], false, function (card) {
-        						const suit = get.suit(card);
-        						for (let i = 0; i < ui.selected.cards.length; i++) {
-        							if (get.suit(ui.selected.cards[i]) == suit) return false;
-        						}
-        						return true;
-        					}).set('complexCard', true)
-        					next.ai = function (card) {
-        						if (save) {
-        							if (trigger.player == player) return 9 - get.value(card)
-        							if (ui.selected.cards.length > 2) return 0
-        							return 7 - get.value(card);
-        						}
-        						return 0;
-        					}
-const result = await next.forResult();
-const suit = [];
-let drawEvent;
-if (result.bool) {
-        						const cards = result.cards;
-        						drawEvent = trigger.player.draw(cards.length)
-        						if (cards && cards.length > 0) {
-        							for (let i = 0; i < cards.length; i++) {
-        								if (!suit.includes(get.suit(cards[i]))) {
-        									suit.add(get.suit(cards[i]));
-        								}
-        							}
-        						}
-        					} else {
-        						return
-        					}
-        					trigger.player.addTempSkill('vl_yas_klin_js_marks')
-        					if (suit.includes('spade')) trigger.player.addTempSkill('vl_yas_klin_js_spade');
-        					if (suit.includes('heart')) trigger.player.addTempSkill('vl_yas_klin_js_heart');
-        					if (suit.includes('club')) trigger.player.addTempSkill('vl_yas_klin_js_club');
-        					if (suit.includes('diamond')) trigger.player.addTempSkill('vl_yas_klin_js_diamond');
-        					if (suit.length == 4) trigger.player.addTempSkill('vl_yas_klin_js_hit');
-        					await drawEvent;
+        let save = false;
+        if (get.attitude(player, event.player) > 0) {
+            save = true;
+        }
+        const next = player.chooseToDiscard('h', [1, Infinity], false, function (card) {
+            const suit = get.suit(card);
+            for (let i = 0; i < ui.selected.cards.length; i++) {
+                if (get.suit(ui.selected.cards[i]) == suit) return false;
+            }
+            return true;
+        }).set('complexCard', true)
+        next.ai = function (card) {
+            if (save) {
+                if (trigger.player == player) return 9 - get.value(card)
+                if (ui.selected.cards.length > 2) return 0
+                return 7 - get.value(card);
+            }
+            return 0;
+        }
+        const result = await next.forResult();
+        const suit = [];
+        let drawEvent;
+        if (result.bool) {
+            const cards = result.cards;
+            drawEvent = trigger.player.draw(cards.length)
+            if (cards && cards.length > 0) {
+                for (let i = 0; i < cards.length; i++) {
+                    if (!suit.includes(get.suit(cards[i]))) {
+                        suit.add(get.suit(cards[i]));
+                    }
+                }
+            }
+        } else {
+            return
+        }
+        trigger.player.addTempSkill('vl_yas_klin_js_marks')
+        if (suit.includes('spade')) trigger.player.addTempSkill('vl_yas_klin_js_spade');
+        if (suit.includes('heart')) trigger.player.addTempSkill('vl_yas_klin_js_heart');
+        if (suit.includes('club')) trigger.player.addTempSkill('vl_yas_klin_js_club');
+        if (suit.includes('diamond')) trigger.player.addTempSkill('vl_yas_klin_js_diamond');
+        if (suit.length == 4) trigger.player.addTempSkill('vl_yas_klin_js_hit');
+        await drawEvent;
     },
     ai: {
         result: {
@@ -75,14 +75,14 @@ if (result.bool) {
             mark: true,
             intro: {
                 content(storage, player, skill) {
-								let str = '当前状态：';
-								if (player.hasSkill('vl_yas_klin_js_spade')) str += '<br><li>♠：你的【杀】指定目标后，你令其本回合技能失效。';
-								if (player.hasSkill('vl_yas_klin_js_heart')) str += '<br><li>♥：你的【杀】无视目标防具。';
-								if (player.hasSkill('vl_yas_klin_js_club')) str += '<br><li>♣：你的【杀】造成的伤害+1。';
-								if (player.hasSkill('vl_yas_klin_js_diamond')) str += '<br><li>♦：你的【杀】无距离次数限制。';
-								if (player.hasSkill('vl_yas_klin_js_spade') && player.hasSkill('vl_yas_klin_js_heart') && player.hasSkill('vl_yas_klin_js_club') && player.hasSkill('vl_yas_klin_js_diamond')) str += '<br><li>：你的【杀】不可被响应。'
-								return str;
-							},
+                    let str = '当前状态：';
+                    if (player.hasSkill('vl_yas_klin_js_spade')) str += '<br><li>♠：你的【杀】指定目标后，你令其本回合技能失效。';
+                    if (player.hasSkill('vl_yas_klin_js_heart')) str += '<br><li>♥：你的【杀】无视目标防具。';
+                    if (player.hasSkill('vl_yas_klin_js_club')) str += '<br><li>♣：你的【杀】造成的伤害+1。';
+                    if (player.hasSkill('vl_yas_klin_js_diamond')) str += '<br><li>♦：你的【杀】无距离次数限制。';
+                    if (player.hasSkill('vl_yas_klin_js_spade') && player.hasSkill('vl_yas_klin_js_heart') && player.hasSkill('vl_yas_klin_js_club') && player.hasSkill('vl_yas_klin_js_diamond')) str += '<br><li>：你的【杀】不可被响应。'
+                    return str;
+                },
             },
             sub: true,
         },
@@ -93,27 +93,27 @@ if (result.bool) {
             charlotte: true,
             forced: true,
             init(player) {
-							player.markSkill('vl_yas_klin_js');
-						},
+                player.markSkill('vl_yas_klin_js');
+            },
             onremove(player) {
-							player.unmarkSkill('vl_yas_klin_js');
-						},
+                player.unmarkSkill('vl_yas_klin_js');
+            },
             trigger: {
                 player: "useCardToTargeted",
             },
             filter(event, player) {
-							return event.card.name == 'sha';
-						},
+                return event.card.name == 'sha';
+            },
             logTarget: "target",
             async content(event, trigger, player) {
-							trigger.target.addTempSkill('baiban');
-						},
+                trigger.target.addTempSkill('baiban');
+            },
             ai: {
                 ignoreSkill: true,
                 skillTagFilter(player, tag, arg) {
-								if (!arg || arg.isLink || !arg.card || arg.card.name != 'sha') return false;
-								if (!arg.skill || !lib.skill[arg.skill] || lib.skill[arg.skill].charlotte || !arg.target.getSkills(true, false).includes(arg.skill)) return false;
-							},
+                    if (!arg || arg.isLink || !arg.card || arg.card.name != 'sha') return false;
+                    if (!arg.skill || !lib.skill[arg.skill] || lib.skill[arg.skill].charlotte || !arg.target.getSkills(true, false).includes(arg.skill)) return false;
+                },
             },
             sub: true,
         },
@@ -123,28 +123,28 @@ if (result.bool) {
             silent: true,
             charlotte: true,
             init(player) {
-							player.markSkill('vl_yas_klin_js');
-						},
+                player.markSkill('vl_yas_klin_js');
+            },
             onremove(player) {
-							player.unmarkSkill('vl_yas_klin_js');
-						},
+                player.unmarkSkill('vl_yas_klin_js');
+            },
             trigger: {
                 player: "useCardToTargeted",
             },
             forced: true,
             filter(event, player) {
-							return event.card.name == 'sha';
-						},
+                return event.card.name == 'sha';
+            },
             logTarget: "target",
             async content(event, trigger, player) {
-							trigger.target.addTempSkill('qinggang2');
-							trigger.target.storage.qinggang2.add(trigger.card);
-						},
+                trigger.target.addTempSkill('qinggang2');
+                trigger.target.storage.qinggang2.add(trigger.card);
+            },
             ai: {
                 skillTagFilter(player, tag, arg) {
-								if (!arg || arg.isLink || !arg.card || arg.card.name != 'sha') return false;
-								if (arg && arg.name == 'sha') return true;
-							},
+                    if (!arg || arg.isLink || !arg.card || arg.card.name != 'sha') return false;
+                    if (arg && arg.name == 'sha') return true;
+                },
                 unequip_ai: true,
             },
             sub: true,
@@ -155,17 +155,17 @@ if (result.bool) {
             },
             forced: true,
             filter(event, player) {
-							return event.card.name == 'sha';
-						},
+                return event.card.name == 'sha';
+            },
             logTarget: "target",
             async content(event, trigger, player) {
-							trigger.getParent().directHit.add(trigger.target);
-						},
+                trigger.getParent().directHit.add(trigger.target);
+            },
             ai: {
                 directHit_ai: true,
                 skillTagFilter(player, tag, arg) {
-								if (arg.card.name != 'sha') return false;
-							},
+                    if (arg.card.name != 'sha') return false;
+                },
             },
         },
         club: {
@@ -173,21 +173,21 @@ if (result.bool) {
                 source: "damageBegin2",
             },
             filter(event, player) {
-							return event.card && event.card.name == 'sha';
-						},
+                return event.card && event.card.name == 'sha';
+            },
             forced: true,
             popup: false,
             silent: true,
             charlotte: true,
             init(player) {
-							player.markSkill('vl_yas_klin_js');
-						},
+                player.markSkill('vl_yas_klin_js');
+            },
             onremove(player) {
-							player.unmarkSkill('vl_yas_klin_js');
-						},
+                player.unmarkSkill('vl_yas_klin_js');
+            },
             async content(event, trigger, player) {
-							trigger.num++;
-						},
+                trigger.num++;
+            },
             sub: true,
         },
         diamond: {
@@ -195,18 +195,18 @@ if (result.bool) {
             silent: true,
             charlotte: true,
             init(player) {
-							player.markSkill('vl_yas_klin_js');
-						},
+                player.markSkill('vl_yas_klin_js');
+            },
             onremove(player) {
-							player.unmarkSkill('vl_yas_klin_js');
-						},
+                player.unmarkSkill('vl_yas_klin_js');
+            },
             mod: {
                 targetInRange(card, player, target, now) {
-								if (card.name == 'sha') return true;
-							},
+                    if (card.name == 'sha') return true;
+                },
                 cardUsable(card, player, num) {
-								if (card.name == 'sha') return Infinity
-							},
+                    if (card.name == 'sha') return Infinity
+                },
             },
             sub: true,
             forced: true,

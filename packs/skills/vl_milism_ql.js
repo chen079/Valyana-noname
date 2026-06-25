@@ -7,12 +7,12 @@ export default {
     forced: true,
     usable: 1,
     filter(event, player) {
-					return _status.currentPhase != player && event.num > 0;
-				},
+        return _status.currentPhase != player && event.num > 0;
+    },
     async content(event, trigger, player) {
-					player.addVuff('mianyi')
-					player.addVuff('bihu')
-				},
+        player.addVuff('mianyi')
+        player.addVuff('bihu')
+    },
     ai: {
         maixie: true,
     },

@@ -5,11 +5,11 @@ export default {
         global: "loseHpAfter",
     },
     check(event, player) {
-					return player.getDamagedHp > 1
-				},
+        return player.getDamagedHp > 1
+    },
     filter(event, player) {
-					return !event.player.isDying() && event.player != player && event.player.isIn();
-				},
+        return !event.player.isDying() && event.player != player && event.player.isIn();
+    },
     async content(event, trigger, player) {
         await player.recover();
         await player.draw(player.getDamagedHp());

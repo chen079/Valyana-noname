@@ -5,30 +5,30 @@ export default {
         player: "useCardBegin",
     },
     filter(event, player) {
-					if (!event.targets) return false;
-					if (!["basic", "trick"].includes(get.type(event.card))) return false;
-					const info = get.info(event.card);
-					if (info.multitarget) return false;
-					return game.hasPlayer(current => lib.filter.targetEnabled2(event.card, event.player, current));
-				},
+        if (!event.targets) return false;
+        if (!["basic", "trick"].includes(get.type(event.card))) return false;
+        const info = get.info(event.card);
+        if (info.multitarget) return false;
+        return game.hasPlayer(current => lib.filter.targetEnabled2(event.card, event.player, current));
+    },
     forced: true,
     direct: true,
     content: async function content(event, trigger, player) {
-					const card = trigger.card;
-					const { targets } = await player.chooseTarget([1, Infinity], true, (_, player, target) => lib.filter.targetEnabled2(card, player, target))
-						.set("prompt", get.translation("vl_gairtelu_zs") + "：为" + get.translation(trigger.card) + "重新分配目标")
-						.set("ai", function (target) {
-							var trigger = _status.event.getTrigger();
-							var player = _status.event.player;
-							return get.effect(target, trigger.card, player, player);
-						}).forResult();
-					trigger.targets = targets;
-					targets.forEach(i => i.addTempSkill("vl_gairtelu_zs_banned", { global: "phaseUseEnd" }));
-				},
+        const card = trigger.card;
+        const { targets } = await player.chooseTarget([1, Infinity], true, (_, player, target) => lib.filter.targetEnabled2(card, player, target))
+            .set("prompt", get.translation("vl_gairtelu_zs") + "：为" + get.translation(trigger.card) + "重新分配目标")
+            .set("ai", function (target) {
+                var trigger = _status.event.getTrigger();
+                var player = _status.event.player;
+                return get.effect(target, trigger.card, player, player);
+            }).forResult();
+        trigger.targets = targets;
+        targets.forEach(i => i.addTempSkill("vl_gairtelu_zs_banned", { global: "phaseUseEnd" }));
+    },
     mod: {
         targetInRange(card, player, target, now) {
-						return true;
-					},
+            return true;
+        },
     },
     subSkill: {
         banned: {
@@ -38,8 +38,8 @@ export default {
             },
             mod: {
                 targetEnabled(card, player, target, now) {
-								if (player.hasSkill("vl_gairtelu_zs")) return false;
-							},
+                    if (player.hasSkill("vl_gairtelu_zs")) return false;
+                },
             },
         },
     },

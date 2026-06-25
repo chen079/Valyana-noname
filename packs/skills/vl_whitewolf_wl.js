@@ -5,29 +5,29 @@ export default {
         global: "damageEnd",
     },
     check(event, player) {
-					var att1 = get.attitude(player, event.player);
-					var att2 = get.attitude(player, event.source)
-					return att2 < 0 && att1 > 0
-				},
+        var att1 = get.attitude(player, event.player);
+        var att2 = get.attitude(player, event.source)
+        return att2 < 0 && att1 > 0
+    },
     mark: true,
     intro: {
         content: "本回合已对$发动过本技能",
     },
     filter(event, player) {
-					return event.cards && event.source != player && event.source && get.distance(player, event.player) <= 1 && event.player.isIn() && !player.storage.vl_whitewolf_wl.includes(event.player)
-				},
+        return event.cards && event.source != player && event.source && get.distance(player, event.player) <= 1 && event.player.isIn() && !player.storage.vl_whitewolf_wl.includes(event.player)
+    },
     content: async function content(event, trigger, player) {
-					if (!player.storage.vl_whitewolf_wl) player.storage.vl_whitewolf_wl = []
-					await trigger.source.gain(trigger.cards, 'gain2');
-					player.storage.vl_whitewolf_wl.push(trigger.player)
-					if(!player.canUse({ name: 'sha', isCard: true },trigger.source))return;
-					const {card} = await player.useCard({ name: 'sha', isCard: true }, trigger.source, false).forResult();
-					if (player.getHistory('sourceDamage', function (evt) {
-						return card == evt.card;
-					}).length) {
-						await trigger.player.recover(trigger.num)
-					}
-				},
+        if (!player.storage.vl_whitewolf_wl) player.storage.vl_whitewolf_wl = []
+        await trigger.source.gain(trigger.cards, 'gain2');
+        player.storage.vl_whitewolf_wl.push(trigger.player)
+        if (!player.canUse({ name: 'sha', isCard: true }, trigger.source)) return;
+        const { card } = await player.useCard({ name: 'sha', isCard: true }, trigger.source, false).forResult();
+        if (player.getHistory('sourceDamage', function (evt) {
+            return card == evt.card;
+        }).length) {
+            await trigger.player.recover(trigger.num)
+        }
+    },
     group: "vl_whitewolf_wl_clean",
     subSkill: {
         clean: {
@@ -37,8 +37,8 @@ export default {
             popup: false,
             forced: true,
             async content(event, trigger, player) {
-							player.storage.vl_whitewolf_wl = []
-						},
+                player.storage.vl_whitewolf_wl = []
+            },
         },
     },
     t: {

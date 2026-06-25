@@ -12,47 +12,47 @@ export default {
 	},
 	direct: true,
 	async content(event, trigger, player) {
-const num = game.countPlayer(function (current) {
-        			return current.countVuffNum('chuxue') > 0
-        		})
-        		let str = '移去任意名角色的『出血』，'
-        		if (trigger.name == 'phaseDraw') {
-        			str += '摸牌阶段多摸等量的牌'
-        		} else if (trigger.name == 'phaseUse') {
-        			str += '出牌阶段多出等量的杀'
-        		} else if (trigger.name == 'phaseDiscard') {
-        			str += '弃牌阶段你增加等量的手牌上限'
-        		} else {
-        			str += '令此次对' + get.translation(trigger.player) + '增加等量的伤害'
-        		}
-        		const result = await player.chooseTarget([1, num], false).set('ai', function (target) {
-        			const player = _status.event.player
-        			return (get.attitude(player, target) - 2 * Math.random() + 1)
-        		}).set('filterTarget', function (card, player, target) {
-        			return target.countVuffNum('chuxue') > 0
-        		}).set('prompt2', str).forResult()
-if (result.bool) {
-        			let removed = 0
-        			for (let i = 0; i < result.targets.length; i++) {
-        				removed += result.targets[i].countVuffNum('chuxue')
-        				result.targets[i].clearVuff('chuxue')
-        			}
-        			if (trigger.name == 'phaseDraw') {
-        				trigger.num += removed
-        				game.log(player, '摸牌阶段的摸牌数+' + removed);
-        			} else if (trigger.name == 'phaseUse') {
-        				player.storage.vl_zhongyu_zb_effect_sha = removed;
-        				player.addTempSkill('vl_zhongyu_zb_effect')
-        				game.log(player, '出牌阶段使用【杀】的次数上限+' + removed);
-        			} else if (trigger.name == 'phaseDiscard') {
-        				player.storage.vl_zhongyu_zb_effect_limit = removed;
-        				player.addTempSkill('vl_zhongyu_zb_effect')
-        				game.log(player, '的手牌上限+' + removed)
-        			} else {
-        				trigger.num += removed
-        			}
-        		}
-    },
+		const num = game.countPlayer(function (current) {
+			return current.countVuffNum('chuxue') > 0
+		})
+		let str = '移去任意名角色的『出血』，'
+		if (trigger.name == 'phaseDraw') {
+			str += '摸牌阶段多摸等量的牌'
+		} else if (trigger.name == 'phaseUse') {
+			str += '出牌阶段多出等量的杀'
+		} else if (trigger.name == 'phaseDiscard') {
+			str += '弃牌阶段你增加等量的手牌上限'
+		} else {
+			str += '令此次对' + get.translation(trigger.player) + '增加等量的伤害'
+		}
+		const result = await player.chooseTarget([1, num], false).set('ai', function (target) {
+			const player = _status.event.player
+			return (get.attitude(player, target) - 2 * Math.random() + 1)
+		}).set('filterTarget', function (card, player, target) {
+			return target.countVuffNum('chuxue') > 0
+		}).set('prompt2', str).forResult()
+		if (result.bool) {
+			let removed = 0
+			for (let i = 0; i < result.targets.length; i++) {
+				removed += result.targets[i].countVuffNum('chuxue')
+				result.targets[i].clearVuff('chuxue')
+			}
+			if (trigger.name == 'phaseDraw') {
+				trigger.num += removed
+				game.log(player, '摸牌阶段的摸牌数+' + removed);
+			} else if (trigger.name == 'phaseUse') {
+				player.storage.vl_zhongyu_zb_effect_sha = removed;
+				player.addTempSkill('vl_zhongyu_zb_effect')
+				game.log(player, '出牌阶段使用【杀】的次数上限+' + removed);
+			} else if (trigger.name == 'phaseDiscard') {
+				player.storage.vl_zhongyu_zb_effect_limit = removed;
+				player.addTempSkill('vl_zhongyu_zb_effect')
+				game.log(player, '的手牌上限+' + removed)
+			} else {
+				trigger.num += removed
+			}
+		}
+	},
 	subSkill: {
 		effect: {
 			charlotte: true,

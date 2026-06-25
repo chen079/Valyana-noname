@@ -6,11 +6,11 @@ export default {
     },
     forced: true,
     filter(event, player) {
-					return !event.numFixed;
-				},
+        return !event.numFixed;
+    },
     async content(event, trigger, player) {
-					trigger.num += game.countGroup();
-				},
+        trigger.num += game.countGroup();
+    },
     group: "vl_mika_lx_discard",
     subSkill: {
         discard: {
@@ -19,9 +19,9 @@ export default {
             },
             forced: true,
             async content(event, trigger, player) {
-							await player.chooseToDiscard(Math.min(player.countCards('he'), game.countGroup()), 'he', true);
-							trigger.cancel();
-						},
+                await player.chooseToDiscard(Math.min(player.countCards('he'), game.countGroup()), 'he', true);
+                trigger.cancel();
+            },
             sub: true,
         },
     },

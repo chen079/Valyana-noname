@@ -5,22 +5,22 @@ export default {
         target: "useCardToTargeted",
     },
     check(event, player) {
-					return get.attitude(player, event.player) < 0;
-				},
+        return get.attitude(player, event.player) < 0;
+    },
     filter(event, player) {
-					return event.card.name == 'sha' && player.canCompare(event.player) > 0;
-				},
+        return event.card.name == 'sha' && player.canCompare(event.player) > 0;
+    },
     async content(event, trigger, player) {
         const next = player.chooseToCompare(trigger.player);
         trigger.getParent().excluded.add(player);
         const result = await next.forResult();
         if (result.bool) {
-        						await player.draw(2)
-        						await trigger.player.loseHp()
-        					} else {
-        						await player.loseHp()
-        						await player.discardPlayerCard(trigger.player, 'he', true);
-        					}
+            await player.draw(2)
+            await trigger.player.loseHp()
+        } else {
+            await player.loseHp()
+            await player.discardPlayerCard(trigger.player, 'he', true);
+        }
     },
     t: {
         name: "守宝",

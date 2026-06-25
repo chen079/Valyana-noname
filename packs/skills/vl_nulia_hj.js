@@ -6,23 +6,23 @@ export default {
     },
     frequent: true,
     filter(event, player) {
-					return !event.numFixed;
-				},
+        return !event.numFixed;
+    },
     async content(event, trigger, player) {
-					var num = 2
-					if (get.mode() == 'identity') {
-						if (player.identity == 'zhu') {
-							num = game.countPlayer(function (current) {
-								return current.identity == 'zhong' || current.identity == 'mingzhong';
-							});
-						} else {
-							num = game.countPlayer(function (current) {
-								return current.identity == player.identity;
-							});
-						}
-					}
-					trigger.num += num
-				},
+        var num = 2
+        if (get.mode() == 'identity') {
+            if (player.identity == 'zhu') {
+                num = game.countPlayer(function (current) {
+                    return current.identity == 'zhong' || current.identity == 'mingzhong';
+                });
+            } else {
+                num = game.countPlayer(function (current) {
+                    return current.identity == player.identity;
+                });
+            }
+        }
+        trigger.num += num
+    },
     ai: {
         threaten: 1.3,
     },
@@ -31,8 +31,8 @@ export default {
         "2": {
             mod: {
                 maxHandcardBase(player, num) {
-								return player.maxHp;
-							},
+                    return player.maxHp;
+                },
             },
             sub: true,
         },

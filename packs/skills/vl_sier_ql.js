@@ -3,25 +3,25 @@ import { lib, game, ui, get, ai, _status } from '../../../../noname.js';
 export default {
     enable: "phaseUse",
     filterCard(card, target) {
-					return get.number(card) == 13
-				},
+        return get.number(card) == 13
+    },
     lose: false,
     discard: false,
     delay: false,
     position: "hes",
     filterTarget(card, player, target) {
-					return target != player
-				},
+        return target != player
+    },
     filter(event, player) {
-					return player.countCards('hes', function (card) {
-						return get.number(card) == 13
-					}) > 0
-				},
+        return player.countCards('hes', function (card) {
+            return get.number(card) == 13
+        }) > 0
+    },
     direct: true,
     content: async function content(event, trigger, player) {
-					await player.give(event.cards, event.target);
-					await event.target.draw();
-				},
+        await player.give(event.cards, event.target);
+        await event.target.draw();
+    },
     group: "vl_sier_ql_recover",
     subSkill: {
         recover: {
@@ -31,12 +31,12 @@ export default {
             zhuSkill: true,
             forced: true,
             filter(event, player) {
-							if (event.player != player) return false;
-							return player.isDying()
-						},
+                if (event.player != player) return false;
+                return player.isDying()
+            },
             async content(event, trigger, player) {
-							trigger.baseDamage++;
-						},
+                trigger.baseDamage++;
+            },
         },
     },
     t: {

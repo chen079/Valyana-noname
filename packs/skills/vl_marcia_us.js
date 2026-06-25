@@ -4,11 +4,11 @@ export default {
     forced: true,
     mod: {
         globalFrom(from, to, distance) {
-						return distance - 1;
-					},
+            return distance - 1;
+        },
         globalTo(from, to, distance) {
-						return distance + 1;
-					},
+            return distance + 1;
+        },
     },
     t: {
         name: "御术",

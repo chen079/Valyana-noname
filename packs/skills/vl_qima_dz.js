@@ -6,18 +6,18 @@ export default {
     },
     chargeSkill: true,
     filter(event, player) {
-					return player.countMark('charge') > 0 && event.player != player
-				},
+        return player.countMark('charge') > 0 && event.player != player
+    },
     async content(event, trigger, player) {
-					const result = await player.chooseTarget(1, '对一名其他角色造成1点伤害。', function (card, player, target) {
-						return target != player
-					}).set('ai', function (target) {
-						return -get.attitude(player, target)
-					}).forResult();
-					if (result.bool) {
-						player.removeMark('charge', 1);
-						result.targets[0].damage(1, player)
-					}
+        const result = await player.chooseTarget(1, '对一名其他角色造成1点伤害。', function (card, player, target) {
+            return target != player
+        }).set('ai', function (target) {
+            return -get.attitude(player, target)
+        }).forResult();
+        if (result.bool) {
+            player.removeMark('charge', 1);
+            result.targets[0].damage(1, player)
+        }
     },
     group: ["vl_qima_dz_damage", "vl_qima_dz_init", "vl_qima_dz_1"],
     subSkill: {
@@ -27,11 +27,11 @@ export default {
             },
             direct: true,
             filter(event, player) {
-							return event.player != player && event.player.hp == 1
-						},
+                return event.player != player && event.player.hp == 1
+            },
             async content(event, trigger, player) {
-							trigger.num += 1
-						},
+                trigger.num += 1
+            },
         },
         init: {
             trigger: {
@@ -41,11 +41,11 @@ export default {
             forced: true,
             locked: false,
             filter(event, player) {
-							return (event.name != 'phase' || game.phaseNumber == 0) && player.countMark('charge') < 4;
-						},
+                return (event.name != 'phase' || game.phaseNumber == 0) && player.countMark('charge') < 4;
+            },
             async content(event, trigger, player) {
-							player.addMark('charge', Math.min(2, 4 - player.countMark('charge')));
-						},
+                player.addMark('charge', Math.min(2, 4 - player.countMark('charge')));
+            },
             sub: true,
         },
         damage: {
@@ -54,18 +54,18 @@ export default {
                 player: ["damageEnd"],
             },
             filter(event, player) {
-							if (event.name != 'damage') return event.player != player;
-							return true;
-						},
+                if (event.name != 'damage') return event.player != player;
+                return true;
+            },
             direct: true,
             async content(event, trigger, player) {
-							const num = Math.min(1, 4 - player.countMark('charge'));
-							if (num > 0) {
-								player.logSkill('vl_qima_dz_damage');
-								player.addMark('charge', num);
-								game.delayx();
-							}
-						},
+                const num = Math.min(1, 4 - player.countMark('charge'));
+                if (num > 0) {
+                    player.logSkill('vl_qima_dz_damage');
+                    player.addMark('charge', num);
+                    game.delayx();
+                }
+            },
         },
     },
     t: {

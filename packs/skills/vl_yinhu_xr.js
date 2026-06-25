@@ -7,8 +7,8 @@ export default {
         player: "enterGame",
     },
     filter(event, player) {
-					return game.players.length > 1;
-				},
+        return game.players.length > 1;
+    },
     direct: true,
     async content(event, trigger, player) {
         const result = await player.chooseTarget([1, Math.floor(game.countPlayer() / 2)], "令至多" + get.translation(Math.floor(game.countPlayer() / 2)) + "名角色获得〖祝福〗", false)

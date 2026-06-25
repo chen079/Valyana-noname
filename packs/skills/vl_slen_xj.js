@@ -3,8 +3,8 @@ import { lib, game, ui, get, ai, _status } from '../../../../noname.js';
 export default {
     enable: "phaseUse",
     filterTarget(card, player, target) {
-					return player != target && target.countCards('h') > 0
-				},
+        return player != target && target.countCards('h') > 0
+    },
     position: "h",
     usable: 1,
     discard: false,
@@ -12,17 +12,17 @@ export default {
     delay: false,
     selectCard: [1, 2],
     filterCard(card) {
-					if (ui.selected.cards.length) {
-						return get.number(card) != get.number(ui.selected.cards[0]);
-					}
-					return true;
-				},
+        if (ui.selected.cards.length) {
+            return get.number(card) != get.number(ui.selected.cards[0]);
+        }
+        return true;
+    },
     check(card) {
-					return 5 - get.value(card)
-				},
+        return 5 - get.value(card)
+    },
     filter(event, player) {
-					return player.countCards('h') > 0
-				},
+        return player.countCards('h') > 0
+    },
     async content(event, trigger, player) {
         const target = event.target;
         const cards = event.cards;
@@ -95,17 +95,17 @@ export default {
     ai: {
         result: {
             player(player) {
-							if (ui.selected.cards.length == 2) {
-								return -0.5;
-							}
-							return 1;
-						},
+                if (ui.selected.cards.length == 2) {
+                    return -0.5;
+                }
+                return 1;
+            },
             target(player, target) {
-							if (ui.selected.cards.length == 2) {
-								return 1;
-							}
-							return 1 / target.countCards('h') - 2;
-						},
+                if (ui.selected.cards.length == 2) {
+                    return 1;
+                }
+                return 1 / target.countCards('h') - 2;
+            },
         },
         order: 5,
     },

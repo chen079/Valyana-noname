@@ -6,10 +6,10 @@ export default {
     },
     firstDo: true,
     logTarget(event, player) {
-					return game.filterPlayer(function (current) {
-						return current.isAlive();
-					});
-				},
+        return game.filterPlayer(function (current) {
+            return current.isAlive();
+        });
+    },
     forced: true,
     async content(event, trigger, player) {
         game.countPlayer(function (current) {
@@ -25,10 +25,10 @@ export default {
                 player: "phaseZhunbeiBegin",
             },
             logTarget(event, player) {
-							return game.filterPlayer(function (current) {
-								return current.isAlive();
-							});
-						},
+                return game.filterPlayer(function (current) {
+                    return current.isAlive();
+                });
+            },
             lastDo: true,
             forced: true,
             async content(event, trigger, player) {

@@ -6,29 +6,29 @@ export default {
         player: "enterGame",
     },
     init(player) {
-					if (!player.storage.vl_mliy_lf_num) player.storage.vl_mliy_lf_num = [];
-				},
+        if (!player.storage.vl_mliy_lf_num) player.storage.vl_mliy_lf_num = [];
+    },
     frequent: true,
     mark: true,
     intro: {
         content(storage, player, skill) {
-						if (player.storage.vl_mliy_lf_num) { return "已记录花色：" + get.translation(player.storage.vl_mliy_lf_num) }
-					},
+            if (player.storage.vl_mliy_lf_num) { return "已记录花色：" + get.translation(player.storage.vl_mliy_lf_num) }
+        },
         onunmark: true,
     },
     filter(event, player) {
-					if (player.storage.vl_mliy_lf_num.length == 4) return false
-					return true
-				},
+        if (player.storage.vl_mliy_lf_num.length == 4) return false
+        return true
+    },
     async content(event, trigger, player) {
-  const result = await player.judge().forResult();
-if (!player.getStorage('vl_mliy_lf_num').includes(result.suit)) {
-        						player.markAuto('vl_mliy_lf_num', [result.suit]);
-        					}
-        					let suit = player.getStorage('vl_mliy_lf_num')
-        					game.broadcastAll(function (player, suit) {
-        						if (player.marks.vl_mliy_lf) player.marks.vl_mliy_lf.firstChild.innerHTML = "流风 " + get.translation(suit[0]) + get.translation(suit[1]) + get.translation(suit[2]) + get.translation(suit[3]);
-        					}, player, suit);
+        const result = await player.judge().forResult();
+        if (!player.getStorage('vl_mliy_lf_num').includes(result.suit)) {
+            player.markAuto('vl_mliy_lf_num', [result.suit]);
+        }
+        let suit = player.getStorage('vl_mliy_lf_num')
+        game.broadcastAll(function (player, suit) {
+            if (player.marks.vl_mliy_lf) player.marks.vl_mliy_lf.firstChild.innerHTML = "流风 " + get.translation(suit[0]) + get.translation(suit[1]) + get.translation(suit[2]) + get.translation(suit[3]);
+        }, player, suit);
     },
     group: "vl_mliy_lf_1",
     subSkill: {
@@ -39,23 +39,23 @@ if (!player.getStorage('vl_mliy_lf_num').includes(result.suit)) {
                 global: ["equipAfter", "addJudgeAfter", "gainAfter", "loseAsyncAfter", "addToExpansionAfter"],
             },
             filter(event, player) {
-							const evt=event.getl(player);
-							if(evt?.cards2?.length) return;
-							return player != _status.currentPhase;
-						},
+                const evt = event.getl(player);
+                if (evt?.cards2?.length) return;
+                return player != _status.currentPhase;
+            },
             getIndex(event, player) {
-							let num = 0
-							const evt=event.getl(player);
-							for (let i = 0; i < evt.cards2.length; i++) {
-								if (player.getStorage('vl_mliy_lf_num').includes(get.suit(evt.cards2[i]))) {
-									num += 1;
-								}
-							}
-							return num;
-						},
+                let num = 0
+                const evt = event.getl(player);
+                for (let i = 0; i < evt.cards2.length; i++) {
+                    if (player.getStorage('vl_mliy_lf_num').includes(get.suit(evt.cards2[i]))) {
+                        num += 1;
+                    }
+                }
+                return num;
+            },
             async content(event, trigger, player) {
-							player.draw(event.getIndex(trigger, player));
-						},
+                player.draw(event.getIndex(trigger, player));
+            },
             sub: true,
         },
         num: {

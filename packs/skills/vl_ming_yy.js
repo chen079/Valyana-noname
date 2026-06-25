@@ -8,27 +8,27 @@ export default {
     intro: {
         markcount: () => undefined,
         mark(dialog, storage, player) {
-						dialog.addText('已经使用过的诗')
-						dialog.addText(player.storage.vl_ming_yy[1].join('、'))
-					},
+            dialog.addText('已经使用过的诗')
+            dialog.addText(player.storage.vl_ming_yy[1].join('、'))
+        },
     },
     usable: 2,
     direct: true,
     filter(event, player) {
-					return event.card.name == 'sha';
-				},
+        return event.card.name == 'sha';
+    },
     init(player) {
-					if (!player.storage.vl_ming_yy) {
-						player.storage.vl_ming_yy = [{}, []]
-					}
-					game.loadJsonFromFile('extension/福瑞拓展/asset/json/poems.json', function (error, data) {
-						if (error) {
-							alert(error);
-						} else {
-							console.log(data);
-						}
-					}, player.storage.vl_ming_yy[0]);
-				},
+        if (!player.storage.vl_ming_yy) {
+            player.storage.vl_ming_yy = [{}, []]
+        }
+        game.loadJsonFromFile('extension/福瑞拓展/asset/json/poems.json', function (error, data) {
+            if (error) {
+                alert(error);
+            } else {
+                console.log(data);
+            }
+        }, player.storage.vl_ming_yy[0]);
+    },
     async content(event, trigger, player) {
         const textResult = await player.chooseText().set('prompt', get.prompt2('vl_ming_yy')).set('ai', function () {
             var title = Object.keys(player.storage.vl_ming_yy[0]);

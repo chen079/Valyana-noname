@@ -9,35 +9,35 @@ export default {
         markcount: "expansion",
         content: "expansion",
         onunmark(storage, player) {
-						if (storage && storage.length) {
-							player.$throw(storage, 1000);
-							game.cardsDiscard(storage);
-							game.log(storage, '被置入了弃牌堆');
-							storage.length = 0;
-						}
-					},
+            if (storage && storage.length) {
+                player.$throw(storage, 1000);
+                game.cardsDiscard(storage);
+                game.log(storage, '被置入了弃牌堆');
+                storage.length = 0;
+            }
+        },
     },
     forced: true,
     init(player, storage) {
-					if (!player.storage.vl_marcia_ql_color) player.storage.vl_marcia_ql_color = ['red', 'black']
-				},
+        if (!player.storage.vl_marcia_ql_color) player.storage.vl_marcia_ql_color = ['red', 'black']
+    },
     filter(event, player) {
-					if (event.player == player) return false
-					if (event.cards.length != 1 || event.targets.length != 1) return false
-					var bool1 = (event.card.name == 'sha');
-					var bool2 = (get.type2(event.card) == 'trick' && get.tag(event.card, 'damage'));
-					if (!bool1 && !bool2) return false;
-					return player.storage.vl_marcia_ql_color.includes(get.color(event.cards))
-				},
+        if (event.player == player) return false
+        if (event.cards.length != 1 || event.targets.length != 1) return false
+        var bool1 = (event.card.name == 'sha');
+        var bool2 = (get.type2(event.card) == 'trick' && get.tag(event.card, 'damage'));
+        if (!bool1 && !bool2) return false;
+        return player.storage.vl_marcia_ql_color.includes(get.color(event.cards))
+    },
     logTarget: "player",
     async content(event, trigger, player) {
-					player.storage.vl_marcia_ql_color.remove(get.color(trigger.cards));
-					await player.addToExpansion(trigger.cards, 'gain2').gaintag.add('vl_marcia_ql');
-					trigger.targets.remove(player);
-					trigger.getParent().triggeredTargets2.remove(player);
-					trigger.untrigger();
-					player.markSkill('vl_marcia_ql');
-				},
+        player.storage.vl_marcia_ql_color.remove(get.color(trigger.cards));
+        await player.addToExpansion(trigger.cards, 'gain2').gaintag.add('vl_marcia_ql');
+        trigger.targets.remove(player);
+        trigger.getParent().triggeredTargets2.remove(player);
+        trigger.untrigger();
+        player.markSkill('vl_marcia_ql');
+    },
     group: ["vl_marcia_ql_new", "vl_marcia_ql_gain"],
     subSkill: {
         new: {
@@ -48,8 +48,8 @@ export default {
             unique: true,
             popup: false,
             async content(event, trigger, player) {
-							player.storage.vl_marcia_ql_color = ['red', 'black']
-						},
+                player.storage.vl_marcia_ql_color = ['red', 'black']
+            },
             sub: true,
         },
         gain: {
@@ -57,16 +57,16 @@ export default {
                 player: "phaseUseBegin",
             },
             filter(event, player) {
-							return player.getExpansions('vl_marcia_ql').length > 0;
-						},
+                return player.getExpansions('vl_marcia_ql').length > 0;
+            },
             forced: true,
             unique: true,
             async content(event, trigger, player) {
-							var cards = player.getExpansions('vl_marcia_ql');
-							if (cards.length > 0) {
-								player.gain(cards, 'gain2');
-							}
-						},
+                var cards = player.getExpansions('vl_marcia_ql');
+                if (cards.length > 0) {
+                    player.gain(cards, 'gain2');
+                }
+            },
             sub: true,
         },
     },

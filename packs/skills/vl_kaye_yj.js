@@ -4,33 +4,33 @@ export default {
     enable: "phaseUse",
     usable: 1,
     filter(event, player) {
-					if (!player.storage.vl_kaye_yj) return true;
-					return game.hasPlayer(function (current) {
-						return !player.storage.vl_kaye_yj.includes(current);
-					});
-				},
+        if (!player.storage.vl_kaye_yj) return true;
+        return game.hasPlayer(function (current) {
+            return !player.storage.vl_kaye_yj.includes(current);
+        });
+    },
     filterTarget(card, player, target) {
-					return (!player.storage.vl_kaye_yj || !player.storage.vl_kaye_yj.includes(target) && target != player);
-				},
+        return (!player.storage.vl_kaye_yj || !player.storage.vl_kaye_yj.includes(target) && target != player);
+    },
     init(player) {
-					if (!player.storage.vl_kaye_yj) player.storage.vl_kaye_yj = [];
-				},
+        if (!player.storage.vl_kaye_yj) player.storage.vl_kaye_yj = [];
+    },
     async content(event, trigger, player) {
-					target.addVuff('xuruo', 5, player)
-					target.addVuff('yishang', 2, player)
-					if (!player.storage.vl_kaye_yj) player.storage.vl_kaye_yj = [];
-					player.storage.vl_kaye_yj.push(target);
-					player.storage.vl_kaye_yj.sortBySeat()
-					player.markSkill('vl_kaye_yj');
-				},
+        target.addVuff('xuruo', 5, player)
+        target.addVuff('yishang', 2, player)
+        if (!player.storage.vl_kaye_yj) player.storage.vl_kaye_yj = [];
+        player.storage.vl_kaye_yj.push(target);
+        player.storage.vl_kaye_yj.sortBySeat()
+        player.markSkill('vl_kaye_yj');
+    },
     ai: {
         order: 7,
         threaten: 1.6,
         expose: 0.2,
         result: {
             target(player, target) {
-							return -1;
-						},
+                return -1;
+            },
         },
     },
     intro: {

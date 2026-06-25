@@ -7,25 +7,25 @@ export default {
     unique: true,
     zhuSkill: true,
     filter(event, player) {
-					if (event.responded) return false;
-					if (!event.filterCard({ name: 'shan' }, player, event)) return false;
-					return player.isMinHandcard() || player.isMinHp()
-				},
+        if (event.responded) return false;
+        if (!event.filterCard({ name: 'shan' }, player, event)) return false;
+        return player.isMinHandcard() || player.isMinHp()
+    },
     frequent: true,
     usable: 1,
     async content(event, trigger, player) {
-trigger.untrigger();
-        					trigger.responded = true;
-        					trigger.result = { bool: true, card: { name: 'shan' } }
+        trigger.untrigger();
+        trigger.responded = true;
+        trigger.result = { bool: true, card: { name: 'shan' } }
     },
     ai: {
         respondShan: true,
         effect: {
             target(card, player, target, effect) {
-							if (get.tag(card, 'respondShan') && effect < 0) {
-								if (target.countCards('h') >= 2) return 0.5;
-							}
-						},
+                if (get.tag(card, 'respondShan') && effect < 0) {
+                    if (target.countCards('h') >= 2) return 0.5;
+                }
+            },
         },
     },
     t: {

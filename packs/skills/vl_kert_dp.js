@@ -3,27 +3,27 @@ import { lib, game, ui, get, ai, _status } from '../../../../noname.js';
 export default {
     mod: {
         targetInRange(card, player) {
-						if (card.name == 'sha' && get.color(card) == 'black') return true;
-					},
+            if (card.name == 'sha' && get.color(card) == 'black') return true;
+        },
         cardUsable(card) {
-						if (card.name == 'sha') return Infinity;
-					},
+            if (card.name == 'sha') return Infinity;
+        },
         selectTarget(card, player, range) {
-						if (card.name == 'sha' && range[1] != -1 && get.color(card) == 'black') {
-							range[1]++;
-						}
-					},
+            if (card.name == 'sha' && range[1] != -1 && get.color(card) == 'black') {
+                range[1]++;
+            }
+        },
     },
     trigger: {
         source: "damageBegin",
     },
     forced: true,
     filter(event, player) {
-					return !get.is.altered('vl_kert_dp') && event.card && event.card.name == 'sha' && get.color(event.card) == 'red' && event.notLink();
-				},
+        return !get.is.altered('vl_kert_dp') && event.card && event.card.name == 'sha' && get.color(event.card) == 'red' && event.notLink();
+    },
     async content(event, trigger, player) {
-					trigger.num += 2;
-				},
+        trigger.num += 2;
+    },
     group: "vl_kert_dp_1",
     subSkill: {
         "1": {
@@ -32,9 +32,9 @@ export default {
             },
             forced: true,
             async content(event, trigger, player) {
-							player.loseMaxHp();
-							player.removeSkill('vl_kert_dp');
-						},
+                player.loseMaxHp();
+                player.removeSkill('vl_kert_dp');
+            },
             sub: true,
         },
     },

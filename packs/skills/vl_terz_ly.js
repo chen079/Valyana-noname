@@ -6,25 +6,25 @@ export default {
     unique: true,
     zhuanhuanji: true,
     filter(event, player) {
-					if (!player.storage.vl_terz_ly && player.countCards('he') == 0) return false
-					return true
-				},
+        if (!player.storage.vl_terz_ly && player.countCards('he') == 0) return false
+        return true
+    },
     async content(event, trigger, player) {
         if (player.storage.vl_terz_ly) {
-        						await player.draw()
-        					} else {
-        						await player.chooseToDiscard('he', true)
-        					}
+            await player.draw()
+        } else {
+            await player.chooseToDiscard('he', true)
+        }
         if (!player.storage.vl_terz_ly) player.storage.vl_terz_ly = false
-        					player.storage.vl_terz_ly = !player.storage.vl_terz_ly
+        player.storage.vl_terz_ly = !player.storage.vl_terz_ly
     },
     group: ["vl_terz_ly_target"],
     ai: {
         order: 8,
         result: {
             player() {
-							return Math.random() * 2 - 1
-						},
+                return Math.random() * 2 - 1
+            },
         },
     },
     subSkill: {
@@ -34,8 +34,8 @@ export default {
                 source: "damageAfter",
             },
             init(player) {
-							player.storage.vl_terz_ly = false;
-						},
+                player.storage.vl_terz_ly = false;
+            },
             charlotte: true,
             unique: true,
             zhuanhuanji: true,
@@ -43,18 +43,18 @@ export default {
             logTarget: "player",
             mod: {
                 targetEnabled(card, player, target, now) {
-								if (player.storage.vl_terz_ly == target.storage.vl_terz_ly && player != target) return false;
-							},
+                    if (player.storage.vl_terz_ly == target.storage.vl_terz_ly && player != target) return false;
+                },
             },
             async content(event, trigger, player) {
                 if (player.storage.vl_terz_ly) {
-        								await player.draw()
-        							} else {
-        								await player.chooseToDiscard('he', true)
-        							}
+                    await player.draw()
+                } else {
+                    await player.chooseToDiscard('he', true)
+                }
                 if (!player.storage.vl_terz_ly) player.storage.vl_terz_ly = false
-        							player.storage.vl_terz_ly = !player.storage.vl_terz_ly
-    },
+                player.storage.vl_terz_ly = !player.storage.vl_terz_ly
+            },
             sub: true,
         },
     },

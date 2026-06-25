@@ -5,14 +5,14 @@ export default {
         player: "useCard",
     },
     filter(event, player) {
-					return player.isPhaseUsing()
-				},
+        return player.isPhaseUsing()
+    },
     forced: true,
     locked: false,
     async content(event, trigger, player) {
-					player.addTempSkill('vl_zenia_ld_2');
-					player.addMark('vl_zenia_ld_2', 1, false);
-				},
+        player.addTempSkill('vl_zenia_ld_2');
+        player.addMark('vl_zenia_ld_2', 1, false);
+    },
     subSkill: {
         "2": {
             onremove: true,
@@ -21,8 +21,8 @@ export default {
             },
             mod: {
                 maxHandcard(player, num) {
-								return num + player.countMark('vl_zenia_ld_2');
-							},
+                    return num + player.countMark('vl_zenia_ld_2');
+                },
             },
             sub: true,
         },

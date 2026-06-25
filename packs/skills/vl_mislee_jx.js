@@ -4,21 +4,21 @@ export default {
     position: "he",
     enable: "phaseUse",
     filter(event, player) {
-					var he = player.getCards('he');
-					for (var i = 0; i < he.length; i++) {
-						if (["bagua", "baiyin", "lanyinjia", "renwang", "tengjia", "zhuge"].includes(he[i].name)) return true;
-					}
-					return false;
-				},
+        var he = player.getCards('he');
+        for (var i = 0; i < he.length; i++) {
+            if (["bagua", "baiyin", "lanyinjia", "renwang", "tengjia", "zhuge"].includes(he[i].name)) return true;
+        }
+        return false;
+    },
     filterCard(card) {
-					return ["bagua", "baiyin", "lanyinjia", "renwang", "tengjia", "zhuge"].includes(card.name);
-				},
+        return ["bagua", "baiyin", "lanyinjia", "renwang", "tengjia", "zhuge"].includes(card.name);
+    },
     discard: false,
     lose: false,
     delay: false,
     check() {
-					return 1;
-				},
+        return 1;
+    },
     async content(event, trigger, player) {
         await player.showCards(cards);
         const card = cards[0];

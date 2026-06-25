@@ -10,23 +10,23 @@ export default {
     skillAnimation: true,
     animationColor: "gray",
     filter(event, player) {
-					return event.source && event.source.isIn();
-				},
+        return event.source && event.source.isIn();
+    },
     async content(event, trigger, player) {
-					trigger.source.discard(trigger.source.getCards('he'))
-					trigger.source.loseHp(trigger.source.hp)
-				},
+        trigger.source.discard(trigger.source.getCards('he'))
+        trigger.source.loseHp(trigger.source.hp)
+    },
     logTarget: "source",
     ai: {
         threaten(player, target) {
-						if (target.hp == 1) return 0.2;
-						return 1.5;
-					},
+            if (target.hp == 1) return 0.2;
+            return 1.5;
+        },
         effect: {
             target(card, player, target, current) {
-							if (!target.hasFriend()) return;
-							if (target.hp <= 1 && get.tag(card, 'damage')) return [1, 0, 0, -2];
-						},
+                if (!target.hasFriend()) return;
+                if (target.hp <= 1 && get.tag(card, 'damage')) return [1, 0, 0, -2];
+            },
         },
     },
     t: {

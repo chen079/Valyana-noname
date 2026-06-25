@@ -6,12 +6,12 @@ export default {
         global: "dieAfter",
     },
     filter(event, player, card) {
-					return event.player.countMark("vl_jiejie_zr_1") > 0
-				},
+        return event.player.countMark("vl_jiejie_zr_1") > 0
+    },
     async content(event, trigger, player) {
-					player.loseMaxHp(trigger.player.countMark("vl_jiejie_zr_1"))
-					trigger.player.removeMark('vl_jiejie_zr_1', trigger.player.countMark('vl_jiejie_zr_1'))
-				},
+        player.loseMaxHp(trigger.player.countMark("vl_jiejie_zr_1"))
+        trigger.player.removeMark('vl_jiejie_zr_1', trigger.player.countMark('vl_jiejie_zr_1'))
+    },
     group: "vl_jiejie_my_1",
     subSkill: {
         "1": {
@@ -20,11 +20,11 @@ export default {
                 global: "phaseBegin",
             },
             filter(event, player, card) {
-							return event.player.countMark("vl_jiejie_zr_1") > 0
-						},
+                return event.player.countMark("vl_jiejie_zr_1") > 0
+            },
             async content(event, trigger, player) {
-							player.draw(trigger.player.countMark("vl_jiejie_zr_1"))
-						},
+                player.draw(trigger.player.countMark("vl_jiejie_zr_1"))
+            },
             sub: true,
         },
     },

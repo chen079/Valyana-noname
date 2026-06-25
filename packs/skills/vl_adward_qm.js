@@ -6,17 +6,17 @@ export default {
     },
     direct: true,
     filter(event, player) {
-					const str = event.name == 'phaseUse' ? 'red' : 'black';
-					return player.countCards('h', { color: str }) > 0
-				},
+        const str = event.name == 'phaseUse' ? 'red' : 'black';
+        return player.countCards('h', { color: str }) > 0
+    },
     async content(event, trigger, player) {
-					const color = trigger.name == 'phaseUse' ? 'red' : 'black';
-					while (player.countCards('h', { color }) > 0) {
-						const cards = player.getCards('h').filter(card => get.color(card) == color);
-						if (!cards.length) return;
-						player.logSkill("vl_adward_qm");
-						await player.recast(cards);
-					}
+        const color = trigger.name == 'phaseUse' ? 'red' : 'black';
+        while (player.countCards('h', { color }) > 0) {
+            const cards = player.getCards('h').filter(card => get.color(card) == color);
+            if (!cards.length) return;
+            player.logSkill("vl_adward_qm");
+            await player.recast(cards);
+        }
     },
     t: {
         name: "千面",

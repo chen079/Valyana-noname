@@ -5,13 +5,13 @@ export default {
         source: "damageAfter",
     },
     filter(event, player) {
-					return event.card && event.player != player;
-				},
+        return event.card && event.player != player;
+    },
     forced: true,
     async content(event, trigger, player) {
-					var target = trigger.player;
-					target.addVuff('zhongdu', player, trigger.num)
-				},
+        var target = trigger.player;
+        target.addVuff('zhongdu', player, trigger.num)
+    },
     group: "vl_skery_ds_1",
     subSkill: {
         "1": {
@@ -21,12 +21,12 @@ export default {
                 player: "useCardToPlayered",
             },
             filter(event, player) {
-							return event.card.name == 'sha' && get.color(event.card) == 'black';
-						},
+                return event.card.name == 'sha' && get.color(event.card) == 'black';
+            },
             logTarget: "target",
             async content(event, trigger, player) {
-							trigger.getParent().directHit.add(trigger.target);
-						},
+                trigger.getParent().directHit.add(trigger.target);
+            },
             sub: true,
         },
     },

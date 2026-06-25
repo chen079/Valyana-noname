@@ -2,8 +2,8 @@ import { lib, game, ui, get, ai, _status } from '../../../../noname.js';
 
 export default {
     init(player) {
-					if (!player.storage.vl_dolina_qj) player.storage.vl_dolina_qj = false
-				},
+        if (!player.storage.vl_dolina_qj) player.storage.vl_dolina_qj = false
+    },
     forced: true,
     unique: true,
     juexingji: true,

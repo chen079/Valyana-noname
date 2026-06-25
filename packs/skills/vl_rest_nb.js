@@ -4,8 +4,8 @@ export default {
     enable: "phaseUse",
     unique: true,
     filter(event, player) {
-					return player.storage.vl_rest_qf && player.storage.vl_rest_qf.length >= 2;
-				},
+        return player.storage.vl_rest_qf && player.storage.vl_rest_qf.length >= 2;
+    },
     prompt: "移去两张“孽”并视为使用任意基本牌或普通锦囊牌使用",
     async content(event, trigger, player) {
         const result = await player.chooseCardButton(2, '移去两张“孽”并当视为使用任意基本牌或普通锦囊牌使用', player.storage.vl_rest_qf, true).forResult();
@@ -69,9 +69,9 @@ export default {
         order: 1,
         result: {
             player(player) {
-							if (_status.event.dying) return get.attitude(player, _status.event.dying);
-							return 1;
-						},
+                if (_status.event.dying) return get.attitude(player, _status.event.dying);
+                return 1;
+            },
         },
     },
     t: {

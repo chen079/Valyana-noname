@@ -4,41 +4,41 @@ export default {
     enable: "phaseUse",
     usable: 1,
     init(player) {
-					player.storage.vl_shark_yz = []
-				},
+        player.storage.vl_shark_yz = []
+    },
     unique: true,
     initList(player) {
-					var list;
-					if (_status.characterlist) {
-						list = [];
-						for (var i = 0; i < _status.characterlist.length; i++) {
-							var name = _status.characterlist[i];
-							if (lib.character[name][1] == 'wei', 'shu', 'qun', 'wu', 'shen', 'jin') list.push(name);
-						}
-					}
-					else if (_status.connectMode) {
-						list = get.charactersOL(function (i) {
-							return lib.character[i][1] != 'wei', 'shu', 'qun', 'wu', 'shen', 'jin';
-						});
-					}
-					else {
-						list = get.gainableCharacters(function (info) {
-							return info[1] == 'wei', 'shu', 'qun', 'wu', 'shen', 'jin';
-						});
-					}
-					var players = game.players.concat(game.dead);
-					for (var i = 0; i < players.length; i++) {
-						list.remove(players[i].name);
-						list.remove(players[i].name1);
-						list.remove(players[i].name2);
-					}
-					var banlist = ['vl_shark', 'vl_wore', 'vl_yifa']
-					list.remove(banlist);
-					player.storage.shark_lib = list
-				},
+        var list;
+        if (_status.characterlist) {
+            list = [];
+            for (var i = 0; i < _status.characterlist.length; i++) {
+                var name = _status.characterlist[i];
+                if (lib.character[name][1] == 'wei', 'shu', 'qun', 'wu', 'shen', 'jin') list.push(name);
+            }
+        }
+        else if (_status.connectMode) {
+            list = get.charactersOL(function (i) {
+                return lib.character[i][1] != 'wei', 'shu', 'qun', 'wu', 'shen', 'jin';
+            });
+        }
+        else {
+            list = get.gainableCharacters(function (info) {
+                return info[1] == 'wei', 'shu', 'qun', 'wu', 'shen', 'jin';
+            });
+        }
+        var players = game.players.concat(game.dead);
+        for (var i = 0; i < players.length; i++) {
+            list.remove(players[i].name);
+            list.remove(players[i].name1);
+            list.remove(players[i].name2);
+        }
+        var banlist = ['vl_shark', 'vl_wore', 'vl_yifa']
+        list.remove(banlist);
+        player.storage.shark_lib = list
+    },
     filter(event, player) {
-					return player.storage.vl_shark_yz.length
-				},
+        return player.storage.vl_shark_yz.length
+    },
     direct: true,
     async content(event, trigger, player) {
         const result = await player.chooseControl(player.storage.vl_shark_yz, 'cancel2').set('prompt', '选择并重铸一个技能').set('prompt2', '你选择一个本技能获得的技能移除之，然后选择四名武将牌上至多一个技能获得之。').forResult();
@@ -93,9 +93,9 @@ export default {
                 player: ["enterGame"],
             },
             forced: true,
-            filter(event,player) {
-							return event.name != "phase" || game.phaseNumber == 0;
-						},
+            filter(event, player) {
+                return event.name != "phase" || game.phaseNumber == 0;
+            },
             async content(event, trigger, player) {
                 if (!player.storage.shark_lib) lib.skill.vl_shark_yz.initList(player);
                 var list = player.storage.shark_lib.randomGets(4)

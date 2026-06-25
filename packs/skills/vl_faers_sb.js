@@ -4,18 +4,18 @@ export default {
     enable: "phaseUse",
     usable: 1,
     check(card) {
-					var player = _status.event.player;
-					if (get.position(card) == 'h' && !player.countCards('h', 'du') && (player.hp > 2 || !player.countCards('h', function (card) {
-						return get.value(card) >= 8;
-					}))) {
-						return 1;
-					}
-					return 6 - get.value(card)
-				},
+        var player = _status.event.player;
+        if (get.position(card) == 'h' && !player.countCards('h', 'du') && (player.hp > 2 || !player.countCards('h', function (card) {
+            return get.value(card) >= 8;
+        }))) {
+            return 1;
+        }
+        return 6 - get.value(card)
+    },
     async content(event, trigger, player) {
-					var card = player.getCards('h')
-					player.discard(card)
-				},
+        var card = player.getCards('h')
+        player.discard(card)
+    },
     ai: {
         order: 1,
         result: {

@@ -6,8 +6,8 @@ export default {
     },
     frequent: true,
     filter(eveny, player) {
-					return player.getExpansions('vl_knier_wh').length > 0
-				},
+        return player.getExpansions('vl_knier_wh').length > 0
+    },
     async content(event, trigger, player) {
         const result = await player.chooseCardButton('选择一张牌', 1, player.getExpansions('vl_knier_wh')).set('prompt2', "是否将一张“雾花”当作【出其不意】使用").set("ai", function (button) {
             return 9 - get.value(button.link);

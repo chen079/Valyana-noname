@@ -7,32 +7,32 @@ export default {
     },
     direct: true,
     async content(event, trigger, player) {
-					let num = Math.ceil(game.players.length / 2);
-					while (num > 0) {
-						const targetResult = await player.chooseTarget(get.prompt2(event.name), 1, function (card, player, target) {
-        						return target.countCards('hej') > 0
-        					}, function (target) {
-        						var player = _status.event.player;
-        						return get.effect(target, { name: 'guohe_copy2' }, player, player);
-        					}).forResult();
-						if (!targetResult.bool) return;
-						const target = targetResult.targets[0];
-						const cardResult = await player.choosePlayerCard('hej', [1, num], target, true)
-							.set('prompt', '选择' + get.translation(target) + '的至多' + get.cnNumber(num) + '张牌')
-							.forResult();
-						if (!cardResult.bool) return;
-						num -= cardResult.cards.length;
-						await player.addToExpansion(cardResult.cards, target, 'give').gaintag.add('vl_lamas_zj');
-					}
+        let num = Math.ceil(game.players.length / 2);
+        while (num > 0) {
+            const targetResult = await player.chooseTarget(get.prompt2(event.name), 1, function (card, player, target) {
+                return target.countCards('hej') > 0
+            }, function (target) {
+                var player = _status.event.player;
+                return get.effect(target, { name: 'guohe_copy2' }, player, player);
+            }).forResult();
+            if (!targetResult.bool) return;
+            const target = targetResult.targets[0];
+            const cardResult = await player.choosePlayerCard('hej', [1, num], target, true)
+                .set('prompt', '选择' + get.translation(target) + '的至多' + get.cnNumber(num) + '张牌')
+                .forResult();
+            if (!cardResult.bool) return;
+            num -= cardResult.cards.length;
+            await player.addToExpansion(cardResult.cards, target, 'give').gaintag.add('vl_lamas_zj');
+        }
     },
     intro: {
         content: "expansion",
         markcount: "expansion",
     },
     onremove(player) {
-					var cards = player.getExpansions('vl_lamas_zj');
-					if (cards.length) player.loseToDiscardpile(cards);
-				},
+        var cards = player.getExpansions('vl_lamas_zj');
+        if (cards.length) player.loseToDiscardpile(cards);
+    },
     ai: {
         threaten: 2,
     },
@@ -40,32 +40,32 @@ export default {
         "1": {
             enable: "chooseToUse",
             filter(event, player) {
-							return player.getExpansions('vl_lamas_zj').length > 0 && event.filterCard({ name: 'sha', isCard: true }, player, event);
-						},
+                return player.getExpansions('vl_lamas_zj').length > 0 && event.filterCard({ name: 'sha', isCard: true }, player, event);
+            },
             direct: true,
             chooseButton: {
                 dialog(event, player) {
-								return ui.create.dialog('战尽', player.getExpansions('vl_lamas_zj'), 'hidden');
-							},
+                    return ui.create.dialog('战尽', player.getExpansions('vl_lamas_zj'), 'hidden');
+                },
                 backup(links, player) {
-								return {
-									viewAs: { name: 'sha', isCard: true },
-									filterCard: () => false,
-									selectCard: -1,
-									card: links[0],
-									async precontent(event, trigger, player) {
-										player.logSkill('vl_lamas_zj');
-										await player.loseToDiscardpile(lib.skill.vl_lamas_zj_1_backup.card);
-										delete event.result.skill;
-									},
-								};
-							},
+                    return {
+                        viewAs: { name: 'sha', isCard: true },
+                        filterCard: () => false,
+                        selectCard: -1,
+                        card: links[0],
+                        async precontent(event, trigger, player) {
+                            player.logSkill('vl_lamas_zj');
+                            await player.loseToDiscardpile(lib.skill.vl_lamas_zj_1_backup.card);
+                            delete event.result.skill;
+                        },
+                    };
+                },
                 prompt: () => '请选择【杀】的目标',
             },
             ai: {
                 order() {
-								return get.order({ name: 'sha' }) + 0.6;
-							},
+                    return get.order({ name: 'sha' }) + 0.6;
+                },
                 result: {
                     player: 1,
                 },
@@ -77,9 +77,9 @@ export default {
             },
             direct: true,
             async content(event, trigger, player) {
-							var cards = player.getExpansions('vl_lamas_zj');
-							if (cards.length) player.gain(cards, 'gain2');
-						},
+                var cards = player.getExpansions('vl_lamas_zj');
+                if (cards.length) player.gain(cards, 'gain2');
+            },
         },
     },
     t: {

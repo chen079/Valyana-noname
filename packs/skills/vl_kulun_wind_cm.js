@@ -8,8 +8,8 @@ export default {
     },
     frequent: true,
     filter(event, player) {
-					return (get.type(event.card, 'trick') == 'trick' && event.card.isCard) && ((player.name1 == 'vl_kulun_dirt') || (player.name2 == 'vl_kulun_dirt'));;
-				},
+        return (get.type(event.card, 'trick') == 'trick' && event.card.isCard) && ((player.name1 == 'vl_kulun_dirt') || (player.name2 == 'vl_kulun_dirt'));;
+    },
     async content(event, trigger, player) {
         await player.draw();
     },

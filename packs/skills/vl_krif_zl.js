@@ -6,16 +6,16 @@ export default {
     },
     round: 1,
     filter(event, player) {
-					return event.player != player;
-				},
+        return event.player != player;
+    },
     content: async function content(event, trigger, player) {
-					await player.draw()
-					player.logSkill('vl_krif_zl'),
-						game.broadcastAll(function (target1, target2) {
-							game.swapSeat(target1, target2);
-						}, player, trigger.player);
-					player.insertPhase();
-				},
+        await player.draw()
+        player.logSkill('vl_krif_zl'),
+            game.broadcastAll(function (target1, target2) {
+                game.swapSeat(target1, target2);
+            }, player, trigger.player);
+        player.insertPhase();
+    },
     group: ["vl_krif_zl_roundcount"],
     t: {
         name: "追猎",

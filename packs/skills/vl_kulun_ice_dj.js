@@ -7,18 +7,18 @@ export default {
     forced: true,
     linkage: "water",
     filter(event, player) {
-					return ((player.name1 == 'vl_kulun_water') || (player.name2 == 'vl_kulun_water'));
-				},
+        return ((player.name1 == 'vl_kulun_water') || (player.name2 == 'vl_kulun_water'));
+    },
     async content(event, trigger, player) {
-					trigger.directHit.addArray(game.filterPlayer(current => {
-						return current.getHistory('lose').length > 0
-					}));
-				},
+        trigger.directHit.addArray(game.filterPlayer(current => {
+            return current.getHistory('lose').length > 0
+        }));
+    },
     ai: {
         directHit_ai: true,
         skillTagFilter(player, tag, arg) {
-						return player.getHistory('lose').length > 0 && player.group == arg.target.group;
-					},
+            return player.getHistory('lose').length > 0 && player.group == arg.target.group;
+        },
     },
     t: {
         name: "冻结",

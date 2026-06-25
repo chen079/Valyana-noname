@@ -3,19 +3,19 @@ import { lib, game, ui, get, ai, _status } from '../../../../noname.js';
 export default {
     forced: true,
     filter(event, player) {
-					return (player.isLinked() ? '' : 'n')
-				},
+        return (player.isLinked() ? '' : 'n')
+    },
     trigger: {
         source: "damageBefore",
     },
     async content(event, trigger, player) {
-					trigger.player.link(true)
-				},
+        trigger.player.link(true)
+    },
     ai: {
         effect: {
             target(card) {
-							if (card.name == 'tiesuo') return 'zeroplayertarget';
-						},
+                if (card.name == 'tiesuo') return 'zeroplayertarget';
+            },
         },
     },
     subSkill: {
@@ -25,11 +25,11 @@ export default {
             },
             forced: true,
             filter(event, player) {
-							return !player.isLinked();
-						},
+                return !player.isLinked();
+            },
             async content(event, trigger, player) {
-							trigger.cancel();
-						},
+                trigger.cancel();
+            },
             sub: true,
         },
     },

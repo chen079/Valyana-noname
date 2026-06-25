@@ -26,8 +26,8 @@ export default {
             },
             direct: true,
             filter(event, player) {
-							return player.storage.vl_guotang_yl.length
-						},
+                return player.storage.vl_guotang_yl.length
+            },
             content: async function content(event, trigger, player) {
                 const result = await player.chooseTarget('令一名角色摸三张牌，并执行一个额外的回合', 1).set('ai', function (target) {
                     let source = _status.event.player;
@@ -40,7 +40,7 @@ export default {
                     await target.draw(3);
                     target.insertPhase();
                 }
-						},
+            },
         },
     },
     ai: {
@@ -48,9 +48,9 @@ export default {
         order: 1,
         result: {
             player(player, target) {
-							if (player.storage.vl_guotang_yl.length < 3) return 0
-							return 1
-						},
+                if (player.storage.vl_guotang_yl.length < 3) return 0
+                return 1
+            },
             target: 1,
         },
     },

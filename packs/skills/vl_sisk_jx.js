@@ -10,29 +10,29 @@ export default {
     filterTarget: (card, player, target) => target != player,
     enable: "phaseUse",
     init(player) {
-					player.storage.vl_sisk_jx = false;
-				},
+        player.storage.vl_sisk_jx = false;
+    },
     async content(event, trigger, player) {
         const target = event.target;
         player.awakenSkill("vl_sisk_jx")
         const num = player.maxHp - player.hp - 1
         await player.loseMaxHp(num)
         await player.recover(num)
-        					await player.draw(num)
+        await player.draw(num)
         await target.damage(num, player)
     },
     ai: {
         order: 2,
         result: {
             target: (target, player) => {
-							const num = Math.min(Math.max(0, player.getDamagedHp() - 1), 0)
-							return -2 * num - 0.1
-						},
+                const num = Math.min(Math.max(0, player.getDamagedHp() - 1), 0)
+                return -2 * num - 0.1
+            },
             player(target, player) {
-							const num = player.maxHp - player.hp - 1
-							if (num > 2) return 2 * num
-							else return 0
-						},
+                const num = player.maxHp - player.hp - 1
+                if (num > 2) return 2 * num
+                else return 0
+            },
         },
     },
     t: {

@@ -5,18 +5,18 @@ export default {
         player: "phaseUseBegin",
     },
     initList() {
-					var list = lib.inpile.filter(i => get.type(i) == 'equip')
-					list.addArray(['cixiong', 'fangtian', 'guanshi', 'hanbing', 'qilin', 'qinggang', 'qinglong', 'zhangba', 'zhuge', 'rewrite_zhuge',
-						"rewrite_bagua", "rewrite_baiyin", "rewrite_lanyinjia", "rewrite_renwang", "tengjia", 'guding', 'zhuque', "bagua", "baiyin", "lanyinjia", "renwang", "tengjia",
-						'dilu', 'jueying', 'zhuahuang', 'chitu', 'dawan', 'zixin', 'hualiu', 'muniu', 'bintieshuangji', 'wuxinghelingshan', 'wutiesuolian', 'wushuangfangtianji', 'chixueqingfeng',
-						'huxinjing', 'guilongzhanyuedao', 'heiguangkai', 'linglongshimandai', 'hongmianbaihuapao', 'qimenbagua', 'guofengyupao', 'zhaogujing', 'sanlve', 'tianjitu',
-						'taigongyinfu', 'shufazijinguan', 'xuwangzhimian'])
-					return list.unique()
-				},
+        var list = lib.inpile.filter(i => get.type(i) == 'equip')
+        list.addArray(['cixiong', 'fangtian', 'guanshi', 'hanbing', 'qilin', 'qinggang', 'qinglong', 'zhangba', 'zhuge', 'rewrite_zhuge',
+            "rewrite_bagua", "rewrite_baiyin", "rewrite_lanyinjia", "rewrite_renwang", "tengjia", 'guding', 'zhuque', "bagua", "baiyin", "lanyinjia", "renwang", "tengjia",
+            'dilu', 'jueying', 'zhuahuang', 'chitu', 'dawan', 'zixin', 'hualiu', 'muniu', 'bintieshuangji', 'wuxinghelingshan', 'wutiesuolian', 'wushuangfangtianji', 'chixueqingfeng',
+            'huxinjing', 'guilongzhanyuedao', 'heiguangkai', 'linglongshimandai', 'hongmianbaihuapao', 'qimenbagua', 'guofengyupao', 'zhaogujing', 'sanlve', 'tianjitu',
+            'taigongyinfu', 'shufazijinguan', 'xuwangzhimian'])
+        return list.unique()
+    },
     init: (player) => {
-					if (!player.storage.vl_tails_qx) player.storage.vl_tails_qx = lib.skill['vl_tails_qx'].initList()
+        if (!player.storage.vl_tails_qx) player.storage.vl_tails_qx = lib.skill['vl_tails_qx'].initList()
 
-				},
+    },
     direct: true,
     async content(event, trigger, player) {
         var list = [
@@ -165,29 +165,29 @@ export default {
             popup: false,
             onremove: true,
             init: (player) => {
-							if (!player.storage.vl_tails_qx_destroy) player.storage.vl_tails_qx_destroy = []
-						},
+                if (!player.storage.vl_tails_qx_destroy) player.storage.vl_tails_qx_destroy = []
+            },
             filter(event, player) {
-							if (event.name == 'lose' && event.position != ui.discardPile) return false;
-							var storage = player.storage.vl_tails_qx_destroy;
-							if (!storage) return false;
-							for (var i of event.cards) {
-								if (storage.includes(i)) return true;
-							}
-							return false;
-						},
+                if (event.name == 'lose' && event.position != ui.discardPile) return false;
+                var storage = player.storage.vl_tails_qx_destroy;
+                if (!storage) return false;
+                for (var i of event.cards) {
+                    if (storage.includes(i)) return true;
+                }
+                return false;
+            },
             async content(event, trigger, player) {
-							var cards = [];
-							var storage = player.storage.vl_tails_qx_destroy;
-							for (var i of trigger.cards) {
-								if (storage.includes(i)) {
-									storage.remove(i);
-									cards.push(i);
-								}
-							}
-							game.cardsGotoSpecial(cards);
-							game.log(cards, '被移出了游戏');
-						},
+                var cards = [];
+                var storage = player.storage.vl_tails_qx_destroy;
+                for (var i of trigger.cards) {
+                    if (storage.includes(i)) {
+                        storage.remove(i);
+                        cards.push(i);
+                    }
+                }
+                game.cardsGotoSpecial(cards);
+                game.log(cards, '被移出了游戏');
+            },
             sub: true,
             _priority: 0,
         },
@@ -195,11 +195,11 @@ export default {
     ai: {
         viewHandcard: true,
         skillTagFilter(player, tag, arg) {
-						if (player == arg) return false;
-						if (arg.countCards('e', function (card) {
-							return get.number(card) == 8
-						}) <= 0) return false
-					},
+            if (player == arg) return false;
+            if (arg.countCards('e', function (card) {
+                return get.number(card) == 8
+            }) <= 0) return false
+        },
     },
     t: {
         name: "巧械",

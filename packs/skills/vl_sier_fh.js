@@ -12,33 +12,33 @@ export default {
     animationColor: "metal",
     async content(event, trigger, player) {
         player.awakenSkill('vl_sier_fh');
-        					player.removeSkill('vl_sier_xl')
-        					player.addSkill('vl_sier_xlg')
-        					await player.gainMaxHp()
-        					await player.recover(3)
+        player.removeSkill('vl_sier_xl')
+        player.addSkill('vl_sier_xlg')
+        await player.gainMaxHp()
+        await player.recover(3)
         {
-        					const card = get.cardPile(function (card) {
-        						return get.suit(card) == 'heart';
-        					})
-        					if (card) await player.gain(card);
+            const card = get.cardPile(function (card) {
+                return get.suit(card) == 'heart';
+            })
+            if (card) await player.gain(card);
         }
         {
-        					const card = get.cardPile(function (card) {
-        						return get.suit(card) == 'club';
-        					})
-        					if (card) await player.gain(card);
+            const card = get.cardPile(function (card) {
+                return get.suit(card) == 'club';
+            })
+            if (card) await player.gain(card);
         }
         {
-        					const card = get.cardPile(function (card) {
-        						return get.suit(card) == 'spade';
-        					})
-        					if (card) await player.gain(card);
+            const card = get.cardPile(function (card) {
+                return get.suit(card) == 'spade';
+            })
+            if (card) await player.gain(card);
         }
         {
-        					const card = get.cardPile(function (card) {
-        						return get.suit(card) == 'diamond';
-        					})
-        					if (card) await player.gain(card);
+            const card = get.cardPile(function (card) {
+                return get.suit(card) == 'diamond';
+            })
+            if (card) await player.gain(card);
         }
     },
     derivation: "vl_sier_xlg",

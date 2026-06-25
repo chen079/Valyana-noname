@@ -6,14 +6,14 @@ export default {
     },
     forced: true,
     filter: (event, player) => {
-					var history = player.getHistory('damage');
-					if (history.indexOf(event) != 0) return false;
-					return true
-				},
+        var history = player.getHistory('damage');
+        if (history.indexOf(event) != 0) return false;
+        return true
+    },
     async content(event, trigger, player) {
-					player.addTempVuff('bihu')
-					player.addTempVuff('huisheng')
-				},
+        player.addTempVuff('bihu')
+        player.addTempVuff('huisheng')
+    },
     t: {
         name: "灵影",
         info: "当你于一回合内首次受到伤害后，你获得1层「回生」和「庇护」直到回合结束。",

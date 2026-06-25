@@ -7,30 +7,30 @@ export default {
     forced: true,
     direct: true,
     filter(event, player) {
-					return event.player.hujia > 0
-				},
+        return event.player.hujia > 0
+    },
     content: async function content(event, trigger, player) {
-					await trigger.player.changeHujia(-trigger.player.hujia);
-					await trigger.player.draw(trigger.player.hujia);
-				},
+        await trigger.player.changeHujia(-trigger.player.hujia);
+        await trigger.player.draw(trigger.player.hujia);
+    },
     group: ["vl_yinhu_sp_1", "vl_yinhu_sp_2"],
     subSkill: {
         "1": {
             mod: {
                 targetEnabled(card, player, target) {
-								if (get.type(card) == 'delay') {
-									return false;
-								}
-							},
+                    if (get.type(card) == 'delay') {
+                        return false;
+                    }
+                },
             },
             trigger: {
                 player: ["phaseZhunbeiBefore", "phaseJieshuBefore"],
             },
             forced: true,
             async content(event, trigger, player) {
-							trigger.cancel();
-							game.log(player, '跳过了', event.triggername == 'phaseZhunbeiBefore' ? '准备阶段' : '结束阶段');
-						},
+                trigger.cancel();
+                game.log(player, '跳过了', event.triggername == 'phaseZhunbeiBefore' ? '准备阶段' : '结束阶段');
+            },
             sub: true,
         },
         "2": {
@@ -40,9 +40,9 @@ export default {
             },
             forced: true,
             async content(event, trigger, player) {
-							trigger.cancel();
-							game.log(player, '跳过了判定阶段');
-						},
+                trigger.cancel();
+                game.log(player, '跳过了判定阶段');
+            },
             sub: true,
         },
     },

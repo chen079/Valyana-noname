@@ -8,13 +8,13 @@ export default {
     frequent: true,
     firstDo: true,
     async content(event, trigger, player) {
-for (let count = trigger.num; count > 0; count--) {
-        					const result = await player.judge().forResult();
-        					switch (result.color) {
-        						case 'red': await player.recover(); break;
-        						case 'black': await player.draw(2); break;
-        					}
-        				}
+        for (let count = trigger.num; count > 0; count--) {
+            const result = await player.judge().forResult();
+            switch (result.color) {
+                case 'red': await player.recover(); break;
+                case 'black': await player.draw(2); break;
+            }
+        }
     },
     ai: {
         maixie: true,

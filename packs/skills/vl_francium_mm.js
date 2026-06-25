@@ -8,39 +8,39 @@ export default {
     limited: true,
     animationColor: "orange",
     init(player) {
-					player.storage.vl_francium_mm = false;
-				},
+        player.storage.vl_francium_mm = false;
+    },
     filter(event, player) {
-					if (player.storage.vl_francium_mm) return false;
-					if (event.type == 'dying') {
-						if (player != event.dying) return false;
-						return true;
-					}
-					return false;
-				},
+        if (player.storage.vl_francium_mm) return false;
+        if (event.type == 'dying') {
+            if (player != event.dying) return false;
+            return true;
+        }
+        return false;
+    },
     async content(event, trigger, player) {
-player.awakenSkill('vl_francium_mm');
-if (player.hp < 2) {
-        						await player.recover(2 - player.hp);
-        					}
-        					player.removeSkill('vl_francium_ch')
+        player.awakenSkill('vl_francium_mm');
+        if (player.hp < 2) {
+            await player.recover(2 - player.hp);
+        }
+        player.removeSkill('vl_francium_ch')
     },
     ai: {
         order: 1,
         skillTagFilter(player, arg, target) {
-						if (player != target || player.storage.vl_francium_mm) return false;
-					},
+            if (player != target || player.storage.vl_francium_mm) return false;
+        },
         save: true,
         result: {
             player(player) {
-							if (player.hp <= 0) return 10;
-							if (player.hp <= 2 && player.countCards('he') <= 1) return 10;
-							return 0;
-						},
+                if (player.hp <= 0) return 10;
+                if (player.hp <= 2 && player.countCards('he') <= 1) return 10;
+                return 0;
+            },
         },
         threaten(player, target) {
-						if (!target.storage.vl_francium_mm) return 0.6;
-					},
+            if (!target.storage.vl_francium_mm) return 0.6;
+        },
     },
     intro: {
         content: "limited",

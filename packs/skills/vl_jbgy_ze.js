@@ -5,41 +5,41 @@ export default {
         global: "phaseEnd",
     },
     filter(event, player) {
-					return player.countMark('vl_jbgy_ze') >= player.hp
-				},
+        return player.countMark('vl_jbgy_ze') >= player.hp
+    },
     direct: true,
     mark: true,
     init(player, storage) {
-					player.storage.vl_jbgy_ze = 0
-				},
+        player.storage.vl_jbgy_ze = 0
+    },
     intro: {
         content: "本回合已造成$点伤害",
     },
     async content(event, trigger, player) {
-await player.recover()
-        					if (game.hasPlayer(function (current) {
-        						return current.countGainableCards(player, 'ej') > 0;
-        					})) {
-        						var result = await player.chooseTarget('请选择一名角色，获得其装备区或判定区内的一张牌', true, function (card, player, target) {
-        							return target.countGainableCards(player, 'ej') > 0;
-        						}).set('ai', function (target) {
-        							var player = _status.event.player;
-        							var att = get.attitude(player, target);
-        							if (att > 0 && target.countCards('ej', function (card) {
-        								return get.position(card) == 'j' || get.value(card, target) <= 0;
-        							})) return 2 * att;
-        							else if (att < 0 && target.countCards('e', function (card) {
-        								return get.value(card, target) > 5;
-        							})) return -att;
-        							return -1;
-        						}).forResult();
-        					}
-        					else return;
-if (result.bool) {
-        						var target = result.targets[0];
-        						player.logSkill('vl_jbgy_ze', target);
-        						await player.gainPlayerCard(target, 'ej', true);
-        					}
+        await player.recover()
+        if (game.hasPlayer(function (current) {
+            return current.countGainableCards(player, 'ej') > 0;
+        })) {
+            var result = await player.chooseTarget('请选择一名角色，获得其装备区或判定区内的一张牌', true, function (card, player, target) {
+                return target.countGainableCards(player, 'ej') > 0;
+            }).set('ai', function (target) {
+                var player = _status.event.player;
+                var att = get.attitude(player, target);
+                if (att > 0 && target.countCards('ej', function (card) {
+                    return get.position(card) == 'j' || get.value(card, target) <= 0;
+                })) return 2 * att;
+                else if (att < 0 && target.countCards('e', function (card) {
+                    return get.value(card, target) > 5;
+                })) return -att;
+                return -1;
+            }).forResult();
+        }
+        else return;
+        if (result.bool) {
+            var target = result.targets[0];
+            player.logSkill('vl_jbgy_ze', target);
+            await player.gainPlayerCard(target, 'ej', true);
+        }
     },
     group: ["vl_jbgy_ze_damage", "vl_jbgy_ze_count", "vl_jbgy_ze_clean"],
     subSkill: {
@@ -48,12 +48,12 @@ if (result.bool) {
                 player: "damageBefore",
             },
             filter(event, player) {
-							return event.source && event.source != player
-						},
+                return event.source && event.source != player
+            },
             forced: true,
             async content(event, trigger, player) {
-							trigger.source = player
-						},
+                trigger.source = player
+            },
             sub: true,
         },
         count: {
@@ -62,8 +62,8 @@ if (result.bool) {
             },
             forced: true,
             async content(event, trigger, player) {
-							player.addMark('vl_jbgy_ze')
-						},
+                player.addMark('vl_jbgy_ze')
+            },
             sub: true,
         },
         clean: {
@@ -74,9 +74,9 @@ if (result.bool) {
             popup: false,
             forced: true,
             async content(event, trigger, player) {
-							var num = player.countMark('vl_jbgy_ze')
-							player.removeMark('vl_jbgy_ze', num)
-						},
+                var num = player.countMark('vl_jbgy_ze')
+                player.removeMark('vl_jbgy_ze', num)
+            },
             sub: true,
         },
     },

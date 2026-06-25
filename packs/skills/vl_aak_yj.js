@@ -25,20 +25,20 @@ export default {
         order: 7,
         result: {
             target(player, target) {
-							if (target.hp == 1) {
-								return -1
-							} else {
-								return 0.5
-							}
-						},
+                if (target.hp == 1) {
+                    return -1
+                } else {
+                    return 0.5
+                }
+            },
             player: 1,
         },
     },
     subSkill: {
         "1": {
             onremove(player) {
-							player.storage.vl_aak_yj_1 = 0
-						},
+                player.storage.vl_aak_yj_1 = 0
+            },
             mark: true,
             forced: true,
             unique: true,
@@ -47,8 +47,8 @@ export default {
             },
             mod: {
                 cardUsable(card, player, num) {
-								if (card.name == 'sha') return num + player.storage.vl_aak_yj_1;
-							},
+                    if (card.name == 'sha') return num + player.storage.vl_aak_yj_1;
+                },
             },
             sub: true,
         },

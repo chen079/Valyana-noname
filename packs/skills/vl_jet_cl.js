@@ -3,26 +3,26 @@ import { lib, game, ui, get, ai, _status } from '../../../../noname.js';
 export default {
     mod: {
         targetEnabled(card) {
-						if ((get.type2(card) == 'trick' && get.color(card) == 'black') || get.type(card) == 'delay') return false;
-					},
+            if ((get.type2(card) == 'trick' && get.color(card) == 'black') || get.type(card) == 'delay') return false;
+        },
     },
     trigger: {
         player: "damageBegin3",
     },
     forced: true,
     filter(event, player) {
-					return player == _status.currentPhase;
-				},
+        return player == _status.currentPhase;
+    },
     async content(event, trigger, player) {
-					trigger.cancel();
-					var num = trigger.num;
-					player.draw(2 * num);
-				},
+        trigger.cancel();
+        var num = trigger.num;
+        player.draw(2 * num);
+    },
     ai: {
         effect: {
             target(card, player, target) {
-							if (target == _status.currentPhase && get.tag(card, 'damage')) return [0, 1];
-						},
+                if (target == _status.currentPhase && get.tag(card, 'damage')) return [0, 1];
+            },
         },
     },
     t: {

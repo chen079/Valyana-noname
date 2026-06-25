@@ -7,13 +7,13 @@ export default {
     },
     forced: true,
     filter(event, player) {
-					if (!event.player.storage.vl_akain_fy_nature) return false
-					if (!event.nature) return false
-					return event.player.storage.vl_akain_fy_nature != event.nature
-				},
+        if (!event.player.storage.vl_akain_fy_nature) return false
+        if (!event.nature) return false
+        return event.player.storage.vl_akain_fy_nature != event.nature
+    },
     async content(event, trigger, player) {
-					trigger.num++
-				},
+        trigger.num++
+    },
     subSkill: {
         nature: {
             trigger: {
@@ -23,16 +23,16 @@ export default {
             charlotte: true,
             forced: true,
             filter(event, player) {
-							return event.nature
-						},
+                return event.nature
+            },
             mark: true,
             intro: {
                 content: "上次受到的属性伤害为$属性",
             },
             async content(event, trigger, player) {
-							player.markSkill('vl_akain_fy_nature')
-							player.storage.vl_akain_fy_nature = trigger.nature
-						},
+                player.markSkill('vl_akain_fy_nature')
+                player.storage.vl_akain_fy_nature = trigger.nature
+            },
         },
     },
     t: {

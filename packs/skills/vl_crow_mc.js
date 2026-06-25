@@ -6,11 +6,11 @@ export default {
         global: "useCard",
     },
     filter(event, player) {
-					return get.zhinangs().includes(event.card.name) || player.getStorage('vl_crow_my').includes(event.card.name)
-				},
+        return get.zhinangs().includes(event.card.name) || player.getStorage('vl_crow_my').includes(event.card.name)
+    },
     async content(event, trigger, player) {
-					player.draw();
-				},
+        player.draw();
+    },
     ai: {
         threaten: 1.4,
         noautowuxie: true,

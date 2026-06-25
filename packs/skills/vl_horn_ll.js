@@ -5,23 +5,23 @@ export default {
     usable: 1,
     enable: "phaseUse",
     filterTarget(card, player, target) {
-					return target != player
-				},
+        return target != player
+    },
     check(player, target) {
-					return get.attitude(player, target) < 0
-				},
+        return get.attitude(player, target) < 0
+    },
     async content(event, trigger, player) {
-await target.loseHp()
-        					await player.recover()
-if (player.hasSkill('_qianghua_effect')) {
-        						if (player.isHealthy()) {
-        							await player.draw(2)
-        						} else {
-        							await target.turnOver()
-        							await target.draw(target.getDamagedHp())
-        						}
-        					}
-        					player.removeSkill('_qianghua_effect');
+        await target.loseHp()
+        await player.recover()
+        if (player.hasSkill('_qianghua_effect')) {
+            if (player.isHealthy()) {
+                await player.draw(2)
+            } else {
+                await target.turnOver()
+                await target.draw(target.getDamagedHp())
+            }
+        }
+        player.removeSkill('_qianghua_effect');
     },
     ai: {
         order: 4,

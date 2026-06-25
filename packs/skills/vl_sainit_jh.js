@@ -9,9 +9,9 @@ export default {
     intro: {
         content: "你选择的目标为:$",
     },
-    filter(event,player) {
-					return game.hasPlayer(c=>c!=player);
-				},
+    filter(event, player) {
+        return game.hasPlayer(c => c != player);
+    },
     async content(event, trigger, player) {
         const result = await player.chooseTarget(get.prompt2('vl_sainit_jh'), function (card, player, target) {
             return target != player
@@ -40,16 +40,16 @@ export default {
                 global: ["loseAsyncAfter"],
             },
             init(player) {
-							if (!player.storage.vl_sainit_jh_count) player.storage.vl_sainit_jh_count = 0;
-						},
+                if (!player.storage.vl_sainit_jh_count) player.storage.vl_sainit_jh_count = 0;
+            },
             filter(event, player) {
-							if(!event.getg?.(player)?.length) return;
-							return player.countCards('h') && player.countCards('h') > player.maxHp && !player.storage.vl_sainit_yq
-						},
+                if (!event.getg?.(player)?.length) return;
+                return player.countCards('h') && player.countCards('h') > player.maxHp && !player.storage.vl_sainit_yq
+            },
             direct: true,
             async content(event, trigger, player) {
-							await player.chooseToDiscard(player.countCards('h') - player.maxHp, true).forResult();		
-						},
+                await player.chooseToDiscard(player.countCards('h') - player.maxHp, true).forResult();
+            },
         },
         draw: {
             trigger: {
@@ -57,17 +57,17 @@ export default {
                 global: ["loseAsyncAfter", "equipAfter", "addJudgeAfter", "gainAfter", "addToExpansionAfter"],
             },
             filter(event, player) {
-							return event.getl(player)?.cards2?.length;
-						},
+                return event.getl(player)?.cards2?.length;
+            },
             onremove(player) {
-							player.storage.vl_sainit_jh = ''
-						},
+                player.storage.vl_sainit_jh = ''
+            },
             direct: true,
             charlotte: true,
             forced: true,
             async content(event, trigger, player) {
-							await player.storage.vl_sainit_jh.draw(trigger.cards.length);
-						},
+                await player.storage.vl_sainit_jh.draw(trigger.cards.length);
+            },
         },
     },
     t: {

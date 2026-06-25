@@ -4,15 +4,15 @@ export default {
     enable: "phaseUse",
     usable: 1,
     filterCard(card) {
-					return get.type(card) != 'basic';
-				},
+        return get.type(card) != 'basic';
+    },
     linkage: "nature",
     position: "hse",
     filter(event, player) {
-					return player.hasCard(function (card) {
-						return get.type(card) != 'basic';
-					}, 'hes') && ((player.name1 == 'vl_kulun_nature') || (player.name2 == 'vl_kulun_nature'));;
-				},
+        return player.hasCard(function (card) {
+            return get.type(card) != 'basic';
+        }, 'hes') && ((player.name1 == 'vl_kulun_nature') || (player.name2 == 'vl_kulun_nature'));;
+    },
     viewAs: {
         name: "shuiyanqijun",
     },
@@ -23,9 +23,9 @@ export default {
         order: 9,
         result: {
             target(player, target) {
-							if (target.countCards('e')) return -1;
-							return 0;
-						},
+                if (target.countCards('e')) return -1;
+                return 0;
+            },
         },
         tag: {
             multitarget: 1,

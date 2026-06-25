@@ -10,16 +10,16 @@ export default {
     limited: true,
     animationColor: "orange",
     init(player) {
-					player.storage.vl_luwu_yj = false;
-				},
+        player.storage.vl_luwu_yj = false;
+    },
     filter(event, player) {
-					return !player.storage.vl_luwu_yj && player.countCards('h') == 0
-				},
+        return !player.storage.vl_luwu_yj && player.countCards('h') == 0
+    },
     async content(event, trigger, player) {
-					player.awakenSkill('vl_luwu_yj');
-					player.storage.vl_luwu_yj = true;
-					trigger.player.damage(2, 'fire', player)
-				},
+        player.awakenSkill('vl_luwu_yj');
+        player.storage.vl_luwu_yj = true;
+        trigger.player.damage(2, 'fire', player)
+    },
     t: {
         name: "业烬",
         info: "限定技，一名角色回合结束时，若你没有手牌，你可以对其造成2点火焰伤害。",

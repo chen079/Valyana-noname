@@ -4,30 +4,30 @@ export default {
     enable: "phaseUse",
     usable: 1,
     filterTarget(card, player, target) {
-					return target != player
-				},
+        return target != player
+    },
     direct: true,
     async content(event, trigger, player) {
-						const target = event.target;
-						const result = await target.chooseToDiscard('天灭：弃置一张【闪】，否则' + get.translation(player) + '对你造成1点伤害。', function (card) {
-							return get.name(card) == 'shan';
-						}).set('ai', function (card) {
-							return 10 - get.value(card)
-						}).forResult();
-						if (!result.bool) {
-							await target.damage(player, 'fire')
-						}
+        const target = event.target;
+        const result = await target.chooseToDiscard('天灭：弃置一张【闪】，否则' + get.translation(player) + '对你造成1点伤害。', function (card) {
+            return get.name(card) == 'shan';
+        }).set('ai', function (card) {
+            return 10 - get.value(card)
+        }).forResult();
+        if (!result.bool) {
+            await target.damage(player, 'fire')
+        }
     },
     ai: {
         order: 7,
         fireAttack: true,
         result: {
             target(player, target) {
-							if (target.hasSkillTag('nofire')) return 0;
-							if (lib.config.mode == 'versus') return -1;
-							if (player.hasUnknown()) return 0;
-							return get.damageEffect(target, player) - target.countCards('e');
-						},
+                if (target.hasSkillTag('nofire')) return 0;
+                if (lib.config.mode == 'versus') return -1;
+                if (player.hasUnknown()) return 0;
+                return get.damageEffect(target, player) - target.countCards('e');
+            },
         },
     },
     t: {

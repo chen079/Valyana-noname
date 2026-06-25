@@ -4,49 +4,49 @@ export default {
     enable: "phaseUse",
     usable: 1,
     filter(event, player) {
-					return (player.getDamagedHp() + 1) > 0 && player.countCards('h') > 0;
-				},
+        return (player.getDamagedHp() + 1) > 0 && player.countCards('h') > 0;
+    },
     filterTarget(card, player, target) {
-					return player != target
-				},
+        return player != target
+    },
     selectTarget() {
-					return ui.selected.cards.length;
-				},
+        return ui.selected.cards.length;
+    },
     selectCard() {
-					const player = _status.currentPhase;
-					return [1, Math.min(game.players.length - 1, player.getDamagedHp() + 1)];
-				},
+        const player = _status.currentPhase;
+        return [1, Math.min(game.players.length - 1, player.getDamagedHp() + 1)];
+    },
     filterCard: true,
     position: "he",
     check(card) {
-					if (ui.selected.cards.length == 0) {
-						return 8 - get.value(card);
-					}
-					return 6 - get.value(card);
-				},
+        if (ui.selected.cards.length == 0) {
+            return 8 - get.value(card);
+        }
+        return 6 - get.value(card);
+    },
     async content(event, trigger, player) {
-await event.target.damage('frmad');
+        await event.target.damage('frmad');
     },
     ai: {
         order: 9,
         result: {
             target(player, target) {
-							return get.damageEffect(target, player, target);
-						},
+                return get.damageEffect(target, player, target);
+            },
         },
         threaten(player, target) {
-						if (target.hp == 1) return 2;
-						if (target.hp == 2) return 1.5;
-						return 0.5;
-					},
+            if (target.hp == 1) return 2;
+            if (target.hp == 2) return 1.5;
+            return 0.5;
+        },
         maixie: true,
         effect: {
             target(card, player, target) {
-							if (get.tag(card, 'damage')) {
-								if (target.hp == target.maxHp) return [0, 1];
-							}
-							if (get.tag(card, 'recover') && player.hp >= player.maxHp - 1) return [0, 0];
-						},
+                if (get.tag(card, 'damage')) {
+                    if (target.hp == target.maxHp) return [0, 1];
+                }
+                if (get.tag(card, 'recover') && player.hp >= player.maxHp - 1) return [0, 0];
+            },
         },
     },
     group: "vl_zhongyu_ky_add",
@@ -57,11 +57,11 @@ await event.target.damage('frmad');
             },
             frequent: true,
             filter(event, player) {
-							return !event.nature && event.player != player
-						},
+                return !event.nature && event.player != player
+            },
             async content(event, trigger, player) {
-							game.setNature(trigger, 'frmad');
-						},
+                game.setNature(trigger, 'frmad');
+            },
         },
     },
     t: {

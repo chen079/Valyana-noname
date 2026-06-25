@@ -6,17 +6,17 @@ export default {
     },
     usable: 1,
     filter(event, player) {
-					return player.group != 'wei' && event.player.group == player.group
-				},
+        return player.group != 'wei' && event.player.group == player.group
+    },
     async content(event, trigger, player) {
         player.changeGroup('wei')
         if (trigger.player == player) {
-        						return
-        					}
+            return
+        }
         const result = await player.chooseBool('是否视为对' + get.translation(trigger.player) + '使用一张【杀】').forResult();
         if (result.bool) {
-        						await player.useCard({ name: 'sha' }, trigger.player, false);
-        					}
+            await player.useCard({ name: 'sha' }, trigger.player, false);
+        }
     },
     group: "vl_akain_ys_fire",
     subSkill: {
@@ -26,11 +26,11 @@ export default {
             },
             direct: true,
             filter(event, player) {
-							return player.group != 'wei'
-						},
+                return player.group != 'wei'
+            },
             async content(event, trigger, player) {
-							game.setNature(trigger, 'fire');
-						},
+                game.setNature(trigger, 'fire');
+            },
         },
     },
     t: {

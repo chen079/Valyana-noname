@@ -7,24 +7,24 @@ export default {
     marktext: "☯",
     intro: {
         content(storage, player, skill) {
-						if (player.storage.vl_krikt_th == true) return '锁定技，出牌阶段，你的【杀】无使用次数限制，你的黑色【杀】均视为雷【杀】；每当你对其他角色造成1点伤害，你弃置其一张手牌。';
-						return '锁定技，你的【杀】可以额外指定一个目标，你的红色【杀】均视为火【杀】；每当你对其他角色造成1点伤害，你摸一张牌。';
-					},
+            if (player.storage.vl_krikt_th == true) return '锁定技，出牌阶段，你的【杀】无使用次数限制，你的黑色【杀】均视为雷【杀】；每当你对其他角色造成1点伤害，你弃置其一张手牌。';
+            return '锁定技，你的【杀】可以额外指定一个目标，你的红色【杀】均视为火【杀】；每当你对其他角色造成1点伤害，你摸一张牌。';
+        },
     },
     trigger: {
         player: "phaseUseBegin",
     },
     forced: true,
     async content(event, trigger, player) {
-if (player.storage.vl_krikt_th == true) {
-        						player.storage.vl_krikt_th = false;
-        						player.addTempSkill('vl_krikt_th_2', 'phaseUseAfter');
-        					}
-        					else {
-        						player.storage.vl_krikt_th = true;
-        						player.addTempSkill('vl_krikt_th_1', 'phaseUseAfter');
-        					};
-        					player.updateMark('vl_krikt_th')
+        if (player.storage.vl_krikt_th == true) {
+            player.storage.vl_krikt_th = false;
+            player.addTempSkill('vl_krikt_th_2', 'phaseUseAfter');
+        }
+        else {
+            player.storage.vl_krikt_th = true;
+            player.addTempSkill('vl_krikt_th_1', 'phaseUseAfter');
+        };
+        player.updateMark('vl_krikt_th')
     },
     subSkill: {
         "1": {
@@ -32,25 +32,25 @@ if (player.storage.vl_krikt_th == true) {
                 source: "damageSource",
             },
             filter(event, player) {
-							return player != event.player
-						},
+                return player != event.player
+            },
             async content(event, trigger, player) {
-							await player.discardPlayerCard(trigger.num, trigger.player, 'h', true)
-						},
+                await player.discardPlayerCard(trigger.num, trigger.player, 'h', true)
+            },
             forced: true,
             mod: {
                 cardUsable(card) {
-								if (card.name == 'sha') return Infinity;
-							},
+                    if (card.name == 'sha') return Infinity;
+                },
                 cardnature(card, player) {
-								if (card.name == 'sha' && get.color(card) == 'black') return 'thunder';
-							},
+                    if (card.name == 'sha' && get.color(card) == 'black') return 'thunder';
+                },
             },
             ai: {
                 effect: {
                     target(card, player, target, current) {
-									if (get.tag(card, 'respondSha') && current < 0) return 0.6
-								},
+                        if (get.tag(card, 'respondSha') && current < 0) return 0.6
+                    },
                 },
                 respondSha: true,
             },
@@ -61,30 +61,30 @@ if (player.storage.vl_krikt_th == true) {
                 source: "damageSource",
             },
             filter(event, player) {
-							return player != event.player
-						},
+                return player != event.player
+            },
             async content(event, trigger, player) {
-							await player.draw(trigger.num)
-						},
+                await player.draw(trigger.num)
+            },
             forced: true,
             mod: {
                 targetInRange(card, player) {
-								if (card.name == 'sha') return true;
-							},
+                    if (card.name == 'sha') return true;
+                },
                 cardnature(card, player) {
-								if (card.name == 'sha' && get.color(card) == 'red') return 'fire';
-							},
+                    if (card.name == 'sha' && get.color(card) == 'red') return 'fire';
+                },
                 selectTarget(card, player, range) {
-								if (card.name == 'sha' && range[1] != -1) {
-									range[1]++;
-								}
-							},
+                    if (card.name == 'sha' && range[1] != -1) {
+                        range[1]++;
+                    }
+                },
             },
             ai: {
                 effect: {
                     target(card, player, target, current) {
-									if (get.tag(card, 'respondSha') && current < 0) return 0.6
-								},
+                        if (get.tag(card, 'respondSha') && current < 0) return 0.6
+                    },
                 },
                 respondSha: true,
             },

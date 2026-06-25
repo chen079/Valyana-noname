@@ -5,25 +5,25 @@ export default {
     usable: 1,
     position: "he",
     filterCard(card, player, event) {
-					event = event || _status.event;
-					if (typeof event != 'string') event = event.getParent().name;
-					var mod = game.checkMod(card, player, event, 'unchanged', 'cardDiscardable', player);
-					if (mod != 'unchanged') return mod;
-					return true;
-				},
+        event = event || _status.event;
+        if (typeof event != 'string') event = event.getParent().name;
+        var mod = game.checkMod(card, player, event, 'unchanged', 'cardDiscardable', player);
+        if (mod != 'unchanged') return mod;
+        return true;
+    },
     discard: false,
     lose: false,
     delay: false,
     selectCard: [1, null],
     check(card) {
-					var player = _status.event.player;
-					if (get.position(card) == 'h' && !player.countCards('h', 'du') && (player.hp > 2 || !player.countCards('h', function (card) {
-						return get.value(card) >= 8;
-					}))) {
-						return 1;
-					}
-					return 6 - get.value(card)
-				},
+        var player = _status.event.player;
+        if (get.position(card) == 'h' && !player.countCards('h', 'du') && (player.hp > 2 || !player.countCards('h', function (card) {
+            return get.value(card) >= 8;
+        }))) {
+            return 1;
+        }
+        return 6 - get.value(card)
+    },
     async content(event, trigger, player) {
         const cards = event.cards;
         event.gross = []

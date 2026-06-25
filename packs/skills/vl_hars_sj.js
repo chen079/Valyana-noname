@@ -8,42 +8,42 @@ export default {
     discard: false,
     delay: false,
     selectCard() {
-					var player = _status.event.player
-					return Math.floor(player.countCards('h') / 2)
-				},
+        var player = _status.event.player
+        return Math.floor(player.countCards('h') / 2)
+    },
     filter(event, player) {
-					if (Math.floor(player.countCards('h') / 2) <= 0) return false
-					if (!player.storage.vl_hars_sj) return true;
-					return game.hasPlayer(function (current) {
-						return current != player && !player.storage.vl_hars_sj.includes(current);
-					});
-				},
+        if (Math.floor(player.countCards('h') / 2) <= 0) return false
+        if (!player.storage.vl_hars_sj) return true;
+        return game.hasPlayer(function (current) {
+            return current != player && !player.storage.vl_hars_sj.includes(current);
+        });
+    },
     init(player) {
-					if (!player.storage.vl_hars_sj) player.storage.vl_hars_sj = [];
-				},
+        if (!player.storage.vl_hars_sj) player.storage.vl_hars_sj = [];
+    },
     filterTarget(card, player, target) {
-					return target != player && (!player.storage.vl_hars_sj || !player.storage.vl_hars_sj.includes(target));
-				},
+        return target != player && (!player.storage.vl_hars_sj || !player.storage.vl_hars_sj.includes(target));
+    },
     content: async function content(event, trigger, player) {
-					const target = event.target;
-					await player.give(event.cards, target);
-					target.addSkill("vl_hars_fs");
-					if (!player.storage.vl_hars_sj) player.storage.vl_hars_sj = [];
-					player.storage.vl_hars_sj[0] = target;
-					player.markSkill('vl_hars_sj');
-				},
+        const target = event.target;
+        await player.give(event.cards, target);
+        target.addSkill("vl_hars_fs");
+        if (!player.storage.vl_hars_sj) player.storage.vl_hars_sj = [];
+        player.storage.vl_hars_sj[0] = target;
+        player.markSkill('vl_hars_sj');
+    },
     intro: {
         content: "上回合已对$发动过〖神降〗",
     },
     ai: {
-        order(card,player) {
-						let num = Math.min(...player.getCards("h").map(c=>get.order(c)));
-						return Math.max(1,num);
-					},
+        order(card, player) {
+            let num = Math.min(...player.getCards("h").map(c => get.order(c)));
+            return Math.max(1, num);
+        },
         result: {
             target(player, target) {
-							return -1;
-						},
+                return -1;
+            },
         },
     },
     group: "vl_hars_sj_fs",
@@ -55,19 +55,19 @@ export default {
             },
             charlotte: true,
             filter(event, player) {
-							return player != event.player && !event.player._trueMe && event.player.hasSkill("vl_hars_fs");
-						},
+                return player != event.player && !event.player._trueMe && event.player.hasSkill("vl_hars_fs");
+            },
             logTarget: "player",
             skillAnimation: true,
             animationColor: "key",
             async content(event, trigger, player) {
-							trigger.player._trueMe = player;
-							game.addGlobalSkill('autoswap');
-							if (trigger.player == game.me) {
-								game.notMe = true;
-								if (!_status.auto) ui.click.auto();
-							}
-						},
+                trigger.player._trueMe = player;
+                game.addGlobalSkill('autoswap');
+                if (trigger.player == game.me) {
+                    game.notMe = true;
+                    if (!_status.auto) ui.click.auto();
+                }
+            },
         },
     },
     t: {

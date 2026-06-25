@@ -7,8 +7,8 @@ export default {
     },
     firstDo: true,
     async content(event, trigger, player) {
-					trigger.cancel()
-				},
+        trigger.cancel()
+    },
     ai: {
         noCompareTarget: true,
     },
@@ -20,9 +20,9 @@ export default {
             forced: true,
             popup: false,
             async content(event, trigger, player) {
-							player.storage.vl_mala_bc_draw = true;
-							player.storage.vl_mala_bc_use = true;
-						},
+                player.storage.vl_mala_bc_draw = true;
+                player.storage.vl_mala_bc_use = true;
+            },
             sub: true,
         },
         draw: {
@@ -32,8 +32,8 @@ export default {
             forced: true,
             popup: false,
             async content(event, trigger, player) {
-							player.storage.vl_mala_bc_draw = false;
-						},
+                player.storage.vl_mala_bc_draw = false;
+            },
             sub: true,
         },
         use: {
@@ -43,8 +43,8 @@ export default {
             forced: true,
             popup: false,
             async content(event, trigger, player) {
-							player.storage.vl_mala_bc_use = false;
-						},
+                player.storage.vl_mala_bc_use = false;
+            },
             sub: true,
         },
         discard: {
@@ -53,12 +53,12 @@ export default {
             },
             forced: true,
             filter(event, player) {
-							if (player.storage.vl_mala_bc_use) return true;
-							return false;
-						},
+                if (player.storage.vl_mala_bc_use) return true;
+                return false;
+            },
             async content(event, trigger, player) {
-							trigger.cancel();
-						},
+                trigger.cancel();
+            },
             sub: true,
         },
         end: {
@@ -67,12 +67,12 @@ export default {
             },
             forced: true,
             filter(event, player) {
-							if (player.storage.vl_mala_bc_draw) return true;
-							return false;
-						},
+                if (player.storage.vl_mala_bc_draw) return true;
+                return false;
+            },
             async content(event, trigger, player) {
-							player.draw(3);
-						},
+                player.draw(3);
+            },
             sub: true,
         },
     },

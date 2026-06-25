@@ -7,25 +7,25 @@ export default {
     },
     usable: 3,
     filter(event, player, name) {
-					if (player.storage.hubian && name == 'useCardAfter') {
-						if (['equip', 'delay'].includes(get.type(event.card))) return false;
-						if (event.cards.filterInD().length <= 0) return false;
-						if (_status.currentPhase != player) return false
-						return true
-					} else if (name == 'dyingBefore' && !player.storage.hubian) {
-						if (_status.currentPhase == player) return false
-						return player.countCards('h') > 0 && event.player != player
-					} else {
-						return false
-					}
-				},
+        if (player.storage.hubian && name == 'useCardAfter') {
+            if (['equip', 'delay'].includes(get.type(event.card))) return false;
+            if (event.cards.filterInD().length <= 0) return false;
+            if (_status.currentPhase != player) return false
+            return true
+        } else if (name == 'dyingBefore' && !player.storage.hubian) {
+            if (_status.currentPhase == player) return false
+            return player.countCards('h') > 0 && event.player != player
+        } else {
+            return false
+        }
+    },
     check(event, player) {
-					if (player.storage.hubian) {
-						return true;
-					} else {
-						return get.attitude(player, event.player) < 0
-					}
-				},
+        if (player.storage.hubian) {
+            return true;
+        } else {
+            return get.attitude(player, event.player) < 0
+        }
+    },
     async content(event, trigger, player) {
         if (player.storage.hubian) {
             const cards = trigger.cards.filterInD();

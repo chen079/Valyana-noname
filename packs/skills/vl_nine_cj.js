@@ -6,8 +6,8 @@ export default {
     },
     direct: true,
     filter(event, player) {
-					return player.countCards('he') > 0
-				},
+        return player.countCards('he') > 0
+    },
     async content(event, trigger, player) {
         if (!game.hasPlayer(c => c.countDiscardableCards(player, "he") && c != player)) return;
         const discardResult = await player.chooseToDiscard([1, Infinity], 'he', get.prompt2('vl_nine_cj')).set('ai', function (card) {

@@ -6,11 +6,11 @@ export default {
     },
     direct: true,
     filter(event, player) {
-					return event.card.name == 'sha' && event.target != player && event.target
-				},
+        return event.card.name == 'sha' && event.target != player && event.target
+    },
     async content(event, trigger, player) {
-					trigger.target.loseHp()
-				},
+        trigger.target.loseHp()
+    },
     group: "vl_ventus_yc_draw",
     subSkill: {
         draw: {
@@ -19,11 +19,11 @@ export default {
             },
             direct: true,
             async content(event, trigger, player) {
-							var card1 = get.cardPile2(function (card) {
-								return get.name(card, false) == 'sha';
-							});
-							player.gain(card1, 'gain2')
-						},
+                var card1 = get.cardPile2(function (card) {
+                    return get.name(card, false) == 'sha';
+                });
+                player.gain(card1, 'gain2')
+            },
             sub: true,
         },
     },

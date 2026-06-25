@@ -3,22 +3,22 @@ import { lib, game, ui, get, ai, _status } from '../../../../noname.js';
 export default {
     enable: "phaseUse",
     filter(event, player) {
-					return player.isHealthy();
-				},
+        return player.isHealthy();
+    },
     forced: true,
     async content(event, trigger, player) {
-					player.loseHp()
-					player.draw(3)
-				},
+        player.loseHp()
+        player.draw(3)
+    },
     ai: {
         basic: {
             order: 1,
         },
         result: {
             player(player) {
-							if (player.countCards('hs', 'tao') >= 1) return 1;
-							return -1;
-						},
+                if (player.countCards('hs', 'tao') >= 1) return 1;
+                return -1;
+            },
         },
     },
     group: "vl_kesaya_zw_1",
@@ -29,12 +29,12 @@ export default {
                 player: ["gameDrawAfter", "changeHp", "loseMaxHp", "gainMaxHp"],
             },
             filter(event, player) {
-							return player.maxHp != 2
-						},
+                return player.maxHp != 2
+            },
             async content(event, trigger, player) {
-							player.maxHp = 2
-							player.update()
-						},
+                player.maxHp = 2
+                player.update()
+            },
             sub: true,
         },
     },

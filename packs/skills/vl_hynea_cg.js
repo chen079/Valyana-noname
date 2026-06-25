@@ -5,30 +5,30 @@ export default {
     mark: true,
     intro: {
         content(event, player, storage) {
-						return '当前[]内的数值为：' + player.storage.vl_hynea_cg
-					},
+            return '当前[]内的数值为：' + player.storage.vl_hynea_cg
+        },
     },
     mod: {
         cardUsable(card, player, num) {
-						if (card.name == 'jiu') return Infinity;
-					},
+            if (card.name == 'jiu') return Infinity;
+        },
     },
     init(player, skill) {
-					if (!player.storage.vl_hynea_cg) player.storage.vl_hynea_cg = 4
-					player.addSkill('vl_hynea_jiu')
-					player.addSkillBlocker(skill);
-				},
+        if (!player.storage.vl_hynea_cg) player.storage.vl_hynea_cg = 4
+        player.addSkill('vl_hynea_jiu')
+        player.addSkillBlocker(skill);
+    },
     onremove(player, skill) {
-					player.removeSkillBlocker(skill);
-					player.removeSkill('vl_hynea_jiu')
-				},
+        player.removeSkillBlocker(skill);
+        player.removeSkill('vl_hynea_jiu')
+    },
     skillBlocker(skill, player) {
-					return skill == "vl_hynea_jiu" && player.hp < player.storage.vl_hynea_cg;
-				},
+        return skill == "vl_hynea_jiu" && player.hp < player.storage.vl_hynea_cg;
+    },
     ai: {
         skillTagFilter(player) {
-						if (!player.countCards('hs', { name: ['tao', 'shan'] })) return false;
-					},
+            if (!player.countCards('hs', { name: ['tao', 'shan'] })) return false;
+        },
         save: true,
     },
     t: {

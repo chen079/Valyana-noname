@@ -5,8 +5,8 @@ export default {
         source: "damageSource",
     },
     filter(event, player) {
-					return event.nature == 'fire' && ((player.name1 == 'vl_kulun_wind') || (player.name2 == 'vl_kulun_wind'));
-				},
+        return event.nature == 'fire' && ((player.name1 == 'vl_kulun_wind') || (player.name2 == 'vl_kulun_wind'));
+    },
     linkage: "wind",
     async content(event, trigger, player) {
         const result = await player.chooseToDiscard('he', get.prompt('vl_kulun_fire_fz'), '弃置一张牌并移动场上的一张牌', lib.filter.cardDiscardable).set('ai', function (card) {

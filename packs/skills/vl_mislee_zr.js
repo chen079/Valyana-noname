@@ -5,29 +5,29 @@ export default {
     enable: "phaseUse",
     usable: 1,
     check(card) {
-					return 7 - get.value(card);
-				},
+        return 7 - get.value(card);
+    },
     multitarget: true,
     targetprompt: ["被移走", "移动目标"],
     filterTarget(card, player, target) {
-					if (ui.selected.targets.length) {
-						var from = ui.selected.targets[0];
-						var judges = from.getCards('j');
-						for (var i = 0; i < judges.length; i++) {
-							if (!target.hasJudge(judges[i].viewAs || judges[i].name)) return true;
-						}
-						if (target.isMin()) return false;
-						if ((from.getEquip(1) && !target.getEquip(1)) ||
-							(from.getEquip(2) && !target.getEquip(2)) ||
-							(from.getEquip(3) && !target.getEquip(3)) ||
-							(from.getEquip(4) && !target.getEquip(4)) ||
-							(from.getEquip(5) && !target.getEquip(5))) return true;
-						return false;
-					}
-					else {
-						return target.countCards('ej') > 0;
-					}
-				},
+        if (ui.selected.targets.length) {
+            var from = ui.selected.targets[0];
+            var judges = from.getCards('j');
+            for (var i = 0; i < judges.length; i++) {
+                if (!target.hasJudge(judges[i].viewAs || judges[i].name)) return true;
+            }
+            if (target.isMin()) return false;
+            if ((from.getEquip(1) && !target.getEquip(1)) ||
+                (from.getEquip(2) && !target.getEquip(2)) ||
+                (from.getEquip(3) && !target.getEquip(3)) ||
+                (from.getEquip(4) && !target.getEquip(4)) ||
+                (from.getEquip(5) && !target.getEquip(5))) return true;
+            return false;
+        }
+        else {
+            return target.countCards('ej') > 0;
+        }
+    },
     selectTarget: 2,
     async content(event, trigger, player) {
         if (targets.length != 2) return;
@@ -61,24 +61,24 @@ export default {
             forced: true,
             locked: false,
             getIndex(event, player) {
-							const evt = event.getl(player);
-							if (evt && evt.player === player && evt.es?.length) {
-								return 1;
-							}
-							return false;
-						},
+                const evt = event.getl(player);
+                if (evt && evt.player === player && evt.es?.length) {
+                    return 1;
+                }
+                return false;
+            },
             content: async function content(event, trigger, player) {
-							player.draw(2);
-						},
+                player.draw(2);
+            },
             ai: {
                 noe: true,
                 reverseEquip: true,
                 effect: {
                     target(card, player, target, current) {
-									if (get.type(card) == "equip" && !get.cardtag(card, "gifts")) {
-										return [1, 3];
-									}
-								},
+                        if (get.type(card) == "equip" && !get.cardtag(card, "gifts")) {
+                            return [1, 3];
+                        }
+                    },
                 },
             },
         },
@@ -87,27 +87,27 @@ export default {
         order: 10,
         result: {
             target(player, target) {
-							if (ui.selected.targets.length == 0) {
-								if (target.countCards('j') && get.attitude(player, target) > 0) return 1;
-								if (get.attitude(player, target) < 0) {
-									var players = game.filterPlayer();
-									for (var i = 0; i < players.length; i++) {
-										if (get.attitude(player, players[i]) > 0) {
-											if ((target.getEquip(1) && !players[i].getEquip(1)) ||
-												(target.getEquip(2) && !players[i].getEquip(2)) ||
-												(target.getEquip(3) && !players[i].getEquip(3)) ||
-												(target.getEquip(4) && !players[i].getEquip(4)) ||
-												(target.getEquip(5) && !players[i].getEquip(5)))
-												return -1;
-										}
-									}
-								}
-								return 0;
-							}
-							else {
-								return get.attitude(player, ui.selected.targets[0]) > 0 ? -1 : 1;
-							}
-						},
+                if (ui.selected.targets.length == 0) {
+                    if (target.countCards('j') && get.attitude(player, target) > 0) return 1;
+                    if (get.attitude(player, target) < 0) {
+                        var players = game.filterPlayer();
+                        for (var i = 0; i < players.length; i++) {
+                            if (get.attitude(player, players[i]) > 0) {
+                                if ((target.getEquip(1) && !players[i].getEquip(1)) ||
+                                    (target.getEquip(2) && !players[i].getEquip(2)) ||
+                                    (target.getEquip(3) && !players[i].getEquip(3)) ||
+                                    (target.getEquip(4) && !players[i].getEquip(4)) ||
+                                    (target.getEquip(5) && !players[i].getEquip(5)))
+                                    return -1;
+                            }
+                        }
+                    }
+                    return 0;
+                }
+                else {
+                    return get.attitude(player, ui.selected.targets[0]) > 0 ? -1 : 1;
+                }
+            },
         },
         expose: 0.2,
         threaten: 1.5,

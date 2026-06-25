@@ -6,8 +6,8 @@ export default {
     },
     forced: true,
     async content(event, trigger, player) {
-					trigger.bottom = true;
-				},
+        trigger.bottom = true;
+    },
     group: ["vl_nine_dx_wash", "vl_nine_dx_discard", "vl_nine_dx_judge"],
     subSkill: {
         judge: {
@@ -16,10 +16,10 @@ export default {
             },
             forced: true,
             popup: false,
-    async content(event, trigger, player) {
-event.card = get.bottomCards()[0];
-        							trigger.directresult = event.card
-    },
+            async content(event, trigger, player) {
+                event.card = get.bottomCards()[0];
+                trigger.directresult = event.card
+            },
         },
         wash: {
             trigger: {
@@ -27,22 +27,22 @@ event.card = get.bottomCards()[0];
             },
             popup: false,
             forced: true,
-            content: async function content(event,trigger,player) {
-							let cards = [].concat(Array.from(ui.discardPile.childNodes).filter(i => get.type(i) == 'equip'));
-							if (cards) {
-								// for (var i = 0; i < cards.length; i++) {
-								// 	var card = cards[i]
-								// 	// ui.cardPile.insertBefore(card, ui.cardPile.childNodes[get.rand(0, ui.cardPile.childNodes.length)]);
-								// }
-								game.log(player, '将', cards, '洗入牌堆')
-							}
-							cards=cards.concat(get.cards(ui.cardPile.childElementCount)).randomSort();
-							// for (var i = 0; i < cards.length; i++) {
-							// 	ui.cardPile.insertBefore(cards[i], ui.cardPile.childNodes[get.rand(ui.cardPile.childElementCount)]);
-							// }
-							await game.cardsGotoPile(cards, "triggeronly", "washCard", ["shuffleNumber", game.shuffleNumber]);
-							game.updateRoundNumber();
-						},
+            content: async function content(event, trigger, player) {
+                let cards = [].concat(Array.from(ui.discardPile.childNodes).filter(i => get.type(i) == 'equip'));
+                if (cards) {
+                    // for (var i = 0; i < cards.length; i++) {
+                    // 	var card = cards[i]
+                    // 	// ui.cardPile.insertBefore(card, ui.cardPile.childNodes[get.rand(0, ui.cardPile.childNodes.length)]);
+                    // }
+                    game.log(player, '将', cards, '洗入牌堆')
+                }
+                cards = cards.concat(get.cards(ui.cardPile.childElementCount)).randomSort();
+                // for (var i = 0; i < cards.length; i++) {
+                // 	ui.cardPile.insertBefore(cards[i], ui.cardPile.childNodes[get.rand(ui.cardPile.childElementCount)]);
+                // }
+                await game.cardsGotoPile(cards, "triggeronly", "washCard", ["shuffleNumber", game.shuffleNumber]);
+                game.updateRoundNumber();
+            },
         },
         discard: {
             trigger: {
@@ -50,26 +50,26 @@ event.card = get.bottomCards()[0];
             },
             forced: true,
             filter(event, player) {
-							var bool = true
-							for (var i = 0; i < 5; i++) {
-								if (player.hasSkill(event.getParent(i).name) && (event.getParent(i).name != 'vl_nine_dx_judge' && event.getParent(i).name != 'vl_nine_dx')) {
-									bool = false
-									break;
-								}
-							}
-							return _status.currentPhase != player && bool
-						},
+                var bool = true
+                for (var i = 0; i < 5; i++) {
+                    if (player.hasSkill(event.getParent(i).name) && (event.getParent(i).name != 'vl_nine_dx_judge' && event.getParent(i).name != 'vl_nine_dx')) {
+                        bool = false
+                        break;
+                    }
+                }
+                return _status.currentPhase != player && bool
+            },
             async content(event, trigger, player) {
-							await player.discard(trigger.cards)
-							await player.draw()
-						},
+                await player.discard(trigger.cards)
+                await player.draw()
+            },
         },
         ai: {
             threaten: 1.2,
             nogain: 1,
             skillTagFilter(player) {
-							return player != _status.currentPhase;
-						},
+                return player != _status.currentPhase;
+            },
         },
     },
     t: {

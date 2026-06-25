@@ -6,38 +6,38 @@ export default {
     },
     direct: true,
     async content(event, trigger, player) {
-					const list = ['免疫']
-        					const choiceList = ['下一名角色的回合内，你不能成为手牌数大于你的角色的目标。']
-        					if (trigger.player != player && player.countCards('h') > 0 && trigger.player.isAlive()) {
-        						list.push('出杀')
-        						choiceList.push('将一张牌当【杀】对' + get.translation(trigger.player) + '使用')
-        					}
-        					const result = await player.chooseControl(list, 'cancel2').set('choiceList', choiceList).set('ai', function () {
-        						const target = _status.event.target;
-        						const att = get.attitude(player, target)
-        						if (player.countCards('h') > 2 && att < 0 && list.includes('出杀')) {
-        							return '出杀'
-        						} else {
-        							return '免疫'
-        						}
-        					}).set('target', trigger.player).forResult();
-if (result.control == 'cancel2') {
-        						return
-        					} else if (result.control == '出杀') {
-        						player.logSkill("vl_blackwolf_nb");
-        						const cardResult = await player.chooseCard(1, 'h', true,card=>{
-        							return player.canUse(card,trigger.player)
-        						}).set('ai', function (card) {
-        							return 100 - get.value(card)
-        						}).forResult();
-                                const next = player.useCard(cardResult.cards, { name: 'sha' }, trigger.player, false);
-                                next.viewAs = true;
-                                await next;
-        					} else if (result.control == '免疫') {
-        						player.logSkill("vl_blackwolf_nb");
-        						player.addTempSkill('vl_blackwolf_nb_1', 'phaseEnd')
-        						return
-        					}
+        const list = ['免疫']
+        const choiceList = ['下一名角色的回合内，你不能成为手牌数大于你的角色的目标。']
+        if (trigger.player != player && player.countCards('h') > 0 && trigger.player.isAlive()) {
+            list.push('出杀')
+            choiceList.push('将一张牌当【杀】对' + get.translation(trigger.player) + '使用')
+        }
+        const result = await player.chooseControl(list, 'cancel2').set('choiceList', choiceList).set('ai', function () {
+            const target = _status.event.target;
+            const att = get.attitude(player, target)
+            if (player.countCards('h') > 2 && att < 0 && list.includes('出杀')) {
+                return '出杀'
+            } else {
+                return '免疫'
+            }
+        }).set('target', trigger.player).forResult();
+        if (result.control == 'cancel2') {
+            return
+        } else if (result.control == '出杀') {
+            player.logSkill("vl_blackwolf_nb");
+            const cardResult = await player.chooseCard(1, 'h', true, card => {
+                return player.canUse(card, trigger.player)
+            }).set('ai', function (card) {
+                return 100 - get.value(card)
+            }).forResult();
+            const next = player.useCard(cardResult.cards, { name: 'sha' }, trigger.player, false);
+            next.viewAs = true;
+            await next;
+        } else if (result.control == '免疫') {
+            player.logSkill("vl_blackwolf_nb");
+            player.addTempSkill('vl_blackwolf_nb_1', 'phaseEnd')
+            return
+        }
     },
     mark: true,
     intro: {
@@ -54,8 +54,8 @@ if (result.control == 'cancel2') {
             charlotte: true,
             mod: {
                 targetEnabled(card, player, target) {
-								if (player.countCards('h') > target.countCards('h')) return false
-							},
+                    if (player.countCards('h') > target.countCards('h')) return false
+                },
             },
         },
         clean: {
@@ -64,8 +64,8 @@ if (result.control == 'cancel2') {
             },
             forced: true,
             async content(event, trigger, player) {
-							player.tempBanSkill('vl_blackwolf_nb', { player: "phaseJieshuBegin" })
-						},
+                player.tempBanSkill('vl_blackwolf_nb', { player: "phaseJieshuBegin" })
+            },
         },
     },
     t: {

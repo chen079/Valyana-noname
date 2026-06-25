@@ -3,11 +3,11 @@ import { lib, game, ui, get, ai, _status } from '../../../../noname.js';
 export default {
     enable: "chooseCard",
     filter(event, player) {
-					return event.type == 'compare' && !event.directresult;
-				},
+        return event.type == 'compare' && !event.directresult;
+    },
     onCompare(player) {
-					return game.cardsGotoOrdering(get.cards()).cards;
-				},
+        return game.cardsGotoOrdering(get.cards()).cards;
+    },
     group: "vl_mierk_jingcai_number",
     subSkill: {
         number: {
@@ -16,19 +16,19 @@ export default {
                 target: "compare",
             },
             filter(event, player) {
-							if (event.iwhile) return false
-							return get.color(event.card1) == get.color(event.card2)
-						},
+                if (event.iwhile) return false
+                return get.color(event.card1) == get.color(event.card2)
+            },
             silent: true,
             async content(event, trigger, player) {
-							game.log(player, '拼点牌点数视为', '#yK');
-							if (player == trigger.player) {
-								trigger.num1 = 13;
-							}
-							else {
-								trigger.num2 = 13;
-							}
-						},
+                game.log(player, '拼点牌点数视为', '#yK');
+                if (player == trigger.player) {
+                    trigger.num1 = 13;
+                }
+                else {
+                    trigger.num2 = 13;
+                }
+            },
             sub: true,
             forced: true,
             popup: false,

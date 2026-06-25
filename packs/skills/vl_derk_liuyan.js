@@ -3,27 +3,27 @@ import { lib, game, ui, get, ai, _status } from '../../../../noname.js';
 export default {
     enable: "phaseUse",
     filter(event, player) {
-					return player.countCards('he') > 1;
-				},
+        return player.countCards('he') > 1;
+    },
     filterCard: true,
     position: "he",
     selectCard: [2, null],
     check(card) {
-					if (ui.selected.cards.length > 1) return 0;
-					return 4 - get.value(card);
-				},
+        if (ui.selected.cards.length > 1) return 0;
+        return 4 - get.value(card);
+    },
     async content(event, trigger, player) {
-					var num = 0;
-					for (var i = 0; i < cards.length; i++) {
-						var cardnum = get.number(cards[i], player)
-						num += (Math.pow((-1), i) * cardnum)
-					}
-					var numx = Math.abs((num % 13 == 0 ? 13 : (num % 13)));
-					var card = get.cardPile2(function (card) {
-						return get.number(card, false) == numx;
-					});
-					if (card) player.gain(card, 'gain2');
-				},
+        var num = 0;
+        for (var i = 0; i < cards.length; i++) {
+            var cardnum = get.number(cards[i], player)
+            num += (Math.pow((-1), i) * cardnum)
+        }
+        var numx = Math.abs((num % 13 == 0 ? 13 : (num % 13)));
+        var card = get.cardPile2(function (card) {
+            return get.number(card, false) == numx;
+        });
+        if (card) player.gain(card, 'gain2');
+    },
     ai: {
         order: 1,
         result: {

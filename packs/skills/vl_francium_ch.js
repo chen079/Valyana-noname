@@ -5,19 +5,19 @@ export default {
         player: "phaseBegin",
     },
     init(player) {
-					player.markSkill('hubian')
-					game.broadcastAll(function (player) {
-						player.$changeHubian();
-					}, player);
-				},
+        player.markSkill('hubian')
+        game.broadcastAll(function (player) {
+            player.$changeHubian();
+        }, player);
+    },
     forced: true,
     async content(event, trigger, player) {
-player.changeHubian()
-        					if (!player.storage.hubian) {
-        						player.changeAvatarImage(player.name, player.name)
-        					} else {
-        						player.changeAvatarImage(player.name, player.name + '2')
-        					}
+        player.changeHubian()
+        if (!player.storage.hubian) {
+            player.changeAvatarImage(player.name, player.name)
+        } else {
+            player.changeAvatarImage(player.name, player.name + '2')
+        }
     },
     group: "vl_francium_ch_def",
     subSkill: {
@@ -26,20 +26,20 @@ player.changeHubian()
                 player: "damageBegin3",
             },
             filter(event, player) {
-							return event.source && event.source.countCards('h') > player.countCards('h')
-						},
+                return event.source && event.source.countCards('h') > player.countCards('h')
+            },
             forced: true,
             async content(event, trigger, player) {
-							trigger.num -= 1
-						},
+                trigger.num -= 1
+            },
             ai: {
                 effect: {
                     target(card, player, target) {
-									if (get.tag(card, 'damage') && target.countCards('h') < player.countCards('h')) {
-										if (player.hasSkillTag('jueqing', false, target)) return;
-										return 0.1;
-									}
-								},
+                        if (get.tag(card, 'damage') && target.countCards('h') < player.countCards('h')) {
+                            if (player.hasSkillTag('jueqing', false, target)) return;
+                            return 0.1;
+                        }
+                    },
                 },
             },
         },

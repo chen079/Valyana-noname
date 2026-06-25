@@ -14,16 +14,16 @@ export default {
     forced: true,
     silent: true,
     async content(event, trigger, player) {
-					player.removeSkill('vl_hars_fs');
-				},
+        player.removeSkill('vl_hars_fs');
+    },
     onremove(player) {
-					if (player == game.me) {
-						if (!game.notMe) game.swapPlayerAuto(player._trueMe)
-						else delete game.notMe;
-						if (_status.auto) ui.click.auto();
-					}
-					delete player._trueMe;
-				},
+        if (player == game.me) {
+            if (!game.notMe) game.swapPlayerAuto(player._trueMe)
+            else delete game.notMe;
+            if (_status.auto) ui.click.auto();
+        }
+        delete player._trueMe;
+    },
     popup: false,
     t: {
         name: "附身",

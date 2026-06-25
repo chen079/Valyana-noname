@@ -4,27 +4,27 @@ export default {
     enable: "phaseUse",
     usable: 1,
     filterTarget(card, player, target) {
-					return target != player
-				},
+        return target != player
+    },
     selectTarget() {
-					return ui.selected.cards.length
-				},
+        return ui.selected.cards.length
+    },
     complexCard: true,
     filterCard(card) {
-					if (ui.selected.cards.length) {
-						return get.color(card) != get.color(ui.selected.cards[0]);
-					}
-					return true;
-				},
+        if (ui.selected.cards.length) {
+            return get.color(card) != get.color(ui.selected.cards[0]);
+        }
+        return true;
+    },
     position: "he",
     filter(event, player) {
-					return player.countCards('he') > 0
-				},
+        return player.countCards('he') > 0
+    },
     selectCard: [1, 2],
     async content(event, trigger, player) {
-					target.damage(player, 'fire')
-					target.addVuff('ranshao')
-				},
+        target.damage(player, 'fire')
+        target.addVuff('ranshao')
+    },
     ai: {
         order: 9,
         result: {

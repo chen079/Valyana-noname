@@ -5,12 +5,12 @@ export default {
         player: "damageBegin3",
     },
     filter(event, player) {
-					return event.nature == 'fire' || event.nature == 'thunder';
-				},
+        return event.nature == 'fire' || event.nature == 'thunder';
+    },
     forced: true,
     async content(event, trigger, player) {
-					trigger.cancel();
-				},
+        trigger.cancel();
+    },
     group: "vl_dragon_ly_1",
     subSkill: {
         "1": {
@@ -19,19 +19,19 @@ export default {
             },
             forced: true,
             filter(event, player) {
-							return event.num > 0;
-						},
+                return event.num > 0;
+            },
             async content(event, trigger, player) {
-							var cards = [];
-							while (cards.length < trigger.num) {
-								var card = get.cardPile(function (card) {
-									return get.tag(card, 'damage') && !cards.includes(card)
-								});
-								if (card) cards.push(card);
-								else break;
-							}
-							if (cards.length) player.gain(cards, 'gain2').gaintag.add('vl_dragon_hn')
-						},
+                var cards = [];
+                while (cards.length < trigger.num) {
+                    var card = get.cardPile(function (card) {
+                        return get.tag(card, 'damage') && !cards.includes(card)
+                    });
+                    if (card) cards.push(card);
+                    else break;
+                }
+                if (cards.length) player.gain(cards, 'gain2').gaintag.add('vl_dragon_hn')
+            },
             sub: true,
         },
     },
@@ -41,10 +41,10 @@ export default {
         nothunder: true,
         effect: {
             target(card, player, target, current) {
-							if (get.tag(card, 'fireDamage')) return 'zerotarget';
-							if (get.tag(card, 'thunderDamage')) return 'zerotarget';
-							if (card.name == 'tiesuo') return 'zeroplayertarget';
-						},
+                if (get.tag(card, 'fireDamage')) return 'zerotarget';
+                if (get.tag(card, 'thunderDamage')) return 'zerotarget';
+                if (card.name == 'tiesuo') return 'zeroplayertarget';
+            },
         },
     },
     t: {

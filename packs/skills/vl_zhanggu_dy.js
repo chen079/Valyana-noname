@@ -7,25 +7,25 @@ export default {
     },
     forced: true,
     filter(event, player) {
-					return (event.name != 'phase' || game.phaseNumber == 0);
-				},
+        return (event.name != 'phase' || game.phaseNumber == 0);
+    },
     async content(event, trigger, player) {
-					var cards = [];
-					for (var i = 2; i < 10; i++) {
-						cards.push(game.createCard2('du', i % 2 ? 'club' : 'spade', i));
-					}
-					game.broadcastAll(function () { lib.inpile.add('du') });
-					game.cardsGotoPile(cards, () => {
-						return ui.cardPile.childNodes[get.rand(0, ui.cardPile.childNodes.length - 1)];
-					})
-				},
+        var cards = [];
+        for (var i = 2; i < 10; i++) {
+            cards.push(game.createCard2('du', i % 2 ? 'club' : 'spade', i));
+        }
+        game.broadcastAll(function () { lib.inpile.add('du') });
+        game.cardsGotoPile(cards, () => {
+            return ui.cardPile.childNodes[get.rand(0, ui.cardPile.childNodes.length - 1)];
+        })
+    },
     mod: {
         ignoredHandcard(card, player) {
-						if (get.name(card) == 'du') return true;
-					},
+            if (get.name(card) == 'du') return true;
+        },
         cardDiscardable(card, player, name) {
-						if (name == 'phaseDiscard' && get.name(card) == 'du') return false;
-					},
+            if (name == 'phaseDiscard' && get.name(card) == 'du') return false;
+        },
     },
     group: "vl_zhanggu_dy_loseHp",
     subSkill: {
@@ -34,12 +34,12 @@ export default {
                 player: "loseHpBegin",
             },
             filter(event, player) {
-							return event.type == 'du';
-						},
+                return event.type == 'du';
+            },
             forced: true,
             async content(event, trigger, player) {
-							trigger.cancel();
-						},
+                trigger.cancel();
+            },
             sub: true,
         },
     },

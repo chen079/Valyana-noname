@@ -5,10 +5,10 @@ export default {
     mark: true,
     intro: {
         mark(dialog, content, player) {
-						if (player != game.me) return get.translation(player) + '观看牌堆中...';
-						if (get.itemtype(_status.pileTop) != 'card') return '牌堆顶无牌';
-						dialog.add([_status.pileTop]);
-					},
+            if (player != game.me) return get.translation(player) + '观看牌堆中...';
+            if (get.itemtype(_status.pileTop) != 'card') return '牌堆顶无牌';
+            dialog.add([_status.pileTop]);
+        },
     },
     t: {
         name: "天眼",
