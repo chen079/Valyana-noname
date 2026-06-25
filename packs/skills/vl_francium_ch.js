@@ -14,9 +14,9 @@ export default {
     async content(event, trigger, player) {
         player.changeHubian()
         if (!player.storage.hubian) {
-            player.changeAvatarImage(player.name, player.name)
+            player.changeSkin({ characterName: player.name }, player.name)
         } else {
-            player.changeAvatarImage(player.name, player.name + '2')
+            player.changeSkin({ characterName: player.name }, player.name + '2')
         }
     },
     group: "vl_francium_ch_def",

@@ -4,6 +4,7 @@ import { furryCharacter } from '../../packs/furryCharacter.js'
 import { card } from '../../packs/card.js'
 import { dynamicTranslate } from '../../packs/dynamicTranslate.js'
 import { translation } from '../../packs/translation.js';
+import { characterSubstitute } from '../../packs/characterSubstitute.js'
 
 const characterTitle = {}
 const translate = {}
@@ -81,6 +82,7 @@ const packs = function () {
         characterTitle: characterTitle,
         card: card,
         skill: skill,
+        characterSubstitute: characterSubstitute,
         dynamicTranslate: dynamicTranslate,
         translate: translate,
     };
@@ -93,10 +95,21 @@ const packs = function () {
         Valyana.character[i].dieAudios.push('ext:瓦尔亚纳/audio/die:true');
         Valyana.translate[`#ext:瓦尔亚纳/audio/die/${i}:die`] ??= '点击播放阵亡配音';
     }
-    game.addGroup('vl_quanke', '犬', '犬科', { color: '#d83843', image: 'ext:瓦尔亚纳/image/group/quanke.png' });
-    game.addGroup('vl_maoke', '猫', '猫科', { color: '#d6a800', image: 'ext:瓦尔亚纳/image/group/maoke.png' });
-    game.addGroup('longke', '龙', '龙族', { color: '#6b63ff', image: 'ext:瓦尔亚纳/image/group/longke.png' });
-    game.addGroup('jiqi', '机', '机器', { color: '#4b9ad8', image: 'ext:瓦尔亚纳/image/group/jiqi.png' });
+    game.addGroup('vl_quanke', '犬', '犬族', { color: '#d83843', image: 'ext:瓦尔亚纳/image/group/quanke.png' });
+    game.addGroup('vl_maoke', '猫', '猫族', { color: '#d6a800', image: 'ext:瓦尔亚纳/image/group/maoke.png' });
+    game.addGroup('longke', '龙', '龙族', { color: '#2d2d2d', image: 'ext:瓦尔亚纳/image/group/longke.png' });
+    game.addGroup('jiqi', '机', '机器', { color: '#9733b8', image: 'ext:瓦尔亚纳/image/group/jiqi.png' });
+    game.addGroup('haizu', '海', '海族', { color: '#303cdf', image: 'ext:瓦尔亚纳/image/group/haizu.png' })
+    game.addGroup('vl_huli', '狐', '狐族', { color: '#d78523', image: 'ext:瓦尔亚纳/image/group/huli.png' })
+    game.addGroup('vl_shizi', '狮', '狮族', { color: '#d7d123', image: 'ext:瓦尔亚纳/image/group/shizi.png' })
+    game.addGroup('vl_langzu', '狼', '狼族', { color: '#3c403d', image: 'ext:瓦尔亚纳/image/group/langzu.png' })
+    game.addGroup('vl_laohu', '虎', '虎族', { color: '#705114', image: 'ext:瓦尔亚纳/image/group/laohu.png' })
+    game.addGroup('vl_tuzi', '兔', '兔族', { color: '#becfc2', image: 'ext:瓦尔亚纳/image/group/tuzi.png' })
+    game.addGroup('vl_xiongzu', '熊', '熊族', { color: '#5b3d23', image: 'ext:瓦尔亚纳/image/group/xiongzu.png' })
+    game.addGroup('vl_yang', '羊', '羊族', { color: '#a82066', image: 'ext:瓦尔亚纳/image/group/yang.png' })
+    game.addGroup('vl_lu', '鹿', '鹿族', { color: '#3da820', image: 'ext:瓦尔亚纳/image/group/lu.png' })
+    game.addGroup('vl_guai', '怪', '怪物', { color: '#581506', image: 'ext:瓦尔亚纳/image/group/guai.png' })
+    game.addGroup('vl_shu', '鼠', '鼠族', { color: '#79706e', image: 'ext:瓦尔亚纳/image/group/shu.png' })
     lib.config.all.sgscharacters.push('Valyana');
     lib.translate['Valyana_character_config'] = '瓦尔亚纳';
     return Valyana;

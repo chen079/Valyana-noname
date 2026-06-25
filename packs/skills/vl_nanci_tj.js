@@ -44,18 +44,18 @@ export default {
 			if (trigger.player == player) {
 				if (player.countMark('vl_nanci_tj') > 0) player.removeMark('vl_nanci_tj', 1)
 				if (player.countMark('vl_nanci_tj') < 4) {
-					player.changeAvatarImage('vl_nanci', 'vl_nanci')
+					player.changeSkin({ characterName: 'vl_nanci' }, 'vl_nanci')
 				}
 			} else {
 				if (player.countMark('vl_nanci_tj') < 5) player.addMark('vl_nanci_tj', 1)
 				if (player.countMark('vl_nanci_tj') >= 4) {
-					player.changeAvatarImage('vl_nanci', 'vl_nanci2')
+					player.changeSkin({ characterName: 'vl_nanci' }, 'vl_nanci2')
 				}
 			}
 		} else {
 			if (player.countMark('vl_nanci_tj') < 5) player.addMark('vl_nanci_tj', 1)
 			if (player.countMark('vl_nanci_tj') >= 4) {
-				player.changeAvatarImage('vl_nanci', 'vl_nanci2')
+				player.changeSkin({ characterName: 'vl_nanci' }, 'vl_nanci2')
 			}
 		}
 	},

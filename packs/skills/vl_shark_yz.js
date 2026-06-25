@@ -1,4 +1,4 @@
-import { lib, game, ui, get, ai, _status } from '../../../../noname.js';
+import { lib, game, get, _status } from '../../../../noname.js';
 
 export default {
     enable: "phaseUse",
@@ -56,22 +56,11 @@ export default {
                 return info && !info.zhuSkill && !info.limited && !info.juexingji && !info.hiddenSkill && !info.charlotte && !info.dutySkill && !info.unique && !player.hasSkill(skill);
             }));
         }
-        const buttonResult = await player.chooseButtonControl({
+        const buttonResult = await player.chooseButton({
             createDialog: ['请选择一个技能', [skills1, 'textbutton']],
-            multibutton: true,
-            control: function () {
-                return 'ok';
-            },
-            filterButton: function (buttons) {
-                return buttons.length <= 1;
-            },
-            processAI: function () {
-                var control = skills1.randomGet()
-                return {
-                    bool: true,
-                    links: [control],
-                    control: 'ok',
-                }
+            selectButton: [1, 1],
+            ai(button) {
+                return skills1.includes(button.link) ? Math.random() : 0;
             },
         }).forResult();
         if (buttonResult.bool && buttonResult.links.length) {
@@ -107,21 +96,11 @@ export default {
                     }));
                 }
                 if (!list.length || !skills.length) { return; }
-                const map = await player.chooseButtonControl({
+                const map = await player.chooseButton({
                     createDialog: ['请选择要获得的技能', [skills, 'textbutton']],
-                    multibutton: true,
-                    control: function () {
-                        return 'ok';
-                    },
-                    filterButton: function (buttons) {
-                        return buttons.length <= 3;
-                    },
-                    processAI: function () {
-                        return {
-                            bool: true,
-                            links: skills.randomGets(3),
-                            control: 'ok',
-                        };
+                    selectButton: [1, 3],
+                    ai(button) {
+                        return skills.includes(button.link) ? Math.random() : 0;
                     },
                 }).forResult();
                 if (map.bool && map.links.length) {

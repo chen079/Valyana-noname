@@ -3,8 +3,7 @@ import { changeYun, $changeYun } from './functions/changeYun.js'
 import { getInCenter } from './functions/getInCenter.js'
 import { hubianSkill, changeHubian, $changeHubian } from './functions/hubian.js'
 import { chooseText } from './functions/chooseText.js'
-import { chooseButtonControl } from './functions/chooseButtonControl.js'
-import { changeAvatarImage, avatarPath } from './functions/avatarPath.js'
+import { avatarPath } from './functions/avatarPath.js'
 import { fenfaSkill } from './functions/fenfaSkill.js'
 import { initShunfaSkill } from './functions/initShunfaSkill.js'
 
@@ -16,8 +15,6 @@ export const initFunctions = function (lib, game, ui, get, _status) {
             'changeHubian': changeHubian,
             '$changeHubian': $changeHubian,
             'chooseText': chooseText,
-            'chooseButtonControl': chooseButtonControl,
-            'changeAvatarImage': changeAvatarImage,
             'fenfaSkill': fenfaSkill,
             'initShunfaSkill': initShunfaSkill
         },
@@ -29,6 +26,9 @@ export const initFunctions = function (lib, game, ui, get, _status) {
         },
         get: {
             'avatarPath': avatarPath
+        },
+        content: {
+
         }
     }
 

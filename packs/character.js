@@ -20,7 +20,7 @@ export const character = {
         name: 'SP钫酸',
         title: '无畏暴君',
         gender: 'male',
-        bloc: 'vl_quanke',
+        bloc: 'vl_huli',
         hp: 3,
         vp: 3,
         intro: `
@@ -42,7 +42,7 @@ export const character = {
         name: 'SP望朔',
         title: '守护之骑',
         gender: 'male',
-        bloc: 'vl_maoke',
+        bloc: 'vl_shizi',
         hp: '3/4',
         intro: `
 望朔是钫酸座下的第一位骑士，掌管审判。他是狮子兽人，头顶一对白色龙角，身上常年带着竹子的清淡气息。他的铠甲为白色，披挂为绿色，手持一柄被称为“圣剑”的长剑。这柄剑并不以锋利著称，而是能感应谎言与罪责，在审判时显现光芒。望朔的形象通常被描述为正义与光明的化身，他在公开场合的行为也符合这一描述——他主持法庭，裁决争端，从不徇私。

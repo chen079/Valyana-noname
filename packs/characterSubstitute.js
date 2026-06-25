@@ -1,0 +1,16 @@
+export const characterSubstitute = {
+    vl_francium: [['vl_francium2', ['ext:瓦尔亚纳/image/character/vl_francium2.jpg']]],
+    vl_froh: [['vl_froh2', ['ext:瓦尔亚纳/image/character/vl_froh2.jpg']]],
+    vl_nanci: [['vl_nanci2', ['ext:瓦尔亚纳/image/character/vl_nanci2.jpg']]],
+    vl_kulun: [['vl_kulun_die', ['ext:瓦尔亚纳/image/character/vl_kulun_die.jpg']]],
+    vl_kulun_light: [['vl_kulun_light_die', ['ext:瓦尔亚纳/image/character/vl_kulun_light_die.jpg']]],
+    vl_kulun_dark: [['vl_kulun_dark_die', ['ext:瓦尔亚纳/image/character/vl_kulun_dark_die.jpg']]],
+    vl_kulun_wind: [['vl_kulun_wind_die', ['ext:瓦尔亚纳/image/character/vl_kulun_wind_die.jpg']]],
+    vl_kulun_fire: [['vl_kulun_fire_die', ['ext:瓦尔亚纳/image/character/vl_kulun_fire_die.jpg']]],
+    vl_kulun_water: [['vl_kulun_water_die', ['ext:瓦尔亚纳/image/character/vl_kulun_water_die.jpg']]],
+    vl_kulun_ice: [['vl_kulun_ice_die', ['ext:瓦尔亚纳/image/character/vl_kulun_ice_die.jpg']]],
+    vl_kulun_thunder: [['vl_kulun_thunder_die', ['ext:瓦尔亚纳/image/character/vl_kulun_thunder_die.jpg']]],
+    vl_kulun_nature: [['vl_kulun_nature_die', ['ext:瓦尔亚纳/image/character/vl_kulun_nature_die.jpg']]],
+    vl_kulun_dirt: [['vl_kulun_dirt_die', ['ext:瓦尔亚纳/image/character/vl_kulun_dirt_die.jpg']]],
+    vl_kulun_metal: [['vl_kulun_metal_die', ['ext:瓦尔亚纳/image/character/vl_kulun_metal_die.jpg']]],
+}

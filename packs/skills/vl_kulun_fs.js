@@ -113,13 +113,14 @@ export default {
 		if (event.reserveOut) {
 			game.broadcastAll(function (player, list) {
 				player.classList.add('out');
-				if (list.includes(player.name1) || player.name1 == 'vl_kulun') {
-					player.changeAvatarImage(player.name1, player.name1 + '_die')
-				}
-				if (list.includes(player.name2) || player.name2 == 'vl_kulun') {
-					player.changeAvatarImage(player.name2, player.name2 + '_die')
-				}
 			}, player, lib.skill.vl_kulun_zn.element.map(i => i[0]));
+			const list = lib.skill.vl_kulun_zn.element.map(i => i[0]);
+			if (list.includes(player.name1) || player.name1 == 'vl_kulun') {
+				player.changeSkin({ characterName: player.name1 }, player.name1 + '_die');
+			}
+			if (list.includes(player.name2) || player.name2 == 'vl_kulun') {
+				player.changeSkin({ characterName: player.name2 }, player.name2 + '_die');
+			}
 		}
 	},
 	subSkill: {
@@ -134,7 +135,6 @@ export default {
 					if (!player.getStorage('vl_kulun_zn').length) {
 						game.broadcastAll(function (player) {
 							player.name1 = player.name;
-							player.changeAvatarImage(player.name, player.name);
 							player.node.name.innerHTML = get.slimName(player.name);
 							delete player.name2;
 							player.classList.remove('fullskin2');
@@ -144,6 +144,7 @@ export default {
 								ui.fakeme.style.backgroundImage = player.node.avatar.style.backgroundImage;
 							}
 						}, player);
+						player.changeSkin({ characterName: player.name }, player.name);
 					}
 				}
 				if (!player.getStorage('vl_kulun_zn').length) {
