@@ -1,5 +1,5 @@
 import { lib, game, ui, get, ai, _status } from '../../../../noname.js';
-import Valyana from './Valyana.js';
+import characterPacks from './Valyana.js';
 import poptips from './poptips.json'
 import changelog from './changelog.js'
 import { vuffs } from '../../packs/vuffs/index.js';
@@ -17,8 +17,10 @@ export async function precontent(ValyanaCharacters) {
     initBrokenSystem();
     initValyanaGallerySystem();
     if (ValyanaCharacters.enable) {
+        const packs = await characterPacks()
         //--------------------武将包--------------------//
-        game.import('character', Valyana);
+        game.import('character', packs[0]);
+        game.import('character', packs[1]);
         //--------------------卡牌包--------------------//
     }
     for (let poptip of poptips) {

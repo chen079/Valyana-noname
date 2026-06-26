@@ -1,20 +1,20 @@
 import { lib, game, ui, get, ai, _status } from '../../../../noname.js';
 import { character } from '../../packs/character.js'
-import { furryCharacter } from '../../packs/furryCharacter.js'
-import { card } from '../../packs/card.js'
+import { furryCharacter } from '../../packs/FurryExtcharacter.js'
+
 import { dynamicTranslate } from '../../packs/dynamicTranslate.js'
 import { translation } from '../../packs/translation.js';
 import { characterSubstitute } from '../../packs/characterSubstitute.js'
 
-const characterTitle = {}
-const translate = {}
-const skill = {};
-const extendCharacter = {}
-const characterIntro = {}
-const characterSort = {}
-const skillSet = new Set();
+async function parseCharacterPack(name, characterPack) {
+    const characterTitle = {}
+    const translate = {}
+    const skill = {};
+    const extendCharacter = {}
+    const characterIntro = {}
+    const characterSort = {}
+    const skillSet = new Set();
 
-for (const characterPack of [character, furryCharacter]) {
     for (const charName in characterPack) {
         const char = characterPack[charName]
         if (char.enable) {
@@ -46,55 +46,61 @@ for (const characterPack of [character, furryCharacter]) {
             if (rank && lib.rank?.rarity?.[rank] && !lib.rank.rarity[rank].includes(charName)) lib.rank.rarity[rank].push(charName);
         }
     }
-}
 
-const skillIndex = [...skillSet];
+    const skillIndex = [...skillSet];
 
-await Promise.all(skillIndex.map(async (skillName) => {
-    const module = await import(`../../packs/skills/${skillName}.js`);
-    skill[skillName] = module.default; // 取默认导出
-}));
+    await Promise.all(skillIndex.map(async (skillName) => {
+        const module = await import(`../../packs/skills/${skillName}.js`);
+        skill[skillName] = module.default; // 取默认导出
+    }));
 
-for (const skillName in skill) {
-    if (skill[skillName].t) {
-        const name = skill[skillName].t.name
-        const info = skill[skillName].t.info
-        const taici = skill[skillName].t.taici
-        if (name) translate[skillName] = name;
-        if (info) translate[skillName + '_info'] = info;
-        if (Array.isArray(taici)) {
-            taici.forEach((text, index) => {
-                translate['#ext:瓦尔亚纳/audio/skill/' + skillName + (index + 1)] = text;
-            });
+    for (const skillName in skill) {
+        if (skill[skillName].t) {
+            const name = skill[skillName].t.name
+            const info = skill[skillName].t.info
+            const taici = skill[skillName].t.taici
+            if (name) translate[skillName] = name;
+            if (info) translate[skillName + '_info'] = info;
+            if (Array.isArray(taici)) {
+                taici.forEach((text, index) => {
+                    translate['#ext:瓦尔亚纳/audio/skill/' + skillName + (index + 1)] = text;
+                });
+            }
         }
     }
-}
 
-Object.assign(translate, translation);
-
-const packs = function () {
-    const Valyana = {
-        name: 'Valyana',
+    return {
+        name: name,
         connect: true,
         characterSort: characterSort,
         character: extendCharacter,
         characterIntro: characterIntro,
         characterTitle: characterTitle,
-        card: card,
         skill: skill,
-        characterSubstitute: characterSubstitute,
-        dynamicTranslate: dynamicTranslate,
         translate: translate,
-    };
-    for (const i in Valyana.character) {
-        if (Array.isArray(Valyana.character[i])) Valyana.character[i] = get.convertedCharacter(Valyana.character[i]);
-        Valyana.character[i].trashBin ??= [];
-        Valyana.character[i].dieAudios ??= [];
-        Valyana.character[i].tempname ??= [];
-        Valyana.character[i].img = `extension/瓦尔亚纳/image/character/${i}.jpg`;
-        Valyana.character[i].dieAudios.push('ext:瓦尔亚纳/audio/die:true');
-        Valyana.translate[`#ext:瓦尔亚纳/audio/die/${i}:die`] ??= '点击播放阵亡配音';
     }
+}
+
+function addAvaterAndVideo(parsedPack) {
+    for (const i in parsedPack.character) {
+        if (Array.isArray(parsedPack.character[i])) parsedPack.character[i] = get.convertedCharacter(parsedPack.character[i]);
+        parsedPack.character[i].trashBin ??= [];
+        parsedPack.character[i].dieAudios ??= [];
+        parsedPack.character[i].tempname ??= [];
+        parsedPack.character[i].img = `extension/瓦尔亚纳/image/character/${i}.jpg`;
+        parsedPack.character[i].dieAudios.push('ext:瓦尔亚纳/audio/die:true');
+        parsedPack.translate[`#ext:瓦尔亚纳/audio/die/${i}:die`] ??= '点击播放阵亡配音';
+    }
+}
+
+const packs = async function () {
+    const Valyana = await parseCharacterPack('Valyana', character)
+    const furryExtPack = await parseCharacterPack('furryExtPack', furryCharacter)
+    Object.assign(Valyana.translate, translation);
+    Valyana.dynamicTranslate = dynamicTranslate
+    furryExtPack.characterSubstitute = characterSubstitute
+    addAvaterAndVideo(Valyana)
+    addAvaterAndVideo(furryExtPack)
     game.addGroup('vl_quanke', '犬', '犬族', { color: '#d83843', image: 'ext:瓦尔亚纳/image/group/quanke.png' });
     game.addGroup('vl_maoke', '猫', '猫族', { color: '#d6a800', image: 'ext:瓦尔亚纳/image/group/maoke.png' });
     game.addGroup('longke', '龙', '龙族', { color: '#2d2d2d', image: 'ext:瓦尔亚纳/image/group/longke.png' });
@@ -112,7 +118,9 @@ const packs = function () {
     game.addGroup('vl_shu', '鼠', '鼠族', { color: '#79706e', image: 'ext:瓦尔亚纳/image/group/shu.png' })
     lib.config.all.sgscharacters.push('Valyana');
     lib.translate['Valyana_character_config'] = '瓦尔亚纳';
-    return Valyana;
+    lib.config.all.sgscharacters.push('furryExtPack');
+    lib.translate['furryExtPack_character_config'] = '福瑞扩展';
+    return [Valyana, furryExtPack]
 };
 
 export default packs;

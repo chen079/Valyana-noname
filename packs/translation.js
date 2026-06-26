@@ -19,4 +19,5 @@ export const translation = {
     vl_kela: "克拉",
     vl_tiaodan: "挑担的游戏",
     vl_furry_migration: "福瑞迁移",
+    FurryExt: "福瑞拓展"
 };
