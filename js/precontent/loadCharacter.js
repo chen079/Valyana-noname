@@ -101,22 +101,27 @@ const packs = async function () {
     const parseOptions = {
         mergeShouzu: lib.config.extension_瓦尔亚纳_mergeShouzu,
     };
+    const loadFurryExtPack = lib.config.extension_瓦尔亚纳_loadFurryExtPack;
     const Valyana = await parseCharacterPack('Valyana', character, parseOptions)
-    const furryExtPack = await parseCharacterPack('furryExtPack', furryCharacter, parseOptions)
     const bossPack = await parseCharacterPack('ValyanaBoss', bossCharacters, parseOptions)
+    const importedPacks = [Valyana, bossPack];
     Object.assign(Valyana.translate, translation);
     Valyana.dynamicTranslate = dynamicTranslate
     Valyana.characterSubstitute = characterSubstitute
     addAvaterAndVideo(Valyana)
-    addAvaterAndVideo(furryExtPack)
     addAvaterAndVideo(bossPack)
     lib.config.all.sgscharacters.push('Valyana');
     lib.translate['Valyana_character_config'] = '瓦尔亚纳';
     lib.config.all.sgscharacters.push('ValyanaBoss');
     lib.translate['ValyanaBoss_character_config'] = '瓦尔亚纳Boss';
-    lib.config.all.sgscharacters.push('furryExtPack');
-    lib.translate['furryExtPack_character_config'] = '福瑞扩展';
-    return [Valyana, furryExtPack, bossPack]
+    if (loadFurryExtPack) {
+        const furryExtPack = await parseCharacterPack('furryExtPack', furryCharacter, parseOptions)
+        addAvaterAndVideo(furryExtPack)
+        lib.config.all.sgscharacters.push('furryExtPack');
+        lib.translate['furryExtPack_character_config'] = 'FR旧扩展';
+        importedPacks.push(furryExtPack);
+    }
+    return importedPacks
 };
 
 export default packs;

@@ -99,31 +99,41 @@ export default {
             usable: 1,
             filter(event, player) {
                 if (!player.countCards('he')) return false;
-                const evt = { filterCard(card, player, event) { return player.hasUseTarget(card); } };
-                return getUsableNames(evt, player).length > 0;
+                return getUsableNames(event, player).length > 0;
             },
-            async content(event, trigger, player) {
-                const evt = { filterCard(card, player, event) { return player.hasUseTarget(card); } };
-                const list = getUsableNames(evt, player);
-                const buttonResult = await player.chooseButton(['浩然：选择要使用的牌名', [list, 'vcard']]).set('ai', function (button) {
+            chooseButton: {
+                dialog(event, player) {
+                    return ui.create.dialog('浩然：选择要使用的牌名', [getUsableNames(event, player), 'vcard']);
+                },
+                filter(button, player) {
+                    const evt = _status.event.getParent();
+                    return evt.filterCard({ name: button.link[2], nature: button.link[3] }, player, evt);
+                },
+                check(button) {
                     const player = _status.event.player;
                     return player.getUseValue({ name: button.link[2], nature: button.link[3] });
-                }).forResult();
-                if (!buttonResult.bool || !buttonResult.links?.length) return;
-                const link = buttonResult.links[0];
-                const viewAs = { name: link[2], nature: link[3] };
-                const cardResult = await player.chooseCard('he', true, '选择一张牌当作' + (get.translation(link[3]) || '') + get.translation(link[2]) + '使用').set('ai', function (card) {
-                    return 7 - get.value(card);
-                }).forResult();
-                if (!cardResult.bool || !cardResult.cards?.length) return;
-                player.logSkill('vl_boss_hars_hr_use');
-                await player.chooseUseTarget(viewAs, cardResult.cards, true);
+                },
+                backup(links, player) {
+                    return {
+                        filterCard: true,
+                        selectCard: 1,
+                        position: 'he',
+                        popname: true,
+                        viewAs: { name: links[0][2], nature: links[0][3] },
+                        check(card) {
+                            return 7 - get.value(card);
+                        },
+                    };
+                },
+                prompt(links, player) {
+                    return '将一张牌当作' + (get.translation(links[0][3]) || '') + get.translation(links[0][2]) + '使用';
+                },
             },
             sub: true,
         },
     },
     t: {
         name: "浩然",
-        info: "其他角色使用你使用过的牌名时（每轮开始时清除记录），须交给你一张牌。你可以将一张牌当未记录的即时牌名使用（回合内每回合限一次）。",
+        info: "其他角色使用你使用过的牌名时（每轮开始时清除记录），须交给你一张牌。你可以将一张牌当未记录的即时牌名使用（若回合内，每回合限一次）。",
     },
 };

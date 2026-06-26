@@ -59,12 +59,19 @@ export default {
             },
             forced: true,
             filter(event, player) {
-                return game.hasPlayer(current => current.countCards('h') == 0) && game.hasPlayer(current => current != player && current.countCards('h') > 0);
+                return game.hasPlayer(current => current.countCards('h') == 0) && game.hasPlayer(current => current != player);
             },
             async content(event, trigger, player) {
-                const targets = game.filterPlayer(current => current != player && current.countCards('h') > 0).sortBySeat();
-                player.line(targets, 'thunder');
-                for (const target of targets) {
+                const draws = game.filterPlayer(current => current.countCards('h') == 0).sortBySeat();
+                if (draws.length) {
+                    player.line(draws, 'green');
+                    for (const target of draws) {
+                        await target.draw(2);
+                    }
+                }
+                const turns = game.filterPlayer(current => current != player).sortBySeat();
+                player.line(turns, 'thunder');
+                for (const target of turns) {
                     await target.turnOver();
                 }
             },
@@ -86,6 +93,6 @@ export default {
     },
     t: {
         name: "神降",
-        info: "每回合结束时，若有角色没有手牌，其他角色须翻面。你受到伤害后，可以使用一张单目标牌，若造成伤害则观看其他角色的手牌并获得一个额外回合。",
+        info: "每回合结束时，若有角色没有手牌，其摸两张牌，所有不为你的角色须翻面。你受到伤害后，可以使用一张单目标牌，若造成伤害则观看其他角色的手牌并获得一个额外回合。",
     },
 };
