@@ -5,8 +5,9 @@ import { furryCharacter } from '../../packs/furryExtcharacter.js'
 import { dynamicTranslate } from '../../packs/dynamicTranslate.js'
 import { translation } from '../../packs/translation.js';
 import { characterSubstitute } from '../../packs/characterSubstitute.js'
+import { getMergedShouzuBloc } from '../../packs/blocs.js';
 
-async function parseCharacterPack(name, characterPack) {
+async function parseCharacterPack(name, characterPack, options = {}) {
     const characterTitle = {}
     const translate = {}
     const skill = {};
@@ -42,7 +43,8 @@ async function parseCharacterPack(name, characterPack) {
             if (skills && Array.isArray(skills)) {
                 skills.forEach(skillName => skillSet.add(skillName));
             }
-            extendCharacter[charName] = [char.gender, char.bloc, char.hp, skills, addition]
+            const bloc = options.mergeShouzu ? getMergedShouzuBloc(char.bloc) : char.bloc;
+            extendCharacter[charName] = [char.gender, bloc, char.hp, skills, addition]
             if (rank && lib.rank?.rarity?.[rank] && !lib.rank.rarity[rank].includes(charName)) lib.rank.rarity[rank].push(charName);
         }
     }
@@ -94,8 +96,11 @@ function addAvaterAndVideo(parsedPack) {
 }
 
 const packs = async function () {
-    const Valyana = await parseCharacterPack('Valyana', character)
-    const furryExtPack = await parseCharacterPack('furryExtPack', furryCharacter)
+    const parseOptions = {
+        mergeShouzu: lib.config.extension_瓦尔亚纳_mergeShouzu,
+    };
+    const Valyana = await parseCharacterPack('Valyana', character, parseOptions)
+    const furryExtPack = await parseCharacterPack('furryExtPack', furryCharacter, parseOptions)
     Object.assign(Valyana.translate, translation);
     Valyana.dynamicTranslate = dynamicTranslate
     furryExtPack.characterSubstitute = characterSubstitute

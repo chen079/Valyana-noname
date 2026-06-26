@@ -1,3 +1,22 @@
+export const mergeShouzuReservedBlocs = new Set(['vl_haizu', 'vl_yizu', 'vl_longzu', 'vl_jiqi', 'vl_shouzu']);
+
+export function shouldMergeToShouzu(bloc) {
+    return Object.prototype.hasOwnProperty.call(blocs, bloc) && !mergeShouzuReservedBlocs.has(bloc);
+}
+
+export function getMergedShouzuBloc(bloc) {
+    return shouldMergeToShouzu(bloc) ? 'vl_shouzu' : bloc;
+}
+
+export function getDisplayBlocs(mergeShouzu) {
+    if (!mergeShouzu) return blocs;
+    const displayBlocs = {};
+    for (const key in blocs) {
+        if (mergeShouzuReservedBlocs.has(key)) displayBlocs[key] = blocs[key];
+    }
+    return displayBlocs;
+}
+
 export const blocs = {
     vl_quanzu: {
         name: '犬',

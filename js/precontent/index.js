@@ -7,7 +7,7 @@ import { initVuffSystem } from '../system/vuff.js';
 import { initVpSystem } from '../system/vp.js';
 import { initBrokenSystem } from '../system/broken.js';
 import { initValyanaGallerySystem } from '../system/valyanaGallery.js';
-import { blocs } from '../../packs/blocs.js';
+import { getDisplayBlocs } from '../../packs/blocs.js';
 
 export async function precontent(ValyanaCharacters) {
     lib.init.css(lib.assetURL + 'extension/瓦尔亚纳/css', 'vp');
@@ -17,7 +17,8 @@ export async function precontent(ValyanaCharacters) {
     initVuffSystem(vuffs);
     initBrokenSystem();
     initValyanaGallerySystem();
-    for (const [key, bloc] of Object.entries(blocs)) {
+    const mergeShouzu = lib.config.extension_瓦尔亚纳_mergeShouzu;
+    for (const [key, bloc] of Object.entries(getDisplayBlocs(mergeShouzu))) {
         await game.addGroup(key, bloc.name, bloc.longName, { color: bloc.color, image: bloc.image })
     }
     if (ValyanaCharacters.enable) {
