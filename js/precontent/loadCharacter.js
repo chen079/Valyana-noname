@@ -106,7 +106,7 @@ const packs = async function () {
     const bossPack = await parseCharacterPack('ValyanaBoss', bossCharacters, parseOptions)
     Object.assign(Valyana.translate, translation);
     Valyana.dynamicTranslate = dynamicTranslate
-    furryExtPack.characterSubstitute = characterSubstitute
+    Valyana.characterSubstitute = characterSubstitute
     addAvaterAndVideo(Valyana)
     addAvaterAndVideo(furryExtPack)
     addAvaterAndVideo(bossPack)

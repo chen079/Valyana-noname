@@ -5,7 +5,7 @@ export default {
 		source: "damageSource",
 	},
 	init(player) {
-		if (!player.storage.vl_death_sp) player.storage.vl_death_sp = false
+		if (!player.storage.vl_hundun_sp) player.storage.vl_hundun_sp = false
 	},
 	forced: true,
 	filter(event, player) {
@@ -31,11 +31,11 @@ export default {
 	},
 	async content(event, trigger, player) {
 		player.loseMaxHp()
-		player.awakenSkill('vl_death_sp')
-		player.storage.vl_death_sp = true
+		player.awakenSkill('vl_hundun_sp')
+		player.storage.vl_hundun_sp = true
 	},
 	t: {
 		name: "审判",
-		info: `觉醒技，当你累计造成不少于6点伤害时，你失去1点体力上限并修改${get.poptip("vl_death_sl")}①为：每回合限一次，当你对其他角色造成伤害时，你可以令此伤害+1并获得该角色的一张牌。`,
+		info: `觉醒技，当你累计造成不少于6点伤害时，你失去1点体力上限并修改${get.poptip("vl_hundun_sl")}①为：每回合限一次，当你对其他角色造成伤害时，你可以令此伤害+1并获得该角色的一张牌。`,
 	},
 };

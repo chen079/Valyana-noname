@@ -38,7 +38,7 @@ export default {
             await player.viewHandcards(target);
         }
         delete player.storage.vl_boss_hars_sj_damage;
-        await player.insertPhase();
+        player.insertPhase();
     },
     ai: {
         maixie: true,
@@ -59,10 +59,10 @@ export default {
             },
             forced: true,
             filter(event, player) {
-                return game.hasPlayer(current => current.countCards('h') == 0) && game.hasPlayer(current => current.countCards('h') > 0);
+                return game.hasPlayer(current => current.countCards('h') == 0) && game.hasPlayer(current => current != player && current.countCards('h') > 0);
             },
             async content(event, trigger, player) {
-                const targets = game.filterPlayer(current => current.countCards('h') > 0).sortBySeat();
+                const targets = game.filterPlayer(current => current != player && current.countCards('h') > 0).sortBySeat();
                 player.line(targets, 'thunder');
                 for (const target of targets) {
                     await target.turnOver();
@@ -86,6 +86,6 @@ export default {
     },
     t: {
         name: "神降",
-        info: "每回合结束时，若有角色没有手牌，其他有手牌的角色须翻面。你受到伤害后，可以使用一张单目标牌，若此牌造成伤害，则你观看其他角色的手牌并执行一个额外回合。",
+        info: "每回合结束时，若有角色没有手牌，其他角色须翻面。你受到伤害后，可以使用一张单目标牌，若造成伤害则观看其他角色的手牌并获得一个额外回合。",
     },
 };

@@ -6,15 +6,15 @@ export default {
 	},
 	usable: 1,
 	filter(event, player) {
-		if (player.storage.vl_death_sp) {
+		if (player.storage.vl_hundun_sp) {
 			return event.player != player
 		} else {
-			return event.player == player.storage.vl_death_sy
+			return event.player == player.storage.vl_hundun_sy
 		}
 	},
 	mod: {
 		targetInRange(card, player, target) {
-			if (target == player.storage.vl_death_sy) {
+			if (target == player.storage.vl_hundun_sy) {
 				return true;
 			}
 		},
@@ -23,7 +23,7 @@ export default {
 		return get.attitude(player, event.player) < 0
 	},
 	async content(event, trigger, player) {
-		if (player.storage.vl_death_sp) {
+		if (player.storage.vl_hundun_sp) {
 			trigger.num += 1
 			await player.gainPlayerCard(trigger.player, 'h', true)
 			return
@@ -39,7 +39,7 @@ export default {
 			await player.loseHp()
 		}
 	},
-	group: "vl_death_sl_double",
+	group: "vl_hundun_sl_double",
 	subSkill: {
 		double: {
 			trigger: {
@@ -49,7 +49,7 @@ export default {
 				return get.attitude(player, event.target) < 0
 			},
 			filter(event, player) {
-				return event.card.name == 'sha' && event.getParent(2).name != 'vl_death_sl_double'
+				return event.card.name == 'sha' && event.getParent(2).name != 'vl_hundun_sl_double'
 			},
 			prompt2(event, player) {
 				return '视为对' + get.translation(event.target) + '使用一张【杀】。'

@@ -95,12 +95,10 @@ export default {
             sub: true,
         },
         use: {
-            trigger: {
-                source: "damageEnd",
-            },
-            direct: true,
+            enable: "phaseUse",
+            usable: 1,
             filter(event, player) {
-                if (!player.countCards('hs')) return false;
+                if (!player.countCards('he')) return false;
                 const evt = { filterCard(card, player, event) { return player.hasUseTarget(card); } };
                 return getUsableNames(evt, player).length > 0;
             },
@@ -114,11 +112,11 @@ export default {
                 if (!buttonResult.bool || !buttonResult.links?.length) return;
                 const link = buttonResult.links[0];
                 const viewAs = { name: link[2], nature: link[3] };
-                const cardResult = await player.chooseCard('h', true, '选择一张手牌当作' + (get.translation(link[3]) || '') + get.translation(link[2]) + '使用').set('ai', function (card) {
+                const cardResult = await player.chooseCard('he', true, '选择一张牌当作' + (get.translation(link[3]) || '') + get.translation(link[2]) + '使用').set('ai', function (card) {
                     return 7 - get.value(card);
                 }).forResult();
                 if (!cardResult.bool || !cardResult.cards?.length) return;
-                player.logSkill('vl_boss_hars_hr');
+                player.logSkill('vl_boss_hars_hr_use');
                 await player.chooseUseTarget(viewAs, cardResult.cards, true);
             },
             sub: true,
@@ -126,6 +124,6 @@ export default {
     },
     t: {
         name: "浩然",
-        info: "其他角色使用你本轮使用过的牌名时，须交给你一张牌（每轮开始时清除记录）。你造成伤害后，可以将一张牌当作本轮未记录的基本牌或普通锦囊牌使用。",
+        info: "其他角色使用你使用过的牌名时（每轮开始时清除记录），须交给你一张牌。你可以将一张牌当未记录的即时牌名使用（回合内每回合限一次）。",
     },
 };

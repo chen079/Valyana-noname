@@ -28,11 +28,11 @@ export default {
 		result = await player.chooseCardTarget({
 			filterTarget(card, player, target) {
 				if (target == player) return false;
-				const stat = player.getStat('skill').vl_aroncy_jw_targets;
+				const stat = player.getStat('skill').vl_aerte_jw_targets;
 				return !stat || !stat.includes(target);
 			},
 			filter(event, player) {
-				return player.countCards('h') > 0 && game.hasPlayer((current) => lib.skill.vl_aroncy_jw.filterTarget(null, player, current));
+				return player.countCards('h') > 0 && game.hasPlayer((current) => lib.skill.vl_aerte_jw.filterTarget(null, player, current));
 			},
 			discard: false,
 			lose: false,
@@ -55,12 +55,12 @@ export default {
 		if (!result.bool) return;
 		const target = result.targets[0];
 		player.line(target, 'green');
-		await target.gain(result.cards, player, 'giveAuto').gaintag.add('vl_aroncy_jw');
-		target.addSkill('vl_aroncy_jw_use');
-		player.addSkill('vl_aroncy_jw_draw');
+		await target.gain(result.cards, player, 'giveAuto').gaintag.add('vl_aerte_jw');
+		target.addSkill('vl_aerte_jw_use');
+		player.addSkill('vl_aerte_jw_draw');
 		const stat = player.getStat('skill');
-		if (!stat.vl_aroncy_jw_targets) stat.vl_aroncy_jw_targets = [];
-		stat.vl_aroncy_jw_targets.push(target);
+		if (!stat.vl_aerte_jw_targets) stat.vl_aerte_jw_targets = [];
+		stat.vl_aerte_jw_targets.push(target);
 	},
 	subSkill: {
 		draw: {
@@ -73,7 +73,7 @@ export default {
 				return event.player.hasHistory('lose', function (evt) {
 					if (evt.getParent() != event) return false;
 					for (const i in evt.gaintag_map) {
-						if (evt.gaintag_map[i].includes('vl_aroncy_jw')) {
+						if (evt.gaintag_map[i].includes('vl_aerte_jw')) {
 							if (event.player.hasHistory('sourceDamage', function (evt) {
 								return evt.card == event.card;
 							})) {
@@ -97,14 +97,14 @@ export default {
 				targetInRange(card) {
 					if (!card.cards) return;
 					for (const i of card.cards) {
-						if (i.hasGaintag('vl_aroncy_jw')) return true;
+						if (i.hasGaintag('vl_aerte_jw')) return true;
 					}
 				},
 				cardDiscardable(card, player, name) {
-					if (name == 'phaseDiscard' && card.hasGaintag('vl_aroncy_jw')) return false;
+					if (name == 'phaseDiscard' && card.hasGaintag('vl_aerte_jw')) return false;
 				},
 				aiOrder(player, card, num) {
-					if (get.itemtype(card) == 'card' && card.hasGaintag('vl_aroncy_jw')) return num + 1;
+					if (get.itemtype(card) == 'card' && card.hasGaintag('vl_aerte_jw')) return num + 1;
 				},
 			},
 		},

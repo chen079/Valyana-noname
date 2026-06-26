@@ -14,7 +14,7 @@ export default {
         while (player.countCards('h', { color }) > 0) {
             const cards = player.getCards('h').filter(card => get.color(card) == color);
             if (!cards.length) return;
-            player.logSkill("vl_adward_qm");
+            player.logSkill("vl_buline_qm");
             await player.recast(cards);
         }
     },

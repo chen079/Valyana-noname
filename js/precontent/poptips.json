@@ -16,12 +16,12 @@
     },
     {
         "name": "双镰",
-        "id": "vl_death_sl",
+        "id": "vl_hundun_sl",
         "info": "当你对“猎物”造成伤害时，你可以令伤害+1、令其弃置两张牌，或失去1点体力。"
     },
     {
         "name": "恐惧",
-        "id": "vl_death_sy_useless",
+        "id": "vl_hundun_sy_useless",
         "info": "将你标记为“猎物”的角色的回合内，此技能外的非特殊技能无效。"
     },
     {

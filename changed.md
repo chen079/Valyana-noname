@@ -6,7 +6,7 @@
 
 - `packs/skills/vl_aak_hy.js`
 - `packs/skills/vl_aak_yj.js`
-- `packs/skills/vl_adward_qm.js`
+- `packs/skills/vl_buline_qm.js`
 - `packs/skills/vl_akain_bx.js`
 - `packs/skills/vl_akain_ys.js`
 - `packs/skills/vl_ala_dy.js`
@@ -19,8 +19,8 @@
 - `packs/skills/vl_bofeng_ws.js`
 - `packs/skills/vl_ciyu_hq.js`
 - `packs/skills/vl_crow_my.js`
-- `packs/skills/vl_death_sl.js`
-- `packs/skills/vl_death_sy.js`
+- `packs/skills/vl_hundun_sl.js`
+- `packs/skills/vl_hundun_sy.js`
 - `packs/skills/vl_delagu_bm.js`
 - `packs/skills/vl_delagu_xy.js`
 - `packs/skills/vl_delta_sy.js`
@@ -92,10 +92,10 @@
 - `packs/skills/vl_pluvia_xs.js`
 - `packs/skills/vl_qima_dz.js`
 - `packs/skills/vl_rabby_qj.js`
-- `packs/skills/vl_adward_qm.js`
-- `packs/skills/vl_adward_yt.js`
+- `packs/skills/vl_buline_qm.js`
+- `packs/skills/vl_buline_yt.js`
 - `packs/skills/vl_ala_gm.js`
-- `packs/skills/vl_aroncy_jw.js`
+- `packs/skills/vl_aerte_jw.js`
 - `packs/skills/vl_baixi_bm.js`
 - `packs/skills/vl_baixi_dy.js`
 - `packs/skills/vl_baixi_jc.js`
