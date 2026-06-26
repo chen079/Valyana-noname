@@ -4,8 +4,8 @@ export default {
 	enable: "phaseUse",
 	usable: 1,
 	filterCard(card) {
-		var suit = get.suit(card);
-		for (var i = 0; i < ui.selected.cards.length; i++) {
+		let suit = get.suit(card);
+		for (let i = 0; i < ui.selected.cards.length; i++) {
 			if (get.suit(ui.selected.cards[i]) == suit) return false;
 		}
 		return true;

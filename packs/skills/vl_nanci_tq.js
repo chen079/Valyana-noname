@@ -9,25 +9,25 @@ export default {
 		if (!player.storage.vl_nanci_tq) player.storage.vl_nanci_tq = []
 	},
 	async content(event, trigger, player) {
-		var list = [];
+		let list = [];
 		game.getGlobalHistory('cardMove', function (evt) {
 			if (evt.name == 'lose') {
 				if (evt.position == ui.discardPile) {
-					for (var i of evt.cards) {
+					for (let i of evt.cards) {
 						if (get.color(i) == 'red') list.add(i);
 					}
 				}
 			}
 			else {
 				if (evt.name == 'cardsDiscard') {
-					for (var i of evt.cards) {
+					for (let i of evt.cards) {
 						if (get.color(i) == 'red') list.add(i);
 					}
 				}
 			}
 		});
 		list = list.filterInD('d')
-		var cards = list.slice(0, 2)
+		let cards = list.slice(0, 2)
 		if (!cards.length) return;
 		player.gain(cards, 'gain2')
 		player.storage.vl_nanci_tq = cards

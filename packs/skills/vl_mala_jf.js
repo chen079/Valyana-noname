@@ -10,7 +10,7 @@ export default {
     async content(event, trigger, player) {
         trigger.finish()
         trigger.cancel()
-        var num = player.maxHp
+        let num = player.maxHp
         player.gainMaxHp(num)
         player.recover(num)
     },

@@ -9,7 +9,7 @@ export default {
 		return event.player.isAlive() && event.player != player;
 	},
 	async content(event, trigger, player) {
-		var next = player.chooseControl("选项一", "选项二", true).set("prompt", "请选择发动的选项：").set('choiceList', ['观看并获得当前角色一张牌', '获得牌堆中的一张杀'])
+		let next = player.chooseControl("选项一", "选项二", true).set("prompt", "请选择发动的选项：").set('choiceList', ['观看并获得当前角色一张牌', '获得牌堆中的一张杀'])
 		next.ai = function (event, player) {
 			if (get.attitude(player, event.player) < 0) {
 				return 0
@@ -18,7 +18,7 @@ export default {
 		const result = await next.forResult()
 		if (result.index == 0) { await player.gainPlayerCard(1, 'he', trigger.player, true, 'visible') }
 		if (result.index == 1) {
-			var card = get.cardPile2(function (card) { return card.name == 'sha'; });
+			let card = get.cardPile2(function (card) { return card.name == 'sha'; });
 			if (card) await player.gain(card, 'gain2');
 		}
 		return

@@ -22,9 +22,9 @@ export default {
                 return event.num > 0;
             },
             async content(event, trigger, player) {
-                var cards = [];
+                let cards = [];
                 while (cards.length < trigger.num) {
-                    var card = get.cardPile(function (card) {
+                    let card = get.cardPile(function (card) {
                         return get.tag(card, 'damage') && !cards.includes(card)
                     });
                     if (card) cards.push(card);

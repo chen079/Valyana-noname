@@ -18,8 +18,8 @@ export default {
         const { targets } = await player.chooseTarget([1, Infinity], true, (_, player, target) => lib.filter.targetEnabled2(card, player, target))
             .set("prompt", get.translation("vl_gairtelu_zs") + "：为" + get.translation(trigger.card) + "重新分配目标")
             .set("ai", function (target) {
-                var trigger = _status.event.getTrigger();
-                var player = _status.event.player;
+                let trigger = _status.event.getTrigger();
+                let player = _status.event.player;
                 return get.effect(target, trigger.card, player, player);
             }).forResult();
         trigger.targets = targets;

@@ -28,7 +28,7 @@ export default {
             forced: true,
             firstDo: true,
             filter(event, player) {
-                var info = lib.card[event.card.name];
+                let info = lib.card[event.card.name];
                 if (event.player == player) return false;
                 if (get.color(event.card) != 'black' || get.type(event.card) != 'trick') return false;
                 return info.selectTarget && info.selectTarget == -1 && !info.toself;

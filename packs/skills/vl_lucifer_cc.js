@@ -18,7 +18,7 @@ export default {
 		player.addSkill("vl_lucifer_cc_die");
 		player.storage.vl_lucifer_cc = game.addPlayer(((player.next.dataset.position == 0) ? (game.players.length) : (player.next.dataset.position)), 'vl_mountainbear').getId();
 		player.storage.vl_lucifer_cc.setPosition();
-		var target = player.storage.vl_lucifer_cc;
+		let target = player.storage.vl_lucifer_cc;
 		target.init('vl_mountainbear');
 		if (player.identity == 'zhu' || player.identity == 'zhong') {
 			target.identity = 'zhong';

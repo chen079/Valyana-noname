@@ -8,10 +8,10 @@ export default {
         const result = await player.chooseTarget(1, true).set("filterTarget", function (card, player, target) {
             return target != player
         }).set("ai", function (target) {
-            var player = _status.event.player;
+            let player = _status.event.player;
             return -get.attitude(player, target) / (1 + target.hp)
         }).forResult()
-        var target = result.targets[0]
+        let target = result.targets[0]
         target.addSkill('vl_jiejie_zr_1')
         await target.loseHp()
         target.updateMark('vl_jiejie_zr_1')

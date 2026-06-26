@@ -9,16 +9,16 @@ export default {
 	},
 	shaRelated: true,
 	cost: async function cost(event, trigger, player) {
-		var list = []
-		for (var i = 0; i < player.hujia; i++) {
+		let list = []
+		for (let i = 0; i < player.hujia; i++) {
 			list.push(i + 1)
 		}
 		const result = await player.chooseControl(list, 'cancel2')
 			.set('prompt', '请选择要失去的护甲值并令此【杀】伤害+X')
 			.set('ai', function () {
-				var player = _status.event.player
-				var target = _status.event.target
-				var att = get.attitude(player, target)
+				let player = _status.event.player
+				let target = _status.event.target
+				let att = get.attitude(player, target)
 				if (att > 0) {
 					return 'cancel2'
 				} else {

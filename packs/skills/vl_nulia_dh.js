@@ -5,8 +5,8 @@ export default {
 	usable: 1,
 	mode: ["identity"],
 	filter(event, player) {
-		var list = [];
-		for (var i = 0; i < game.dead.length; i++) {
+		let list = [];
+		for (let i = 0; i < game.dead.length; i++) {
 			if (game.dead[i].maxHp != 0) {
 				list.push(game.dead[i].name);
 			}
@@ -14,29 +14,29 @@ export default {
 		return list.length > 0;
 	},
 	async content(event, trigger, player) {
-		var list = [];
-		for (var i = 0; i < game.dead.length; i++) {
+		let list = [];
+		for (let i = 0; i < game.dead.length; i++) {
 			if (game.dead[i].maxHp != 0) {
 				list.push(game.dead[i].name);
 			}
 		}
 		const result = await player.chooseButton(ui.create.dialog('选择一名已死亡的角色令其复活', [list, 'character']), function (button) {
-			for (var i = 0; i < game.dead.length && game.dead[i].name != button.link; i++);
+			for (let i = 0; i < game.dead.length && game.dead[i].name != button.link; i++);
 			return Math.random()
 		}).forResult();
 		if (result.bool) {
 			await player.loseHp()
-			for (var i = 0; i < game.dead.length && game.dead[i].name != result.buttons[0].link; i++);
-			var dead = game.dead[i];
+			for (let i = 0; i < game.dead.length && game.dead[i].name != result.buttons[0].link; i++);
+			let dead = game.dead[i];
 			dead.revive(1);
 			await dead.draw(2);
-			var skills = dead.getSkills();
-			for (var j = 0; j < skills.length; j++) {
+			let skills = dead.getSkills();
+			for (let j = 0; j < skills.length; j++) {
 				dead.markSkill(skills[j])
 			}
 			dead.checkMarks()
 			game.broadcastAll(function (player, target, shown) {
-				var identity = player.identity;
+				let identity = player.identity;
 				if (identity == 'zhu') {
 					dead.identity = 'zhong'
 				} else {

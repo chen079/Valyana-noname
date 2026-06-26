@@ -35,18 +35,18 @@ export default {
 			},
 			async content(event, trigger, player) {
 				if (get.isLuckyStar(player)) {
-					var num = Math.floor(Math.random() * 4) + 1
+					let num = Math.floor(Math.random() * 4) + 1
 					if (num == 2) {
 						num = 3
 					}
 				} else {
-					var num = Math.floor(Math.random() * 4) + 1
+					let num = Math.floor(Math.random() * 4) + 1
 				}
 				game.log(player, 'D4投掷的结果为', '#g' + num)
 				player.popup(num)
 				if (num == 1) {
-					var id = trigger.target.playerid;
-					var map = trigger.getParent().customArgs;
+					let id = trigger.target.playerid;
+					let map = trigger.getParent().customArgs;
 					if (!map[id]) map[id] = {};
 					if (typeof map[id].extraDamage != 'number') {
 						map[id].extraDamage = 0;

@@ -7,7 +7,7 @@ export default {
 		return player.canCompare(target)
 	},
 	selectTarget() {
-		var player = _status.event.player
+		let player = _status.event.player
 		return [1, player.hp]
 	},
 	filter(event, player) {
@@ -16,6 +16,8 @@ export default {
 	multitarget: true,
 	multiline: true,
 	content: async function content(event, trigger, player) {
+		const target = event.target
+		const targets = event.targets
 		player.chooseToCompare(targets).callback = async (event, trigger, player) => {
 			if (event.num1 > event.num2) {
 				await player.draw();

@@ -16,7 +16,7 @@ export default {
 		for (let target of targets) {
 			const result = await target.chooseCard('he', '征言：交给' + get.translation(player) + '一张牌，或失去1点体力').set('ai', function (card) {
 				if (target.getCards('he').length == 0) return false;
-				var att = get.attitude(target, player);
+				let att = get.attitude(target, player);
 				if (att > 0) return 1;
 				else {
 					if (card.name == 'tao') return 0;
@@ -39,7 +39,7 @@ export default {
 					if (player.countCards('h') == 0) return;
 					if (!target.isIn()) continue;
 					const result = await player.chooseCard('h', true, 1, '征言：选择要交给' + get.translation(target) + '的牌').set('ai', function (card) {
-						var att = get.attitude(player, target)
+						let att = get.attitude(player, target)
 						if (att > 0) { return get.value(card) }
 						else return 100 - get.value(card)
 					}).forResult();

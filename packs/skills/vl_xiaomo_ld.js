@@ -45,9 +45,9 @@ export default {
 						}
 						if (get.attitude(player, target) < 0 && !player.hasSkillTag('damageBonus')) {
 							if (card.name == 'sha') return;
-							var sha = false;
+							let sha = false;
 							player._vl_xiaomo_ld_tmp = true;
-							var num = player.countCards('h', function (card) {
+							let num = player.countCards('h', function (card) {
 								if (card.name == 'sha') {
 									if (sha) {
 										return false;
@@ -63,7 +63,7 @@ export default {
 								num++;
 							}
 							if (num < 2) {
-								var enemies = player.getEnemies();
+								let enemies = player.getEnemies();
 								if (enemies.length == 1 && enemies[0] == target && player.needsToDiscard()) return
 								return 0;
 							}

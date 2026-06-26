@@ -7,38 +7,39 @@ export default {
 		return player != target;
 	},
 	async content(event, trigger, player) {
-		var targets = game.filterPlayer(current => {
+		const target = event.target;
+		let targets = game.filterPlayer(current => {
 			return current != target;
 		});
 		player.chooseToDebate(targets).set('callback', function () {
-			var result = event.debateResult;
+			let result = event.debateResult;
 			if (result.bool && result.opinion) {
-				var opinion = result.opinion;
-				var target = event.getParent(2).target;
+				let opinion = result.opinion;
+				let target = event.getParent(2).target;
 				if (opinion == 'red') {
-					for (var i = 0; i < result.red.length; i++) {
-						var people = result.red[i][0]
+					for (let i = 0; i < result.red.length; i++) {
+						let people = result.red[i][0]
 						if (people.canUse({ name: 'sha', isCard: true }, target) && people.countCards('h') > 0 && lib.filter.targetInRange({ name: 'sha' }, people, target) && lib.filter.targetEnabled({ name: 'sha' }, people, target) && target.isAlive()) {
 							player.discardPlayerCard(people, 'h', 1, true)
 							people.useCard({ name: 'sha', isCard: true }, target);
 						}
 					}
 				} else {
-					for (var i = 0; i < result.black.length; i++) {
-						var people = result.black[i][0]
+					for (let i = 0; i < result.black.length; i++) {
+						let people = result.black[i][0]
 						player.gainPlayerCard(people, 'hej', true)
 					}
 				};
 			}
 		}).set('ai', card => {
-			var player = _status.event.player;
-			var color = (player == _status.event.source || get.damageEffect(_status.event.getParent(2).target, player, player) > 0) ? 'black' : 'red';
-			var val = 5 - get.value(card);
+			let player = _status.event.player;
+			let color = (player == _status.event.source || get.damageEffect(_status.event.getParent(2).target, player, player) > 0) ? 'black' : 'red';
+			let val = 5 - get.value(card);
 			if (get.color(card) == color) val += 10;
 			return val;
 		}).set('aiCard', target => {
-			var color = (target == _status.event.source || get.damageEffect(_status.event.getParent(2).target, target, target) > 0) ? 'black' : 'red';
-			var hs = target.getCards('h', { color: color });
+			let color = (target == _status.event.source || get.damageEffect(_status.event.getParent(2).target, target, target) > 0) ? 'black' : 'red';
+			let hs = target.getCards('h', { color: color });
 			if (!hs.length) hs = target.getCards('h');
 			return { bool: true, cards: [hs.randomGet()] };
 		}).set('target', target);

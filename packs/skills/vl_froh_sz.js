@@ -15,7 +15,7 @@ export default {
             return get.attitude(player, target) > 0 && !target.hasVuff('lingmi')
         }).forResult()
         if (result.bool) {
-            for (var i of result.targets) {
+            for (let i of result.targets) {
                 i.addVuff('lingmi')
                 i.addVuff('yujian')
             }

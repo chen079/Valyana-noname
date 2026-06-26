@@ -11,7 +11,7 @@ export default {
 	},
 	async content(event, trigger, player) {
 		await player.draw()
-		var next = player.chooseTarget(1, false).set("prompt", "请选择一名其他角色").set("prompt2", "该角色选择一项：1.交给你一张牌、2.视为你对其使用一张火【杀】。")
+		let next = player.chooseTarget(1, false).set("prompt", "请选择一名其他角色").set("prompt2", "该角色选择一项：1.交给你一张牌、2.视为你对其使用一张火【杀】。")
 		next.set("filterTarget", function (event, player, target) {
 			return player != target
 		})
@@ -21,7 +21,7 @@ export default {
 		const result = await next.forResult();
 		if (result.bool) {
 			event.targets = result.targets
-			var then = event.targets[0].chooseCard(1, 'he').set('prompt', "交给" + get.translation(player) + "一张牌或视为其对你使用一张【杀】")
+			let then = event.targets[0].chooseCard(1, 'he').set('prompt', "交给" + get.translation(player) + "一张牌或视为其对你使用一张【杀】")
 			then.ai = function (card) {
 				return 6 - get.value(card);
 			}

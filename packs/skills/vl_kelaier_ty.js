@@ -12,6 +12,7 @@ export default {
         return player.countCards('he') > 0
     },
     async content(event, trigger, player) {
+        const target = event.target
         const result = await player.judge().forResult()
         switch (get.color(result.card)) {
             case 'red': target.storage.tyname = 'basic'; break;

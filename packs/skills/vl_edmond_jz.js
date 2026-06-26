@@ -15,7 +15,7 @@ export default {
 		trigger.targets.remove(player);
 		trigger.getParent().triggeredTargets2.remove(player);
 		trigger.untrigger();
-		var card = trigger.cards[0];
+		let card = trigger.cards[0];
 		player.addToExpansion(card, 'gain2').gaintag.add('vl_edmond_jz');
 		if (!player.storage.vl_edmond_jz) player.storage.vl_edmond_jz = [[], []];
 		player.storage.vl_edmond_jz[0].push(card);
@@ -23,7 +23,7 @@ export default {
 		game.delayx();
 	},
 	onremove(player, skill) {
-		var cards = player.getExpansions(skill);
+		let cards = player.getExpansions(skill);
 		if (cards.length) player.loseToDiscardpile(cards);
 		delete player.storage[skill];
 	},

@@ -21,7 +21,7 @@ export default {
             game.delayx();
         }
         const list = [];
-        for (var i = 0; i < trigger.result.length; i++) {
+        for (let i = 0; i < trigger.result.length; i++) {
             if (trigger.result[i].name == 'sha') {
                 list.push(trigger.result[i]);
             }

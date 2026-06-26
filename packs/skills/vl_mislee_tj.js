@@ -33,7 +33,8 @@ export default {
 		return val;
 	},
 	async content(event, trigger, player) {
-		subtype = get.subtype(cards[0]);
+		const cards = event.cards;
+		let subtype = get.subtype(cards[0]);
 		if (subtype != 'equip1' && subtype != 'equip2') subtype = 'others';
 		player.addTempSkill('vl_mislee_tj_' + subtype, 'phaseUseAfter');
 		let send = function () {
@@ -170,7 +171,7 @@ export default {
 		await game.delay();
 		await game.cardsGotoOrdering(event.cardsx);
 		game.broadcastAll('closeDialog', event.videoId);
-		let subtype = get.subtype(cards[0]);
+		subtype = get.subtype(cards[0]);
 		if (subtype != 'equip1' && subtype != 'equip2') subtype = 'others';
 		let card_map = {
 			equip1: ['wushuangfangtianji', 'guilongzhanyuedao', 'chixueqingfeng', 'bintieshuangji', 'wutiesuolian', 'wuxinghelingshan'],
@@ -187,7 +188,7 @@ export default {
 			}
 		}
 		if (!list.length) return;
-		else var chooseResult = await player.chooseButton(['请选择一种装备牌', [list.randomGets(event.duanzaoResult + 1), 'vcard']], true).set('ai', function (button) {
+		let chooseResult = await player.chooseButton(['请选择一种装备牌', [list.randomGets(event.duanzaoResult + 1), 'vcard']], true).set('ai', function (button) {
 			return get.value({ name: button.link[2] }, player, 'raw');
 		}).forResult();
 		let name = chooseResult.links[0][2];

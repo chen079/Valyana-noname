@@ -21,13 +21,13 @@ export default {
 		const gains = cards.filterInD();
 		if (!gains.length) return;
 		const result = await player.chooseTarget('将' + get.translation(gains) + '交给一名角色', true).set('ai', function (target) {
-			var player = _status.event.player;
-			var att = get.attitude(player, target) / Math.sqrt(1 + target.countCards('h'));
+			let player = _status.event.player;
+			let att = get.attitude(player, target) / Math.sqrt(1 + target.countCards('h'));
 			if (target.hasSkillTag('nogain')) att /= 10;
 			return att;
 		}).forResult();
 		if (!result.bool) return;
-		var target = result.targets[0];
+		let target = result.targets[0];
 		event.target = target;
 		player.line(target, 'green');
 		await target.gain(gains, 'gain2').set('giver', player);

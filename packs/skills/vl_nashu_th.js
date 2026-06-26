@@ -6,15 +6,15 @@ export default {
 	},
 	filter(event, player) {
 		return event.player.getStockSkills().filter(function (skill) {
-			var info = get.info(skill);
+			let info = get.info(skill);
 			return info && !info.juexingji && !info.hiddenSkill && !info.zhuSkill && !info.charlotte && !info.limited && !info.dutySkill;
 		}).length > 0;
 	},
 	logTarget: "player",
 	direct: true,
 	async content(event, trigger, player) {
-		var list = trigger.player.getStockSkills().filter(function (skill) {
-			var info = get.info(skill);
+		let list = trigger.player.getStockSkills().filter(function (skill) {
+			let info = get.info(skill);
 			return info && !info.juexingji && !info.hiddenSkill && !info.zhuSkill && !info.charlotte && !info.limited && !info.dutySkill;
 		});
 		const result = list.length == 1 ? { control: list[0] } : await player.chooseControl(list, 'cancel2').set('prompt', '选择获得' + get.translation(trigger.player) + '的一个技能').set('forceDie', true).set('ai', function () {
@@ -23,9 +23,9 @@ export default {
 		if (result.control != 'cancel2') {
 			player.addSkillLog(result.control);
 			game.broadcastAll(function (skill) {
-				var list = [skill]; game.expandSkills(list);
-				for (var i of list) {
-					var info = lib.skill[i];
+				let list = [skill]; game.expandSkills(list);
+				for (let i of list) {
+					let info = lib.skill[i];
 					if (!info) continue;
 				}
 			}, result.control);

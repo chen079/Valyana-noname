@@ -24,7 +24,7 @@ export default {
 			return
 		}
 		let result = await player.chooseToDiscard(2, 'he', get.prompt2('vl_tails_jd')).set('ai', function (card) {
-			var bads = event.targets.filter(i => get.attitude(player, i) < 0)
+			let bads = event.targets.filter(i => get.attitude(player, i) < 0)
 			if (bads.length == 0) return -1
 			if (bads.length > 0 && !bads[0].mayHaveShan()) return 5 - get.value(card)
 		}).forResult();
@@ -54,8 +54,8 @@ export default {
 				trigger.cancel()
 			}
 			result = await player.chooseButton(['谋弈：请选择一种策略', [[['', '', 'fr_card_chongci'], ['', '', 'fr_card_zhuanyi']], 'vcard']], true).set('ai', function (button) {
-				var player = _status.event.player;
-				var target = _status.event.target;
+				let player = _status.event.player;
+				let target = _status.event.target;
 				if (!target.mayHaveSha() && get.attitude(player, target) < 0) {
 					return (button.link[2] == "fr_card_zhuanyi") ? (1.7 + Math.random()) : (1 + Math.random());
 				}
@@ -71,9 +71,9 @@ export default {
 		result = await event.target.chooseToRespond(1, 'h', '选择打出一张【杀】或【闪】来响应“谋弈”', function (card) {
 			return get.name(card) == 'sha' || get.name(card) == 'shan'
 		}).set('ai', function (card) {
-			var target = _status.event.target
-			var player = _status.event.player
-			var att = get.attitude(player, target)
+			let target = _status.event.target
+			let player = _status.event.player
+			let att = get.attitude(player, target)
 			if (att > 0) {
 				return -1
 			} else {

@@ -5,7 +5,7 @@ export default {
         player: "phaseUseBegin",
     },
     initList() {
-        var list = lib.inpile.filter(i => get.type(i) == 'equip')
+        let list = lib.inpile.filter(i => get.type(i) == 'equip')
         list.addArray(['cixiong', 'fangtian', 'guanshi', 'hanbing', 'qilin', 'qinggang', 'qinglong', 'zhangba', 'zhuge', 'rewrite_zhuge',
             "rewrite_bagua", "rewrite_baiyin", "rewrite_lanyinjia", "rewrite_renwang", "tengjia", 'guding', 'zhuque', "bagua", "baiyin", "lanyinjia", "renwang", "tengjia",
             'dilu', 'jueying', 'zhuahuang', 'chitu', 'dawan', 'zixin', 'hualiu', 'muniu', 'bintieshuangji', 'wuxinghelingshan', 'wutiesuolian', 'wushuangfangtianji', 'chixueqingfeng',
@@ -19,7 +19,7 @@ export default {
     },
     direct: true,
     async content(event, trigger, player) {
-        var list = [
+        let list = [
             '用任意张牌“制造”等量点数8的装备，将其中任意张置入场上的装备区（可替换）',
             '令任意名符合①的角色「迟缓」层数+1',
             '调整手牌至四张，结束本回合',
@@ -30,7 +30,7 @@ export default {
                 return [i, item];
             }), 'textbutton']
         ]).set('selectButton', [1, 3]).set('ai', function (button) {
-            var player = _status.event.player;
+            let player = _status.event.player;
             switch (button.link) {
                 case 0:
                     if (get.attitude(player, _status.currentPhase) > 0) return 3;
@@ -38,8 +38,8 @@ export default {
                 case 1:
                     return 1;
                 case 2:
-                    var num = 0;
-                    for (var i of ui.selected.buttons) {
+                    let num = 0;
+                    for (let i of ui.selected.buttons) {
                         if (i.link == 1) num++;
                     }
                     if (num > 0 && player.isDamaged()) return 2;
@@ -49,7 +49,7 @@ export default {
         }).forResult();
         if (!next.bool) return;
         event.links = next.links.sort();
-        for (var i of event.links) {
+        for (let i of event.links) {
             game.log(player, '选择了', '#g【巧械】', '的', '#y选项' + get.cnNumber(i + 1, true));
         }
         if (event.links.includes(0) && player.countCards('he') > 0) {
@@ -78,7 +78,7 @@ export default {
             player.discard(event.cards)
             while (event.cards.length) {
                 event.card = event.cards.shift()
-                var cards = player.storage.vl_tails_qx.randomGets(5).map(i => game.createCard(i, get.suit(event.card), 8))
+                let cards = player.storage.vl_tails_qx.randomGets(5).map(i => game.createCard(i, get.suit(event.card), 8))
                 const createResult = await player.chooseCardButton(cards, '巧械：制造一件装备', 1, true).set('ai', function (button) {
                     return get.value(button.link, _status.event.player);
                 }).forResult();
@@ -103,7 +103,7 @@ export default {
                     },
                     ai2: function (target) {
                         if (get.subtype(ui.selected.cards[0]) == 'equip2') return get.attitude(_status.event.player, target);
-                        var att = get.attitude(_status.event.player, target);
+                        let att = get.attitude(_status.event.player, target);
                         if (target.countCards('e', function (card) {
                             return get.number(card) == 8
                         }) > 0) return -1
@@ -133,20 +133,20 @@ export default {
                 return -get.attitude(player, target)
             }).forResult();
             if (slowResult.bool) {
-                for (var i of slowResult.targets) {
+                for (let i of slowResult.targets) {
                     i.addVuff('chihuan')
                 }
             }
         }
         if (event.links.includes(2)) {
-            var num = 4 - player.countCards('h')
+            let num = 4 - player.countCards('h')
             if (num > 0) {
                 player.draw(num)
             } else if (num < 0) {
                 player.chooseToDiscard(-num, 'h', true)
             }
             trigger.cancel()
-            var evt = trigger.getParent('phase');
+            let evt = trigger.getParent('phase');
             if (evt && evt.name == 'phase') {
                 game.log(evt.player, '结束了回合');
                 evt.finish();
@@ -169,17 +169,17 @@ export default {
             },
             filter(event, player) {
                 if (event.name == 'lose' && event.position != ui.discardPile) return false;
-                var storage = player.storage.vl_tails_qx_destroy;
+                let storage = player.storage.vl_tails_qx_destroy;
                 if (!storage) return false;
-                for (var i of event.cards) {
+                for (let i of event.cards) {
                     if (storage.includes(i)) return true;
                 }
                 return false;
             },
             async content(event, trigger, player) {
-                var cards = [];
-                var storage = player.storage.vl_tails_qx_destroy;
-                for (var i of trigger.cards) {
+                let cards = [];
+                let storage = player.storage.vl_tails_qx_destroy;
+                for (let i of trigger.cards) {
                     if (storage.includes(i)) {
                         storage.remove(i);
                         cards.push(i);

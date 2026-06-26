@@ -21,7 +21,7 @@ export default {
 					player.chooseTarget([1, trigger.targets.length - 1], get.prompt('vl_siji_jg'), '为' + get.translation(trigger.card) + '减少任意个目标', function (card, player, target) {
 						return _status.event.targets.includes(target)
 					}).set('targets', trigger.targets).set('ai', function (target) {
-						var player = _status.event.player;
+						let player = _status.event.player;
 						return -get.effect(target, _status.event.getTrigger().card, player, player)
 					});
 				})

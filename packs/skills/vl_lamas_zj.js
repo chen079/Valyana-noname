@@ -12,7 +12,7 @@ export default {
             const targetResult = await player.chooseTarget(get.prompt2(event.name), 1, function (card, player, target) {
                 return target.countCards('hej') > 0
             }, function (target) {
-                var player = _status.event.player;
+                let player = _status.event.player;
                 return get.effect(target, { name: 'guohe_copy2' }, player, player);
             }).forResult();
             if (!targetResult.bool) return;
@@ -30,7 +30,7 @@ export default {
         markcount: "expansion",
     },
     onremove(player) {
-        var cards = player.getExpansions('vl_lamas_zj');
+        let cards = player.getExpansions('vl_lamas_zj');
         if (cards.length) player.loseToDiscardpile(cards);
     },
     ai: {
@@ -77,7 +77,7 @@ export default {
             },
             direct: true,
             async content(event, trigger, player) {
-                var cards = player.getExpansions('vl_lamas_zj');
+                let cards = player.getExpansions('vl_lamas_zj');
                 if (cards.length) player.gain(cards, 'gain2');
             },
         },

@@ -8,11 +8,11 @@ export default {
     },
     unique: true,
     initList(player) {
-        var list;
+        let list;
         if (_status.characterlist) {
             list = [];
-            for (var i = 0; i < _status.characterlist.length; i++) {
-                var name = _status.characterlist[i];
+            for (let i = 0; i < _status.characterlist.length; i++) {
+                let name = _status.characterlist[i];
                 if (lib.character[name][1] == 'wei', 'shu', 'qun', 'wu', 'shen', 'jin') list.push(name);
             }
         }
@@ -26,13 +26,13 @@ export default {
                 return info[1] == 'wei', 'shu', 'qun', 'wu', 'shen', 'jin';
             });
         }
-        var players = game.players.concat(game.dead);
-        for (var i = 0; i < players.length; i++) {
+        let players = game.players.concat(game.dead);
+        for (let i = 0; i < players.length; i++) {
             list.remove(players[i].name);
             list.remove(players[i].name1);
             list.remove(players[i].name2);
         }
-        var banlist = ['vl_shark', 'vl_wore', 'vl_yifa']
+        let banlist = ['vl_shark', 'vl_wore', 'vl_yifa']
         list.remove(banlist);
         player.storage.shark_lib = list
     },
@@ -48,11 +48,11 @@ export default {
         }
         player.removeSkill(result.control)
         player.storage.vl_shark_yz.remove(result.control)
-        var list = player.storage.shark_lib.randomGets(4)
-        var skills1 = []
-        for (var i = 0; i < list.length; i++) {
+        let list = player.storage.shark_lib.randomGets(4)
+        let skills1 = []
+        for (let i = 0; i < list.length; i++) {
             skills1.addArray((lib.character[list[i]][3] || []).filter(function (skill) {
-                var info = get.info(skill);
+                let info = get.info(skill);
                 return info && !info.zhuSkill && !info.limited && !info.juexingji && !info.hiddenSkill && !info.charlotte && !info.dutySkill && !info.unique && !player.hasSkill(skill);
             }));
         }
@@ -87,11 +87,11 @@ export default {
             },
             async content(event, trigger, player) {
                 if (!player.storage.shark_lib) lib.skill.vl_shark_yz.initList(player);
-                var list = player.storage.shark_lib.randomGets(4)
-                var skills = [];
-                for (var i of list) {
+                let list = player.storage.shark_lib.randomGets(4)
+                let skills = [];
+                for (let i of list) {
                     skills.addArray((lib.character[i][3] || []).filter(function (skill) {
-                        var info = get.info(skill);
+                        let info = get.info(skill);
                         return info && !info.zhuSkill && !info.limited && !info.juexingji && !info.hiddenSkill && !info.charlotte && !info.dutySkill && !info.unique;
                     }));
                 }
@@ -104,15 +104,15 @@ export default {
                     },
                 }).forResult();
                 if (map.bool && map.links.length) {
-                    for (var i of map.links) {
+                    for (let i of map.links) {
                         player.addSkillLog(i)
                         player.storage.vl_shark_yz.push(i)
                     }
                 }
                 game.broadcastAll(function (list) {
                     game.expandSkills(list);
-                    for (var i of list) {
-                        var info = lib.skill[i];
+                    for (let i of list) {
+                        let info = lib.skill[i];
                         if (!info) continue;
                     }
                 }, map.bool ? map.links : []);

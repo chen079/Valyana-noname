@@ -10,14 +10,14 @@ export default {
 	},
 	logTarget: "target",
 	check(event, player) {
-		var target = event.target;
+		let target = event.target;
 		if (get.attitude(player, target) > 0) return false;
 		return true;
 	},
 	async content(event, trigger, player) {
 		const result = await player.chooseCard([1, 4], get.prompt2('vl_kulun_dirt_zj'), function (card) {
-			var suit = get.suit(card);
-			for (var i = 0; i < ui.selected.cards.length; i++) {
+			let suit = get.suit(card);
+			for (let i = 0; i < ui.selected.cards.length; i++) {
 				if (get.suit(ui.selected.cards[i]) == suit) return false;
 			}
 			return true;
@@ -26,10 +26,10 @@ export default {
 		}).set('complexCard', true).forResult()
 		if (result.bool) {
 			const next = player.recast(result.cards)
-			var num = Math.floor(result.cards.length / 2)
-			var map = trigger.customArgs;
-			for (var i = 0; i < trigger.targets.length; i++) {
-				var id = trigger.targets[i].playerid;
+			let num = Math.floor(result.cards.length / 2)
+			let map = trigger.customArgs;
+			for (let i = 0; i < trigger.targets.length; i++) {
+				let id = trigger.targets[i].playerid;
 				if (!map[id]) map[id] = {};
 				if (!map[id].extraDamage) map[id].extraDamage = 0;
 				map[id].extraDamage += num;

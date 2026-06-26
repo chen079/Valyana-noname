@@ -4,8 +4,8 @@ export default {
     position: "he",
     enable: "phaseUse",
     filter(event, player) {
-        var he = player.getCards('he');
-        for (var i = 0; i < he.length; i++) {
+        let he = player.getCards('he');
+        for (let i = 0; i < he.length; i++) {
             if (["bagua", "baiyin", "lanyinjia", "renwang", "tengjia", "zhuge"].includes(he[i].name)) return true;
         }
         return false;
@@ -20,6 +20,7 @@ export default {
         return 1;
     },
     async content(event, trigger, player) {
+        const cards = event.cards;
         await player.showCards(cards);
         const card = cards[0];
         const bool = (get.position(card) == 'e');
@@ -31,7 +32,7 @@ export default {
         if (bool) {
             const info = get.info(card);
             if (info.skills) {
-                for (var i = 0; i < info.skills.length; i++) {
+                for (let i = 0; i < info.skills.length; i++) {
                     player.addSkillTrigger(info.skills[i]);
                 }
             }

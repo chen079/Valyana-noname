@@ -41,16 +41,16 @@ export default {
             const result = await player.chooseTarget('获得一名其他角色的一张牌', true, function (card, player, target) {
                 return player != target && target.countCards('he') > 0
             }).set('ai', function (target) {
-                var player = _status.event.player;
+                let player = _status.event.player;
                 return -get.attitude(player, target)
             }).forResult();
             if (result.bool) {
                 player.gainPlayerCard(1, 'he', result.targets[0], true);
             }
         }
-        const result = await player.chooseUseTarget('###是否发动【愤延】？###视为使用一张没有距离限制的【杀】，然后失去1点体力。', { name: 'sha' }, false, 'nodistance').set('ai', function (player) {
-            var player = _status.event.player;
-            return player.hp > 1
+        const result = await player.chooseUseTarget('###是否发动【愤延】？###视为使用一张没有距离限制的【杀】，然后失去1点体力。', { name: 'sha' }, false, 'nodistance').set('ai', function (cardPlayer) {
+            let currentPlayer = _status.event.player;
+            return currentPlayer.hp > 1
         }).forResult();
         if (result.bool) {
             player.loseHp();

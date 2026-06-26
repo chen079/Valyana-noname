@@ -10,7 +10,7 @@ export default {
 		const cards = get.cards(4);
 		player.addTempSkill("vl_delta_sy_ig")
 		game.cardsGotoOrdering(cards);
-		var dialog = ui.create.dialog('算演', cards, true)
+		let dialog = ui.create.dialog('算演', cards, true)
 		if (!event.isMine()) {
 			player.popup('演算成功！');
 			await player.gain(cards, 'gain2').gaintag.add('vl_delta_sy')

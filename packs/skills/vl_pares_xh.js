@@ -10,7 +10,7 @@ export default {
         return player.hp != player.countCards('h')
     },
     async content(event, trigger, player) {
-        var num = player.hp - player.countCards('h')
+        let num = player.hp - player.countCards('h')
         if (num > 0) {
             player.draw(num)
         } else {

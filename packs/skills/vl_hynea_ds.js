@@ -14,6 +14,7 @@ export default {
         return player != target;
     },
     async content(event, trigger, player) {
+        const target = event.target
         player.storage.vl_hynea_cg -= 1
         await target.damage(1, player)
         player.updateMark('vl_hynea_cg')

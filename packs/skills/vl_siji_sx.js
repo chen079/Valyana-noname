@@ -14,7 +14,7 @@ export default {
         return current.countCards('h') > current.hp
     }),
     content: () => {
-        var num = game.countPlayer(function (current) {
+        let num = game.countPlayer(function (current) {
             return current.countCards('h') > current.hp
         })
         player.draw(num)

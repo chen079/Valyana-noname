@@ -22,6 +22,7 @@ export default {
     },
     selectCard: [1, 2],
     async content(event, trigger, player) {
+        const target = event.target
         target.damage(player, 'fire')
         target.addVuff('ranshao')
     },

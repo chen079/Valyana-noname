@@ -18,21 +18,21 @@ export default {
     async content(event, trigger, player) {
         player.awakenSkill('vl_west_sx');
         await trigger.player.gainMaxHp();
-        //var num=Math.min(5,trigger.player.maxHp);
+        //let num=Math.min(5,trigger.player.maxHp);
         await trigger.player.recover(trigger.player.maxHp - trigger.player.hp);
         //if(trigger.player.countCards("h")<=num) trigger.player.draw(num-trigger.player.countCards("h"));
         //else trigger.player.chooseToDiscard("h",true,trigger.player.countCards("h")-num);
         trigger.player.link(false);
         trigger.player.turnOver(false);
         trigger.player.disableJudge();
-        var num = trigger.player.countDisabled();
+        let num = trigger.player.countDisabled();
         if (num) {
-            for (var i = 1; i < 6; i++) {
+            for (let i = 1; i < 6; i++) {
                 if (trigger.player.isDisabled(i)) trigger.player.enableEquip(i);
             }
         }
-        var num = trigger.player.maxHp - trigger.player.countCards('h')
-        if (num > 0) { await trigger.player.draw(num) }
+        let drawNum = trigger.player.maxHp - trigger.player.countCards('h')
+        if (drawNum > 0) { await trigger.player.draw(drawNum) }
     },
     mark: true,
     intro: {

@@ -15,7 +15,7 @@ export default {
     },
     async content(event, trigger, player) {
         trigger.cancel();
-        var num = trigger.num;
+        let num = trigger.num;
         player.draw(2 * num);
     },
     ai: {

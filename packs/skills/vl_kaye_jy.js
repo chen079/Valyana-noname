@@ -7,6 +7,7 @@ export default {
     position: "h",
     filterTarget: true,
     async content(event, trigger, player) {
+        const target = event.target
         target.addVuff('jianren', player, 2)
     },
     ai: {

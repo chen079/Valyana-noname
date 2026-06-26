@@ -6,7 +6,7 @@ export default {
     },
     forced: true,
     filter(event, player) {
-        var next = player.getNext();
+        let next = player.getNext();
         if (event.player == next && get.distance(player, next) <= 1) return true;
         return false;
     },

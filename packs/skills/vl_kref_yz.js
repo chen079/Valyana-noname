@@ -6,8 +6,8 @@ export default {
 		global: "damageEnd",
 	},
 	checkx(event, player) {
-		var att1 = get.attitude(player, event.player);
-		var att2 = get.attitude(player, event.source);
+		let att1 = get.attitude(player, event.player);
+		let att2 = get.attitude(player, event.source);
 		return att1 > 0 && att2 <= 0;
 	},
 	filter(event, player) {

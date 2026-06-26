@@ -9,10 +9,10 @@ export default {
 		return player.canCompare(target);
 	},
 	check(target) {
-		var player = _status.event.player, targets = _status.event.getTrigger().targets;
-		var num = 0, card = { name: 'sha', nature: 'fire', isCard: true };
-		var hs = player.getCards('h').sort((a, b) => get.number(b) - get.number(a));
-		var ts = target.getCards('h').sort((a, b) => get.number(b) - get.number(a));
+		let player = _status.event.player, targets = _status.event.getTrigger().targets;
+		let num = 0, card = { name: 'sha', nature: 'fire', isCard: true };
+		let hs = player.getCards('h').sort((a, b) => get.number(b) - get.number(a));
+		let ts = target.getCards('h').sort((a, b) => get.number(b) - get.number(a));
 		if (get.number(hs[0]) <= Math.min(13, get.number(ts[0]) + num)) {
 			return 6 + get.effect(player, card, target, target);
 		}
@@ -29,9 +29,9 @@ export default {
 			result = await player.chooseToCompare(targets).setContent('chooseToCompareMeanwhile').forResult()
 		}
 		if (result.winner) {
-			var targets = [player].addArray(event.targets).sortBySeat(player);
+			let targets = [player].addArray(event.targets).sortBySeat(player);
 			targets.remove(result.winner);
-			for (var i = 0; i < targets.length; i++) {
+			for (let i = 0; i < targets.length; i++) {
 				if (!result.winner.canUse({ name: 'sha', nature: 'fire', isCard: true }, targets[i], false) || !lib.filter.targetEnabled2({ name: 'sha', nature: 'fire', isCard: true }, result.winner, targets[i])) {
 					targets.remove(targets[i])
 				}

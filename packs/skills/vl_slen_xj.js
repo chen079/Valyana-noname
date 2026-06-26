@@ -27,11 +27,11 @@ export default {
         const target = event.target;
         const cards = event.cards;
         target.gain(cards, player, 'giveAuto').gaintag.add('vl_slen_xj')
-        var cardx = target.getCards('h')
-        var listbig = []
-        var listsmall = []
-        var listmiddle = []
-        for (var i = 0; i < cardx.length; i++) {
+        let cardx = target.getCards('h')
+        let listbig = []
+        let listsmall = []
+        let listmiddle = []
+        for (let i = 0; i < cardx.length; i++) {
             if (cards.length == 1) {
                 if (get.number(cardx[i]) >= get.number(cards[0])) listbig.push(cardx[i])
                 if (get.number(cardx[i]) <= get.number(cards[0])) listsmall.push(cardx[i])
@@ -51,12 +51,12 @@ export default {
         event.listsmall = listsmall
         event.listmiddle = listmiddle
         if (cards.length == 1) {
-            var value1 = 0
-            var value2 = 0
-            for (var i = 0; i < event.listsmall.length; i++) {
+            let value1 = 0
+            let value2 = 0
+            for (let i = 0; i < event.listsmall.length; i++) {
                 value1 += get.value(event.listsmall[i])
             }
-            for (var j = 0; j < event.listbig.length; j++) {
+            for (let j = 0; j < event.listbig.length; j++) {
                 value2 += get.value(event.listbig[j])
             }
             const controlResult = await target.chooseControl('选项一', '选项二').set('choiceList', ['交给' + get.translation(player) + '点数不大于' + get.number(cards[0]) + '的所有牌', '交给' + get.translation(player) + '点数不小于' + get.number(cards[0]) + '的所有牌']).set('ai', function () {
@@ -76,7 +76,7 @@ export default {
         const cardResult = await target.chooseCard('h', [1, event.listmiddle.length], '交给' + get.translation(player) + '任意张点数∈[' + event.small + ',' + event.big + ']之间的手牌并摸等量的牌', function (card) {
             return event.listmiddle.includes(card)
         }).set('ai', function (card) {
-            var player = _status.event.player;
+            let player = _status.event.player;
             if (get.position(card) == 'h' && !player.countCards('h', 'du') && (player.hp > 2 || !player.countCards('h', function (card) {
                 return get.value(card) >= 8;
             }))) {
@@ -85,7 +85,7 @@ export default {
             return 6 - get.value(card)
         }).set('complexCard', true).forResult();
         if (cardResult.bool) {
-            var num = 0
+            let num = 0
             if (cardResult.cards.length == event.listmiddle.length) num += 1
             player.gain(cardResult.cards, target, 'giveAuto')
             target.draw(cardResult.cards.length + num)

@@ -12,7 +12,7 @@ export default {
 	},
 	async content(event, trigger, player) {
 		const result = await trigger.player.chooseCard('he', '是否对' + get.translation(player) + '发动【复苏】？', '交给' + get.translation(player) + '一张牌并回复1点体力').set('ai', function (card) {
-			var player = _status.event.player
+			let player = _status.event.player
 			if (player.hp <= 2) {
 				return 9 - get.value(card)
 			} else if (player.hp == player.maxHp) {

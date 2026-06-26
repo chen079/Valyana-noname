@@ -13,6 +13,7 @@ export default {
     },
     selectTarget: -1,
     async content(event, trigger, player) {
+        const target = event.target;
         target.link()
     },
     ai: {

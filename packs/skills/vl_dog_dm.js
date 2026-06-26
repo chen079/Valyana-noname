@@ -15,7 +15,7 @@ export default {
 			return ui.create.dialog('多谋', [['fr_card_gzbj', 'diaobingqianjiang'], 'vcard']);
 		},
 		filter(button, player) {
-			var evt = _status.event.getParent();
+			let evt = _status.event.getParent();
 			return evt.filterCard({
 				name: button.link[2],
 			}, player, evt);

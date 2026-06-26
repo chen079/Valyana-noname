@@ -16,6 +16,7 @@ export default {
 	},
 	async content(event, trigger, player) {
 		const result = await player.chooseToCompare(target).forResult();
+		const target = event.target
 		if (!result.bool) {
 			await player.die();
 			return;

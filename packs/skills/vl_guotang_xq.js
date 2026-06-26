@@ -9,13 +9,13 @@ export default {
 		const targetResult = await player.chooseTarget(1, get.prompt2('vl_guotang_xq'), function (card, player, target) {
 			return target != player
 		}).set('ai', function (target) {
-			var player = _status.event.player
-			var att = get.attitude(player, target)
+			let player = _status.event.player
+			let att = get.attitude(player, target)
 			return att
 		}).forResult();
 		if (!targetResult.bool) return;
 		const target = targetResult.targets[0];
-		var choice = [], choiceList = [];
+		let choice = [], choiceList = [];
 		if (player.countCards('h') > 0) {
 			choiceList.push('令' + get.translation(player) + '交给你一张牌');
 			choice.push('拿牌');
@@ -27,8 +27,8 @@ export default {
 		if (!choice.length) return;
 		const control = await target.chooseControl(choice).set('choiceList', choiceList)
 			.set('ai', function () {
-				var player = _status.event.player;
-				var target = _status.event.target;
+				let player = _status.event.player;
+				let target = _status.event.target;
 				if (choice.length == 1) return choice[0];
 				if (get.attitude(player, target) < 0) return '拿牌';
 				if (player.countCards('h') == 1) return '给牌';
@@ -42,7 +42,7 @@ export default {
 		}
 		const giveResult = await target.chooseCardTarget({
 			filterTarget: function (card, player, target) {
-				var source = _status.event.source
+				let source = _status.event.source
 				return _status.event.player != target && source != target;
 			},
 			position: 'he',
@@ -58,7 +58,7 @@ export default {
 		await target.give(giveResult.cards, giveResult.targets[0]);
 		if (target.countCards('h') == 0) {
 			const drawResult = await player.chooseTarget('令一名角色摸两张牌', 1).set('ai', function (target) {
-				var player = _status.event.player
+				let player = _status.event.player
 				return get.attitude(player, target)
 			}).forResult();
 			if (drawResult.bool) await drawResult.targets[0].draw(2);

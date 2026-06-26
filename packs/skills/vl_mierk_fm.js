@@ -72,7 +72,7 @@ export default {
 		skillTagFilter(player, tag, arg) {
 			if (player._vl_mierk_fm_temp) return false;
 			player._vl_mierk_fm_temp = true;
-			var bool = function () {
+			let bool = function () {
 				if (arg.card.name != 'sha' || get.attitude(player, arg.target) >= 0 || !arg.target.countCards('h')) return false;
 				if (arg.target.countCards('h') == 1 && (!arg.target.getEquip('bagua') || player.hasSkillTag('unequip', false, {
 					name: arg.card ? arg.card.name : null,

@@ -10,8 +10,8 @@ export default {
     },
     logTarget: "target",
     async content(event, trigger, player) {
-        var id = trigger.target.playerid;
-        var map = trigger.getParent().customArgs;
+        let id = trigger.target.playerid;
+        let map = trigger.getParent().customArgs;
         if (!map[id]) map[id] = {};
         if (typeof map[id].shanRequired == 'number') {
             map[id].shanRequired += trigger.target.hp - 1;

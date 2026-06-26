@@ -48,18 +48,18 @@ export default {
 				return game.getInCenter().filter(i => get.suit(i) == 'club').length > 0 && event.player != player
 			},
 			async content(event, trigger, player) {
-				var cards = game.getInCenter().filter(i => get.suit(i) == 'club')
+				let cards = game.getInCenter().filter(i => get.suit(i) == 'club')
 				let result = await player.chooseCardButton([1, 2], cards, '获得其中至多两张牌').set('ai', function (button) {
 					return get.value(button.link, _status.event.player);
 				}).forResult();
 				if (result.bool) {
-					var cards = result.links
+					let cards = result.links
 					await player.gain(cards, 'draw')
 				}
 				result = await player.chooseCard('he', '将一张牌置于牌堆顶？', true).set('ai', function (card) {
-					var player = _status.currentPhase, js = player.next.getCards('j');
+					let player = _status.currentPhase, js = player.next.getCards('j');
 					if (js.length) {
-						var judge = get.judge(js[0]);
+						let judge = get.judge(js[0]);
 						if (judge && (judge(card) + 0.01) * get.attitude(player, player.next) > 0) return 20 - get.value(card);
 					}
 					return 0;

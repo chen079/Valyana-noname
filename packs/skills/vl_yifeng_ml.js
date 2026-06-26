@@ -8,8 +8,8 @@ export default {
     firstDo: true,
     forced: true,
     filter(event, player) {
-        var history = event.player.getHistory('damage', null, event), num = 0;
-        for (var i of history) num += i.num;
+        let history = event.player.getHistory('damage', null, event), num = 0;
+        for (let i of history) num += i.num;
         return num > 1 && (num - event.num) < 2;
     },
     async content(event, trigger, player) {

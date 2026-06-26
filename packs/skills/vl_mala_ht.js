@@ -10,7 +10,7 @@ export default {
         },
         selectTarget(card, player, range) {
             if (range[0] != 1 || range[1] != 1) return;
-            var range2 = get.select(get.info(card)?.selectTarget);
+            let range2 = get.select(get.info(card)?.selectTarget);
             if (range2[0] != 1 && range2[1] != 1) return;
             if (card.name == 'sha' || get.type(card) == 'trick') range[1] = (1 + player.getDamagedHp());
         },

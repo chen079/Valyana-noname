@@ -7,7 +7,7 @@ export default {
 		return player.storage.vl_dolina_sl[2].length
 	},
 	async content(event, trigger, player) {
-		var choice = ['失去体力']
+		let choice = ['失去体力']
 		if (player.countCards('h')) {
 			choice.push('弃置手牌')
 		}
@@ -45,7 +45,7 @@ export default {
 			.set('dialog', dialog)
 			.set('prompt2', '恢复' + get.cnNumber(2 * num) + '个记录').forResult();
 		dialog.close()
-		for (var i of buttonResult.links) {
+		for (let i of buttonResult.links) {
 			let index = player.storage.vl_dolina_sl[2].findIndex(subArr => JSON.stringify(subArr) === JSON.stringify(i));
 			if (index !== -1) {
 				player.storage.vl_dolina_sl[2].splice(index, 1);

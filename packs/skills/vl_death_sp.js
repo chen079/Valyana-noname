@@ -9,8 +9,8 @@ export default {
 	},
 	forced: true,
 	filter(event, player) {
-		var num = 0;
-		for (var j = 0; j < player.stat.length; j++) {
+		let num = 0;
+		for (let j = 0; j < player.stat.length; j++) {
 			if (player.stat[j].damage != undefined) num += player.stat[j].damage;
 		}
 		return num >= 6
@@ -20,9 +20,9 @@ export default {
 	mark: true,
 	intro: {
 		mark(dialog, storage, player) {
-			var num = 0;
+			let num = 0;
 			if (player.stat) {
-				for (var j = 0; j < player.stat.length; j++) {
+				for (let j = 0; j < player.stat.length; j++) {
 					if (player.stat[j].damage != undefined) num += player.stat[j].damage;
 				}
 			}

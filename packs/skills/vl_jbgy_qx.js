@@ -14,11 +14,12 @@ export default {
 		if (!player.storage.vl_jbgy_qx) player.storage.vl_jbgy_qx = []
 	},
 	async content(event, trigger, player) {
+		const target = event.target
 		if (!player.storage.vl_jbgy_qx || !player.storage.vl_jbgy_qx.includes(target)) {
 			player.storage.vl_jbgy_qx.push(target)
 		}
 		if (player.countCards('he', { subtype: 'equip1' }) > 0) {
-			var result = await player.chooseCard('是否弃置一张武器牌', 1, 'he', false, function (card) {
+			let result = await player.chooseCard('是否弃置一张武器牌', 1, 'he', false, function (card) {
 				return get.subtype(card) == 'equip1'
 			}).set('ai', function (card) {
 				return 7 - get.value(card)

@@ -20,11 +20,11 @@ export default {
         if (game.hasPlayer(function (current) {
             return current.countGainableCards(player, 'ej') > 0;
         })) {
-            var result = await player.chooseTarget('请选择一名角色，获得其装备区或判定区内的一张牌', true, function (card, player, target) {
+            let result = await player.chooseTarget('请选择一名角色，获得其装备区或判定区内的一张牌', true, function (card, player, target) {
                 return target.countGainableCards(player, 'ej') > 0;
             }).set('ai', function (target) {
-                var player = _status.event.player;
-                var att = get.attitude(player, target);
+                let player = _status.event.player;
+                let att = get.attitude(player, target);
                 if (att > 0 && target.countCards('ej', function (card) {
                     return get.position(card) == 'j' || get.value(card, target) <= 0;
                 })) return 2 * att;
@@ -36,7 +36,7 @@ export default {
         }
         else return;
         if (result.bool) {
-            var target = result.targets[0];
+            let target = result.targets[0];
             player.logSkill('vl_jbgy_ze', target);
             await player.gainPlayerCard(target, 'ej', true);
         }
@@ -74,7 +74,7 @@ export default {
             popup: false,
             forced: true,
             async content(event, trigger, player) {
-                var num = player.countMark('vl_jbgy_ze')
+                let num = player.countMark('vl_jbgy_ze')
                 player.removeMark('vl_jbgy_ze', num)
             },
             sub: true,

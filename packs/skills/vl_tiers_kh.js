@@ -33,7 +33,7 @@ export default {
             direct: true,
             async content(event, trigger, player) {
                 player.draw(2)
-                var next = player.phaseUse();
+                let next = player.phaseUse();
                 event.next.remove(next);
                 trigger.next.push(next);
             },

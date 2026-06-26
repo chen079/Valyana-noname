@@ -31,7 +31,7 @@ export default {
         await targets[0].gain(event.cards, player, 'give');
         const list = targets[0].getCards('h');
         while (list.length) {
-            var card = list.shift()
+            let card = list.shift()
             if (targets[1] && targets[1].isIn() && targets[0].canUse(card, targets[1], false)) {
                 await targets[0].useCard(card, targets[1], false)
             }

@@ -11,6 +11,8 @@ export default {
     filterTarget: true,
     selectCard: 1,
     async content(event, trigger, player) {
+        const target = event.target
+        const cards = event.cards
         if (get.color(cards[0]) == 'red') {
             if (target.hasSkill('vl_lint_nd_lose')) {
                 target.removeSkill('vl_lint_nd_lose')

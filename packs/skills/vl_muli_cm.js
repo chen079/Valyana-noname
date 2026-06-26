@@ -23,7 +23,7 @@ export default {
                 global: "phaseBegin",
             },
             check(event, player) {
-                var att = get.attitude(player, event.player)
+                let att = get.attitude(player, event.player)
                 return att > 0 && event.player.storage.vl_muli_zc >= event.player.hp && player.hp > 1
             },
             prompt2: "每名其他角色回合开始时，若其有【终策】，你可以弃置两张手牌然后获得【终策】与其所有策标记，然后其失去【终策】并失去1点体力。",
@@ -33,7 +33,7 @@ export default {
             async content(event, trigger, player) {
                 const result = await player.chooseToDiscard(2, 'h', false).forResult()
                 if (result.bool) {
-                    var target = trigger.player
+                    let target = trigger.player
                     player.logSkill('vl_muli_cm', target)
                     player.addSkill('vl_muli_zc')
                     player.storage.vl_muli_zc += target.storage.vl_muli_zc

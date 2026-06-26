@@ -4,7 +4,7 @@ export default {
     mark: true,
     marktext: "协",
     onremove(player, skill) {
-        var cards = player.getExpansions(skill);
+        let cards = player.getExpansions(skill);
         if (cards.length) player.loseToDiscardpile(cards);
     },
     intro: {
@@ -19,7 +19,7 @@ export default {
         return player.getExpansions('vl_xieji').length > 0;
     },
     async content(event, trigger, player) {
-        var cards = player.getExpansions('vl_xieji');
+        let cards = player.getExpansions('vl_xieji');
         if (cards.length > 0) {
             player.gain(cards, 'gain2');
         }

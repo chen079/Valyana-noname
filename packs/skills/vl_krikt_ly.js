@@ -12,12 +12,12 @@ export default {
 	},
 	async content(event, trigger, player) {
 		const result = await player.chooseToCompare(trigger.target).forResult();
-		var card = get.color(result.player, player)
+		let card = get.color(result.player, player)
 		if (card == 'red') {
 			trigger.getParent().directHit.add(trigger.target)
 		} else if (card == 'black') {
-			var id = trigger.target.playerid;
-			var map = trigger.customArgs;
+			let id = trigger.target.playerid;
+			let map = trigger.customArgs;
 			if (!map[id]) map[id] = {};
 			if (!map[id].extraDamage) map[id].extraDamage = 0;
 			map[id].extraDamage++;
@@ -34,7 +34,7 @@ export default {
 		skillTagFilter(player, tag, arg) {
 			if (player._vl_krikt_ly_temp) return false;
 			player._vl_krikt_ly_temp = true;
-			var bool = function () {
+			let bool = function () {
 				if (arg.card.name != 'sha' || get.attitude(player, arg.target) >= 0 || !arg.target.countCards('h')) return false;
 				if (arg.target.countCards('h') == 1 && (!arg.target.getEquip('bagua') || player.hasSkillTag('unequip', false, {
 					name: arg.card ? arg.card.name : null,

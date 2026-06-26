@@ -14,8 +14,8 @@ export default {
 	},
 	async content(event, trigger, player) {
 		const result = await player.choosePlayerCard(trigger.player, false, 'ej', '选择' + get.translation(target) + '其判定区或装备区的一张牌').set('ai', function (card) {
-			var player = _status.event.player
-			var target = _status.event.target
+			let player = _status.event.player
+			let target = _status.event.target
 			if (get.attitude(player, target) > 0) {
 				if (target.countCards('j') > 0) {
 					if (get.suit(card) == 'spade') {
@@ -40,9 +40,9 @@ export default {
 			}
 		}).set('target', trigger.player).forResult()
 		if (result.bool) {
-			var card = result.cards[0];
-			var cardx = get.autoViewAs({ name: 'sha' }, [card]);
-			var target = trigger.player
+			let card = result.cards[0];
+			let cardx = get.autoViewAs({ name: 'sha' }, [card]);
+			let target = trigger.player
 			const next = target.useCard(cardx, [card], player, false);
 			switch (get.suit(card)) {
 				case 'heart':
@@ -80,7 +80,7 @@ export default {
 					return 0
 				},
 				mark(dialog, storage, player) {
-					var str
+					let str
 					if (player.storage.vl_knier_yc_1 == 'Use') {
 						str = '出牌'
 					} else if (player.storage.vl_knier_yc_1 == 'Judge') {

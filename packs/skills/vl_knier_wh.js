@@ -7,7 +7,7 @@ export default {
     frequent: true,
     mark: true,
     onremove(player, skill) {
-        var cards = player.getExpansions(skill);
+        let cards = player.getExpansions(skill);
         if (cards.length) player.loseToDiscardpile(cards);
     },
     intro: {
@@ -17,10 +17,10 @@ export default {
     filter(event, player) {
         if (event.player == player) return false
         if (event.cards.length != 1) return false
-        var list = []
-        var cards = player.getExpansions('vl_knier_wh')
+        let list = []
+        let cards = player.getExpansions('vl_knier_wh')
         if (cards.length == 0) return true
-        for (var i = 0; i < cards.length; i++) {
+        for (let i = 0; i < cards.length; i++) {
             if (!list || !list.includes(get.suit(cards[i]))) {
                 list.push(get.suit(cards[i]))
             }

@@ -20,10 +20,10 @@ export default {
 	},
 	chooseButton: {
 		dialog(event, player) {
-			var list = [];
+			let list = [];
 			if (event.filterCard({ name: 'sha' }, player, event)) {
 				list.push(['基本', '', 'sha']);
-				for (var j of lib.inpile_nature) list.push(['基本', '', 'sha', j]);
+				for (let j of lib.inpile_nature) list.push(['基本', '', 'sha', j]);
 			}
 			if (event.filterCard({ name: 'shan' }, player, event)) {
 				list.push(['基本', '', 'shan']);
@@ -37,8 +37,8 @@ export default {
 			return ui.create.dialog('降龙', [list, 'vcard'], 'hidden');
 		},
 		check(button) {
-			var player = _status.event.player;
-			var card = { name: button.link[2], nature: button.link[3] };
+			let player = _status.event.player;
+			let card = { name: button.link[2], nature: button.link[3] };
 			if (_status.event.getParent().type != 'phase' || game.hasPlayer(function (current) {
 				return player.canUse(card, current) && get.effect(current, card, player, player) > 0;
 			})) {
@@ -80,8 +80,8 @@ export default {
 	},
 	ai: {
 		order() {
-			var player = _status.event.player;
-			var event = _status.event;
+			let player = _status.event.player;
+			let event = _status.event;
 			if (event.filterCard({ name: 'jiu' }, player, event) && get.effect(player, { name: 'jiu' }) > 0) {
 				return 3.3;
 			}

@@ -10,12 +10,12 @@ export default {
         if (event.name == "gain" && event.player == player) {
             return player.countCards("h") > player.getHp();
         }
-        var evt = event.getl(player);
-        if (!evt || !evt.hs || evt.hs.length == 0 || player.countCards("h") >= player.getHp()) {
+        let loseEvent = event.getl(player);
+        if (!loseEvent || !loseEvent.hs || loseEvent.hs.length == 0 || player.countCards("h") >= player.getHp()) {
             return false;
         }
-        var evt = event;
-        for (var i = 0; i < player.getHp(); i++) {
+        let evt = event;
+        for (let i = 0; i < player.getHp(); i++) {
             evt = evt.getParent("vl_faers_hc");
             if (evt.name != "vl_faers_hc") {
                 return true;
@@ -24,7 +24,7 @@ export default {
         return false;
     },
     content: async function content(event, trigger, player) {
-        var a = player.getHp() - player.countCards('h');
+        let a = player.getHp() - player.countCards('h');
         if (a > 0) {
             await player.draw(a);
         } else if (a < 0) {

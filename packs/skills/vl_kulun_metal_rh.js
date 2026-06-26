@@ -19,7 +19,7 @@ export default {
 	},
 	prompt: "将一张红色牌当火攻使用",
 	check(card) {
-		var player = _status.currentPhase;
+		let player = _status.currentPhase;
 		if (player.countCards('h') > player.hp) {
 			return 6 - get.value(card);
 		}

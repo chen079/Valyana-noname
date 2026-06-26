@@ -18,7 +18,7 @@ export default {
 		}
 	},
 	selectTarget() {
-		var player = _status.event.player
+		let player = _status.event.player
 		if (player.storage.hubian) {
 			return 2
 		} else {
@@ -34,7 +34,7 @@ export default {
 		}
 	},
 	selectCard() {
-		var player = _status.event.player
+		let player = _status.event.player
 		if (player.storage.hubian) {
 			return 0
 		} else {
@@ -66,9 +66,9 @@ export default {
 			target(player, target) {
 				if (player.storage.hubian) {
 					if (!ui.selected.targets.length) return -Math.sqrt(target.countCards('h'));
-					var h1 = ui.selected.targets[0].getCards('h'), h2 = target.getCards('h');
+					let h1 = ui.selected.targets[0].getCards('h'), h2 = target.getCards('h');
 					if (h2.length > h1.length) return 0;
-					var delval = get.value(h2, target) - get.value(h1, ui.selected.targets[0]);
+					let delval = get.value(h2, target) - get.value(h1, ui.selected.targets[0]);
 					if (delval >= 0) return 0;
 					return -delval * (h1.length - h2.length);
 				} else {

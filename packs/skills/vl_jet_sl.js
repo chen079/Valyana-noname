@@ -15,12 +15,12 @@ export default {
 	derivation: "luanwu",
 	async content(event, trigger, player) {
 		if (player.storage.vl_jet_sl == true) {
-			var list = [];
-			for (var name of lib.inpile) {
-				var type = get.type(name);
+			let list = [];
+			for (let name of lib.inpile) {
+				let type = get.type(name);
 				if (name == 'diaohulishan') continue
 				if (type != 'trick') continue;
-				var card = { name: name, isCard: true };
+				let card = { name: name, isCard: true };
 				if (!get.tag(card, 'damage') && player.hasUseTarget(card)) {
 					list.push([type, '', name]);
 				}
@@ -33,7 +33,7 @@ export default {
 			if (result.bool) await player.chooseUseTarget(true, { name: result.links[0][2], isCard: true, nature: result.links[0][3] });
 		} else {
 			player.storage.vl_jet_sl = true;
-			// var next = game.createEvent('luanwu', false);
+			// let next = game.createEvent('luanwu', false);
 			// next.player = player;
 			// next.target = game.filterPlayer((current) => current != player);
 			// next.setContent(lib.skill.luanwu.content);

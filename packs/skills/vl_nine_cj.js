@@ -13,8 +13,8 @@ export default {
         const discardResult = await player.chooseToDiscard([1, Infinity], 'he', get.prompt2('vl_nine_cj')).set('ai', function (card) {
             return 7 - get.value(card)
         }).set('filterCard', function (card) {
-            var type = get.type2(card);
-            for (var i = 0; i < ui.selected.cards.length; i++) {
+            let type = get.type2(card);
+            for (let i = 0; i < ui.selected.cards.length; i++) {
                 if (get.type2(ui.selected.cards[i]) != type) return false;
             }
             return true;
@@ -41,7 +41,7 @@ export default {
             choicelist.push('对' + get.translation(event.target) + '使用任意张【杀】');
         }
         const controlResult = await player.chooseControl(choice).set('ai', function () {
-            var player = _status.event.player;
+            let player = _status.event.player;
             if (get.attitude(player, event.target) > 0) {
                 return '护甲';
             }

@@ -12,7 +12,7 @@ export default {
 	locked: true,
 	async content(event, trigger, player) {
 		await player.draw(trigger.num)
-		var list = ['red', 'black']
+		let list = ['red', 'black']
 		const result = await player.chooseControl(list, 'cancel2').set('ai', function () {
 			return list.randomGet()
 		}).set('prompt', get.prompt2('vl_kamijia_dr')).forResult()

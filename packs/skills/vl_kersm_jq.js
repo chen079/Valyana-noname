@@ -9,8 +9,8 @@ export default {
     },
     direct: true,
     async content(event, trigger, player) {
-        var cards = [];
-        for (var i = 0; i < trigger.cards.length; i++) {
+        let cards = [];
+        for (let i = 0; i < trigger.cards.length; i++) {
             if (get.position(trigger.cards[i], true) == 'd') {
                 cards.push(trigger.cards[i]);
             };

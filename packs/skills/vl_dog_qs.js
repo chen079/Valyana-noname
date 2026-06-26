@@ -6,12 +6,12 @@ export default {
 	},
 	filter(event, player) {
 		if (['equip', 'delay'].includes(get.type(event.card))) return false;
-		var cards = player.getCards('h')
+		let cards = player.getCards('h')
 		return cards.length && cards.filter(i => get.color(i) == 'red').length == cards.length || cards.filter(i => get.color(i) == 'black').length == cards.length
 	},
 	async content(event, trigger, player) {
 		await player.showHandcards();
-		var choice = ['摸牌'], choiceList = ['摸一张牌，获得当前回合角色或一名目标角色的一张牌']
+		let choice = ['摸牌'], choiceList = ['摸一张牌，获得当前回合角色或一名目标角色的一张牌']
 		if (player.countCards('he') > 0) {
 			choice.push('额外结算')
 			choiceList.push('弃置一张牌，令此牌额外结算一次')
@@ -30,7 +30,7 @@ export default {
 		}).forResult();
 		if (result.control == '摸牌') {
 			await player.draw()
-			var targets = trigger.targets.slice(0)
+			let targets = trigger.targets.slice(0)
 			targets.add(_status.currentPhase)
 			targets = targets.filter(target => target != player && target.countCards('he') > 0)
 			if (targets.length) {
@@ -40,7 +40,7 @@ export default {
 					return -get.attitude(player, target)
 				}).forResult();
 				if (targetResult.bool) {
-					var target = targetResult.targets[0]
+					let target = targetResult.targets[0]
 					await player.gainPlayerCard(target, 'he', true)
 				}
 			} else {

@@ -7,26 +7,26 @@ export default {
         const targetResult = await player.chooseTarget([1, Math.ceil(game.countPlayer() / 2)], function (card, player, target) {
             return target.countCards('h')
         }, true).set('ai', function (target) {
-            var player = _status.event.player
+            let player = _status.event.player
             return get.attitude(player, target)
         }).forResult();
         if (!targetResult.bool) return;
         event.targets = targetResult.targets;
         event.targets.sortBySeat();
-        var cards = get.cards(targetResult.targets.length);
-        var dialog = ui.create.dialog('掘金', cards, true)
+        let cards = get.cards(targetResult.targets.length);
+        let dialog = ui.create.dialog('掘金', cards, true)
         event.dialog = dialog
         while (event.targets.length) {
             event.target = event.targets.shift()
-            var minValue = 20;
-            var hs = event.target.getCards('h');
-            for (var i = 0; i < hs.length; i++) {
+            let minValue = 20;
+            let hs = event.target.getCards('h');
+            for (let i = 0; i < hs.length; i++) {
                 minValue = Math.min(minValue, get.value(hs[i], event.target));
             }
             if (event.target.isUnderControl(true)) {
                 event.dialog.setCaption('选择一张牌并用一张手牌替换之');
             }
-            var next = event.target.chooseButton(function (button) {
+            let next = event.target.chooseButton(function (button) {
                 return get.value(button.link, _status.event.player) - minValue;
             });
             next.set('dialog', event.dialog);
@@ -55,7 +55,7 @@ export default {
             game.delay(2);
         }
         const remaining = [];
-        for (var i = 0; i < event.dialog.buttons.length; i++) {
+        for (let i = 0; i < event.dialog.buttons.length; i++) {
             remaining.push(event.dialog.buttons[i].link)
         }
         event.cards = remaining

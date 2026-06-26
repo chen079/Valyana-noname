@@ -9,7 +9,7 @@ export default {
         return event.player != player && event.getParent().name == 'sha'
     },
     async content(event, trigger, player) {
-        var cards = trigger.player.getCards('h', 'sha')
+        let cards = trigger.player.getCards('h', 'sha')
         if (!cards.length) return;
         player.gain(cards, 'gain2')
     },

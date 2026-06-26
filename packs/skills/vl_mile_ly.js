@@ -6,7 +6,7 @@ export default {
     },
     forced: true,
     filter: (event, player) => {
-        var history = player.getHistory('damage');
+        let history = player.getHistory('damage');
         if (history.indexOf(event) != 0) return false;
         return true
     },

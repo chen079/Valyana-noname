@@ -17,8 +17,8 @@ export default {
 		return target != player && !target.hasVuff('sleep');
 	},
 	filterCard(card) {
-		var suit = get.suit(card);
-		for (var i = 0; i < ui.selected.cards.length; i++) {
+		let suit = get.suit(card);
+		for (let i = 0; i < ui.selected.cards.length; i++) {
 			if (get.suit(ui.selected.cards[i]) == suit) return false;
 		}
 		return true;
@@ -35,6 +35,7 @@ export default {
 		player.draw(cards.length)
 	},
 	async content(event, trigger, player) {
+		const target = event.target
 		const result = await target.chooseToRespond({ name: 'shan' }).set('ai', function (card) {
 			if (_status.event.player.isImmVuff('sleep')) {
 				return -1

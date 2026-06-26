@@ -24,8 +24,8 @@ export default {
     filter(event, player) {
         if (event.player == player) return false
         if (event.cards.length != 1 || event.targets.length != 1) return false
-        var bool1 = (event.card.name == 'sha');
-        var bool2 = (get.type2(event.card) == 'trick' && get.tag(event.card, 'damage'));
+        let bool1 = (event.card.name == 'sha');
+        let bool2 = (get.type2(event.card) == 'trick' && get.tag(event.card, 'damage'));
         if (!bool1 && !bool2) return false;
         return player.storage.vl_marcia_ql_color.includes(get.color(event.cards))
     },
@@ -62,7 +62,7 @@ export default {
             forced: true,
             unique: true,
             async content(event, trigger, player) {
-                var cards = player.getExpansions('vl_marcia_ql');
+                let cards = player.getExpansions('vl_marcia_ql');
                 if (cards.length > 0) {
                     player.gain(cards, 'gain2');
                 }

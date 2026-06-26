@@ -18,7 +18,7 @@ export default {
 		const result = await trigger.player.chooseCardButton('选择弃置一张“协”', 1, trigger.player.getExpansions('vl_xieji')).set('prompt2', "是否弃置一张“协”并免除此次伤害").set("ai", ai = function (button) {
 			return 9 - get.value(button.link);
 		}).forResult();
-		var card = result.links
+		let card = result.links
 		if (result.bool) {
 			await trigger.player.loseToDiscardpile(card)
 			trigger.cancel()
@@ -45,11 +45,11 @@ export default {
 				combo: "vl_ciyu_hq",
 			},
 			async content(event, trigger, player) {
-				var next = player.chooseCardTarget({
+				let next = player.chooseCardTarget({
 					position: 'he',
 					filterCard: lib.filter.cardDiscardable,
 					filterTarget: function (card, player, target) {
-						var trigger = _status.event;
+						let trigger = _status.event;
 						if (target != player && target != trigger.source) {
 							if (target.getExpansions('vl_xieji').length != 0 && lib.filter.targetEnabled(trigger.card, trigger.source, target)) return true;
 						}
@@ -74,10 +74,10 @@ export default {
 				});
 				const result = await next.forResult();
 				if (result.bool) {
-					var target = result.targets[0];
+					let target = result.targets[0];
 					player.logSkill(event.name, target);
 					await player.discard(result.cards);
-					var evt = trigger.getParent();
+					let evt = trigger.getParent();
 					evt.triggeredTargets2.remove(player);
 					evt.targets.remove(player);
 					evt.targets.push(target);

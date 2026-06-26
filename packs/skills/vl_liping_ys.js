@@ -10,8 +10,8 @@ export default {
         return (event.name != 'phase' || game.phaseNumber == 0);
     },
     async content(event, trigger, player) {
-        var cards = [];
-        for (var i = 2; i < 10; i++) {
+        let cards = [];
+        for (let i = 2; i < 10; i++) {
             cards.push(game.createCard2('tao', i % 2 ? 'club' : 'spade', i));
         }
         game.broadcastAll(function () { lib.inpile.add('tao') });

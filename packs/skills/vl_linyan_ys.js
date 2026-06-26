@@ -9,10 +9,10 @@ export default {
 		if (event.targets.length != 1) return false;
 		if (event.targets[0] == event.player) return false
 		if (player.countCards('hs') <= 0) return false
-		var cards = player.getCards('hs')
-		var bool = false
-		for (var i = 0; i < cards.length; i++) {
-			var card = cards[i]
+		let cards = player.getCards('hs')
+		let bool = false
+		for (let i = 0; i < cards.length; i++) {
+			let card = cards[i]
 			if (player.canUse(card, event.targets[0]) && lib.filter.targetEnabled2(card, player, event.targets[0]) && lib.filter.targetInRange(card, player, event.targets[0])) {
 				bool = true
 				break
@@ -21,10 +21,10 @@ export default {
 		return bool && player != _status.currentPhase && event.player != player && event.targets[0].isAlive()
 	},
 	async content(event, trigger, player) {
-		var cards = player.getCards('hs');
-		var bool = false;
-		for (var i = 0; i < cards.length; i++) {
-			var card = cards[i];
+		let cards = player.getCards('hs');
+		let bool = false;
+		for (let i = 0; i < cards.length; i++) {
+			let card = cards[i];
 			if (player.canUse(card, trigger.targets[0]) && lib.filter.targetEnabled2(card, player, trigger.targets[0]) && lib.filter.targetInRange(card, player, trigger.targets[0])) {
 				bool = true;
 				break;

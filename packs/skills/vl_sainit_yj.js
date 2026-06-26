@@ -37,11 +37,11 @@ export default {
                 const result = await player.chooseTarget('弃置一名其他角色一张牌', function (card, player, target) {
                     return target != player && target.countCards('he') > 0
                 }).set('ai', function (target) {
-                    var player = _status.event.player
+                    let player = _status.event.player
                     return -get.attitude(player, target)
                 }).forResult()
                 if (result.bool) {
-                    var target = result.targets[0]
+                    let target = result.targets[0]
                     await player.discardPlayerCard('he', target, true)
                 }
                 trigger.player.yuehua = false

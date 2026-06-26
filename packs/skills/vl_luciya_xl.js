@@ -13,18 +13,18 @@ export default {
 	async content(event, trigger, player) {
 		const chooseResult = await player.chooseCard(get.translation(trigger.player) + '的' + (trigger.judgestr || '') + '判定为' +
 			get.translation(trigger.player.judging[0]) + '，' + get.prompt('vl_luciya_xl_1'), get.mode() == 'guozhan' ? 'hes' : 'hs', function (card) {
-				var player = _status.event.player;
-				var mod2 = game.checkMod(card, player, 'unchanged', 'cardEnabled2', player);
+				let player = _status.event.player;
+				let mod2 = game.checkMod(card, player, 'unchanged', 'cardEnabled2', player);
 				if (mod2 != 'unchanged') return mod2;
-				var mod = game.checkMod(card, player, 'unchanged', 'cardRespondable', player);
+				let mod = game.checkMod(card, player, 'unchanged', 'cardRespondable', player);
 				if (mod != 'unchanged') return mod;
 				return true;
 			}).set('ai', function (card) {
-				var trigger = _status.event.getTrigger();
-				var player = _status.event.player;
-				var judging = _status.event.judging;
-				var result = trigger.judge(card) - trigger.judge(judging);
-				var attitude = get.attitude(player, trigger.player);
+				let trigger = _status.event.getTrigger();
+				let player = _status.event.player;
+				let judging = _status.event.judging;
+				let result = trigger.judge(card) - trigger.judge(judging);
+				let attitude = get.attitude(player, trigger.player);
 				if (attitude == 0 || result == 0) return 0;
 				if (attitude > 0) {
 					return result - get.value(card) / 2;

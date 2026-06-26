@@ -23,11 +23,13 @@ export default {
 		return 6 - get.value(card);
 	},
 	ai2(target) {
-		var att = get.attitude(_status.event.player, target);
+		let att = get.attitude(_status.event.player, target);
 		return att;
 	},
 	position: "h",
 	async content(event, trigger, player) {
+		const targets = event.targets
+		const cards = event.cards
 		await targets[0].gain(cards, player, 'give')
 		if (game.hasPlayer(function (current) {
 			return targets[0].canUse(cards[0], current);

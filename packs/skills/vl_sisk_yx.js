@@ -7,7 +7,7 @@ export default {
     vpSkill: true,
     forced: true,
     filter: (event, player) => {
-        var evtx = event.getParent('phaseUse');
+        let evtx = event.getParent('phaseUse');
         if (!evtx || evtx.player != player) return false;
         return event.num > 0 && !player.isDying()
     },
@@ -28,7 +28,7 @@ export default {
                 return player.hp < player.maxHp - 1
             },
             async content(event, trigger, player) {
-                var num = player.maxHp - 1 - player.hp
+                let num = player.maxHp - 1 - player.hp
                 player.recover(num)
                 player.consumeVp(num)
             },

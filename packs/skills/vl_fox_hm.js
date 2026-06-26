@@ -25,12 +25,12 @@ export default {
 		},
 	},
 	onremove(player, skill) {
-		var cards = player.getExpansions(skill);
+		let cards = player.getExpansions(skill);
 		if (cards.length) player.loseToDiscardpile(cards);
 		delete player.storage[skill];
 	},
 	async content(event, trigger, player) {
-		var card = trigger.cards[0];
+		let card = trigger.cards[0];
 		if (!player.storage.vl_fox_hm) player.storage.vl_fox_hm = [[], []];
 		player.addToExpansion(card, 'gain2').gaintag.add('vl_fox_hm');
 		player.storage.vl_fox_hm[0].push(card);
@@ -48,11 +48,11 @@ export default {
 				return player.storage.vl_fox_hm && player.storage.vl_fox_hm[0].length > 0;
 			},
 			async content(event, trigger, player) {
-				var list = player.storage.vl_fox_hm;
+				let list = player.storage.vl_fox_hm;
 				while (list[0].length) {
-					var card = list[0].shift(), source = list[1].shift();
+					let card = list[0].shift(), source = list[1].shift();
 					if (player.getExpansions('vl_fox_hm').includes(card)) {
-						for (var i = 0; i < source.length; i++) {
+						for (let i = 0; i < source.length; i++) {
 							if (!source[i].isIn() || !player.canUse(card, source[i], false)) {
 								source.remove(source[i])
 							}

@@ -11,23 +11,23 @@ export default {
 	intro: {
 		markcount: "expansion",
 		mark(dialog, content, player) {
-			var content = player.getExpansions('vl_markn_yz');
-			if (content && content.length) {
+			let expansions = player.getExpansions('vl_markn_yz');
+			if (expansions && expansions.length) {
 				if (player == game.me || player.isUnderControl()) {
-					dialog.addAuto(content);
+					dialog.addAuto(expansions);
 				}
 				else {
-					return '共有' + get.cnNumber(content.length) + '张视';
+					return '共有' + get.cnNumber(expansions.length) + '张视';
 				}
 			}
 		},
 		content(content, player) {
-			var content = player.getExpansions('vl_markn_yz');
-			if (content && content.length) {
+			let expansions = player.getExpansions('vl_markn_yz');
+			if (expansions && expansions.length) {
 				if (player == game.me || player.isUnderControl()) {
-					return get.translation(content);
+					return get.translation(expansions);
 				}
-				return '共有' + get.cnNumber(content.length) + '张视';
+				return '共有' + get.cnNumber(expansions.length) + '张视';
 			}
 		},
 	},
@@ -43,7 +43,7 @@ export default {
 			return typeof to != 'number';
 		});
 		next.set('processAI', function (list) {
-			var player = _status.event.player, cards = list[0][1].concat(list[1][1]).sort(function (a, b) {
+			let player = _status.event.player, cards = list[0][1].concat(list[1][1]).sort(function (a, b) {
 				return get.value(a) - get.value(b);
 			}), cards2 = cards.splice(0, player.getExpansions('vl_markn_yz').length);
 			return [cards2, cards];

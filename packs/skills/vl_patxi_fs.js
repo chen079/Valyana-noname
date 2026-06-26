@@ -15,8 +15,8 @@ export default {
 	},
 	logTarget: "player",
 	async content(event, trigger, player) {
-		var list1 = []
-		var list2 = []
+		let list1 = []
+		let list2 = []
 		if (player.countCards('h', { color: "red" })) {
 			list1.push("弃置红色")
 			list2.push("弃置一张红色牌令此伤害-1")

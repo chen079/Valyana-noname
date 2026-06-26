@@ -10,7 +10,7 @@ export default {
 	},
 	check(event, player) {
 		if (player.countCards('h') * 2 < player.hp) return false;
-		var judge = game.filterPlayer(function (current) {
+		let judge = game.filterPlayer(function (current) {
 			return current != player && get.attitude(player, current) > 0
 		})
 		if (judge.length) {
@@ -19,10 +19,10 @@ export default {
 		return false
 	},
 	async content(event, trigger, player) {
-		var targets = game.filterPlayer(function (target) {
+		let targets = game.filterPlayer(function (target) {
 			return target != player
 		})
-		var num = Math.floor(player.countCards('h') / 2);
+		let num = Math.floor(player.countCards('h') / 2);
 		const result = await player.chooseCardTarget({
 			position: 'h',
 			filterCard: true,
@@ -35,8 +35,8 @@ export default {
 			prompt: '将' + get.cnNumber(num) + '张手牌交给一名其他角色',
 			forced: true,
 			ai1: function (card) {
-				var goon = false, player = _status.event.player;
-				for (var i of _status.event.targets) {
+				let goon = false, player = _status.event.player;
+				for (let i of _status.event.targets) {
 					if (get.attitude(i, target) > 0 && get.attitude(target, i) > 0) { goon = true; break };
 				}
 				if (goon) {
@@ -52,7 +52,7 @@ export default {
 			},
 		}).forResult();
 		if (result.bool) {
-			var target = result.targets[0];
+			let target = result.targets[0];
 			player.line(target, 'green');
 			const next = target.gain(result.cards, player, 'giveAuto');
 			player.skip('phaseDiscard')

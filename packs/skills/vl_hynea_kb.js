@@ -18,9 +18,9 @@ export default {
 	},
 	chooseButton: {
 		dialog(event, player) {
-			var cards = player.getCards('hes');
-			var list = [];
-			for (var i of lib.inpile) {
+			let cards = player.getCards('hes');
+			let list = [];
+			for (let i of lib.inpile) {
 				if (i == 'fr_card_zh') continue
 				if (get.type(i) == 'trick' && event.filterCard({
 					name: i,
@@ -32,7 +32,7 @@ export default {
 					cards: cards,
 				}, player, event)) {
 					if (i == 'sha') {
-						for (var j of lib.inpile_nature) list.push(['基本', '', 'sha', j]);
+						for (let j of lib.inpile_nature) list.push(['基本', '', 'sha', j]);
 					}
 					list.push(['基本', '', i]);
 				}
@@ -43,7 +43,7 @@ export default {
 			return lib.filter.filterCard({ name: button.link[2] }, player, _status.event.getParent());
 		},
 		check(button) {
-			var player = _status.event.player;
+			let player = _status.event.player;
 			return player.getUseValue({ name: button.link[2] });
 		},
 		backup(links, player) {

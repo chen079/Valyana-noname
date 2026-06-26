@@ -13,8 +13,8 @@ export default {
 	},
 	forced: true,
 	async content(event, trigger, player) {
-		for (var i of lib.inpile) {
-			var card = { name: i, isCard: true };
+		for (let i of lib.inpile) {
+			let card = { name: i, isCard: true };
 			if (get.tag(card, 'damage')) {
 				if (get.type(i) == 'trick') {
 					player.storage.vl_dolina_sl[0].push(['锦囊', '', i])
@@ -22,7 +22,7 @@ export default {
 			};
 		}
 		player.storage.vl_dolina_sl[0].push(['基本', '', 'sha']);
-		for (var j of lib.inpile_nature) player.storage.vl_dolina_sl[0].push(['基本', '', 'sha', j]);
+		for (let j of lib.inpile_nature) player.storage.vl_dolina_sl[0].push(['基本', '', 'sha', j]);
 		player.storage.vl_dolina_sl[1] = player.storage.vl_dolina_sl[0].slice(0)
 	},
 	group: "vl_dolina_sl_use",
@@ -41,7 +41,7 @@ export default {
 					return lib.filter.filterCard({ name: button.link[2] }, player, _status.event.getParent());
 				},
 				check(button) {
-					var player = _status.event.player;
+					let player = _status.event.player;
 					return player.getUseValue({ name: button.link[2] });
 				},
 				backup(links, player) {
@@ -59,7 +59,7 @@ export default {
 							nature: links[0][3]
 						},
 						onuse: function (result, player) {
-							var recode = [get.translation(get.type2(result.card)), '', get.name(result.card)]
+							let recode = [get.translation(get.type2(result.card)), '', get.name(result.card)]
 							if (result.card.nature) recode.push(result.card.nature)
 							let index = player.storage.vl_dolina_sl[1].findIndex(subArr => JSON.stringify(subArr) === JSON.stringify(recode));
 							// 如果找到了子数组 recode，则将其从 A 中删除
@@ -68,7 +68,7 @@ export default {
 							}
 							player.storage.vl_dolina_sl[2].push(recode)
 							if (!player.storage.vl_dolina_qj && player.storage.vl_dolina_sl[1].length == 0 && player.hasSkill('vl_dolina_qj')) {
-								var next = game.createEvent('vl_dolina_qj', false);
+								let next = game.createEvent('vl_dolina_qj', false);
 								next.player = player;
 								next.setContent(lib.skill.vl_dolina_qj.content);
 							}

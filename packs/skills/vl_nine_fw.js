@@ -6,7 +6,7 @@ export default {
 		global: ["equipAfter", "addJudgeAfter", "gainAfter", "loseAsyncAfter", "addToExpansionAfter"],
 	},
 	filter(event, player) {
-		var evt = event.getl(player);
+		let evt = event.getl(player);
 		if (!lib.phaseName.some(i => Object.keys(event.getParent(i)).length > 0)) return false;
 		return !player.hasSkill('vl_nine_fw_blocker') && evt && evt.cards2 && evt.cards2.length > 0
 	},
@@ -33,7 +33,7 @@ export default {
 		await game.cardsGotoOrdering(cards2);
 		const videoId = lib.status.videoId++;
 		game.broadcastAll(function (player, id, cards1, cards2) {
-			var dialog = ui.create.dialog("牌堆底七张牌", cards2);
+			let dialog = ui.create.dialog("牌堆底七张牌", cards2);
 			if (cards1.length) {
 				dialog.addText((player == game.me ? '你' : get.translation(player)) + '的手牌');
 				dialog.add(cards1);
@@ -102,7 +102,7 @@ export default {
 				if (pushs.length) await player.lose(pushs, ui.cardPile);
 				if (gains && gains.length) await player.gain(gains, 'draw');
 				for (let i = push.length - 1; i >= 0; i--) {
-					var card = push[i];
+					let card = push[i];
 					if (!(('hejsdx').includes(get.position(card, true)))) {
 						card.fix();
 						ui.cardPile.appendChild(card);
@@ -116,8 +116,8 @@ export default {
 		const choicelist = [];
 		choice = [];
 		const choices = [];
-		for (var i = 1; i <= 13; i++) {
-			var cards = doing.filter(card => get.number(card) == i)
+		for (let i = 1; i <= 13; i++) {
+			let cards = doing.filter(card => get.number(card) == i)
 			if (cards.length) {
 				choices.push(cards)
 				choicelist.push(cards.map(card => get.translation(card)))

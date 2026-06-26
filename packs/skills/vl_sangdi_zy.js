@@ -6,7 +6,7 @@ export default {
 		global: "loseAsyncAfter",
 	},
 	filter(event, player) {
-		var cards = event.getg(player);
+		let cards = event.getg(player);
 		if (!cards.length) return false;
 		return game.hasPlayer(current => {
 			return event.getl(current).cards2.length;
@@ -24,13 +24,13 @@ export default {
 			return
 		}
 		if (event.cards.some(card => get.color(card) == 'red')) {
-			var targets = [player].concat(event.targets)
+			let targets = [player].concat(event.targets)
 			targets = targets.filter(target => target.isDamaged())
 			if (!targets.length) {
 				return
 			} else {
 				const result = await player.chooseTarget('捉影：是否视为对自己或' + get.translation(event.targets) + '使用一张【桃】', 1, function (card, player, target) {
-					var targets = [player].concat(event.targets)
+					let targets = [player].concat(event.targets)
 					targets = targets.filter(target => target.isDamaged())
 					return targets.includes(target)
 				}).set('ai', function (target) {

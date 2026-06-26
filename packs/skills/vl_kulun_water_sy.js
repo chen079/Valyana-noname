@@ -12,7 +12,7 @@ export default {
 	mark: true,
 	intro: {
 		mark(dialog, storage, player) {
-			var suit = ''
+			let suit = ''
 			if (getUseCardHistoryEvent(player, 0) && getUseCardHistoryEvent(player, 0).card) {
 				suit = get.translation(get.suit(getUseCardHistoryEvent(player, 0).card))
 			}
@@ -21,8 +21,8 @@ export default {
 	},
 	direct: true,
 	async content(event, trigger, player) {
-		var evt1 = getUseCardHistoryEvent(player, 0)
-		var evt2 = getUseCardHistoryEvent(player, 1)
+		let evt1 = getUseCardHistoryEvent(player, 0)
+		let evt2 = getUseCardHistoryEvent(player, 1)
 		if (evt1 && evt1.card && evt2 && evt2.card && lib.suit.includes(get.suit(evt1.card)) && lib.suit.includes(get.suit(evt2.card))
 			&& get.suit(evt1.card) == get.suit(evt2.card)) {
 			await player.draw();

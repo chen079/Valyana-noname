@@ -7,9 +7,10 @@ export default {
 		return target.countCards('h') > 0
 	},
 	async content(event, trigger, player) {
+		const target = event.target
 		await player.viewHandcards(target);
-		var choice = [], choiceList = [];
-		var cards = target.getCards('h');
+		let choice = [], choiceList = [];
+		let cards = target.getCards('h');
 		if (cards.some(i => get.color(i) == 'black')) {
 			choice.push('black');
 			choiceList.push(cards.filter(i => get.color(i) == 'black').map(i => get.translation(i)));
@@ -19,14 +20,14 @@ export default {
 			choiceList.push(cards.filter(i => get.color(i) == 'red').map(i => get.translation(i)));
 		}
 		const result = await player.chooseControl(choice).set('choiceList', choiceList).set('ai', function () {
-			var blackvalue = cards.reduce((previous, current) => {
+			let blackvalue = cards.reduce((previous, current) => {
 				if (get.color(current) == 'black') {
 					return previous + get.value(current, player);
 				} else {
 					return previous;
 				}
 			}, 0) / (cards.filter(i => get.color(i) == 'black').length + 1);
-			var redvalue = cards.reduce((previous, current) => {
+			let redvalue = cards.reduce((previous, current) => {
 				if (get.color(current) == 'red') {
 					return previous + get.value(current, player);
 				} else {

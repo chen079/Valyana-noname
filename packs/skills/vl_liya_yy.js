@@ -16,7 +16,7 @@ export default {
 		});
 	},
 	async content(event, trigger, player) {
-		var card;
+		let card;
 		if (!lib.inpile.includes('fr_equip5_wxpp')) {
 			card = game.createCard2('fr_equip5_wxpp', 'diamond', 1);
 			lib.inpile.push('fr_equip5_wxpp');
@@ -39,7 +39,7 @@ export default {
 			async content(event, trigger, player) {
 				for (let i = 0; i < trigger.num && !player.getEquip('fr_equip5_wxpp'); i++) {
 					await player.draw();
-					var card = get.cardPile2(function (card) {
+					let card = get.cardPile2(function (card) {
 						return get.subtype(card, false) == 'equip1' && player.canUse(card, player);
 					});
 					if (card) await player.chooseUseTarget(card, true, 'nopopup');

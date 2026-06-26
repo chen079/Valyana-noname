@@ -105,4 +105,9 @@ export let config = {
             get.vuffListDialog()
         }
     },
+    mergeShouzu: {
+        name: '合并兽族',
+        intro: '将除【海族】、【翼族】、【龙族】、【机器】以外的势力合并为【兽族】',
+        init: false,
+    },
 }

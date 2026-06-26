@@ -48,14 +48,14 @@ export default {
             return 1;
           },
           ai2(target) {
-            var att = get.attitude(_status.event.player, target);
+            let att = get.attitude(_status.event.player, target);
             return att;
           },
           prompt: '请选择要送人的三张卡牌',
         })
         .forResult();
       if (giveResult.bool) {
-        var target = giveResult.targets[0];
+        let target = giveResult.targets[0];
         player.give(giveResult.cards, target);
       } else {
         await player.chooseToDiscard('he', 3, true);

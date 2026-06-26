@@ -19,7 +19,7 @@ export default {
             },
             direct: true,
             async content(event, trigger, player) {
-                var card1 = get.cardPile2(function (card) {
+                let card1 = get.cardPile2(function (card) {
                     return get.name(card, false) == 'sha';
                 });
                 player.gain(card1, 'gain2')

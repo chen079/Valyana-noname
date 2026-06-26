@@ -5,7 +5,7 @@ export default {
         player: "dying",
     },
     filter(event, player) {
-        var target = _status.currentPhase;
+        let target = _status.currentPhase;
         return target != player;
     },
     check(event, player) {

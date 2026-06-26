@@ -9,7 +9,7 @@ export default {
         return !event.numFixed;
     },
     async content(event, trigger, player) {
-        var num = 2
+        let num = 2
         if (get.mode() == 'identity') {
             if (player.identity == 'zhu') {
                 num = game.countPlayer(function (current) {

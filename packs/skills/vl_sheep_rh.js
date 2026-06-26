@@ -9,7 +9,7 @@ export default {
 	},
 	filterCard(card) {
 		if (ui.selected.cards.length && card.name == ui.selected.cards[0].name) return false;
-		var info = get.info(card);
+		let info = get.info(card);
 		return info.type == 'equip';
 	},
 	selectCard: 2,
@@ -18,10 +18,11 @@ export default {
 		return get.value(card);
 	},
 	async content(event, trigger, player) {
-		var name = cards[0].name + '_' + cards[1].name;
-		var info1 = get.info(cards[0]), info2 = get.info(cards[1]);
+		const cards = event.cards;
+		let name = cards[0].name + '_' + cards[1].name;
+		let info1 = get.info(cards[0]), info2 = get.info(cards[1]);
 		if (!lib.card[name]) {
-			var info = {
+			let info = {
 				enable: true,
 				type: 'equip',
 				subtype: get.subtype(cards[0]),
@@ -44,13 +45,13 @@ export default {
 					equipValue: 10,
 					useful: 2.5,
 					value: function (card, player) {
-						var value = 0;
-						var info = get.info(card);
-						var current = player.getEquip(info.subtype);
+						let value = 0;
+						let info = get.info(card);
+						let current = player.getEquip(info.subtype);
 						if (current && card != current) {
 							value = get.value(current, player);
 						}
-						var equipValue = info.ai.equipValue || info.ai.basic.equipValue;
+						let equipValue = info.ai.equipValue || info.ai.basic.equipValue;
 						if (typeof equipValue == 'function') return equipValue(card, player) - value;
 						return equipValue - value;
 					},
@@ -61,10 +62,10 @@ export default {
 					}
 				}
 			}
-			for (var i in info1.distance) {
+			for (let i in info1.distance) {
 				info.distance[i] = info1.distance[i];
 			}
-			for (var i in info2.distance) {
+			for (let i in info2.distance) {
 				if (typeof info.distance[i] == 'number') {
 					info.distance[i] += info2.distance[i];
 				}
@@ -114,7 +115,7 @@ export default {
 			if (info.onLose.length == 0) delete info.onLose;
 			lib.card[name] = info;
 			lib.translate[name] = get.translation(cards[0].name, 'skill') + get.translation(cards[1].name, 'skill');
-			var str = lib.translate[cards[0].name + '_info'];
+			let str = lib.translate[cards[0].name + '_info'];
 			if (str[str.length - 1] == '.' || str[str.length - 1] == '。') {
 				str = str.slice(0, str.length - 1);
 			}
@@ -169,7 +170,7 @@ export default {
 			},
 			async content(event, trigger, player) {
 				await player.draw();
-				var num = 1 - player.hp;
+				let num = 1 - player.hp;
 				if (num) await player.recover(num);
 			},
 			ai: {

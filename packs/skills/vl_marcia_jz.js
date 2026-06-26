@@ -10,8 +10,8 @@ export default {
         if (!player.storage.vl_marcia_jz_suit) player.storage.vl_marcia_jz_suit = [];
     },
     filterCard(card) {
-        var suit = get.suit(card);
-        for (var i = 0; i < ui.selected.cards.length; i++) {
+        let suit = get.suit(card);
+        for (let i = 0; i < ui.selected.cards.length; i++) {
             if (get.suit(ui.selected.cards[i]) == suit) return false;
         }
         return true;
@@ -30,8 +30,9 @@ export default {
         onunmark: true,
     },
     async content(event, trigger, player) {
+        const cards = event.cards;
         await player.draw(cards.length);
-        for (var i = 0; i < cards.length; i++) {
+        for (let i = 0; i < cards.length; i++) {
             if (!player.storage.vl_marcia_jz_suit.includes(get.suit(cards[i]))) {
                 player.storage.vl_marcia_jz_suit.push(get.suit(cards[i]));
             }

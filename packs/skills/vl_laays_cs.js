@@ -12,8 +12,8 @@ export default {
 		let num = 1;
 		while (true) {
 			const bool = await event.target.chooseBool('是否令' + get.translation(player) + '摸' + get.cnNumber(num) + '张牌').set('ai', function () {
-				var player = _status.event.player
-				var target = _status.event.target
+				let player = _status.event.player
+				let target = _status.event.target
 				if (get.attitude(player, target) > 0) {
 					return true
 				} else {
@@ -23,8 +23,8 @@ export default {
 			if (!bool.bool) return;
 			await player.draw(num);
 			const cards = await player.chooseCard('h', 2 * num, false).set('prompt', '是否交给' + get.translation(event.target) + get.cnNumber(2 * num) + '张手牌').set('ai', function (card) {
-				var player = _status.event.player
-				var target = _status.event.target
+				let player = _status.event.player
+				let target = _status.event.target
 				if (get.attitude(player, target) > 0) {
 					return 9 - get.value(card)
 				} else {

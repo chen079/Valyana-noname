@@ -9,10 +9,11 @@ export default {
 		return target != player && target.countCards('he') > 0;
 	},
 	async content(event, trigger, player) {
+		const target = event.target;
 		const result = await player.choosePlayerCard('hej', target, true).forResult();
 		if (result.bool && result.links && result.links.length) {
-			var card = result.links[0];
-			var cardx = get.autoViewAs({ name: 'sha' }, [card]);
+			let card = result.links[0];
+			let cardx = get.autoViewAs({ name: 'sha' }, [card]);
 			await target.useCard(cardx, [card], player, false)
 		}
 	},
@@ -30,10 +31,10 @@ export default {
 			effect: {
 				target(card, player, target) {
 					if (card.name != 'sha') return;
-					var players = game.filterPlayer();
+					let players = game.filterPlayer();
 					if (get.attitude(player, target) <= 0) {
-						for (var i = 0; i < players.length; i++) {
-							var target2 = players[i];
+						for (let i = 0; i < players.length; i++) {
+							let target2 = players[i];
 							if (player != target2 && target != target2 && player.canUse(card, target2, false) &&
 								get.effect(target2, { name: 'shacopy', nature: card.nature, suit: card.suit }, player, target) > 0 &&
 								get.effect(target2, { name: 'shacopy', nature: card.nature, suit: card.suit }, player, player) < 0) {
@@ -42,8 +43,8 @@ export default {
 							}
 						}
 					} else {
-						for (var i = 0; i < players.length; i++) {
-							var target2 = players[i];
+						for (let i = 0; i < players.length; i++) {
+							let target2 = players[i];
 							if (player != target2 && target != target2 && player.canUse(card, target2, false) &&
 								get.effect(target2, { name: 'shacopy', nature: card.nature, suit: card.suit }, player, player) > 0) {
 								if (player.canUse(card, target2)) return;
@@ -63,8 +64,8 @@ export default {
 				const chooseTarget = await player.chooseTarget(get.prompt2('vl_harald_fy'), function (card, player, target) {
 					return target != player && !_status.event.targets.includes(target) && _status.event.playerx.canUse('sha', target, false) && target.countCards('h');
 				}).set('ai', function (target) {
-					var trigger = _status.event.getTrigger();
-					var player = _status.event.player;
+					let trigger = _status.event.getTrigger();
+					let player = _status.event.player;
 					return get.effect(target, trigger.card, trigger.player, player) + 0.1;
 				}).set('targets', trigger.targets).set('playerx', trigger.player).forResult();
 				if (chooseTarget.bool) {
@@ -79,13 +80,13 @@ export default {
 				} else {
 					return;
 				}
-				var next = player.chooseButton(['请选择一种花色', [lib.suit.map(i => ['', '', 'lukai_' + i]), 'vcard']], 1, true)
+				let next = player.chooseButton(['请选择一种花色', [lib.suit.map(i => ['', '', 'lukai_' + i]), 'vcard']], 1, true)
 				next.set('ai', button => {
 					return Math.random;
 				});
 				const chooseSuit = await next.forResult();
 				if (chooseSuit.bool) {
-					var suit = chooseSuit.links[0][2].slice(6);
+					let suit = chooseSuit.links[0][2].slice(6);
 					await event.target.give(event.card, player, 'give');
 					if (get.suit(event.card) != suit) {
 						trigger.getParent().targets.push(event.target);

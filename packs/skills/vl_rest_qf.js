@@ -23,13 +23,14 @@ export default {
     visible: true,
     filterCard: true,
     selectCard() {
-        var player = _status.event.player;
+        let player = _status.event.player;
         return [1, 4 - player.storage.vl_rest_qf.length];
     },
     discard: false,
     toStorage: true,
     delay: false,
     async content(event, trigger, player) {
+        const cards = event.cards;
         player.$give(cards, player, false);
         player.storage.vl_rest_qf = player.storage.vl_rest_qf.concat(cards);
         player.markSkill('vl_rest_qf');
@@ -38,7 +39,7 @@ export default {
         return 8 - get.value(card);
     },
     onremove(player, skill) {
-        var cards = player.storage.vl_rest_qf;
+        let cards = player.storage.vl_rest_qf;
         if (cards.length) player.loseToDiscardpile(cards);
     },
     ai: {

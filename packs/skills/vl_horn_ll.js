@@ -11,6 +11,7 @@ export default {
         return get.attitude(player, target) < 0
     },
     async content(event, trigger, player) {
+        const target = event.target
         await target.loseHp()
         await player.recover()
         if (player.hasSkill('_qianghua_effect')) {

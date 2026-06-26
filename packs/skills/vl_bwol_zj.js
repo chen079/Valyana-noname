@@ -6,10 +6,10 @@ export default {
   },
   filter(event, player) {
     if (get.suit(event.card) == "none") return false;
-    var history = player.getHistory("useCard", function (evt) {
+    let history = player.getHistory("useCard", function (evt) {
       return evt.card != event.card;
     });
-    var suits = [];
+    let suits = [];
     history
       .map((i) => i.card)
       .forEach((i) => {
@@ -26,8 +26,8 @@ export default {
   locked: false,
   mod: {
     aiOrder(player, card, num) {
-      var history = player.getHistory("useCard");
-      var suits = [];
+      let history = player.getHistory("useCard");
+      let suits = [];
       history
         .map((i) => i.card)
         .forEach((i) => {
@@ -39,8 +39,8 @@ export default {
   },
   intro: {
     content(storage, player) {
-      var history = player.getHistory("useCard");
-      var suits = [];
+      let history = player.getHistory("useCard");
+      let suits = [];
       history
         .map((i) => i.card)
         .forEach((i) => {
@@ -51,7 +51,7 @@ export default {
     },
   },
   async content(event, trigger, player) {
-    var num = player.countCards("h");
+    let num = player.countCards("h");
     if (num > 4) player.chooseToDiscard("h", true, num - 4);
     else player.drawTo(4);
   },

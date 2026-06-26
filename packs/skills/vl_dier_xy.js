@@ -9,7 +9,7 @@ export default {
         return event.card.name == 'sha'
     },
     async content(event, trigger, player) {
-        for (var i = 0; i < trigger.targets.length; i++) {
+        for (let i = 0; i < trigger.targets.length; i++) {
             player.gainPlayerCard(trigger.targets[i], 1, true)
         }
     },

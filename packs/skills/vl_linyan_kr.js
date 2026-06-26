@@ -23,7 +23,7 @@ export default {
 		}
 	},
 	selectTarget() {
-		var player = _status.event.player
+		let player = _status.event.player
 		if (!player.storage.vl_linyan_kr || player.storage.vl_linyan_kr == false) {
 			return 2
 		} else {
@@ -39,7 +39,7 @@ export default {
 			if (!ui.selected.targets) {
 				return 1 - 2 * Math.random()
 			} else {
-				var num = Math.floor((ui.selected.targets[0].countCards('h') + target.countCards('h')) / 2)
+				let num = Math.floor((ui.selected.targets[0].countCards('h') + target.countCards('h')) / 2)
 				return num - target.countCards('h')
 			}
 		} else {
@@ -50,7 +50,7 @@ export default {
 	position: "h",
 	filterCard: true,
 	selectCard() {
-		var player = _status.event.player
+		let player = _status.event.player
 		if (!player.storage.vl_linyan_kr || player.storage.vl_linyan_kr == false) {
 			return 0
 		} else {
@@ -64,9 +64,10 @@ export default {
 		if (!player.storage.vl_linyan_kr) player.storage.vl_linyan_kr = false
 	},
 	async content(event, trigger, player) {
+		const targets = event.targets
 		if (player.storage.vl_linyan_kr == false) {
 			const average = Math.floor((targets[0].countCards('h') + targets[1].countCards('h')) / 2);
-			for (var i = 0; i < targets.length; i++) {
+			for (let i = 0; i < targets.length; i++) {
 				const num = targets[i].countCards('h') - average;
 				if (num > 0) {
 					await targets[i].chooseToDiscard('h', num, true);
@@ -75,7 +76,7 @@ export default {
 				}
 			}
 		} else {
-			for (var i = 0; i < targets.length; i++) {
+			for (let i = 0; i < targets.length; i++) {
 				if (targets[i].countCards('h') < targets[i].maxHp) {
 					await targets[i].draw(Math.min((targets[i].maxHp - targets[i].countCards('h')), 5));
 				}
@@ -91,7 +92,7 @@ export default {
 				if (!ui.selected.targets) {
 					return 1 - 2 * Math.random()
 				} else {
-					var num = Math.floor((ui.selected.targets[0].countCards('h') + target.countCards('h')) / 2)
+					let num = Math.floor((ui.selected.targets[0].countCards('h') + target.countCards('h')) / 2)
 					return num - target.countCards('h')
 				}
 			} else {

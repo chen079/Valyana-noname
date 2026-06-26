@@ -10,7 +10,7 @@ export default {
     direct: true,
     async content(event, trigger, player) {
         const result = await player.chooseToDiscard(1, 'h', get.prompt2('vl_rabby_xj')).set('ai', function (card) {
-            var player = _status.event.player;
+            let player = _status.event.player;
             if (get.attitude(player, trigger.player) < 0 && trigger.player.countCards('e') > 0) {
                 return 6 + trigger.player.countCards('e') - get.value(card);
             } else {

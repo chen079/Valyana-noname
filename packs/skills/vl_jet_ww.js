@@ -11,9 +11,9 @@ export default {
 	},
 	async content(event, trigger, player) {
 		const give = await trigger.player.chooseCard('〖危望〗：是否交给' + get.translation(player) + '一张牌').set('ai', function (card) {
-			var source = _status.event.source
-			var player = _status.event.target
-			var att = get.attitude(source, player)
+			let source = _status.event.source
+			let player = _status.event.target
+			let att = get.attitude(source, player)
 			if (att < 0 && _status.currentPhase == player && (player.hasSkill('vl_jet_cl') || player.hasSkill('reweimu'))) {
 				return -1
 			}
@@ -22,13 +22,13 @@ export default {
 		}).set('target', player).set('source', trigger.player).forResult()
 		if (give.cards) await player.gain(give.cards, trigger.player, 'giveAuto')
 		if (give.bool) {
-			var result = await player.chooseControl('选项一', '选项二').set('choiceList', ['令此【杀】不可被响应', '你成为此杀的目标'])
+			let result = await player.chooseControl('选项一', '选项二').set('choiceList', ['令此【杀】不可被响应', '你成为此杀的目标'])
 				.set('ai', function () {
-					var player = _status.event.player
-					var target = _status.event.target
-					var target_health = target.hp + target.countCards('hs', 'tao') + target.countCards('hs', 'jiu')
-					var player_health = player.hp + player.countCards('hs', 'tao') + player.countCards('hs', 'jiu')
-					var att = get.attitude(player, target)
+					let player = _status.event.player
+					let target = _status.event.target
+					let target_health = target.hp + target.countCards('hs', 'tao') + target.countCards('hs', 'jiu')
+					let player_health = player.hp + player.countCards('hs', 'tao') + player.countCards('hs', 'jiu')
+					let att = get.attitude(player, target)
 					if (_status.currentPhase == player && (player.hasSkill('vl_jet_cl') || player.hasSkill('reweimu'))) {
 						return '选项二'
 					}

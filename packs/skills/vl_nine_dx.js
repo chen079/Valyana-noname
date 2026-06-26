@@ -30,14 +30,14 @@ export default {
             content: async function content(event, trigger, player) {
                 let cards = [].concat(Array.from(ui.discardPile.childNodes).filter(i => get.type(i) == 'equip'));
                 if (cards) {
-                    // for (var i = 0; i < cards.length; i++) {
-                    // 	var card = cards[i]
+                    // for (let i = 0; i < cards.length; i++) {
+                    // 	let card = cards[i]
                     // 	// ui.cardPile.insertBefore(card, ui.cardPile.childNodes[get.rand(0, ui.cardPile.childNodes.length)]);
                     // }
                     game.log(player, '将', cards, '洗入牌堆')
                 }
                 cards = cards.concat(get.cards(ui.cardPile.childElementCount)).randomSort();
-                // for (var i = 0; i < cards.length; i++) {
+                // for (let i = 0; i < cards.length; i++) {
                 // 	ui.cardPile.insertBefore(cards[i], ui.cardPile.childNodes[get.rand(ui.cardPile.childElementCount)]);
                 // }
                 await game.cardsGotoPile(cards, "triggeronly", "washCard", ["shuffleNumber", game.shuffleNumber]);
@@ -50,8 +50,8 @@ export default {
             },
             forced: true,
             filter(event, player) {
-                var bool = true
-                for (var i = 0; i < 5; i++) {
+                let bool = true
+                for (let i = 0; i < 5; i++) {
                     if (player.hasSkill(event.getParent(i).name) && (event.getParent(i).name != 'vl_nine_dx_judge' && event.getParent(i).name != 'vl_nine_dx')) {
                         bool = false
                         break;

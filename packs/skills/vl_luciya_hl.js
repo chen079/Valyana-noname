@@ -36,7 +36,7 @@ export default {
 		};
 		const judgeResult = await next.forResult();
 		if (judgeResult.bool == false) {
-			var num = Math.max(1, player.storage.vl_luciya_hl);
+			let num = Math.max(1, player.storage.vl_luciya_hl);
 			await target.damage(num, 'thunder', 'nosource');
 			player.storage.vl_luciya_hl += 1;
 		}
@@ -44,10 +44,10 @@ export default {
 	ai: {
 		effect: {
 			target(card, player, target, current) {
-				var hastarget = game.hasPlayer(function (current) {
+				let hastarget = game.hasPlayer(function (current) {
 					return get.attitude(target, current) < 0;
 				});
-				var be = target.countCards('e', { color: 'black' });
+				let be = target.countCards('e', { color: 'black' });
 				if (target.countCards('h') && be) {
 					if (!target.hasSkill('guidao')) return 0;
 					return [0, hastarget ? target.countCards('he') / 2 : 0];

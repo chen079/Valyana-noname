@@ -7,7 +7,7 @@ export default {
     filterCard(card, player, event) {
         event = event || _status.event;
         if (typeof event != 'string') event = event.getParent().name;
-        var mod = game.checkMod(card, player, event, 'unchanged', 'cardDiscardable', player);
+        let mod = game.checkMod(card, player, event, 'unchanged', 'cardDiscardable', player);
         if (mod != 'unchanged') return mod;
         return true;
     },
@@ -16,7 +16,7 @@ export default {
     delay: false,
     selectCard: [1, null],
     check(card) {
-        var player = _status.event.player;
+        let player = _status.event.player;
         if (get.position(card) == 'h' && !player.countCards('h', 'du') && (player.hp > 2 || !player.countCards('h', function (card) {
             return get.value(card) >= 8;
         }))) {
@@ -29,9 +29,9 @@ export default {
         event.gross = []
         player.discard(cards);
         event.num = 1;
-        var hs = player.getCards('h');
+        let hs = player.getCards('h');
         if (!hs.length) event.num = 0;
-        for (var i = 0; i < hs.length; i++) {
+        for (let i = 0; i < hs.length; i++) {
             if (!cards.includes(hs[i])) {
                 event.num = 0; break;
             }
@@ -42,7 +42,7 @@ export default {
             const result = await player.chooseCardButton(1, '发掘：获得其中' + get.cnNumber(1) + '张牌', true, event.cards).set('ai', function (button) {
                 return get.useful(button.link);
             }).forResult();
-            var gained = result.links;
+            let gained = result.links;
             player.gain(gained, 'draw');
             game.log(player, '发掘了', '#y' + get.translation(gained))
             event.cards.removeArray(gained);

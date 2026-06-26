@@ -8,28 +8,28 @@ export default {
 	intro: {
 		markcount: "expansion",
 		mark(dialog, content, player) {
-			var content = player.getExpansions('vl_rasali_ly');
-			if (content && content.length) {
+			let expansions = player.getExpansions('vl_rasali_ly');
+			if (expansions && expansions.length) {
 				if (player == game.me || player.isUnderControl()) {
-					dialog.addAuto(content);
+					dialog.addAuto(expansions);
 				}
 				else {
-					return '共有' + get.cnNumber(content.length) + '张引';
+					return '共有' + get.cnNumber(expansions.length) + '张引';
 				}
 			}
 		},
 		content(content, player) {
-			var content = player.getExpansions('vl_rasali_ly');
-			if (content && content.length) {
+			let expansions = player.getExpansions('vl_rasali_ly');
+			if (expansions && expansions.length) {
 				if (player == game.me || player.isUnderControl()) {
-					return get.translation(content);
+					return get.translation(expansions);
 				}
-				return '共有' + get.cnNumber(content.length) + '张引';
+				return '共有' + get.cnNumber(expansions.length) + '张引';
 			}
 		},
 	},
 	onremove(player, skill) {
-		var cards = player.getExpansions(skill);
+		let cards = player.getExpansions(skill);
 		if (cards.length) player.loseToDiscardpile(cards);
 	},
 	usable: 1,
@@ -39,7 +39,7 @@ export default {
 		let cards = player.getExpansions('vl_rasali_ly');
 		if (!cards.length) return
 		if (player.countCards('h')) {
-			var next = player.chooseToMove('对' + get.translation(trigger.player) + '发动【灵引】：交换“引”和手牌？');
+			let next = player.chooseToMove('对' + get.translation(trigger.player) + '发动【灵引】：交换“引”和手牌？');
 			next.set('list', [
 				[get.translation(player) + '（你）的引', cards],
 				['手牌区', player.getCards('h')],
@@ -48,7 +48,7 @@ export default {
 				return typeof to != 'number';
 			});
 			next.set('processAI', function (list) {
-				var player = _status.event.player, cards = list[0][1].concat(list[1][1]).sort(function (a, b) {
+				let player = _status.event.player, cards = list[0][1].concat(list[1][1]).sort(function (a, b) {
 					return get.useful(a) - get.useful(b);
 				}), cards2 = cards.splice(0, player.getExpansions('vl_rasali_ly').length);
 				return [cards2, cards];
@@ -67,7 +67,7 @@ export default {
 		cards = player.getExpansions('vl_rasali_ly');
 		const suit = []
 		const color = []
-		for (var i of cards) {
+		for (let i of cards) {
 			if (!suit.includes(get.suit(i))) {
 				suit.push(get.suit(i))
 			}

@@ -7,7 +7,7 @@ export default {
     usable: 5,
     forced: true,
     async content(event, trigger, player) {
-        var targets = game.filterPlayer(current => current.hasSkill('vl_liona_zz')).sortBySeat();
+        let targets = game.filterPlayer(current => current.hasSkill('vl_liona_zz')).sortBySeat();
         player.line(targets, 'green');
         game.asyncDraw(targets);
     },

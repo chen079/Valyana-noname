@@ -11,9 +11,9 @@ export default {
     targetprompt: ["被移走", "移动目标"],
     filterTarget(card, player, target) {
         if (ui.selected.targets.length) {
-            var from = ui.selected.targets[0];
-            var judges = from.getCards('j');
-            for (var i = 0; i < judges.length; i++) {
+            let from = ui.selected.targets[0];
+            let judges = from.getCards('j');
+            for (let i = 0; i < judges.length; i++) {
                 if (!target.hasJudge(judges[i].viewAs || judges[i].name)) return true;
             }
             if (target.isMin()) return false;
@@ -30,6 +30,7 @@ export default {
     },
     selectTarget: 2,
     async content(event, trigger, player) {
+        const targets = event.targets
         if (targets.length != 2) return;
         const result = await player.choosePlayerCard(true, 'ej', function (button) {
             if (get.attitude(player, targets[0]) > get.attitude(player, targets[1])) {
@@ -90,8 +91,8 @@ export default {
                 if (ui.selected.targets.length == 0) {
                     if (target.countCards('j') && get.attitude(player, target) > 0) return 1;
                     if (get.attitude(player, target) < 0) {
-                        var players = game.filterPlayer();
-                        for (var i = 0; i < players.length; i++) {
+                        let players = game.filterPlayer();
+                        for (let i = 0; i < players.length; i++) {
                             if (get.attitude(player, players[i]) > 0) {
                                 if ((target.getEquip(1) && !players[i].getEquip(1)) ||
                                     (target.getEquip(2) && !players[i].getEquip(2)) ||

@@ -22,8 +22,8 @@ export default {
 		return 7 - get.value(card)
 	},
 	filter(event, player) {
-		var list = [];
-		for (var i = 0; i < game.dead.length; i++) {
+		let list = [];
+		for (let i = 0; i < game.dead.length; i++) {
 			if (game.dead[i].maxHp != 0) {
 				list.push(game.dead[i].name);
 			}
@@ -32,29 +32,29 @@ export default {
 	},
 	async content(event, trigger, player) {
 		player.awakenSkill('vl_nanci_tx')
-		var list = [];
-		for (var i = 0; i < game.dead.length; i++) {
+		let list = [];
+		for (let i = 0; i < game.dead.length; i++) {
 			if (game.dead[i].maxHp != 0) {
 				list.push(game.dead[i].name);
 			}
 		}
 		const result = await player.chooseButton(ui.create.dialog('选择一名已死亡的角色令其复活', [list, 'character']), function (button) {
-			var player = _status.event.player
-			for (var i = 0; i < game.dead.length; i++) {
+			let player = _status.event.player
+			for (let i = 0; i < game.dead.length; i++) {
 				if (game.dead[i].name == button.link) {
-					var dead = game.dead[i];
+					let dead = game.dead[i];
 					return get.attitude(player, dead)
 				}
 			}
 		}).forResult();
 		if (result.bool) {
-			for (var i = 0; i < game.dead.length && game.dead[i].name != result.buttons[0].link; i++);
-			var dead = game.dead[i];
+			for (let i = 0; i < game.dead.length && game.dead[i].name != result.buttons[0].link; i++);
+			let dead = game.dead[i];
 			dead.revive(1);
 			dead.changeHujia(1, null, true);
 			player.changeHujia(1, null, true);
-			var skills = dead.getSkills();
-			for (var j = 0; j < skills.length; j++) {
+			let skills = dead.getSkills();
+			for (let j = 0; j < skills.length; j++) {
 				dead.markSkill(skills[j])
 			}
 			dead.checkMarks()
@@ -78,7 +78,7 @@ export default {
 				return event.player == player.storage.vl_nanci_tx_gain && player.storage.vl_nanci_tx_gain.isIn()
 			},
 			content(player) {
-				var num = player.storage.vl_nanci_tx_gain.countCards('h') - player.countCards('h')
+				let num = player.storage.vl_nanci_tx_gain.countCards('h') - player.countCards('h')
 				if (num > 0) {
 					player.draw(num)
 				}
@@ -90,13 +90,13 @@ export default {
 		order: 3,
 		result: {
 			player(card, player) {
-				var list = [];
-				for (var i = 0; i < game.dead.length; i++) {
+				let list = [];
+				for (let i = 0; i < game.dead.length; i++) {
 					if (game.dead[i].maxHp != 0) {
 						list.push(game.dead[i].name);
 					}
 				}
-				for (var i in list) {
+				for (let i in list) {
 					if (get.attitude(player, i) > 0) return 1
 				}
 			},

@@ -12,7 +12,7 @@ export default {
     },
     forced: true,
     async content(event, trigger, player) {
-        var num = player.maxHp - player.countCards('h')
+        let num = player.maxHp - player.countCards('h')
         if (num > 0) {
             await player.draw(num)
         } else if (num < 0) {

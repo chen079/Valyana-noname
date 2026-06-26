@@ -11,16 +11,16 @@ export default {
 		return player.hujia > 0;
 	},
 	content: async function content(event, trigger, player) {
-		var choiceList = ['失去1点护甲，令此【杀】伤害基数+1', '失去1点护甲，令此【杀】不可被响应']
-		var choice = ['加伤', '强命']
+		let choiceList = ['失去1点护甲，令此【杀】伤害基数+1', '失去1点护甲，令此【杀】不可被响应']
+		let choice = ['加伤', '强命']
 		if (player.hujia >= 2) {
 			choiceList.push('背水：失去1点护甲并翻面')
 			choice.push('背水！')
 		}
 		const result = await player.chooseControl('cancel2', choice).set('choiceList', choiceList)
 			.set('ai', function () {
-				var player = _status.event.player
-				var target = _status.event.target
+				let player = _status.event.player
+				let target = _status.event.target
 				if (get.mode == 'identity' && player.identity == target.identity) return 'cancel2'
 				if (player.hujia > 2) {
 					return '背水！'

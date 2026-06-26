@@ -13,13 +13,14 @@ export default {
         return 4 - get.value(card);
     },
     async content(event, trigger, player) {
-        var num = 0;
-        for (var i = 0; i < cards.length; i++) {
-            var cardnum = get.number(cards[i], player)
+        const cards = event.cards;
+        let num = 0;
+        for (let i = 0; i < cards.length; i++) {
+            let cardnum = get.number(cards[i], player)
             num += (Math.pow((-1), i) * cardnum)
         }
-        var numx = Math.abs((num % 13 == 0 ? 13 : (num % 13)));
-        var card = get.cardPile2(function (card) {
+        let numx = Math.abs((num % 13 == 0 ? 13 : (num % 13)));
+        let card = get.cardPile2(function (card) {
             return get.number(card, false) == numx;
         });
         if (card) player.gain(card, 'gain2');

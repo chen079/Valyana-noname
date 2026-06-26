@@ -16,6 +16,7 @@ export default {
         if (!player.storage.vl_kaye_yj) player.storage.vl_kaye_yj = [];
     },
     async content(event, trigger, player) {
+        const target = event.target
         target.addVuff('xuruo', 5, player)
         target.addVuff('yishang', 2, player)
         if (!player.storage.vl_kaye_yj) player.storage.vl_kaye_yj = [];

@@ -20,7 +20,7 @@ export default {
 			})
 			.forResult();
 		if (result.bool) {
-			var num = target.countCards("h");
+			let num = target.countCards("h");
 			if (num <= 3) {
 				await target.damage(1, "fire", player);
 			} else {

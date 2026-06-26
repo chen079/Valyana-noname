@@ -23,6 +23,8 @@ export default {
 	filterCard: true,
 	selectCard: -1,
 	async content(event, trigger, player) {
+		const targets = event.targets
+		const cards = event.cards
 		await targets[0].gain(cards, player, 'giveAuto')
 		targets[0].addTempSkill('vl_kamijia_sx_unuse', { player: 'phaseAfter' })
 		if (!targets[0].storage.vl_kamijia_sx_unuse) {
@@ -36,7 +38,7 @@ export default {
 		targets[0].storage.vl_kamijia_sx_unuse.gain += cards.length
 		targets[0].storage.vl_kamijia_sx_unuse.num++
 		targets[0].storage.vl_kamijia_sx_unuse.target.push(targets[1])
-		var evt = _status.event.getParent('phaseUse');
+		let evt = _status.event.getParent('phaseUse');
 		if (evt) {
 			evt.skipped = true;
 		}
@@ -49,8 +51,8 @@ export default {
 				if (ui.selected.targets.length) {
 					return -3
 				} else {
-					var pc = player.countCards('h')
-					var tc = target.countCards('h')
+					let pc = player.countCards('h')
+					let tc = target.countCards('h')
 					if (get.attitude(player, target) > 0) {
 						return 3
 					} else {
@@ -87,7 +89,7 @@ export default {
 			forced: true,
 			filter(event, player) {
 				if (event.type != 'discard' || event.getlx === false || event.getParent('phaseDiscard').player != player || !player.storage.vl_kamijia_sx_unuse.source || !player.storage.vl_kamijia_sx_unuse.source.isIn()) return false;
-				var evt = event.getl(player);
+				let evt = event.getl(player);
 				return evt && evt.cards2.filterInD('d').length > 0;
 			},
 			logTarget(event, player) {
@@ -95,7 +97,7 @@ export default {
 			},
 			async content(event, trigger, player) {
 				if (trigger.delay === false) game.delay();
-				var cards = trigger.getl(player).cards2.filterInD('d')
+				let cards = trigger.getl(player).cards2.filterInD('d')
 				if (Math.floor(player.storage.vl_kamijia_sx_unuse.gain / 2) != 0 && cards.length) {
 					const result = await player.storage.vl_kamijia_sx_unuse.source.chooseCardButton('获得' + get.translation(player) + '弃置的牌中至多' + get.cnNumber(Math.min(cards.length, 5, Math.floor(player.storage.vl_kamijia_sx_unuse.gain / 2))) + '张牌', [1, Math.min(cards.length, 5, Math.floor(player.storage.vl_kamijia_sx_unuse.gain / 2))], cards)
 						.set('ai', function (button) {

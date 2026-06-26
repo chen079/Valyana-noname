@@ -60,7 +60,7 @@ export default {
             },
             forced: true,
             async content(event, trigger, player) {
-                var num = player.countMark('vl_ventus_nx')
+                let num = player.countMark('vl_ventus_nx')
                 player.removeMark('vl_ventus_nx', num)
                 player.updateMark('vl_ventus_nx')
             },

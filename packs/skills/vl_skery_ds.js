@@ -9,7 +9,7 @@ export default {
     },
     forced: true,
     async content(event, trigger, player) {
-        var target = trigger.player;
+        let target = trigger.player;
         target.addVuff('zhongdu', player, trigger.num)
     },
     group: "vl_skery_ds_1",

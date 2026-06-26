@@ -8,7 +8,7 @@ export default {
     discard: false,
     delay: false,
     selectCard() {
-        var player = _status.event.player
+        let player = _status.event.player
         return Math.floor(player.countCards('h') / 2)
     },
     filter(event, player) {

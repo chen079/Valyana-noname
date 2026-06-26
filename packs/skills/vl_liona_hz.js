@@ -19,7 +19,7 @@ export default {
         }).set('ai', target => get.attitude(player, target) - 2).forResult();
         if (result.bool) {
             lib.skill.baonvezhi.change(player, -result.targets.length);
-            for (var i = 0; i < result.targets.length; i++) {
+            for (let i = 0; i < result.targets.length; i++) {
                 result.targets[i].addTempSkill('vl_liona_zz', 'roundStart');
             }
         }

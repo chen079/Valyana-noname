@@ -33,7 +33,7 @@ export default {
 	async content(event, trigger, player) {
 		let ainum = 0
 		let draw = 0
-		for (var i of game.players) {
+		for (let i of game.players) {
 			if (get.attitude(player, i) < 0) {
 				draw += 2
 			} else {
@@ -45,7 +45,7 @@ export default {
 				if (ainum == 0) {
 					return player.storage.vl_ming_yc.lib.randomGet()
 				} else if (ainum < Math.min(Math.max(draw, 5), 9)) {
-					var word = player.storage.vl_ming_yc.lib.find(function (item) {
+					let word = player.storage.vl_ming_yc.lib.find(function (item) {
 						return item.charAt(0) == player.storage.vl_ming_yc.last.charAt(player.storage.vl_ming_yc.last.length - 1) && !player.storage.vl_ming_yc.used.includes(item)
 					})
 					if (word) {

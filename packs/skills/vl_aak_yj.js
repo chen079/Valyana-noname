@@ -7,6 +7,7 @@ export default {
     usable: 1,
     position: "he",
     async content(event, trigger, player) {
+        const target = event.target
         await target.damage(1, player);
         const num = [1, 2].randomGet();
         if (num == 1) {

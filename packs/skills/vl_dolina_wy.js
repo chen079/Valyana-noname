@@ -9,9 +9,9 @@ export default {
         return event.source && event.num > 0
     },
     async content(event, trigger, player) {
-        var card = get.cards()[0];
+        let card = get.cards()[0];
         await player.showCards(card, get.translation(player) + '发动了【威仪】')
-        var eff = get.damageEffect(player, trigger.source, trigger.source, trigger.nature)
+        let eff = get.damageEffect(player, trigger.source, trigger.source, trigger.nature)
         const result = await trigger.source.chooseToDiscard('he', '请弃置一张' + get.translation(get.type2(card)) + '牌，否则取消此次伤害', function (cardx) {
             return get.type2(cardx) == get.type2(card)
         }).set('ai', function (card) {

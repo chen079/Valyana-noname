@@ -26,7 +26,7 @@ export default {
 				return typeof to != 'number';
 			})
 			.set('processAI', function (list) {
-				var player = _status.event.player, cards = list[0][1].concat(list[1][1]).sort(function (a, b) {
+				let player = _status.event.player, cards = list[0][1].concat(list[1][1]).sort(function (a, b) {
 					return get.value(a) - get.value(b);
 				}), cards2 = cards.splice(0, player.getExpansions('vl_xieji').length);
 				return [cards2, cards];

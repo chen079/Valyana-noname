@@ -7,7 +7,7 @@ export default {
     forced: true,
     filter(event, player) {
         if (!event.cards) return false;
-        for (var i = 0; i < event.cards.length; i++) {
+        for (let i = 0; i < event.cards.length; i++) {
             if (get.name(event.cards[i]) == 'tao') return true;
         }
         return false;

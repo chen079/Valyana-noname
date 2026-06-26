@@ -14,7 +14,7 @@ export default {
 			}).length;
 		},
 		onunmark(storage, player) {
-			var cards = player.getCards('s', function (card) {
+			let cards = player.getCards('s', function (card) {
 				return card.hasGaintag('vl_sayisu_fj');
 			});
 			if (cards.length) {
@@ -38,7 +38,7 @@ export default {
 			.set("prompt", get.prompt("vl_sayisu_fj"))
 			.set("prompt2", "妄行：将X张牌置于武将牌上，称为“威”")
 			.set("ai", function () {
-				var player = _status.event.player;
+				let player = _status.event.player;
 				if (player.maxHp > 3) {
 					return 3;
 				}

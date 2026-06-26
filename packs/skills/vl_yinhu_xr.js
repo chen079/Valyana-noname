@@ -16,7 +16,7 @@ export default {
                 return get.attitude(_status.event.player, target) * (1 + target.countCards('j'));
             }).forResult();
         if (result.bool) {
-            for (var i = 0; i < result.targets.length; i++) {
+            for (let i = 0; i < result.targets.length; i++) {
                 result.targets[i].addTempSkill('vl_zhufu', { player: "phaseAfter" });
                 result.targets[i].addVuff('qiyuan', 1);
             }

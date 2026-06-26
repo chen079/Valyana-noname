@@ -16,8 +16,10 @@ export default {
 	lose: false,
 	delay: false,
 	async content(event, trigger, player) {
-		var card = cards[0];
-		var cardx = game.createCard(card.name, card.suit, card.number, card.nature);
+		const targets = event.targets
+		const cards = event.cards
+		let card = cards[0];
+		let cardx = game.createCard(card.name, card.suit, card.number, card.nature);
 		player.markSkill('vl_mile_tl');
 		await targets[0].gain(cardx).gaintag.add('vl_mile_tl');
 		targets[0].addSkill('vl_mile_tl_effect');
@@ -58,7 +60,7 @@ export default {
 			filter(event, player) {
 				return player.hasHistory('lose', function (evt) {
 					if (evt.getParent() != event) return false;
-					for (var i in evt.gaintag_map) {
+					for (let i in evt.gaintag_map) {
 						if (evt.gaintag_map[i].includes('vl_mile_tl')) {
 							if (event.cards.some(card => {
 								return get.position(card, true) == 'o' && card.cardid == i;
@@ -69,12 +71,12 @@ export default {
 				});
 			},
 			async content(event, trigger, player) {
-				var cards = [];
+				let cards = [];
 				player.getHistory('lose', function (evt) {
 					if (evt.getParent() != trigger) return false;
-					for (var i in evt.gaintag_map) {
+					for (let i in evt.gaintag_map) {
 						if (evt.gaintag_map[i].includes('vl_mile_tl')) {
-							var cardsx = trigger.cards.filter(card => {
+							let cardsx = trigger.cards.filter(card => {
 								return get.position(card, true) == 'o' && card.cardid == i;
 							});
 							if (cardsx.length) cards.addArray(cardsx);
@@ -97,26 +99,26 @@ export default {
 			},
 			mod: {
 				cardEnabled2(card, player) {
-					var cards = [];
+					let cards = [];
 					if (card.cards) cards.addArray(cards);
 					if (get.itemtype(card) == 'card') cards.push(card);
-					for (var cardx of cards) {
+					for (let cardx of cards) {
 						if (cardx.hasGaintag('vl_mile_tl_clear')) return false;
 					}
 				},
 				cardRespondable(card, player) {
-					var cards = [];
+					let cards = [];
 					if (card.cards) cards.addArray(cards);
 					if (get.itemtype(card) == 'card') cards.push(card);
-					for (var cardx of cards) {
+					for (let cardx of cards) {
 						if (cardx.hasGaintag('vl_mile_tl_clear')) return false;
 					}
 				},
 				cardSavable(card, player) {
-					var cards = [];
+					let cards = [];
 					if (card.cards) cards.addArray(cards);
 					if (get.itemtype(card) == 'card') cards.push(card);
-					for (var cardx of cards) {
+					for (let cardx of cards) {
 						if (cardx.hasGaintag('vl_mile_tl_clear')) return false;
 					}
 				},

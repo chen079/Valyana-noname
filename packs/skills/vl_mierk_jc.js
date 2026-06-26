@@ -10,8 +10,8 @@ export default {
 	},
 	direct: true,
 	async content(event, trigger, player) {
-		var effect = 0;
-		for (var i = 0; i < trigger.targets.length; i++) {
+		let effect = 0;
+		for (let i = 0; i < trigger.targets.length; i++) {
 			effect -= get.effect(trigger.targets[i], trigger.card, trigger.player, player);
 		}
 		if (effect > 0) {
@@ -36,7 +36,7 @@ export default {
 		const result = await player.chooseCard('h', get.prompt2('vl_mierk_jc', trigger.player)).set('ai', function (card) {
 			if (get.attitude(player, trigger.player) > 0) return 0;
 			if (_status.event.effect >= 0) {
-				var val = get.value(card);
+				let val = get.value(card);
 				if (val < 0) return 10 - val;
 				return _status.event.effect - val;
 			}

@@ -10,7 +10,7 @@ export default {
     charlotte: true,
     locked: true,
     skillBlocker(skill, player) {
-        var element = lib.skill[skill].linkage
+        let element = lib.skill[skill].linkage
         return element && ((player.name1 != 'vl_kulun_' + element) && (player.name2 != 'vl_kulun_' + element))
     },
     t: {

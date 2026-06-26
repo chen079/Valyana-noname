@@ -31,7 +31,7 @@ export default {
     },
     async content(event, trigger, player) {
         const textResult = await player.chooseText().set('prompt', get.prompt2('vl_ming_yy')).set('ai', function () {
-            var title = Object.keys(player.storage.vl_ming_yy[0]);
+            let title = Object.keys(player.storage.vl_ming_yy[0]);
             title = title.randomGet();
             return player.storage.vl_ming_yy[0][title]["poem"].randomGet();
         }).forResult();
@@ -40,7 +40,7 @@ export default {
         let matched = false;
         let title;
         let author;
-        for (var i in player.storage.vl_ming_yy[0]) {
+        for (let i in player.storage.vl_ming_yy[0]) {
             if (!player.storage.vl_ming_yy[1].includes(i) && player.storage.vl_ming_yy[0][i]['poem'].includes(textResult.text)) {
                 player.storage.vl_ming_yy[1].push(i);
                 matched = true;
@@ -68,7 +68,7 @@ export default {
             control.push('拿牌');
         }
         const result = await player.chooseControl(control, 'cancel2').set('choiceList', choices).set('ai', function () {
-            var player = _status.event.player;
+            let player = _status.event.player;
             if (get.attitude(player, trigger.target) > 0) {
                 return 'cancel2';
             } else {
@@ -78,8 +78,8 @@ export default {
         if (result.control == '摸牌') {
             await player.draw(2);
         } else if (result.control == '加伤') {
-            var id = trigger.target.playerid;
-            var map = trigger.getParent().customArgs;
+            let id = trigger.target.playerid;
+            let map = trigger.getParent().customArgs;
             if (!map[id]) map[id] = {};
             if (typeof map[id].extraDamage != 'number') {
                 map[id].extraDamage = 0;

@@ -12,20 +12,20 @@ export default {
 	},
 	direct: true,
 	async content(event, trigger, player) {
-		var targets = [];
+		let targets = [];
 		if (trigger.red.map(i => i[0]).includes(player)) targets = trigger.black;
 		if (trigger.black.map(i => i[0]).includes(player)) targets = trigger.red;
 		player.showHandcards();
-		var num = player.countCards('h', 'sha')
+		let num = player.countCards('h', 'sha')
 		const result = await player.chooseTarget([1, num], get.prompt('vl_keste_wp'), '对至多' + get.cnNumber(num) + '名与你意见不同的角色造成1点伤害', (card, player, target) => {
 			return _status.event.targets.includes(target);
 		}).set('targets', targets.map(i => i[0])).set('ai', target => {
-			var player = _status.event.player;
+			let player = _status.event.player;
 			return get.damageEffect(target, player, player);
 		}).forResult();
 		if (result.bool) {
-			for (var i = 0; i < result.targets.length; i++) {
-				var target = result.targets[i];
+			for (let i = 0; i < result.targets.length; i++) {
+				let target = result.targets[i];
 				await target.damage();
 			}
 		}

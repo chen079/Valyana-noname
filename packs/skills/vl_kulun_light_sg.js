@@ -15,9 +15,10 @@ export default {
         return player != target
     },
     async content(event, trigger, player) {
-        var buffs = game.findVuff('type', 'buff')
+        const target = event.target;
+        const buffs = game.findVuff('type', 'buff')
         player.addVuff(buffs.randomGet())
-        target.addVuff(buffs.randomGet())
+        event.target.addVuff(buffs.randomGet())
         await target.recover()
     },
     ai: {

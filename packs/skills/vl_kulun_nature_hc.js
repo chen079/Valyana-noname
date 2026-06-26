@@ -13,16 +13,16 @@ export default {
 	mark: true,
 	intro: {
 		mark(dialog, storage, player) {
-			var usedCard = player.getHistory('useCard')
-			var suits = usedCard.map(i => get.translation(get.suit(i.card))).unique()
+			let usedCard = player.getHistory('useCard')
+			let suits = usedCard.map(i => get.translation(get.suit(i.card))).unique()
 			dialog.addText('本回合已经使用过的花色为：' + suits)
 		},
 	},
 	async content(event, trigger, player) {
-		var useCards = player.getHistory('useCard')
-		var lastUsed = getUseCardHistoryEvent(player, 0)
-		var beforeUsed = useCards.slice(0, useCards.length - 1)
-		var num = beforeUsed.filter(i => i.card.suit == lastUsed.card.suit).length
+		let useCards = player.getHistory('useCard')
+		let lastUsed = getUseCardHistoryEvent(player, 0)
+		let beforeUsed = useCards.slice(0, useCards.length - 1)
+		let num = beforeUsed.filter(i => i.card.suit == lastUsed.card.suit).length
 		if (!game.hasPlayer(function (current) {
 			return current.countCards('h') >= player.countCards('h') && current.countCards('h') > 0
 		})) {

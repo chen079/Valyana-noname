@@ -16,7 +16,7 @@ export default {
         );
     },
     async content(event, trigger, player) {
-        var target = _status.currentPhase;
+        let target = _status.currentPhase;
         player.gainPlayerCard(target, 'he', "获得" + get.translation(target) + "的一张牌", true);
     },
     t: {

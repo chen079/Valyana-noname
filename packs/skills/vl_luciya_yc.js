@@ -43,7 +43,7 @@ export default {
             filter(event, player) {
                 if (event.player == player) return false;
                 if (event.cards) {
-                    for (var i = 0; i < event.cards.length; i++) {
+                    for (let i = 0; i < event.cards.length; i++) {
                         if (get.position(event.cards[i], true) == 'o') return true;
                     }
                 }
@@ -51,8 +51,8 @@ export default {
             },
             frequent: true,
             async content(event, trigger, player) {
-                var cards = trigger.cards.slice(0);
-                for (var i = 0; i < cards.length; i++) {
+                let cards = trigger.cards.slice(0);
+                for (let i = 0; i < cards.length; i++) {
                     if (get.position(cards[i], true) != 'o') {
                         cards.splice(i--, 1);
                     }

@@ -8,7 +8,7 @@ export default {
         return target != player
     },
     check(target) {
-        var player = _status.event.player
+        let player = _status.event.player
         return -get.attitude(player, target)
     },
     filter(event, player) {

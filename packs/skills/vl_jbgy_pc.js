@@ -21,14 +21,14 @@ export default {
             mark: true,
             intro: {
                 mark(dialog, content, player) {
-                    var cards = player.getCards('h')
+                    let cards = player.getCards('h')
                     if (cards && cards.length) {
                         dialog.addAuto(cards);
                     }
                 },
             },
             content(content, player) {
-                var cards = player.getCards('h')
+                let cards = player.getCards('h')
                 if (cards && cards.length) {
                     return get.translation(cards);
                 }

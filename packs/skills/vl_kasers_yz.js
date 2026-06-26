@@ -13,8 +13,8 @@ export default {
 	},
 	async content(event, trigger, player) {
 		const next = player.judge(function (result) {
-			var num = get.number(result)
-			var hp = player.hp
+			let num = get.number(result)
+			let hp = player.hp
 			if (num % hp == 0 || num % (hp + 2) == 0) {
 				return 1
 			} else {
@@ -25,8 +25,8 @@ export default {
 			return result.bool ? true : false;
 		};
 		const result = await next.forResult();
-		var num = get.number(result.card)
-		var hp = player.hp
+		let num = get.number(result.card)
+		let hp = player.hp
 		if (num % hp == 0) {
 			const next = player.gain(result.card)
 			player.addVuff('kangfen')

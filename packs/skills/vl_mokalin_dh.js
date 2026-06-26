@@ -6,7 +6,7 @@ export default {
     },
     direct: true,
     content: () => {
-        var num = 1 - player.countVuffNum('mianyi')
+        let num = 1 - player.countVuffNum('mianyi')
         if (num != 0) player.changeVuff('mianyi', num)
     },
     group: ["vl_mokalin_dh_reduceto", "vl_mokalin_dh_lose"],
@@ -49,7 +49,7 @@ export default {
             prompt2: "减少1层「免疫」并摸X张牌（X为你的体力值）。",
             usable: 1,
             filter(event, player) {
-                var evt = event.getl(player);
+                let evt = event.getl(player);
                 return evt && evt.cards2 && evt.cards2.length > 0 && player.hp > 0
             },
             content: async function content(event, trigger, player) {

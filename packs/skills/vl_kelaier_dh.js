@@ -9,6 +9,7 @@ export default {
     filterTarget: true,
     filterCard: true,
     async content(event, trigger, player) {
+        const target = event.target
         const result = await player.judge().forResult()
         switch (result.color) {
             case "red": {

@@ -12,7 +12,7 @@ export default {
         return get.attitude(player, player.storage.vl_wes_ts[0])
     },
     async content(event, trigger, player) {
-        for (var i = 0; i < trigger.num; i++) {
+        for (let i = 0; i < trigger.num; i++) {
             player.storage.vl_wes_ts[0].damage(1, trigger.nature, trigger.source, 'unreal')
             game.delay(2)
         }

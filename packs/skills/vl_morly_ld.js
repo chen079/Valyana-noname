@@ -21,9 +21,9 @@ export default {
         },
     },
     async content(event, trigger, player) {
-        var shanature = ['fire', 'thunder', 'ice', 'kami']
+        let shanature = ['fire', 'thunder', 'ice', 'kami']
         if (!player.storage.vl_morly_ld_num) { player.storage.vl_morly_ld_num = 0 }
-        var num = player.storage.vl_morly_ld_num
+        let num = player.storage.vl_morly_ld_num
         trigger.card.nature = shanature[num]
         player.storage.vl_morly_ld_num++
         if (player.storage.vl_morly_ld_num == 4) {

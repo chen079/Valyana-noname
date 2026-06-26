@@ -14,6 +14,7 @@ export default {
     discard: false,
     prepare: "give",
     content: async function content(event, trigger, player) {
+        const cards = event.cards;
         await event.targets[0].gain(cards);
         if (!player.hujia) {
             await player.changeHujia(1, null, true);

@@ -17,8 +17,8 @@ export default {
 	direct: true,
 	async content(event, trigger, player) {
 		const result = await player.chooseTarget(get.prompt2('vl_guotang_yl'), [1, player.hp]).set('ai', function (target) {
-			var player = _status.event.player
-			var att = get.attitude(player, target)
+			let player = _status.event.player
+			let att = get.attitude(player, target)
 			if (att > 0) {
 				if (target.hp == target.countCards('h') + 1) return att + 2
 				return att

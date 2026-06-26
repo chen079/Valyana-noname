@@ -7,7 +7,7 @@ export default {
 	filter(event, player) {
 		return event.player.hasHistory('lose', function (evt) {
 			if (evt.getParent() != event) return false;
-			for (var i in evt.gaintag_map) {
+			for (let i in evt.gaintag_map) {
 				if (evt.gaintag_map[i].includes('vl_dragon_hn')) return true;
 			}
 			return false;
@@ -39,7 +39,7 @@ export default {
 				},
 				targetInRange(card) {
 					if (!card.cards) return;
-					for (var i of card.cards) {
+					for (let i of card.cards) {
 						if (i.hasGaintag('vl_dragon_hn')) return true;
 					}
 				},

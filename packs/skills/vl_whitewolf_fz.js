@@ -8,7 +8,7 @@ export default {
 		return event.player != player && event.num > 0 && !event.player.hasSkill('vl_whitewolf_fz_1')
 	},
 	check(event, player) {
-		var att = get.attitude(player, event.player)
+		let att = get.attitude(player, event.player)
 		if (att > 0) {
 			if (event.player.hp == 1) {
 				return true

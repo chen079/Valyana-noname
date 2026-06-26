@@ -25,7 +25,7 @@ export default {
         const result = await player.chooseTarget('选择你的猎物', function (card, target, player) {
             return target != player && player.storage.vl_death_sy != target
         }, true).set('ai', function (target) {
-            var player = _status.event.player
+            let player = _status.event.player
             return -get.attitude(player, target)
         }).forResult();
         if (result.bool) {
@@ -70,7 +70,7 @@ export default {
             mark: true,
             intro: {
                 content(storage, player, skill) {
-                    var list = player.getSkills(null, false, false).filter(function (i) {
+                    let list = player.getSkills(null, false, false).filter(function (i) {
                         return lib.skill.vl_death_sy_useless.skillBlocker(i, player);
                     });
                     if (list.length) return '失效技能：' + get.translation(list);
