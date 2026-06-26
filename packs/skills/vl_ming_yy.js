@@ -1,4 +1,5 @@
 import { lib, game, ui, get, ai, _status } from '../../../../noname.js';
+import poems from '../jsons/poems.json'
 
 export default {
     trigger: {
@@ -21,13 +22,7 @@ export default {
         if (!player.storage.vl_ming_yy) {
             player.storage.vl_ming_yy = [{}, []]
         }
-        game.loadJsonFromFile('extension/福瑞拓展/asset/json/poems.json', function (error, data) {
-            if (error) {
-                alert(error);
-            } else {
-                console.log(data);
-            }
-        }, player.storage.vl_ming_yy[0]);
+        player.storage.vl_ming_yy[0] = poems
     },
     async content(event, trigger, player) {
         const textResult = await player.chooseText().set('prompt', get.prompt2('vl_ming_yy')).set('ai', function () {

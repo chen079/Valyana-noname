@@ -1,4 +1,5 @@
 import { lib, game, ui, get, ai, _status } from '../../../../noname.js';
+import idiom from '../jsons/idiom.json'
 
 export default {
 	enable: "phaseUse",
@@ -12,13 +13,7 @@ export default {
 				'last': ''
 			};
 		}
-		game.loadJsonFromFile('extension/福瑞拓展/asset/json/idiom.json', function (error, data) {
-			if (error) {
-				alert(error);
-			} else {
-				console.log(data);
-			}
-		}, player.storage.vl_ming_yc.lib);
+		player.storage.vl_ming_yc.lib = idiom
 	},
 	mark: true,
 	intro: {

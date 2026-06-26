@@ -1,7 +1,9 @@
 import { lib, game, ui, get, ai, _status } from '../../../../noname.js';
+//角色包
 import { character } from '../../packs/character.js'
 import { furryCharacter } from '../../packs/furryExtcharacter.js'
-
+import { boss as bossCharacters } from '../../packs/boss.js'
+//翻译、势力等
 import { dynamicTranslate } from '../../packs/dynamicTranslate.js'
 import { translation } from '../../packs/translation.js';
 import { characterSubstitute } from '../../packs/characterSubstitute.js'
@@ -101,16 +103,20 @@ const packs = async function () {
     };
     const Valyana = await parseCharacterPack('Valyana', character, parseOptions)
     const furryExtPack = await parseCharacterPack('furryExtPack', furryCharacter, parseOptions)
+    const bossPack = await parseCharacterPack('ValyanaBoss', bossCharacters, parseOptions)
     Object.assign(Valyana.translate, translation);
     Valyana.dynamicTranslate = dynamicTranslate
     furryExtPack.characterSubstitute = characterSubstitute
     addAvaterAndVideo(Valyana)
     addAvaterAndVideo(furryExtPack)
+    addAvaterAndVideo(bossPack)
     lib.config.all.sgscharacters.push('Valyana');
     lib.translate['Valyana_character_config'] = '瓦尔亚纳';
+    lib.config.all.sgscharacters.push('ValyanaBoss');
+    lib.translate['ValyanaBoss_character_config'] = '瓦尔亚纳Boss';
     lib.config.all.sgscharacters.push('furryExtPack');
     lib.translate['furryExtPack_character_config'] = '福瑞扩展';
-    return [Valyana, furryExtPack]
+    return [Valyana, furryExtPack, bossPack]
 };
 
 export default packs;
