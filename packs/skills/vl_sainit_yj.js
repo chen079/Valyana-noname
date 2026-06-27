@@ -2,56 +2,83 @@ import { lib, game, ui, get, ai, _status } from '../../../../noname.js';
 
 export default {
     trigger: {
-        global: "roundStart",
+        global: "phaseEnd",
     },
     direct: true,
-    mod: {
-        targetInRange(card, player, target) {
-            if (target.yuehua) return true;
-        },
-        cardUsableTarget(card, player, target) {
-            if (target.yuehua) return true;
-        },
+    frequent: true,
+    filter(event, player) {
+        return event.player != player && event.player.isIn() && !player.getHistory("useCard").length;
     },
     async content(event, trigger, player) {
-        game.filterPlayer(function (current) {
-            if (current != player) {
-                current.style.border = '2px solid #ccc'
-                current.style.boxShadow = '0 0 30px 5px rgba(255, 255, 255, 0.7)'
-                current.yuehua = true
-            }
-        })
-    },
-    group: ["vl_sainit_yj_damage"],
-    subSkill: {
-        damage: {
-            trigger: {
-                source: "damageBegin2",
+        const target = trigger.player;
+        const result = await player.chooseBool(get.prompt("vl_sainit_yj", target), "将牌堆顶的一张牌置于其武将牌上，称为“月华”。").set("ai", function () {
+            const player = _status.event.player;
+            const target = _status.event.getTrigger().player;
+            return get.attitude(player, target) <= 0 || target.getExpansions("vl_sainit_yj_yuehua").length == 0;
+        }).set("frequentSkill", "vl_sainit_yj").forResult();
+        if (!result.bool) return;
+        player.logSkill(event.name, target);
+        await lib.skill.vl_sainit_yj.addYuehua(target);
+        if (!lib.filter.targetEnabled({ name: "sha", isCard: true }, player, target)) return;
+        const shaResult = await player.chooseBool("月皎：是否视为对" + get.translation(target) + "使用一张无距离限制的冰【杀】？").set("ai", function () {
+            const player = _status.event.player;
+            const target = _status.event.target;
+            return get.effect(target, { name: "sha", nature: "ice" }, player, player) > 0;
+        }).set("target", target).forResult();
+        if (!shaResult.bool) return;
+        await player.useCard({
+            name: "sha",
+            nature: "ice",
+            isCard: true,
+            storage: {
+                vl_sainit_yj: true,
+                vl_sainit_yj_target: target,
             },
-            direct: true,
+        }, target, false).set("addCount", false);
+    },
+    async addYuehua(target) {
+        target.addSkill("vl_sainit_yj_yuehua");
+        await target.addToExpansion(get.cards(1), "gain2").gaintag.add("vl_sainit_yj_yuehua");
+    },
+    group: "vl_sainit_yj_sha_damage",
+    subSkill: {
+        yuehua: {
+            charlotte: true,
+            marktext: "月",
+            intro: {
+                markcount: "expansion",
+                mark(dialog, content, player) {
+                    const cards = player.getExpansions("vl_sainit_yj_yuehua");
+                    if (cards.length) dialog.addAuto(cards);
+                },
+                content(content, player) {
+                    const cards = player.getExpansions("vl_sainit_yj_yuehua");
+                    if (cards.length) return get.translation(cards);
+                },
+            },
+            onremove(player, skill) {
+                const cards = player.getExpansions(skill);
+                if (cards.length) player.loseToDiscardpile(cards);
+            },
+        },
+        sha_damage: {
+            charlotte: true,
+            trigger: {
+                source: "damageEnd",
+            },
+            forced: true,
+            popup: false,
+            priority: 20,
             filter(event, player) {
-                return event.player != player && event.player.yuehua
+                return event.card?.name == "sha" && event.card.storage?.vl_sainit_yj && event.player == event.card.storage.vl_sainit_yj_target;
             },
             async content(event, trigger, player) {
-                trigger.num++
-                const result = await player.chooseTarget('弃置一名其他角色一张牌', function (card, player, target) {
-                    return target != player && target.countCards('he') > 0
-                }).set('ai', function (target) {
-                    let player = _status.event.player
-                    return -get.attitude(player, target)
-                }).forResult()
-                if (result.bool) {
-                    let target = result.targets[0]
-                    await player.discardPlayerCard('he', target, true)
-                }
-                trigger.player.yuehua = false
-                trigger.player.style.border = ''
-                trigger.player.style.boxShadow = ''
+                await lib.skill.vl_sainit_yj.addYuehua(trigger.player);
             },
         },
     },
     t: {
         name: "月皎",
-        info: "每轮开始时，你令所有其他角色获得“月华”标记，你对有“月华”的角色造成伤害时，此伤害+1并可以弃置一名其他角色一张牌，然后移除受伤角色的“月华”。你对有“月华”的角色使用牌无距离和次数限制。",
+        info: "其他角色回合结束时，若你于此回合内未使用过牌，你可以将牌堆顶的一张牌置于其武将牌上，称为“月华”。若如此做，你可以视为对其使用一张无距离限制的冰【杀】；若此【杀】造成了伤害，你将牌堆顶的一张牌置于其武将牌上，称为“月华”。",
     },
 };

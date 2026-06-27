@@ -40,7 +40,7 @@ export const blocs = {
         name: '机',
         longName: '机器',
         color: '#9733b8',
-        image: 'ext:瓦尔亚纳/image/group/vl_jiqi.png'
+        image: 'ext:瓦尔亚纳/image/group/jiqi.png'
     },
     vl_haizu: {
         name: '海',
@@ -142,12 +142,12 @@ export const blocs = {
         name: '兽',
         longName: '兽族',
         color: '#ef7347',
-        image: 'ext:瓦尔亚纳/image/group/souzu.png'
+        image: 'ext:瓦尔亚纳/image/group/shouzu.png'
     },
     vl_niuzu: {
         name: '牛',
         longName: '牛族',
         color: '#af47ef',
-        image: 'ext:瓦尔亚纳/image/group/souzu.png'
+        image: 'ext:瓦尔亚纳/image/group/niuzu.png'
     }
 }

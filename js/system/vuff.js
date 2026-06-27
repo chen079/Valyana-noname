@@ -314,10 +314,9 @@ export function initVuffSystem(vuffs) {
                     }
                 }
                 this.when(expire).then(async () => {
-                    const skillinfo = lib.skill[event.name]
-                    const buff = skillinfo.buff
-                    const num = skillinfo.num
-                    const type = skillinfo.type
+                    const buff = event.buff
+                    const num = event.num
+                    const type = event.type
                     if (num > 0 && player.hasVuff(buff)) {
                         await player.reduceVuff(buff, num, type)
                     }

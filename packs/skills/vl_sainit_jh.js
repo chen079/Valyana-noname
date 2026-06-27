@@ -2,76 +2,63 @@ import { lib, game, ui, get, ai, _status } from '../../../../noname.js';
 
 export default {
     trigger: {
-        player: "phaseBegin",
+        source: "damageEnd",
     },
+    sunbenSkill: true,
     direct: true,
-    mark: true,
-    intro: {
-        content: "你选择的目标为:$",
-    },
+    priority: 0,
     filter(event, player) {
-        return game.hasPlayer(c => c != player);
+        return event.player != player && event.player.isIn() && event.player.getExpansions("vl_sainit_yj_yuehua").length;
     },
     async content(event, trigger, player) {
-        const result = await player.chooseTarget(get.prompt2('vl_sainit_jh'), function (card, player, target) {
-            return target != player
-        }, true).set('ai', function () {
-            return Math.random()
-        }).forResult();
+        const target = trigger.player;
+        const cards = target.getExpansions("vl_sainit_yj_yuehua");
+        const damageCards = cards.filter(card => get.tag(card, "damage") > 0);
+        const result = await player.chooseBool(get.prompt("vl_sainit_jh", target), "获得其所有“月华”，然后视为对其依次使用其中所有的伤害类牌。").set("ai", function () {
+            const player = _status.event.player;
+            const target = _status.event.getTrigger().player;
+            return get.attitude(player, target) <= 0 || _status.event.damageCards.length > 0;
+        }).set("damageCards", damageCards).forResult();
         if (!result.bool) return;
-        game.hasPlayer(function (current) {
-            if (current != player && current.hasSkill('vl_sainit_jh_draw')) {
-                current.removeSkill('vl_sainit_jh_draw')
+        player.logSkill(event.name, target);
+        player.removeSkill("vl_sainit_jh_sunben");
+        player.awakenSkill(event.name);
+        player.addSkill("vl_sainit_jh_sunben");
+        await player.gain(cards, target, "giveAuto");
+        if (!target.getExpansions("vl_sainit_yj_yuehua").length) target.removeSkill("vl_sainit_yj_yuehua");
+        for (const card of damageCards) {
+            if (!player.getCards("h").includes(card)) continue;
+            if (!target.isIn()) break;
+            if (player.canUse(card, target, false)) {
+                await player.useCard(card, target, false).set("addCount", false);
             }
-        })
-        const target = result.targets[0]
-        target.storage.vl_sainit_jh = player
-        game.hasPlayer(function (current) {
-            if (current.hasSkill('vl_sainit_jh_draw')) current.removeSkill('vl_sainit_jh_draw')
-        })
-        target.addSkill('vl_sainit_jh_draw')
-        player.storage.vl_sainit_jh = target
+        }
     },
-    group: "vl_sainit_jh_discard",
     subSkill: {
-        discard: {
-            trigger: {
-                player: ["gainAfter"],
-                global: ["loseAsyncAfter"],
-            },
-            init(player) {
-                if (!player.storage.vl_sainit_jh_count) player.storage.vl_sainit_jh_count = 0;
-            },
-            filter(event, player) {
-                if (!event.getg?.(player)?.length) return;
-                return player.countCards('h') && player.countCards('h') > player.maxHp && !player.storage.vl_sainit_yq
-            },
-            direct: true,
-            async content(event, trigger, player) {
-                await player.chooseToDiscard(player.countCards('h') - player.maxHp, true).forResult();
-            },
-        },
-        draw: {
-            trigger: {
-                player: "loseAfter",
-                global: ["loseAsyncAfter", "equipAfter", "addJudgeAfter", "gainAfter", "addToExpansionAfter"],
-            },
-            filter(event, player) {
-                return event.getl(player)?.cards2?.length;
-            },
-            onremove(player) {
-                player.storage.vl_sainit_jh = ''
-            },
-            direct: true,
+        sunben: {
             charlotte: true,
+            trigger: {
+                player: "damageEnd",
+            },
+            intro: {
+                content: "需要受到伤害后才能发动",
+            },
+            mark: true,
             forced: true,
+            popup: false,
+            firstDo: true,
             async content(event, trigger, player) {
-                await player.storage.vl_sainit_jh.draw(trigger.cards.length);
+                player.removeSkill(event.name);
+                if (player.hasSkill("vl_sainit_jh", null, null, false) && !player.hasSkill("vl_sainit_jh")) {
+                    player.popup("镜华");
+                    player.restoreSkill("vl_sainit_jh");
+                    game.log(player, "恢复了技能", "#g【镜华】");
+                }
             },
         },
     },
     t: {
         name: "镜华",
-        info: "①回合开始时，你选择一名其他角色，直到你下次发动该技能，当该角色失去牌后，你摸等于此次失去牌数的牌；②当你的手牌数大于X时，你将手牌数弃至X（X为你体力上限）。",
+        info: `昂扬技。当你对有“月华”的角色造成伤害时，你可以获得其所有“月华”，若如此做，你视为对其依次使用其中所有的伤害类牌。<br>${get.poptip("rule_jiang")}：你受到伤害后。`,
     },
 };

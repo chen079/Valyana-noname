@@ -12,8 +12,8 @@ export default {
 		content(storage, player) {
 			let str;
 			switch (player.vl_sisk_wg) {
-				case '平': str = '出牌阶段限一次，你可以消耗1点魔力或失去1点体力，然后摸1张牌并获得2层' + get.dialogIntro('shixue') + ''; break;
-				case '仄': str = '出牌阶段限一次，你可以消耗1点魔力或失去1点体力，重铸所有手牌，获得1层' + get.dialogIntro('kangfen'); break;
+				case '平': str = '出牌阶段限一次，你可以消耗1点魔力或失去1点体力，然后摸1张牌并获得2层' + get.poptip('shixue') + ''; break;
+				case '仄': str = '出牌阶段限一次，你可以消耗1点魔力或失去1点体力，重铸所有手牌，获得1层' + get.poptip('kangfen'); break;
 			}
 			return '<li>当前韵律：' + (player.vl_sisk_wg || '平') + '<br><li>' + str;
 		},

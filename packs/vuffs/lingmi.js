@@ -10,6 +10,7 @@ export default {
     //     player: 'recastAfter'
     // },
     charlotte: true,
+    hiddenSkill: true,
     // forced: true,
     silent: true,
     priority: 3,
@@ -19,6 +20,9 @@ export default {
     lose: false,
     delay: false,
     prompt: "消耗1层「灵秘」，选择一张牌重铸",
+    filter(event, player) {
+        return player.hasVuff('lingmi');
+    },
     filterCard(card, player, event) {
         if (!event) event = _status.event;
         return game.checkMod(card, player, "unchanged", "cardEnabled2", player);

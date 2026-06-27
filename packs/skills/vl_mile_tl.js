@@ -3,7 +3,7 @@ import { lib, game, ui, get, ai, _status } from '../../../../noname.js';
 export default {
 	enable: "phaseUse",
 	usable: 1,
-	filterCard: card => card.name != 'fr_card_xysx' && !card.hasGaintag('vl_mile_tl'),
+	filterCard: card => !card.hasGaintag('vl_mile_tl'),
 	filterTarget: true,
 	selectTarget: 1,
 	check(card) {
@@ -129,6 +129,6 @@ export default {
 	},
 	t: {
 		name: "通灵",
-		info: `出牌阶段限一次，你可以选择一张非“灵体”手牌复制之（${get.poptip("fr_card_xysx")}除外），然后交给一名角色称为“灵体”。一名角色使用或打出此“灵体”结算结束后(装备牌除外)，其获得之，然后其本回合不能再使用或打出此牌并令你摸一张牌。`,
+		info: `出牌阶段限一次，你可以选择一张非“灵体”手牌复制之，然后交给一名角色称为“灵体”。一名角色使用或打出此“灵体”结算结束后(装备牌除外)，其获得之，然后其本回合不能再使用或打出此牌并令你摸一张牌。`,
 	},
 };
