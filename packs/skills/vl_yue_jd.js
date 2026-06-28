@@ -1,7 +1,7 @@
 import { lib, game, ui, get, ai, _status } from "../../../../noname.js";
 
 export default {
-	getDiscardNum(player) {
+	getLoseHpNum(player) {
 		return player.getStorage("vl_yue_jd_achieved", false) ? 1 : 2;
 	},
 	trigger: {
@@ -12,17 +12,16 @@ export default {
 	dutySkill: true,
 	derivation: "vl_yue_yh",
 	filter(event, player) {
-		return ["sha", "juedou"].includes(event.card?.name) && player.countCards("he") >= lib.skill.vl_yue_jd.getDiscardNum(player);
+		return ["sha", "juedou"].includes(event.card?.name)
 	},
 	async content(event, trigger, player) {
-		const num = lib.skill.vl_yue_jd.getDiscardNum(player);
-		const canBackwater = player.countCards("he") >= num;
+		const num = lib.skill.vl_yue_jd.getLoseHpNum(player);
 		const choices = ["加伤", "摸牌"];
-		if (canBackwater) choices.push("背水");
+		choices.push("背水");
 		const result = await player
 			.chooseControl(...choices, "cancel2")
 			.set("prompt", get.prompt("vl_yue_jd"))
-			.set("prompt2", `选择一项：1.令此牌造成的伤害+1且不计入次数限制；2.摸X张牌然后体力上限+1（X为你的已损体力值）；背水（需弃置${get.cnNumber(num)}张牌）：同时执行前两项。`)
+			.set("prompt2", `选择一项：1.令此牌造成的伤害+1且不计入次数限制；2.摸2张牌然后体力上限+1；背水：失去${get.cnNumber(num)}点体力上限`)
 			.set("ai", () => {
 				const player = _status.event.player;
 				if (player.countCards("he") < num) return player.getDamagedHp() >= 2 ? "摸牌" : "加伤";
@@ -34,20 +33,23 @@ export default {
 			.forResult();
 		if (!["加伤", "摸牌", "背水"].includes(result.control)) return;
 		player.logSkill("vl_yue_jd");
-		if (result.control == "背水") await player.chooseToDiscard("he", num, true);
+		if (result.control == "背水") await player.loseMaxHp(num);
 		if (result.control == "加伤" || result.control == "背水") {
-			const evt = trigger.getParent();
-			evt.customArgs ??= {};
+			const map = trigger.customArgs;
 			for (const target of trigger.targets || []) {
-				const args = evt.customArgs[target.playerid] || (evt.customArgs[target.playerid] = {});
+				const args = map[target.playerid] || (map[target.playerid] = {});
 				args.extraDamage = (args.extraDamage || 0) + 1;
 			}
-			trigger.addCount = false;
+			if (trigger.addCount !== false) {
+				trigger.addCount = false;
+				const stat = player.getStat().card;
+				const name = trigger.card.name;
+				if (typeof stat[name] == "number") stat[name]--;
+			}
 		}
 		if (result.control == "摸牌" || result.control == "背水") {
-			const damaged = player.getDamagedHp();
-			if (damaged > 0) await player.draw(damaged);
-			await player.gainMaxHp();
+			await player.draw(2);
+			if (player.maxHp < 10) await player.gainMaxHp();
 		}
 	},
 	group: ["vl_yue_jd_record", "vl_yue_jd_achieve", "vl_yue_jd_fail_dying", "vl_yue_jd_fail_phase"],
@@ -96,7 +98,6 @@ export default {
 			content(event, trigger, player) {
 				game.log(player, "成功完成使命");
 				player.setStorage("vl_yue_jd_achieved", true);
-				player.awakenSkill("vl_yue_jd");
 			},
 			sub: true,
 		},
@@ -110,7 +111,6 @@ export default {
 			},
 			content(event, trigger, player) {
 				game.log(player, "使命失败");
-				player.awakenSkill("vl_yue_jd");
 				player.removeSkill("vl_yue_jd");
 				player.addSkillLog("vl_yue_yh");
 			},
@@ -126,7 +126,6 @@ export default {
 			},
 			content(event, trigger, player) {
 				game.log(player, "使命失败");
-				player.awakenSkill("vl_yue_jd");
 				player.removeSkill("vl_yue_jd");
 				player.addSkillLog("vl_yue_yh");
 			},
@@ -136,9 +135,9 @@ export default {
 	t: {
 		name: "决荡",
 		info: `使命技。当你使用【杀】或【决斗】时，你可以选择一项：
-		<br>1.令此牌造成的伤害+1且不计入次数限制；
-		<br>2.摸X张牌然后体力上限+1（X为你的已损体力值）；
-		<br>背水：弃置[2]张牌。
+		<br>1. 令此牌造成的伤害+1且不计入次数限制；
+		<br>2. 摸两张牌然后体力上限+1（至多为10）；
+		<br>背水：失去[2]点体力上限。
 		<br>成功：本回合因你造成的伤害使一名角色进入濒死状态。将〖决荡〗中[]内数字改为1。
 		<br>失败：进入濒死状态或本回合没有造成伤害。你失去〖决荡〗，获得〖遗恨〗。`,
 	},
