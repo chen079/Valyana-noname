@@ -339,6 +339,7 @@
     "precontent": {
       "_files": [
         "changelog.js",
+        "changelog.json",
         "index.js",
         "loadCharacter.js",
         "poptips.json"

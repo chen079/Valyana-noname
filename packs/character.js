@@ -652,7 +652,7 @@ export const character = {
         name: "寅虎",
         title: "祥瑞祝福",
         gender: "male",
-        bloc: "vl_huzu",
+        bloc: "shen",
         hp: 3,
         intro: "寅虎，色塔卡荒漠最受敬仰的神明，当地的人们认为他能够去除一切灾厄并带来降雨，因此每一年的「清雨节」当地的人们都会举行盛大的祭祀活动，来纪念这位神明。",
         prefix: "",
