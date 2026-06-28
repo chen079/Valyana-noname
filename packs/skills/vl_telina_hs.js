@@ -40,7 +40,7 @@ export default {
 			player.addTempSkill('vl_telina_hs_4', "shaAfter");
 			player.logSkill(['vl_telina_hs', result.control], trigger.target);
 			game.log(player, '猜测' + result.control);
-			player.storage.vl_telina_hs = result.control;
+			player.setStorage('vl_telina_hs', result.control);
 			await game.delay();
 		}
 	},
@@ -52,19 +52,19 @@ export default {
 			forced: true,
 			popup: false,
 			filter(event, player) {
-				return player.storage.vl_telina_hs ? true : false;
+				return player.getStorage('vl_telina_hs', false) ? true : false;
 			},
 			async content(event, trigger, player) {
-				if (player.storage.vl_telina_hs == '不能命中') {
+				if (player.getStorage('vl_telina_hs', false) == '不能命中') {
 					player.popup('猜测成功');
 					player.draw(2);
-					player.storage.vl_telina_th += 1
+					player.setStorage('vl_telina_th', player.getStorage('vl_telina_th', 0) + 1)
 				}
 				else {
 					player.popup('猜测失败');
 					player.chooseToDiscard('猜测失败，请弃置一张牌', 'he', true);
 				}
-				delete player.storage.vl_telina_hs;
+				player.setStorage('vl_telina_hs', false);
 			},
 			sub: true,
 		},
@@ -75,19 +75,19 @@ export default {
 			forced: true,
 			popup: false,
 			filter(event, player) {
-				return player.storage.vl_telina_hs ? true : false;
+				return player.getStorage('vl_telina_hs', false) ? true : false;
 			},
 			async content(event, trigger, player) {
-				if (player.storage.vl_telina_hs == '能命中') {
+				if (player.getStorage('vl_telina_hs', false) == '能命中') {
 					player.popup('猜测成功');
 					player.draw(2);
-					player.storage.vl_telina_th += 1
+					player.setStorage('vl_telina_th', player.getStorage('vl_telina_th', 0) + 1)
 				}
 				else {
 					player.popup('猜测失败');
 					player.chooseToDiscard('猜测失败，请弃置一张牌', 'he', true);
 				}
-				delete player.storage.vl_telina_hs;
+				player.setStorage('vl_telina_hs', false);
 			},
 			sub: true,
 		},

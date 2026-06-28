@@ -6,16 +6,16 @@ export default {
 	enable: "phaseUse",
 	usable: 1,
 	init(player, storage) {
-		if (!player.storage.vl_buline_yt) player.storage.vl_buline_yt = false
+		if (!player.hasStorage('vl_buline_yt')) player.setStorage('vl_buline_yt', false)
 	},
 	intro: {
 		content(storage, player, skill) {
-			if (player.storage.vl_buline_yt == true) return '你可令一名体力值最多的角色将体力值失去至与体力值最少的角色相同';
+			if (player.getStorage('vl_buline_yt', false) == true) return '你可令一名体力值最多的角色将体力值失去至与体力值最少的角色相同';
 			return '你可令一名体力值最少的角色将体力值回复至与体力值最多的角色相同';
 		},
 	},
 	filter(event, player) {
-		if (player.storage.vl_buline_yt == true) {
+		if (player.getStorage('vl_buline_yt', false) == true) {
 			return game.findPlayer(function (current) {
 				return current.isMaxHp() && !current.isMinHp()
 			})
@@ -26,7 +26,7 @@ export default {
 		}
 	},
 	filterTarget(card, player, target, skill) {
-		if (player.storage.vl_buline_yt == true) {
+		if (player.getStorage('vl_buline_yt', false) == true) {
 			return target.isMaxHp() && !target.isMinHp()
 		} else {
 			return target.isMinHp() && !target.isMaxHp() && target.hp != target.maxHp
@@ -34,7 +34,7 @@ export default {
 	},
 	async content(event, trigger, player) {
 		const target = event.target;
-		if (player.storage.vl_buline_yt == false) {
+		if (player.getStorage('vl_buline_yt', false) == false) {
 			const ones = game.filterPlayer(function (current) {
 				return current.isMaxHp()
 			})
@@ -53,7 +53,7 @@ export default {
 		order: 14,
 		result: {
 			target(player, target, storage) {
-				if (player.storage.vl_buline_yt) {
+				if (player.getStorage('vl_buline_yt', false)) {
 					const ones = game.filterPlayer(function (current) {
 						return current.isMinHp()
 					})

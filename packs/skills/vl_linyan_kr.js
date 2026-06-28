@@ -10,7 +10,7 @@ export default {
 		return true;
 	},
 	filter(event, player) {
-		if (!player.storage.vl_linyan_kr || player.storage.vl_linyan_kr == false) {
+		if (!player.getStorage('vl_linyan_kr', false) || player.getStorage('vl_linyan_kr', false) == false) {
 			return game.hasPlayer(function (current1) {
 				return game.hasPlayer(function (current2) {
 					return current1.countCards('h') != current2.countCards('h')
@@ -24,7 +24,7 @@ export default {
 	},
 	selectTarget() {
 		let player = _status.event.player
-		if (!player.storage.vl_linyan_kr || player.storage.vl_linyan_kr == false) {
+		if (!player.getStorage('vl_linyan_kr', false) || player.getStorage('vl_linyan_kr', false) == false) {
 			return 2
 		} else {
 			if (ui.selected.targets.length > ui.selected.cards.length) {
@@ -35,7 +35,7 @@ export default {
 	},
 	usable: 1,
 	check(target) {
-		if (!player.storage.vl_linyan_kr || player.storage.vl_linyan_kr == false) {
+		if (!player.getStorage('vl_linyan_kr', false) || player.getStorage('vl_linyan_kr', false) == false) {
 			if (!ui.selected.targets) {
 				return 1 - 2 * Math.random()
 			} else {
@@ -51,7 +51,7 @@ export default {
 	filterCard: true,
 	selectCard() {
 		let player = _status.event.player
-		if (!player.storage.vl_linyan_kr || player.storage.vl_linyan_kr == false) {
+		if (!player.getStorage('vl_linyan_kr', false) || player.getStorage('vl_linyan_kr', false) == false) {
 			return 0
 		} else {
 			return [1, game.countPlayer(function (current) {
@@ -61,11 +61,11 @@ export default {
 	},
 	zhuanhuanji: true,
 	init(player) {
-		if (!player.storage.vl_linyan_kr) player.storage.vl_linyan_kr = false
+		if (!player.hasStorage('vl_linyan_kr')) player.setStorage('vl_linyan_kr', false)
 	},
 	async content(event, trigger, player) {
 		const targets = event.targets
-		if (player.storage.vl_linyan_kr == false) {
+		if (player.getStorage('vl_linyan_kr', false) == false) {
 			const average = Math.floor((targets[0].countCards('h') + targets[1].countCards('h')) / 2);
 			for (let i = 0; i < targets.length; i++) {
 				const num = targets[i].countCards('h') - average;
@@ -88,7 +88,7 @@ export default {
 		order: 14,
 		player: 1,
 		target(player, target, card) {
-			if (!player.storage.vl_linyan_kr || player.storage.vl_linyan_kr == false) {
+			if (!player.getStorage('vl_linyan_kr', false) || player.getStorage('vl_linyan_kr', false) == false) {
 				if (!ui.selected.targets) {
 					return 1 - 2 * Math.random()
 				} else {

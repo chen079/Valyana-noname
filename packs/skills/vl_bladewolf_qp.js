@@ -6,7 +6,7 @@ export default {
         player.initShunfaSkill('vl_bladewolf_qp')
     },
     filter(event, player) {
-        return _status.currentPhase && _status.currentPhase != player && !player.storage.vl_bladewolf_qp_ai_roundcount
+        return _status.currentPhase && _status.currentPhase != player && !player.getStorage('vl_bladewolf_qp_ai_roundcount', false)
     },
     round: 1,
     async content(event, trigger, player) {
@@ -36,11 +36,11 @@ export default {
             frequent: true,
             async content(event, trigger, player) {
                 const roundname = 'vl_bladewolf_qp_roundcount';
-                delete player.storage[roundname]
+                player.setStorage(roundname, null)
                 delete player.syncStorage(roundname);
                 player.unmarkSkill(roundname);
                 const roundname2 = 'vl_bladewolf_qp_ai_roundcount';
-                delete player.storage[roundname2]
+                player.setStorage(roundname2, null)
                 delete player.syncStorage(roundname2);
                 player.unmarkSkill(roundname2);
             },

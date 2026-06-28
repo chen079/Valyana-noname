@@ -10,7 +10,7 @@ export default {
             return player != target;
         }).set('ai', function (target) {
             let player = _status.event.player;
-            return get.attitude(player, target) + target == player.storage.vl_lucifer_cc ? 0 : 3;
+            return get.attitude(player, target) + target == player.getStorage('vl_lucifer_cc', null) ? 0 : 3;
         }).set('prompt', get.prompt('vl_lucifer_xz')).set('prompt2', '令一名其他角色获得【祝福】直到其回合结束。').forResult();
         if (result.bool) {
             result.targets[0].addTempSkill('vl_zhufu', { player: 'phaseEnd' });
@@ -29,8 +29,9 @@ export default {
             async content(event, trigger, player) {
                 const result = await player.chooseTarget().set('ai', function (target) {
                     let player = _status.event.player;
-                    if (player.storage.vl_lucifer_cc) {
-                        return get.attitude(player, target) + (target == player.storage.vl_lucifer_cc) ? (7 - player.storage.vl_lucifer_cc.hujia) : 0;
+                    const contract = player.getStorage('vl_lucifer_cc', null);
+                    if (contract) {
+                        return get.attitude(player, target) + (target == contract) ? (7 - contract.hujia) : 0;
                     } else {
                         return get.attitude(player, target);
                     }

@@ -7,12 +7,13 @@ export default {
 	},
 	chat: ["突然..感觉..好困...", "眼皮好沉...", "要..睡着了...", "我...想睡觉...", "突如其来...的...困...意...", "突然..好困...", "谁在...那里...", "小心...有龙...", "有..埋伏...", "怎么...回事...", "好困...", "谁..在..那..."],
 	async content(event, trigger, player) {
-		if (!player.storage.vl_xit_xm) player.storage.vl_xit_xm_mark = [[], []];
+		if (!player.getStorage('vl_xit_xm_mark', null)) player.setStorage('vl_xit_xm_mark', [[], []]);
 		player.chat('陷入安眠吧！')
 		const targets = game.filterPlayer();
+		const storage = player.getStorage('vl_xit_xm_mark', [[], []]);
 		for (const targetx of targets) {
-			player.storage.vl_xit_xm_mark[0].push(targetx);
-			player.storage.vl_xit_xm_mark[1].push(targetx.hp);
+			storage[0].push(targetx);
+			storage[1].push(targetx.hp);
 			if (targetx != player) {
 				targetx.addTempVuff('sleep', player)
 				targetx.addTempVuff('yishang', player)
@@ -21,7 +22,7 @@ export default {
 		}
 		player.markSkill("vl_xit_xm_mark")
 		player.when('phaseAfter').then(() => {
-			const storage = player.storage.vl_xit_xm_mark;
+			const storage = player.getStorage('vl_xit_xm_mark', [[], []]);
 			for (let i = 0; i < storage[0].length; i++) {
 				const target = storage[0][i];
 				if (target && target.isIn()) {

@@ -10,7 +10,7 @@ export default {
     forced: true,
     init(player) {
         player.addSkill("vl_sainit_yq_count");
-        if (!player.storage.vl_sainit_yq) player.storage.vl_sainit_yq = false
+        if (!player.getStorage('vl_sainit_yq', null)) player.setStorage('vl_sainit_yq', false)
     },
     filter(event, player) {
         if (event.getParent(3).name != "vl_sainit_jh_discard") return;
@@ -19,7 +19,7 @@ export default {
     },
     async content(event, trigger, player) {
         player.awakenSkill('vl_sainit_yq')
-        player.storage.vl_sainit_yq = true
+        player.setStorage('vl_sainit_yq', true)
         player.unmarkSkill('vl_sainit_yq')
         player.addSkill('vl_sainit_yj')
         game.log(player, '移除了', '#g【镜华②】')

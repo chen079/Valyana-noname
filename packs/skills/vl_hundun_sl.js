@@ -6,15 +6,15 @@ export default {
 	},
 	usable: 1,
 	filter(event, player) {
-		if (player.storage.vl_hundun_sp) {
+		if (player.getStorage('vl_hundun_sp', false)) {
 			return event.player != player
 		} else {
-			return event.player == player.storage.vl_hundun_sy
+			return event.player == player.getStorage('vl_hundun_sy', null)
 		}
 	},
 	mod: {
 		targetInRange(card, player, target) {
-			if (target == player.storage.vl_hundun_sy) {
+			if (target == player.getStorage('vl_hundun_sy', null)) {
 				return true;
 			}
 		},
@@ -23,7 +23,7 @@ export default {
 		return get.attitude(player, event.player) < 0
 	},
 	async content(event, trigger, player) {
-		if (player.storage.vl_hundun_sp) {
+		if (player.getStorage('vl_hundun_sp', false)) {
 			trigger.num += 1
 			await player.gainPlayerCard(trigger.player, 'h', true)
 			return

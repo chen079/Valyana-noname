@@ -3,7 +3,7 @@ import { lib, game, ui, get, ai, _status } from '../../../../noname.js';
 export default {
 	enable: "phaseUse",
 	filterTarget(card, player, target) {
-		return target != player && (!player.storage.vl_jbgy_qx || !player.storage.vl_jbgy_qx.includes(target))
+		return target != player && !player.getStorage('vl_jbgy_qx', []).includes(target)
 	},
 	mark: true,
 	intro: {
@@ -11,13 +11,11 @@ export default {
 		content: "本回合内已对$发动过技能",
 	},
 	init(player, storage) {
-		if (!player.storage.vl_jbgy_qx) player.storage.vl_jbgy_qx = []
+		if (!player.hasStorage('vl_jbgy_qx')) player.setStorage('vl_jbgy_qx', [])
 	},
 	async content(event, trigger, player) {
 		const target = event.target
-		if (!player.storage.vl_jbgy_qx || !player.storage.vl_jbgy_qx.includes(target)) {
-			player.storage.vl_jbgy_qx.push(target)
-		}
+		player.markAuto('vl_jbgy_qx', target)
 		if (player.countCards('he', { subtype: 'equip1' }) > 0) {
 			let result = await player.chooseCard('是否弃置一张武器牌', 1, 'he', false, function (card) {
 				return get.subtype(card) == 'equip1'
@@ -61,7 +59,7 @@ export default {
 			forced: true,
 			unique: true,
 			async content(event, trigger, player) {
-				player.storage.vl_jbgy_qx = []
+				player.setStorage('vl_jbgy_qx', [])
 				player.updateMark('vl_jbgy_qx')
 			},
 			sub: true,

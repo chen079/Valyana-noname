@@ -6,17 +6,17 @@ export default {
     unique: true,
     zhuanhuanji: true,
     filter(event, player) {
-        if (!player.storage.vl_terz_ly && player.countCards('he') == 0) return false
+        if (!player.getStorage('vl_terz_ly', false) && player.countCards('he') == 0) return false
         return true
     },
     async content(event, trigger, player) {
-        if (player.storage.vl_terz_ly) {
+        if (player.getStorage('vl_terz_ly', false)) {
             await player.draw()
         } else {
             await player.chooseToDiscard('he', true)
         }
-        if (!player.storage.vl_terz_ly) player.storage.vl_terz_ly = false
-        player.storage.vl_terz_ly = !player.storage.vl_terz_ly
+        if (!player.hasStorage('vl_terz_ly')) player.setStorage('vl_terz_ly', false)
+        player.setStorage('vl_terz_ly', !player.getStorage('vl_terz_ly', false))
     },
     group: ["vl_terz_ly_target"],
     ai: {
@@ -34,7 +34,7 @@ export default {
                 source: "damageAfter",
             },
             init(player) {
-                player.storage.vl_terz_ly = false;
+                player.setStorage('vl_terz_ly', false);
             },
             charlotte: true,
             unique: true,
@@ -43,17 +43,17 @@ export default {
             logTarget: "player",
             mod: {
                 targetEnabled(card, player, target, now) {
-                    if (player.storage.vl_terz_ly == target.storage.vl_terz_ly && player != target) return false;
+                    if (player.getStorage('vl_terz_ly', false) == target.getStorage('vl_terz_ly', false) && player != target) return false;
                 },
             },
             async content(event, trigger, player) {
-                if (player.storage.vl_terz_ly) {
+                if (player.getStorage('vl_terz_ly', false)) {
                     await player.draw()
                 } else {
                     await player.chooseToDiscard('he', true)
                 }
-                if (!player.storage.vl_terz_ly) player.storage.vl_terz_ly = false
-                player.storage.vl_terz_ly = !player.storage.vl_terz_ly
+                if (!player.hasStorage('vl_terz_ly')) player.setStorage('vl_terz_ly', false)
+                player.setStorage('vl_terz_ly', !player.getStorage('vl_terz_ly', false))
             },
             sub: true,
         },

@@ -5,13 +5,13 @@ export default {
 		player: "phaseJieshuBegin",
 	},
 	init(player) {
-		if (!player.storage.vl_guotang_yl) player.storage.vl_guotang_yl = []
+		if (!player.hasStorage('vl_guotang_yl')) player.setStorage('vl_guotang_yl', [])
 	},
 	mark: true,
 	intro: {
 		mark(dialog, storage, player) {
 			dialog.addText('成为过【永良】目标的角色：');
-			dialog.addText(player.storage.vl_guotang_yl.map(i => get.translation(i)));
+			dialog.addText(player.getStorage('vl_guotang_yl', []).map(i => get.translation(i)));
 		},
 	},
 	direct: true,
@@ -28,7 +28,7 @@ export default {
 		}).forResult();
 		if (!result.bool) return;
 		for (const target of result.targets) {
-			if (!player.storage.vl_guotang_yl.includes(target)) player.storage.vl_guotang_yl.push(target);
+			player.markAuto('vl_guotang_yl', target);
 		}
 		for (const target of result.targets) {
 			await target.draw();

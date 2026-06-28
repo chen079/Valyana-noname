@@ -9,6 +9,21 @@ import { translation } from '../../packs/translation.js';
 import { characterSubstitute } from '../../packs/characterSubstitute.js'
 import { getMergedShouzuBloc } from '../../packs/blocs.js';
 
+let cachedSkillFiles;
+
+async function getSkillFiles() {
+    if (cachedSkillFiles) return cachedSkillFiles;
+    try {
+        const files = await lib.init.promises.json(`${lib.assetURL}extension/瓦尔亚纳/js/files.json`);
+        cachedSkillFiles = (files?.packs?.skills?._files || [])
+            .filter(file => file.endsWith('.js'))
+            .map(file => file.slice(0, -3));
+    } catch (error) {
+        cachedSkillFiles = [];
+    }
+    return cachedSkillFiles;
+}
+
 async function parseCharacterPack(name, characterPack, options = {}) {
     const characterTitle = {}
     const translate = {}
@@ -51,12 +66,27 @@ async function parseCharacterPack(name, characterPack, options = {}) {
         }
     }
 
-    const skillIndex = [...skillSet];
-
-    await Promise.all(skillIndex.map(async (skillName) => {
-        const module = await import(`../../packs/skills/${skillName}.js`);
+    const importSkill = async function (skillName) {
+        if (skill[skillName]) return;
+        let module;
+        try {
+            module = await import(`../../packs/skills/${skillName}.js`);
+        } catch (error) {
+            if (skillSet.has(skillName)) throw error;
+            return;
+        }
         skill[skillName] = module.default; // 取默认导出
-    }));
+        const derivation = module.default?.derivation;
+        if (derivation) {
+            const list = Array.isArray(derivation) ? derivation : [derivation];
+            for (const name of list) {
+                if (typeof name == 'string' && name.startsWith('vl_')) await importSkill(name);
+            }
+        }
+    };
+
+    const skillFiles = await getSkillFiles();
+    await Promise.all([...new Set([...skillSet, ...skillFiles])].map(importSkill));
 
     for (const skillName in skill) {
         if (skill[skillName].t) {

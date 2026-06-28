@@ -19,7 +19,7 @@ export default {
     },
     forced: true,
     init(player, storage) {
-        if (!player.storage.vl_marcia_ql_color) player.storage.vl_marcia_ql_color = ['red', 'black']
+        if (!player.hasStorage('vl_marcia_ql_color')) player.setStorage('vl_marcia_ql_color', ['red', 'black'])
     },
     filter(event, player) {
         if (event.player == player) return false
@@ -27,11 +27,11 @@ export default {
         let bool1 = (event.card.name == 'sha');
         let bool2 = (get.type2(event.card) == 'trick' && get.tag(event.card, 'damage'));
         if (!bool1 && !bool2) return false;
-        return player.storage.vl_marcia_ql_color.includes(get.color(event.cards))
+        return player.getStorage('vl_marcia_ql_color', ['red', 'black']).includes(get.color(event.cards))
     },
     logTarget: "player",
     async content(event, trigger, player) {
-        player.storage.vl_marcia_ql_color.remove(get.color(trigger.cards));
+        player.getStorage('vl_marcia_ql_color', ['red', 'black']).remove(get.color(trigger.cards));
         await player.addToExpansion(trigger.cards, 'gain2').gaintag.add('vl_marcia_ql');
         trigger.targets.remove(player);
         trigger.getParent().triggeredTargets2.remove(player);
@@ -48,7 +48,7 @@ export default {
             unique: true,
             popup: false,
             async content(event, trigger, player) {
-                player.storage.vl_marcia_ql_color = ['red', 'black']
+                player.setStorage('vl_marcia_ql_color', ['red', 'black'])
             },
             sub: true,
         },

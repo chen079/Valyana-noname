@@ -10,7 +10,7 @@ export default {
 	},
 	content: async function content(event, trigger, player) {
 		const targets = game.filterPlayer().slice(0).remove(player).sortBySeat();
-		if (!player.storage.hubian) {
+		if (!player.getStorage('hubian', false)) {
 			for (let target of targets) {
 				let result = await target.chooseCard('he', '是否交给' + get.translation(player) + '一张牌，然后获得1层' + get.poptip('lingmi') + '与' + get.poptip('guwu'))
 					.set('ai', function (card) {

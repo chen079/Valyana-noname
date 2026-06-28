@@ -6,25 +6,26 @@ export default {
         source: "damageSource",
     },
     init(player) {
-        if (!player.storage.vl_sayisu_fp) player.storage.vl_sayisu_fp = [[], []];
+        if (!player.getStorage('vl_sayisu_fp', null)) player.setStorage('vl_sayisu_fp', [[], []]);
     },
     mark: true,
     direct: true,
     async content(event, trigger, player) {
         await player.draw(trigger.num);
         if (!game.hasPlayer(function (current) {
-            return !player.storage.vl_sayisu_fp[1].includes(current);
+            return !player.getStorage('vl_sayisu_fp', [[], []])[1].includes(current);
         })) return;
         const targetResult = await player.chooseTarget(get.prompt2('vl_sayisu_fp'), function (card, player, target) {
-            return player != target && (!player.storage.vl_sayisu_fp[1] || !player.storage.vl_sayisu_fp[1].includes(target));
+            return player != target && !player.getStorage('vl_sayisu_fp', [[], []])[1].includes(target);
         }).set('ai', function (target) {
             return Math.random();
         }).forResult();
         if (!targetResult.bool) return;
         const target = targetResult.targets[0];
         player.logSkill(event.name, target);
-        if (!player.storage.vl_sayisu_fp) player.storage.vl_sayisu_fp = [[], []];
-        if (player.storage.vl_sayisu_fp[0].includes(target)) {
+        if (!player.getStorage('vl_sayisu_fp', null)) player.setStorage('vl_sayisu_fp', [[], []]);
+        const storage = player.getStorage('vl_sayisu_fp', [[], []]);
+        if (storage[0].includes(target)) {
             const damageResult = await player.chooseBool('是否对' + get.translation(target) + '造成1点伤害')
                 .set('ai', function () {
                     const currentPlayer = _status.event.player;
@@ -35,8 +36,9 @@ export default {
                 .forResult();
             if (damageResult.bool) {
                 await target.damage(1, player);
-                player.storage.vl_sayisu_fp[1].push(target);
-                player.storage.vl_sayisu_fp[1].sortBySeat();
+                storage[1].push(target);
+                storage[1].sortBySeat();
+                player.updateMark('vl_sayisu_fp');
                 return;
             }
         }
@@ -46,10 +48,11 @@ export default {
         if (cardResult.bool) {
             await target.gain(cardResult.cards, player, 'give');
         }
-        if (!player.storage.vl_sayisu_fp[0].includes(target)) {
+        if (!storage[0].includes(target)) {
             await player.draw(2);
-            player.storage.vl_sayisu_fp[0].push(target);
-            player.storage.vl_sayisu_fp[0].sortBySeat();
+            storage[0].push(target);
+            storage[0].sortBySeat();
+            player.updateMark('vl_sayisu_fp');
         }
     },
     intro: {
@@ -64,7 +67,7 @@ export default {
             dialog.addText(get.translation(storage[1]));
         },
         onunmark(storage, player) {
-            player.storage.vl_edmond_jz = [[], []];
+            player.setStorage('vl_edmond_jz', [[], []]);
         },
     },
     t: {

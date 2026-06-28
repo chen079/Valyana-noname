@@ -5,10 +5,10 @@ export default {
         player: "useCardAfter",
     },
     init(player) {
-        if (!player.storage.vl_zeta_fg) player.storage.vl_zeta_fg = ['basic', 'trick', 'equip']
+        if (!player.getStorage('vl_zeta_fg', null)) player.setStorage('vl_zeta_fg', ['basic', 'trick', 'equip'])
     },
     filter(event, player) {
-        return event.card && player.storage.vl_zeta_fg.includes(get.type2(event.card))
+        return event.card && player.getStorage('vl_zeta_fg', []).includes(get.type2(event.card))
     },
     frequent: true,
     mark: true,
@@ -16,19 +16,20 @@ export default {
         mark(dialog, storage, player) {
             dialog.addText('目前可用的类型');
             const list = []
-            for (let i = 0; i < player.storage.vl_zeta_fg.length; i++) {
-                list.push(get.translation(player.storage.vl_zeta_fg[i]) + '牌')
+            const types = player.getStorage('vl_zeta_fg', []);
+            for (let i = 0; i < types.length; i++) {
+                list.push(get.translation(types[i]) + '牌')
             }
             dialog.addText(list.join('、'))
         },
     },
     async content(event, trigger, player) {
-        player.storage.vl_zeta_fg.remove(get.type2(trigger.card))
+        player.getStorage('vl_zeta_fg', []).remove(get.type2(trigger.card))
         const result = await player.chooseControl('基本牌', '非基本牌').set('prompt', '请选择你想检索牌的类型').set('ai', function () {
             return ['基本牌', '非基本牌'].randomGet()
         }).forResult()
-        player.storage.index = result.index
-        const index = player.storage.index
+        player.setStorage('index', result.index)
+        const index = player.getStorage('index', 0)
         while (true) {
             const cards = get.cards()
             if (index == 0) {
@@ -60,7 +61,7 @@ export default {
             forced: true,
             unique: true,
             async content(event, trigger, player) {
-                player.storage.vl_zeta_fg = ['basic', 'trick', 'equip']
+                player.setStorage('vl_zeta_fg', ['basic', 'trick', 'equip'])
                 player.updateMark('vl_zeta_fg')
             },
             sub: true,

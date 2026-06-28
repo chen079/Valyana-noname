@@ -11,10 +11,10 @@ export default {
         }, player);
     },
     forced: true,
-    async content(event, trigger, player) {
-        player.changeHubian()
-        if (!player.storage.hubian) {
-            player.changeSkin({ characterName: player.name }, player.name)
+	async content(event, trigger, player) {
+		player.changeHubian()
+		if (!player.getStorage('hubian', false)) {
+			player.changeSkin({ characterName: player.name }, player.name)
         } else {
             player.changeSkin({ characterName: player.name }, player.name + '2')
         }

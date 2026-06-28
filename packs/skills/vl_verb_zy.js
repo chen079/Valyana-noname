@@ -48,7 +48,7 @@ export default {
 				}
 			});
 		// player.addSkill('vl_verb_zy_2');
-		// player.storage.vl_verb_zy = targets.filter(c=>c.isIn());
+		// player.setStorage('vl_verb_zy', targets.filter(c=>c.isIn()));
 	},
 	ai: {
 		order: 10,

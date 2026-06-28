@@ -12,7 +12,7 @@ export default {
     },
     derivation: "vl_hynea_kb",
     async content(event, trigger, player) {
-        trigger.num += Math.ceil(player.storage.vl_hynea_cg / 2)
+        trigger.num += Math.ceil(player.getStorage('vl_hynea_cg', 4) / 2)
     },
     group: ["vl_hynea_rx_achieve", "vl_hynea_rx_fail"],
     subSkill: {
@@ -21,7 +21,7 @@ export default {
                 player: "phaseZhunbeiBegin",
             },
             filter(event, player) {
-                return player.storage.vl_hynea_cg == 0
+                return player.getStorage('vl_hynea_cg', 4) == 0
             },
             forced: true,
             skillAnimation: true,

@@ -13,7 +13,7 @@ export default {
       .then(response => response.json())
       .then(data => {
         // 在这里处理返回的JSON数据
-        player.storage.vl_puzzles = data
+        player.setStorage('vl_puzzles', data)
       })
       .catch(error => {
         // 处理请求错误
@@ -21,7 +21,7 @@ export default {
       });
   },
   async content(event, trigger, player) {
-    event.puzzle = player.storage.vl_puzzles;
+    event.puzzle = player.getStorage('vl_puzzles', null);
     const result = await player
       .chooseText(true)
       .set('ai', function () {

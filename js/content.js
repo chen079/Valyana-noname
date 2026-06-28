@@ -10,7 +10,9 @@ export async function content(config, pack) {
         const char = character[charName]
         if (char.enable) {
             const rank = char.rank
-            lib.rank.rarity[rank].push(charName)
+            if (rank && lib.rank?.rarity?.[rank] && !lib.rank.rarity[rank].includes(charName)) {
+                lib.rank.rarity[rank].push(charName)
+            }
         }
     }
 }

@@ -15,7 +15,7 @@ export default {
         return true;
     },
     filter(event, player) {
-        return event.result && event.result.card && get.position(event.result.card, true) == 'o' && event.result.card != player.storage.vl_luciya_xl;
+        return event.result && event.result.card && get.position(event.result.card, true) == 'o' && event.result.card != player.getStorage('vl_luciya_xl', null);
     },
     async content(event, trigger, player) {
         player.gain(trigger.result.card, 'gain2')

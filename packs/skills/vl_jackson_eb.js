@@ -8,7 +8,7 @@ export default {
     unique: true,
     forced: true,
     init(player) {
-        if (!player.storage.vl_jackson_eb) player.storage.vl_jackson_eb = [];
+        if (!player.hasStorage('vl_jackson_eb')) player.setStorage('vl_jackson_eb', []);
     },
     async content(event, trigger, player) {
         const result = await player.chooseTarget(Math.min(2, game.players.length - 1), true, "请选择〖纵沙〗的目标", "令" + Math.min(2, game.players.length - 1) + "名角色被标记", function (card, player, target) {

@@ -18,7 +18,7 @@ export default {
     async content(event, trigger, player) {
         player.loseHp();
         trigger.player.addTempSkill('vl_rasali_hq_recover');
-        trigger.player.storage.vl_rasali_hq_recover = trigger.player.hp
+        trigger.player.setStorage('vl_rasali_hq_recover', trigger.player.hp)
         trigger.player.damage(trigger.player.hp, player)
     },
     subSkill: {
@@ -33,8 +33,8 @@ export default {
                 return event.skill = 'vl_rasali_hq';
             },
             async content(event, trigger, player) {
-                player.recover(trigger.player.storage.vl_rasali_hq_recover);
-                trigger.player.storage.vl_rasali_hq_recover = 0
+                player.recover(player.getStorage('vl_rasali_hq_recover', 0));
+                player.setStorage('vl_rasali_hq_recover', 0)
             },
         },
     },

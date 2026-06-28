@@ -10,7 +10,7 @@ export default {
         markcount: () => undefined,
         mark(dialog, storage, player) {
             dialog.addText('已经使用过的诗')
-            dialog.addText(player.storage.vl_ming_yy[1].join('、'))
+            dialog.addText(player.getStorage('vl_ming_yy', [{}, []])[1].join('、'))
         },
     },
     usable: 2,
@@ -19,28 +19,30 @@ export default {
         return event.card.name == 'sha';
     },
     init(player) {
-        if (!player.storage.vl_ming_yy) {
-            player.storage.vl_ming_yy = [{}, []]
+        if (!player.getStorage('vl_ming_yy', null)) {
+            player.setStorage('vl_ming_yy', [{}, []])
         }
-        player.storage.vl_ming_yy[0] = poems
+        player.getStorage('vl_ming_yy', [{}, []])[0] = poems
     },
     async content(event, trigger, player) {
         const textResult = await player.chooseText().set('prompt', get.prompt2('vl_ming_yy')).set('ai', function () {
-            let title = Object.keys(player.storage.vl_ming_yy[0]);
+            const storage = player.getStorage('vl_ming_yy', [{}, []]);
+            let title = Object.keys(storage[0]);
             title = title.randomGet();
-            return player.storage.vl_ming_yy[0][title]["poem"].randomGet();
+            return storage[0][title]["poem"].randomGet();
         }).forResult();
         if (!textResult.bool) return;
 
         let matched = false;
         let title;
         let author;
-        for (let i in player.storage.vl_ming_yy[0]) {
-            if (!player.storage.vl_ming_yy[1].includes(i) && player.storage.vl_ming_yy[0][i]['poem'].includes(textResult.text)) {
-                player.storage.vl_ming_yy[1].push(i);
+        const storage = player.getStorage('vl_ming_yy', [{}, []]);
+        for (let i in storage[0]) {
+            if (!storage[1].includes(i) && storage[0][i]['poem'].includes(textResult.text)) {
+                storage[1].push(i);
                 matched = true;
                 title = i;
-                author = player.storage.vl_ming_yy[0][i]['author'];
+                author = storage[0][i]['author'];
                 player.say(i + '\n' + author);
                 break;
             }

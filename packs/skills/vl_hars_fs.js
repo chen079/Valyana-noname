@@ -23,6 +23,7 @@ export default {
             if (_status.auto) ui.click.auto();
         }
         delete player._trueMe;
+        player.setStorage('vl_hars_fs', null);
     },
     popup: false,
     t: {

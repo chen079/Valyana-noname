@@ -5,8 +5,8 @@ export default {
 		target: "useCardToTargeted",
 	},
 	init(player, storage) {
-		if (!player.storage.vl_fate_ss) player.storage.vl_fate_ss = 25
-		if (!player.storage.vl_fate_ss_round) player.storage.vl_fate_ss_round = 0
+		if (!player.hasStorage('vl_fate_ss')) player.setStorage('vl_fate_ss', 25)
+		if (!player.hasStorage('vl_fate_ss_round')) player.setStorage('vl_fate_ss_round', 0)
 	},
 	popup: false,
 	filter(event, player) {
@@ -19,10 +19,10 @@ export default {
 	mark: true,
 	intro: {
 		markcount(storage, player) {
-			return (player.storage.vl_fate_ss + player.storage.vl_fate_ss_round);
+			return (player.getStorage('vl_fate_ss', 25) + player.getStorage('vl_fate_ss_round', 0));
 		},
 		mark(dialog, storage, player) {
-			dialog.addText('当前闪避值为：' + (player.storage.vl_fate_ss + player.storage.vl_fate_ss_round));
+			dialog.addText('当前闪避值为：' + (player.getStorage('vl_fate_ss', 25) + player.getStorage('vl_fate_ss_round', 0)));
 		},
 	},
 	async content(event, trigger, player) {
@@ -35,7 +35,7 @@ export default {
 		game.log(player, 'D100投掷的结果为', '#g' + num)
 		player.popup(num)
 		await game.delay(2)
-		if (num <= player.storage.vl_fate_ss + player.storage.vl_fate_ss_round) {
+		if (num <= player.getStorage('vl_fate_ss', 25) + player.getStorage('vl_fate_ss_round', 0)) {
 			if (num == 1) {
 				player.popup('大成功')
 				trigger.excluded.add(player)
@@ -47,17 +47,17 @@ export default {
 		} else if (num == 100) {
 			player.popup('大失败')
 			trigger.getParent('useCard').effectCount++;
-			if (player.storage.vl_fate_ss_round + player.storage.vl_fate_ss + 10 <= 100) {
-				player.storage.vl_fate_ss_round += 10
+			if (player.getStorage('vl_fate_ss_round', 0) + player.getStorage('vl_fate_ss', 25) + 10 <= 100) {
+				player.setStorage('vl_fate_ss_round', player.getStorage('vl_fate_ss_round', 0) + 10)
 			} else {
-				player.storage.vl_fate_ss_round += (100 - player.storage.vl_fate_ss - player.storage.vl_fate_ss_round)
+				player.setStorage('vl_fate_ss_round', player.getStorage('vl_fate_ss_round', 0) + (100 - player.getStorage('vl_fate_ss', 25) - player.getStorage('vl_fate_ss_round', 0)))
 			}
 		} else {
 			player.popup('失败')
-			if (player.storage.vl_fate_ss_round + player.storage.vl_fate_ss + 10 <= 100) {
-				player.storage.vl_fate_ss_round += 10
+			if (player.getStorage('vl_fate_ss_round', 0) + player.getStorage('vl_fate_ss', 25) + 10 <= 100) {
+				player.setStorage('vl_fate_ss_round', player.getStorage('vl_fate_ss_round', 0) + 10)
 			} else {
-				player.storage.vl_fate_ss_round += (100 - player.storage.vl_fate_ss - player.storage.vl_fate_ss_round)
+				player.setStorage('vl_fate_ss_round', player.getStorage('vl_fate_ss_round', 0) + (100 - player.getStorage('vl_fate_ss', 25) - player.getStorage('vl_fate_ss_round', 0)))
 			}
 		}
 	},
@@ -71,7 +71,7 @@ export default {
 			forced: true,
 			popup: false,
 			async content(event, trigger, player) {
-				player.storage.vl_fate_ss_round = 0
+				player.setStorage('vl_fate_ss_round', 0)
 				player.updateMark('vl_fate_ss')
 			},
 			sub: true,

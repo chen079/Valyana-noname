@@ -15,8 +15,8 @@ export default {
         const target = event.target
         const result = await player.judge().forResult()
         switch (get.color(result.card)) {
-            case 'red': target.storage.tyname = 'basic'; break;
-            case 'black': target.storage.tyname = 'trick'; break;
+            case 'red': target.setStorage('tyname', 'basic'); break;
+            case 'black': target.setStorage('tyname', 'trick'); break;
         }
         target.addTempSkill("vl_kelaier_ty_1", { player: "phaseAfter" })
     },
@@ -35,15 +35,15 @@ export default {
         "1": {
             mod: {
                 cardEnabled(card, player) {
-                    if (get.type2(card) == player.storage.tyname) return false;
+                    if (get.type2(card) == player.getStorage('tyname', '')) return false;
                 },
                 cardSavable(card, player) {
-                    if (get.type2(card) == player.storage.tyname) return false;
+                    if (get.type2(card) == player.getStorage('tyname', '')) return false;
                 },
             },
             intro: {
                 content(storage, player, skill) {
-                    return "你不能使用" + get.translation(player.storage.tyname) + '牌'
+                    return "你不能使用" + get.translation(player.getStorage('tyname', '')) + '牌'
                 },
             },
             mark: true,

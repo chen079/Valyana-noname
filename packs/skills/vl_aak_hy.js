@@ -14,19 +14,19 @@ export default {
         } else if (result.suit == 'club') {
             await player.discardPlayerCard(1, 'he', trigger.player)
         } else if (result.suit == 'spade') {
-            if (!trigger.player.storage.vl_aak_hy_1) trigger.player.storage.vl_aak_hy_1 = 0
-            trigger.player.storage.vl_aak_hy_1 += 1
+            if (!trigger.player.getStorage('vl_aak_hy_1', 0)) trigger.player.setStorage('vl_aak_hy_1', 0)
+            trigger.player.setStorage('vl_aak_hy_1', trigger.player.getStorage('vl_aak_hy_1', 0) + 1)
             trigger.player.addTempSkill('vl_aak_hy_1', { player: "phaseEnd" })
         }
     },
     subSkill: {
         "1": {
             onremove(player) {
-                player.storage.vl_aak_hy_1 = 0
+                player.setStorage('vl_aak_hy_1', 0)
             },
             mod: {
                 maxHandcard(player, num) {
-                    return num - player.storage.vl_aak_hy_1;
+                    return num - player.getStorage('vl_aak_hy_1', 0);
                 },
             },
             mark: true,

@@ -20,8 +20,8 @@ export default {
             forced: true,
             popup: false,
             async content(event, trigger, player) {
-                player.storage.vl_mala_bc_draw = true;
-                player.storage.vl_mala_bc_use = true;
+                player.setStorage('vl_mala_bc_draw', true);
+                player.setStorage('vl_mala_bc_use', true);
             },
             sub: true,
         },
@@ -32,7 +32,7 @@ export default {
             forced: true,
             popup: false,
             async content(event, trigger, player) {
-                player.storage.vl_mala_bc_draw = false;
+                player.setStorage('vl_mala_bc_draw', false);
             },
             sub: true,
         },
@@ -43,7 +43,7 @@ export default {
             forced: true,
             popup: false,
             async content(event, trigger, player) {
-                player.storage.vl_mala_bc_use = false;
+                player.setStorage('vl_mala_bc_use', false);
             },
             sub: true,
         },
@@ -53,7 +53,7 @@ export default {
             },
             forced: true,
             filter(event, player) {
-                if (player.storage.vl_mala_bc_use) return true;
+                if (player.getStorage('vl_mala_bc_use', false)) return true;
                 return false;
             },
             async content(event, trigger, player) {
@@ -67,7 +67,7 @@ export default {
             },
             forced: true,
             filter(event, player) {
-                if (player.storage.vl_mala_bc_draw) return true;
+                if (player.getStorage('vl_mala_bc_draw', false)) return true;
                 return false;
             },
             async content(event, trigger, player) {

@@ -7,7 +7,7 @@ export default {
     marktext: "☯",
     intro: {
         content(storage, player, skill) {
-            if (player.storage.vl_krikt_th == true) return '锁定技，出牌阶段，你的【杀】无使用次数限制，你的黑色【杀】均视为雷【杀】；每当你对其他角色造成1点伤害，你弃置其一张手牌。';
+            if (player.getStorage('vl_krikt_th', false) == true) return '锁定技，出牌阶段，你的【杀】无使用次数限制，你的黑色【杀】均视为雷【杀】；每当你对其他角色造成1点伤害，你弃置其一张手牌。';
             return '锁定技，你的【杀】可以额外指定一个目标，你的红色【杀】均视为火【杀】；每当你对其他角色造成1点伤害，你摸一张牌。';
         },
     },
@@ -16,12 +16,12 @@ export default {
     },
     forced: true,
     async content(event, trigger, player) {
-        if (player.storage.vl_krikt_th == true) {
-            player.storage.vl_krikt_th = false;
+        if (player.getStorage('vl_krikt_th', false) == true) {
+            player.setStorage('vl_krikt_th', false);
             player.addTempSkill('vl_krikt_th_2', 'phaseUseAfter');
         }
         else {
-            player.storage.vl_krikt_th = true;
+            player.setStorage('vl_krikt_th', true);
             player.addTempSkill('vl_krikt_th_1', 'phaseUseAfter');
         };
         player.updateMark('vl_krikt_th')

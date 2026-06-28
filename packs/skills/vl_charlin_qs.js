@@ -3,16 +3,16 @@ import { lib, game, ui, get, ai, _status } from '../../../../noname.js';
 export default {
 	enable: ["chooseToUse", "chooseToRespond"],
 	hiddenCard(player, name) {
-		const used = player.storage.vl_charlin_qs || [];
+		const used = player.getStorage('vl_charlin_qs', []);
 		return (lib.inpile.includes(name) && !used.includes(name) && player.countCards('h') > 0);
 	},
 	init: player => {
-		if (!player.storage.vl_charlin_qs) player.storage.vl_charlin_qs = [];
+		if (!player.hasStorage('vl_charlin_qs')) player.setStorage('vl_charlin_qs', []);
 	},
 	mark: true,
 	filter(event, player) {
 		if (!player.countCards('hs')) return false;
-		const used = player.storage.vl_charlin_qs || [];
+		const used = player.getStorage('vl_charlin_qs', []);
 		for (const i of lib.inpile.filter(i => !used.includes(i))) {
 			const type = get.type(i);
 			if ((type == 'basic' || type == 'trick') && lib.filter.filterCard({
@@ -24,7 +24,7 @@ export default {
 	chooseButton: {
 		dialog(event, player) {
 			const list = [];
-			const used = player.storage.vl_charlin_qs || [];
+			const used = player.getStorage('vl_charlin_qs', []);
 			for (let i = 0; i < lib.inpile.length; i++) {
 				const name = lib.inpile[i];
 				if (used.includes(name)) continue;
@@ -96,8 +96,7 @@ export default {
 			},
 			async content(event, trigger, player) {
 				const card = trigger.cards[0];
-				if (!player.storage.vl_charlin_qs) player.storage.vl_charlin_qs = [];
-				player.storage.vl_charlin_qs.push(trigger.card.name);
+				player.markAuto('vl_charlin_qs', trigger.card.name);
 				player.line(trigger.targets, get.nature(trigger.card));
 				event.cardTranslate = get.translation(trigger.card.name);
 				trigger.card.number = get.number(card);

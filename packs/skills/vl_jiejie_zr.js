@@ -15,7 +15,7 @@ export default {
         target.addSkill('vl_jiejie_zr_1')
         await target.loseHp()
         target.updateMark('vl_jiejie_zr_1')
-        target.storage.vl_jiejie_zr_1 += 1
+        target.setStorage('vl_jiejie_zr_1', target.getStorage('vl_jiejie_zr_1', 0) + 1)
         await player.gainMaxHp()
         await player.recover()
     },
@@ -23,7 +23,7 @@ export default {
         "1": {
             mark: true,
             init(player) {
-                if (!player.storage.vl_jiejie_zr_1) player.storage.vl_jiejie_zr_1 = 0;
+                if (!player.hasStorage('vl_jiejie_zr_1')) player.setStorage('vl_jiejie_zr_1', 0);
             },
             marktext: "势",
             intro: {

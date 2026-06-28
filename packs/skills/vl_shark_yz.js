@@ -4,7 +4,7 @@ export default {
     enable: "phaseUse",
     usable: 1,
     init(player) {
-        player.storage.vl_shark_yz = []
+        player.setStorage('vl_shark_yz', [])
     },
     unique: true,
     initList(player) {
@@ -34,21 +34,22 @@ export default {
         }
         let banlist = ['vl_shark', 'vl_wore', 'vl_yifa']
         list.remove(banlist);
-        player.storage.shark_lib = list
+        player.setStorage('shark_lib', list)
     },
     filter(event, player) {
-        return player.storage.vl_shark_yz.length
+        return player.getStorage('vl_shark_yz', []).length
     },
     direct: true,
     async content(event, trigger, player) {
-        const result = await player.chooseControl(player.storage.vl_shark_yz, 'cancel2').set('prompt', '选择并重铸一个技能').set('prompt2', '你选择一个本技能获得的技能移除之，然后选择四名武将牌上至多一个技能获得之。').forResult();
+        const storage = player.getStorage('vl_shark_yz', []);
+        const result = await player.chooseControl(storage, 'cancel2').set('prompt', '选择并重铸一个技能').set('prompt2', '你选择一个本技能获得的技能移除之，然后选择四名武将牌上至多一个技能获得之。').forResult();
         if (result.control == 'cancel2') {
             if (player.getStat('skill')['vl_shark_yz']) delete player.getStat('skill')['vl_shark_yz'];
             return;
         }
         player.removeSkill(result.control)
-        player.storage.vl_shark_yz.remove(result.control)
-        let list = player.storage.shark_lib.randomGets(4)
+        storage.remove(result.control)
+        let list = player.getStorage('shark_lib', []).randomGets(4)
         let skills1 = []
         for (let i = 0; i < list.length; i++) {
             skills1.addArray((lib.character[list[i]][3] || []).filter(function (skill) {
@@ -65,7 +66,7 @@ export default {
         }).forResult();
         if (buttonResult.bool && buttonResult.links.length) {
             player.addSkillLog(buttonResult.links[0])
-            player.storage.vl_shark_yz.push(buttonResult.links[0])
+            storage.push(buttonResult.links[0])
         }
     },
     ai: {
@@ -86,8 +87,8 @@ export default {
                 return event.name != "phase" || game.phaseNumber == 0;
             },
             async content(event, trigger, player) {
-                if (!player.storage.shark_lib) lib.skill.vl_shark_yz.initList(player);
-                let list = player.storage.shark_lib.randomGets(4)
+                if (!player.getStorage('shark_lib', null)) lib.skill.vl_shark_yz.initList(player);
+                let list = player.getStorage('shark_lib', []).randomGets(4)
                 let skills = [];
                 for (let i of list) {
                     skills.addArray((lib.character[i][3] || []).filter(function (skill) {
@@ -106,7 +107,7 @@ export default {
                 if (map.bool && map.links.length) {
                     for (let i of map.links) {
                         player.addSkillLog(i)
-                        player.storage.vl_shark_yz.push(i)
+                        player.getStorage('vl_shark_yz', []).push(i)
                     }
                 }
                 game.broadcastAll(function (list) {

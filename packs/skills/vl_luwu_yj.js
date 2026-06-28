@@ -10,14 +10,14 @@ export default {
     limited: true,
     animationColor: "orange",
     init(player) {
-        player.storage.vl_luwu_yj = false;
+        player.setStorage('vl_luwu_yj', false);
     },
     filter(event, player) {
-        return !player.storage.vl_luwu_yj && player.countCards('h') == 0
+        return !player.getStorage('vl_luwu_yj', false) && player.countCards('h') == 0
     },
     async content(event, trigger, player) {
         player.awakenSkill('vl_luwu_yj');
-        player.storage.vl_luwu_yj = true;
+        player.setStorage('vl_luwu_yj', true);
         trigger.player.damage(2, 'fire', player)
     },
     t: {

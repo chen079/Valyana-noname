@@ -9,21 +9,22 @@ export default {
 		return event.name != "phase" || game.phaseNumber == 0;
 	},
 	init(player) {
-		if (!player.storage.vl_dolina_sl) player.storage.vl_dolina_sl = [[], [], []]
+		if (!player.hasStorage('vl_dolina_sl')) player.setStorage('vl_dolina_sl', [[], [], []])
 	},
 	forced: true,
 	async content(event, trigger, player) {
+		const storage = player.getStorage('vl_dolina_sl', [[], [], []]);
 		for (let i of lib.inpile) {
 			let card = { name: i, isCard: true };
 			if (get.tag(card, 'damage')) {
 				if (get.type(i) == 'trick') {
-					player.storage.vl_dolina_sl[0].push(['锦囊', '', i])
+					storage[0].push(['锦囊', '', i])
 				}
 			};
 		}
-		player.storage.vl_dolina_sl[0].push(['基本', '', 'sha']);
-		for (let j of lib.inpile_nature) player.storage.vl_dolina_sl[0].push(['基本', '', 'sha', j]);
-		player.storage.vl_dolina_sl[1] = player.storage.vl_dolina_sl[0].slice(0)
+		storage[0].push(['基本', '', 'sha']);
+		for (let j of lib.inpile_nature) storage[0].push(['基本', '', 'sha', j]);
+		storage[1] = storage[0].slice(0)
 	},
 	group: "vl_dolina_sl_use",
 	subSkill: {
@@ -31,11 +32,11 @@ export default {
 			enable: "phaseUse",
 			direct: true,
 			filter(event, player) {
-				return player.storage.vl_dolina_sl[1].length > 0 && player.countCards('hes') > 0
+				return player.getStorage('vl_dolina_sl', [[], [], []])[1].length > 0 && player.countCards('hes') > 0
 			},
 			chooseButton: {
 				dialog(event, player) {
-					return ui.create.dialog('噬浪', [player.storage.vl_dolina_sl[1], 'vcard']);
+					return ui.create.dialog('噬浪', [player.getStorage('vl_dolina_sl', [[], [], []])[1], 'vcard']);
 				},
 				filter(button, player) {
 					return lib.filter.filterCard({ name: button.link[2] }, player, _status.event.getParent());
@@ -61,13 +62,13 @@ export default {
 						onuse: function (result, player) {
 							let recode = [get.translation(get.type2(result.card)), '', get.name(result.card)]
 							if (result.card.nature) recode.push(result.card.nature)
-							let index = player.storage.vl_dolina_sl[1].findIndex(subArr => JSON.stringify(subArr) === JSON.stringify(recode));
+							let index = player.getStorage('vl_dolina_sl', [[], [], []])[1].findIndex(subArr => JSON.stringify(subArr) === JSON.stringify(recode));
 							// 如果找到了子数组 recode，则将其从 A 中删除
 							if (index !== -1) {
-								player.storage.vl_dolina_sl[1].splice(index, 1);
+								player.getStorage('vl_dolina_sl', [[], [], []])[1].splice(index, 1);
 							}
-							player.storage.vl_dolina_sl[2].push(recode)
-							if (!player.storage.vl_dolina_qj && player.storage.vl_dolina_sl[1].length == 0 && player.hasSkill('vl_dolina_qj')) {
+							player.getStorage('vl_dolina_sl', [[], [], []])[2].push(recode)
+							if (!player.getStorage('vl_dolina_qj', false) && player.getStorage('vl_dolina_sl', [[], [], []])[1].length == 0 && player.hasSkill('vl_dolina_qj')) {
 								let next = game.createEvent('vl_dolina_qj', false);
 								next.player = player;
 								next.setContent(lib.skill.vl_dolina_qj.content);

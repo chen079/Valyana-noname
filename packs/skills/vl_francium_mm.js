@@ -8,10 +8,10 @@ export default {
     limited: true,
     animationColor: "orange",
     init(player) {
-        player.storage.vl_francium_mm = false;
+        player.setStorage('vl_francium_mm', false);
     },
     filter(event, player) {
-        if (player.storage.vl_francium_mm) return false;
+        if (player.getStorage('vl_francium_mm', false)) return false;
         if (event.type == 'dying') {
             if (player != event.dying) return false;
             return true;
@@ -28,7 +28,7 @@ export default {
     ai: {
         order: 1,
         skillTagFilter(player, arg, target) {
-            if (player != target || player.storage.vl_francium_mm) return false;
+            if (player != target || player.getStorage('vl_francium_mm', false)) return false;
         },
         save: true,
         result: {
@@ -39,7 +39,7 @@ export default {
             },
         },
         threaten(player, target) {
-            if (!target.storage.vl_francium_mm) return 0.6;
+            if (!target.getStorage('vl_francium_mm', false)) return 0.6;
         },
     },
     intro: {

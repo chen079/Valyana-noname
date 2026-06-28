@@ -7,8 +7,8 @@ export default {
 		target: "useCardToTargeted",
 	},
 	init(player, storage) {
-		if (!player.storage.vl_tails_jd) player.storage.vl_tails_jd = [0, true]
-		if (!player.storage.vl_tails_jd_target) player.storage.vl_tails_jd_target = []
+		if (!player.getStorage('vl_tails_jd', null)) player.setStorage('vl_tails_jd', [0, true])
+		if (!player.getStorage('vl_tails_jd_target', null)) player.setStorage('vl_tails_jd_target', [])
 	},
 	filter(event, player, onrewrite) {
 		if (event.player == event.target) return false;
@@ -92,22 +92,24 @@ export default {
 			game.delay(0, 1500);
 		}
 		if ((event.tes && event.tes.name == 'sha' && event.mes == 'fr_card_zhuanyi') || (event.tes && event.tes.name == 'shan' && event.mes == 'fr_card_chongci')) {
-			if (player.storage.vl_tails_jd[1]) player.storage.vl_tails_jd[1] = false
+			const storage = player.getStorage('vl_tails_jd', [0, true]);
+			if (storage[1]) storage[1] = false
 			game.log(player, '谋弈失败');
 			return
 		} else {
 			game.log(player, '谋弈成功');
-			if (player.storage.vl_tails_jd[1] && player.isCharacter('vl_tails')) {
-				player.storage.vl_tails_jd[0] += 1
-				if (player.storage.vl_tails_jd[0] >= 8) {
+			const storage = player.getStorage('vl_tails_jd', [0, true]);
+			if (storage[1] && player.isCharacter('vl_tails')) {
+				storage[0] += 1
+				if (storage[0] >= 8) {
 				}
 			}
 			if (event.mes == 'fr_card_zhuanyi') {
 				if (game.hasPlayer(target => {
-					return !player.storage.vl_tails_jd_target.includes(target) && target != player
+					return !player.getStorage('vl_tails_jd_target', []).includes(target) && target != player
 				})) {
 					result = await player.chooseTarget('移至一名本轮未选过角色其他角色的下家，本回合潜行。', true, function (card, player, target) {
-						return !player.storage.vl_tails_jd_target.includes(target) && target != player
+						return !player.getStorage('vl_tails_jd_target', []).includes(target) && target != player
 					}).set('ai', function (target) {
 						return game.players.length - target.getSeatNum() + _status.currentPhase.getSeatNum()
 					}).forResult();
@@ -121,13 +123,13 @@ export default {
 			}
 		}
 		if (result.bool) {
-			player.storage.vl_tails_jd_target.push(result.targets[0])
+			player.getStorage('vl_tails_jd_target', []).push(result.targets[0])
 			player.addTempVuff('qianxing')
 			game.broadcastAll(function (target1, target2) {
 				game.swapSeat(target1, target2, null, true);
 			}, player, result.targets[0].next);
 			player.when({ 'global': 'roundStart' }).then(() => {
-				player.storage.vl_tails_jd_target = []
+				player.setStorage('vl_tails_jd_target', [])
 			})
 		}
 	},

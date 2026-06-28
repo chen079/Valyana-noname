@@ -13,23 +13,24 @@ export default {
     },
     filter(event, player) {
         if (Math.floor(player.countCards('h') / 2) <= 0) return false
-        if (!player.storage.vl_hars_sj) return true;
+        if (!player.hasStorage('vl_hars_sj')) return true;
         return game.hasPlayer(function (current) {
-            return current != player && !player.storage.vl_hars_sj.includes(current);
+            return current != player && !player.getStorage('vl_hars_sj', []).includes(current);
         });
     },
     init(player) {
-        if (!player.storage.vl_hars_sj) player.storage.vl_hars_sj = [];
+        if (!player.hasStorage('vl_hars_sj')) player.setStorage('vl_hars_sj', []);
     },
     filterTarget(card, player, target) {
-        return target != player && (!player.storage.vl_hars_sj || !player.storage.vl_hars_sj.includes(target));
+        return target != player && (!player.hasStorage('vl_hars_sj') || !player.getStorage('vl_hars_sj', []).includes(target));
     },
     content: async function content(event, trigger, player) {
         const target = event.target;
         await player.give(event.cards, target);
         target.addSkill("vl_hars_fs");
-        if (!player.storage.vl_hars_sj) player.storage.vl_hars_sj = [];
-        player.storage.vl_hars_sj[0] = target;
+        target.setStorage('vl_hars_fs', player);
+        if (!player.hasStorage('vl_hars_sj')) player.setStorage('vl_hars_sj', []);
+        player.setStorage('vl_hars_sj', [target]);
         player.markSkill('vl_hars_sj');
     },
     intro: {
@@ -47,6 +48,7 @@ export default {
         },
     },
     group: "vl_hars_sj_fs",
+    derivation: "vl_hars_fs",
     subSkill: {
         fs: {
             forced: true,
@@ -55,7 +57,7 @@ export default {
             },
             charlotte: true,
             filter(event, player) {
-                return player != event.player && !event.player._trueMe && event.player.hasSkill("vl_hars_fs");
+                return player != event.player && !event.player._trueMe && event.player.hasSkill("vl_hars_fs") && event.player.getStorage('vl_hars_fs', null) == player;
             },
             logTarget: "player",
             skillAnimation: true,

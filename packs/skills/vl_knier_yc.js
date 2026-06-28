@@ -48,19 +48,19 @@ export default {
 				case 'heart':
 					target.skip('phaseUse');
 					target.addTempSkill('vl_knier_yc_1', { player: 'phaseUseSkipped' })
-					target.storage.vl_knier_yc_1 = 'Use'; break;
+					target.setStorage('vl_knier_yc_1', 'Use'); break;
 				case 'diamond':
 					target.skip('phaseDraw');
 					target.addTempSkill('vl_knier_yc_1', { player: 'phaseDrawSkipped' })
-					target.storage.vl_knier_yc_1 = 'Draw'; break;
+					target.setStorage('vl_knier_yc_1', 'Draw'); break;
 				case 'spade':
 					target.skip('phaseJudge');
 					target.addTempSkill('vl_knier_yc_1', { player: 'phaseJudgeSkipped' })
-					target.storage.vl_knier_yc_1 = 'Judge'; break;
+					target.setStorage('vl_knier_yc_1', 'Judge'); break;
 				case 'club':
 					target.skip('phaseDiscard');
 					target.addTempSkill('vl_knier_yc_1', { player: 'phaseDiscardSkipped' })
-					target.storage.vl_knier_yc_1 = 'Discard'; break;
+					target.setStorage('vl_knier_yc_1', 'Discard'); break;
 			}
 			target.markSkill('vl_knier_yc_1')
 			await next
@@ -73,7 +73,7 @@ export default {
 			},
 			mark: true,
 			init(player, storage) {
-				if (!player.storage.vl_knier_yc_1) player.storage.vl_knier_yc_1 = ''
+				if (!player.hasStorage('vl_knier_yc_1')) player.setStorage('vl_knier_yc_1', '')
 			},
 			intro: {
 				markcount() {
@@ -81,11 +81,11 @@ export default {
 				},
 				mark(dialog, storage, player) {
 					let str
-					if (player.storage.vl_knier_yc_1 == 'Use') {
+					if (player.getStorage('vl_knier_yc_1', '') == 'Use') {
 						str = '出牌'
-					} else if (player.storage.vl_knier_yc_1 == 'Judge') {
+					} else if (player.getStorage('vl_knier_yc_1', '') == 'Judge') {
 						str = '判定'
-					} else if (player.storage.vl_knier_yc_1 == 'Discard') {
+					} else if (player.getStorage('vl_knier_yc_1', '') == 'Discard') {
 						str = '弃牌'
 					} else {
 						str = '摸牌'

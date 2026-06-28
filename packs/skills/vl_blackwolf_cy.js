@@ -5,7 +5,7 @@ export default {
 	marktext: "☯",
 	mark: true,
 	init(player, storage, skill) {
-		if (!player.storage.vl_blackwolf_cy) player.storage.vl_blackwolf_cy = false
+		if (!player.hasStorage('vl_blackwolf_cy')) player.setStorage('vl_blackwolf_cy', false)
 	},
 	intro: {
 		content(storage) {
@@ -37,7 +37,7 @@ export default {
 			},
 			direct: true,
 			filter(event, player) {
-				return !player.storage.vl_blackwolf_cy
+				return !player.getStorage('vl_blackwolf_cy', false)
 			},
 			async content(event, trigger, player) {
 				const suits = [];
@@ -50,11 +50,11 @@ export default {
 						return -get.attitude(player, target)
 					}).forResult();
 					if (!targetResult.bool) return;
-					if (firsttime) {
-						firsttime = false;
-						player.logSkill("vl_blackwolf_cy");
-						player.changeZhuanhuanji("vl_blackwolf_cy");
-					}
+				if (firsttime) {
+					firsttime = false;
+					player.logSkill("vl_blackwolf_cy");
+					player.changeZhuanhuanji("vl_blackwolf_cy");
+				}
 					const target = targetResult.targets[0];
 					const shown = target.getCards('h').randomGet();
 					await target.showCards(shown, get.translation(target) + '展示了' + get.translation(shown));
@@ -114,7 +114,7 @@ export default {
 			},
 			filter(event, player) {
 				if (!(player.getStat()?.damage > 0)) return;
-				return player.storage.vl_blackwolf_cy
+				return player.getStorage('vl_blackwolf_cy', false)
 			},
 			content: async function content(event, trigger, player) {
 				player.changeZhuanhuanji("vl_blackwolf_cy");

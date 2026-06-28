@@ -7,12 +7,12 @@ export default {
     },
     usable: 3,
     filter(event, player, name) {
-        if (player.storage.hubian && name == 'useCardAfter') {
+        if (player.getStorage('hubian', false) && name == 'useCardAfter') {
             if (['equip', 'delay'].includes(get.type(event.card))) return false;
             if (event.cards.filterInD().length <= 0) return false;
             if (_status.currentPhase != player) return false
             return true
-        } else if (name == 'dyingBefore' && !player.storage.hubian) {
+        } else if (name == 'dyingBefore' && !player.getStorage('hubian', false)) {
             if (_status.currentPhase == player) return false
             return player.countCards('h') > 0 && event.player != player
         } else {
@@ -20,14 +20,14 @@ export default {
         }
     },
     check(event, player) {
-        if (player.storage.hubian) {
+        if (player.getStorage('hubian', false)) {
             return true;
         } else {
             return get.attitude(player, event.player) < 0
         }
     },
     async content(event, trigger, player) {
-        if (player.storage.hubian) {
+        if (player.getStorage('hubian', false)) {
             const cards = trigger.cards.filterInD();
             let moved = cards.slice(0);
             if (cards.length > 1) {

@@ -11,7 +11,7 @@ export default {
 	forced: true,
 	direct: true,
 	content: async function content(event, trigger, player) {
-		if (!player.storage.vl_gairtelu_sf) {
+		if (!player.getStorage('vl_gairtelu_sf', []).length) {
 			player.when({ global: "phaseUseAfter" }).then(() => {
 				player.unmarkSkill("vl_gairtelu_sf");
 			});

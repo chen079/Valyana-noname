@@ -5,16 +5,16 @@ export default {
         player: "discardAfter",
     },
     init: (player) => {
-        if (!player.storage.vl_yinlong_jh) player.storage.vl_yinlong_jh = [2, 1]
+        if (!player.hasStorage('vl_yinlong_jh')) player.setStorage('vl_yinlong_jh', [2, 1])
     },
     filter(event, player) {
         return event.cards.some(i => get.suit(i) == 'club' && get.position(i) == 'd')
     },
     frequent: true,
     async content(event, trigger, player) {
-        player.draw(player.storage.vl_yinlong_jh[0]);
+        player.draw(player.getStorage('vl_yinlong_jh', [2, 1])[0]);
         if (player.countCards('hs') > 0) player.chooseToUse()
-        if (player.storage.vl_yinlong_jh[1] === 2) {
+        if (player.getStorage('vl_yinlong_jh', [2, 1])[1] === 2) {
             if (player.countCards('hs') > 0) player.chooseToUse()
         }
     },
@@ -26,15 +26,15 @@ export default {
                 player: "phaseDiscardBefore",
             },
             init: (player) => {
-                if (!player.storage.vl_yinlong_jh_discard) player.storage.vl_yinlong_jh_discard = 0
+                if (!player.hasStorage('vl_yinlong_jh_discard')) player.setStorage('vl_yinlong_jh_discard', 0)
             },
             forced: true,
             async content(event, trigger, player) {
                 if (!player.isMaxHandcard(true)) {
-                    player.storage.vl_yinlong_jh_discard += 2
+                    player.setStorage('vl_yinlong_jh_discard', player.getStorage('vl_yinlong_jh_discard', 0) + 2)
                     player.markSkill('vl_yinlong_jh_discard')
                     player.when('phaseAfter').then(() => {
-                        player.storage.vl_yinlong_jh_discard = 0
+                        player.setStorage('vl_yinlong_jh_discard', 0)
                         player.unmarkSkill('vl_yinlong_jh_discard')
                     })
                 } else {
@@ -43,7 +43,7 @@ export default {
             },
             mod: {
                 maxHandcard(player, num) {
-                    return num + player.storage.vl_yinlong_jh_discard;
+                    return num + player.getStorage('vl_yinlong_jh_discard', 0);
                 },
             },
             _priority: 0,

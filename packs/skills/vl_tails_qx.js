@@ -14,7 +14,7 @@ export default {
         return list.unique()
     },
     init: (player) => {
-        if (!player.storage.vl_tails_qx) player.storage.vl_tails_qx = lib.skill['vl_tails_qx'].initList()
+        if (!player.getStorage('vl_tails_qx', null)) player.setStorage('vl_tails_qx', lib.skill['vl_tails_qx'].initList())
 
     },
     direct: true,
@@ -78,13 +78,13 @@ export default {
             player.discard(event.cards)
             while (event.cards.length) {
                 event.card = event.cards.shift()
-                let cards = player.storage.vl_tails_qx.randomGets(5).map(i => game.createCard(i, get.suit(event.card), 8))
+                let cards = player.getStorage('vl_tails_qx', []).randomGets(5).map(i => game.createCard(i, get.suit(event.card), 8))
                 const createResult = await player.chooseCardButton(cards, '巧械：制造一件装备', 1, true).set('ai', function (button) {
                     return get.value(button.link, _status.event.player);
                 }).forResult();
                 if (createResult.bool) {
                     player.gain(createResult.links)
-                    player.storage.vl_tails_qx_destroy.push(createResult.links[0])
+                    player.getStorage('vl_tails_qx_destroy', []).push(createResult.links[0])
                     event.allEquips.push(createResult.links[0])
                 }
             }
@@ -165,11 +165,11 @@ export default {
             popup: false,
             onremove: true,
             init: (player) => {
-                if (!player.storage.vl_tails_qx_destroy) player.storage.vl_tails_qx_destroy = []
+                if (!player.getStorage('vl_tails_qx_destroy', null)) player.setStorage('vl_tails_qx_destroy', [])
             },
             filter(event, player) {
                 if (event.name == 'lose' && event.position != ui.discardPile) return false;
-                let storage = player.storage.vl_tails_qx_destroy;
+                let storage = player.getStorage('vl_tails_qx_destroy', []);
                 if (!storage) return false;
                 for (let i of event.cards) {
                     if (storage.includes(i)) return true;
@@ -178,7 +178,7 @@ export default {
             },
             async content(event, trigger, player) {
                 let cards = [];
-                let storage = player.storage.vl_tails_qx_destroy;
+                let storage = player.getStorage('vl_tails_qx_destroy', []);
                 for (let i of trigger.cards) {
                     if (storage.includes(i)) {
                         storage.remove(i);

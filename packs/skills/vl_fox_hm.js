@@ -21,20 +21,20 @@ export default {
 			dialog.addText(get.translation(storage[1]));
 		},
 		onunmark(storage, player) {
-			player.storage.vl_fox_hm = [[], []];
+			player.setStorage('vl_fox_hm', [[], []]);
 		},
 	},
 	onremove(player, skill) {
 		let cards = player.getExpansions(skill);
 		if (cards.length) player.loseToDiscardpile(cards);
-		delete player.storage[skill];
+		player.setStorage(skill, [[], []]);
 	},
 	async content(event, trigger, player) {
 		let card = trigger.cards[0];
-		if (!player.storage.vl_fox_hm) player.storage.vl_fox_hm = [[], []];
+		if (!player.hasStorage('vl_fox_hm')) player.setStorage('vl_fox_hm', [[], []]);
 		player.addToExpansion(card, 'gain2').gaintag.add('vl_fox_hm');
-		player.storage.vl_fox_hm[0].push(card);
-		player.storage.vl_fox_hm[1].push(trigger.targets);
+		player.getStorage('vl_fox_hm', [[], []])[0].push(card);
+		player.getStorage('vl_fox_hm', [[], []])[1].push(trigger.targets);
 		game.delayx();
 	},
 	group: "vl_fox_hm_1",
@@ -45,10 +45,10 @@ export default {
 			},
 			forced: true,
 			filter(event, player) {
-				return player.storage.vl_fox_hm && player.storage.vl_fox_hm[0].length > 0;
+				return player.hasStorage('vl_fox_hm') && player.getStorage('vl_fox_hm', [[], []])[0].length > 0;
 			},
 			async content(event, trigger, player) {
-				let list = player.storage.vl_fox_hm;
+				let list = player.getStorage('vl_fox_hm', [[], []]);
 				while (list[0].length) {
 					let card = list[0].shift(), source = list[1].shift();
 					if (player.getExpansions('vl_fox_hm').includes(card)) {

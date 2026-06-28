@@ -9,7 +9,7 @@ export default {
 		return event.card.name != 'jiu' && event.card.name != 'tao' && event.getParent(2).name != 'vl_edmond_jj' &&
 			event.targets.length == 1 && event.card.isCard && event.cards.length == 1 &&
 			get.position(event.cards[0], true) == 'o' && event.card.name == event.cards[0].name && event.player != player &&
-			(!player.storage.vl_edmond_jz || player.storage.vl_edmond_jz[0].length <= player.hp * 2)
+			(!player.hasStorage('vl_edmond_jz') || player.getStorage('vl_edmond_jz', [[], []])[0].length <= player.hp * 2)
 	},
 	async content(event, trigger, player) {
 		trigger.targets.remove(player);
@@ -17,15 +17,15 @@ export default {
 		trigger.untrigger();
 		let card = trigger.cards[0];
 		player.addToExpansion(card, 'gain2').gaintag.add('vl_edmond_jz');
-		if (!player.storage.vl_edmond_jz) player.storage.vl_edmond_jz = [[], []];
-		player.storage.vl_edmond_jz[0].push(card);
-		player.storage.vl_edmond_jz[1].push(trigger.player);
+		if (!player.hasStorage('vl_edmond_jz')) player.setStorage('vl_edmond_jz', [[], []]);
+		player.getStorage('vl_edmond_jz', [[], []])[0].push(card);
+		player.getStorage('vl_edmond_jz', [[], []])[1].push(trigger.player);
 		game.delayx();
 	},
 	onremove(player, skill) {
 		let cards = player.getExpansions(skill);
 		if (cards.length) player.loseToDiscardpile(cards);
-		delete player.storage[skill];
+		player.setStorage(skill, [[], []]);
 	},
 	intro: {
 		markcount(storage) {
@@ -38,7 +38,7 @@ export default {
 			dialog.addText(get.translation(storage[1]));
 		},
 		onunmark(storage, player) {
-			player.storage.vl_edmond_jz = [[], []];
+			player.setStorage('vl_edmond_jz', [[], []]);
 		},
 	},
 	t: {

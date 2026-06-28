@@ -41,11 +41,11 @@ export default {
 				trigger.num += removed
 				game.log(player, '摸牌阶段的摸牌数+' + removed);
 			} else if (trigger.name == 'phaseUse') {
-				player.storage.vl_zhongyu_zb_effect_sha = removed;
+				player.setStorage('vl_zhongyu_zb_effect_sha', removed);
 				player.addTempSkill('vl_zhongyu_zb_effect')
 				game.log(player, '出牌阶段使用【杀】的次数上限+' + removed);
 			} else if (trigger.name == 'phaseDiscard') {
-				player.storage.vl_zhongyu_zb_effect_limit = removed;
+				player.setStorage('vl_zhongyu_zb_effect_limit', removed);
 				player.addTempSkill('vl_zhongyu_zb_effect')
 				game.log(player, '的手牌上限+' + removed)
 			} else {
@@ -57,17 +57,17 @@ export default {
 		effect: {
 			charlotte: true,
 			onremove(player) {
-				player.storage.vl_zhongyu_zb_effect_limit = 0
-				player.storage.vl_zhongyu_zb_effect_sha = 0
+				player.setStorage('vl_zhongyu_zb_effect_limit', 0)
+				player.setStorage('vl_zhongyu_zb_effect_sha', 0)
 			},
 			mod: {
 				cardUsable(card, player, num) {
 					if (card.name == 'sha') {
-						return num += (player.storage.vl_zhongyu_zb_effect_sha || 0)
+						return num += player.getStorage('vl_zhongyu_zb_effect_sha', 0)
 					}
 				},
 				maxHandcardBase(player, num) {
-					return num += (player.storage.vl_zhongyu_zb_effect_limit || 0)
+					return num += player.getStorage('vl_zhongyu_zb_effect_limit', 0)
 				},
 			},
 			sub: true,

@@ -16,8 +16,7 @@ export default {
 		const result = await player.chooseSkill(trigger.player, get.prompt2('vl_zhanggu_yl'), function (info, skill, name) {
 			return !get.is.locked(skill) && !get.is.blocked(skill, trigger.player)
 		}).forResult();
-		if (!trigger.player.storage.vl_zhanggu_yl_blocker) trigger.player.storage.vl_zhanggu_yl_blocker = []
-		trigger.player.storage.vl_zhanggu_yl_blocker.push(result.skill)
+		trigger.player.markAuto('vl_zhanggu_yl_blocker', result.skill)
 		if (!trigger.player.hasSkill('vl_zhanggu_yl_blocker')) trigger.player.addTempSkill('vl_zhanggu_yl_blocker', { player: 'phaseAfter' })
 	},
 	subSkill: {
@@ -27,11 +26,11 @@ export default {
 			},
 			onremove(player, skill) {
 				player.removeSkillBlocker(skill);
-				player.storage.vl_zhanggu_yl_blocker = []
+				player.setStorage('vl_zhanggu_yl_blocker', [])
 			},
 			charlotte: true,
 			skillBlocker(skill, player) {
-				return player.storage.vl_zhanggu_yl_blocker.includes(skill);
+				return player.getStorage('vl_zhanggu_yl_blocker', []).includes(skill);
 			},
 			mark: true,
 			intro: {

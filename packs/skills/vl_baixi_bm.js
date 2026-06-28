@@ -27,7 +27,7 @@ export default {
         const target = event.target;
         target.addTempSkill('vl_baixi_bm_1')
         target.addTempSkill('vl_baixi_bm_2', { player: 'phaseEnd' })
-        target.storage.vl_baixi_bm_2 = player
+        target.setStorage('vl_baixi_bm_2', player)
     },
     subSkill: {
         "1": {
@@ -65,7 +65,8 @@ export default {
             async content(event, trigger, player) {
                 trigger.cancel()
                 await player.drawTo(4)
-                if (player.storage.vl_baixi_bm_2.isIn()) await player.storage.vl_baixi_bm_2.drawTo(4)
+                const target = player.getStorage('vl_baixi_bm_2', null);
+                if (target && target.isIn()) await target.drawTo(4)
             },
         },
     },

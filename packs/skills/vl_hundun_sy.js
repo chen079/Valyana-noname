@@ -11,26 +11,26 @@ export default {
     },
     filter(event, player) {
         if (event.name == 'die') {
-            return event.player == player.storage.vl_hundun_sy
+            return event.player == player.getStorage('vl_hundun_sy', null)
         } else {
             return event.name != 'phase' || game.phaseNumber == 0;
         }
     },
     forced: true,
     async content(event, trigger, player) {
-        if (player.storage.vl_hundun_sy) {
-            player.storage.vl_hundun_sy.removeSkill("vl_hundun_sy_useless")
-            player.storage.vl_hundun_sy.unmarkSkill('vl_hundun_sy')
+        if (player.getStorage('vl_hundun_sy', null)) {
+            player.getStorage('vl_hundun_sy', null).removeSkill("vl_hundun_sy_useless")
+            player.getStorage('vl_hundun_sy', null).unmarkSkill('vl_hundun_sy')
         }
         const result = await player.chooseTarget('选择你的猎物', function (card, target, player) {
-            return target != player && player.storage.vl_hundun_sy != target
+            return target != player && player.getStorage('vl_hundun_sy', null) != target
         }, true).set('ai', function (target) {
             let player = _status.event.player
             return -get.attitude(player, target)
         }).forResult();
         if (result.bool) {
-            player.storage.vl_hundun_sy = result.targets[0]
-            result.targets[0].storage.vl_hundun_sy = player
+            player.setStorage('vl_hundun_sy', result.targets[0])
+            result.targets[0].setStorage('vl_hundun_sy', player)
             player.markSkill('vl_hundun_sy')
             result.targets[0].addSkill("vl_hundun_sy_useless")
         }
@@ -43,7 +43,7 @@ export default {
                 global: "phaseAfter",
             },
             filter(event, player) {
-                return event.player == player.storage.vl_hundun_sy
+                return event.player == player.getStorage('vl_hundun_sy', null)
             },
             forced: true,
             async content(event, trigger, player) {
@@ -65,7 +65,7 @@ export default {
             },
             charlotte: true,
             skillBlocker(skill, player) {
-                return _status.currentPhase == player.storage.vl_hundun_sy && !lib.skill[skill].charlotte && skill != 'vl_hundun_sy_useless';
+                return _status.currentPhase == player.getStorage('vl_hundun_sy', null) && !lib.skill[skill].charlotte && skill != 'vl_hundun_sy_useless';
             },
             mark: true,
             intro: {

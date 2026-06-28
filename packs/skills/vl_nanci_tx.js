@@ -59,7 +59,7 @@ export default {
 			}
 			dead.checkMarks()
 			dead.addTempSkill('vl_nanci_tx_gain')
-			dead.storage.vl_nanci_tx_gain = player
+			dead.setStorage('vl_nanci_tx_gain', player)
 		}
 	},
 	subSkill: {
@@ -71,18 +71,21 @@ export default {
 			forced: true,
 			intro: {
 				mark(dialog, storage, player) {
-					dialog.addText('回合结束时，将手牌摸至与' + get.translation(player.storage.vl_nanci_tx_gain) + '相同')
+					dialog.addText('回合结束时，将手牌摸至与' + get.translation(player.getStorage('vl_nanci_tx_gain', null)) + '相同')
 				},
 			},
 			filter(event, player) {
-				return event.player == player.storage.vl_nanci_tx_gain && player.storage.vl_nanci_tx_gain.isIn()
+				const target = player.getStorage('vl_nanci_tx_gain', null);
+				return event.player == target && target && target.isIn()
 			},
 			content(player) {
-				let num = player.storage.vl_nanci_tx_gain.countCards('h') - player.countCards('h')
+				const target = player.getStorage('vl_nanci_tx_gain', null);
+				if (!target) return;
+				let num = target.countCards('h') - player.countCards('h')
 				if (num > 0) {
 					player.draw(num)
 				}
-				delete player.storage.vl_nanci_tx_gain
+				player.setStorage('vl_nanci_tx_gain', null)
 			},
 		},
 	},

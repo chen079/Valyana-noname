@@ -4,17 +4,17 @@ export default {
     trigger: {
         player: "phaseZhunbeiBegin",
     },
-    filter: (event, player) => player.countCards('h') > 0 && player.storage.vl_dmoa_sg !== '' && player.storage.vl_dmoa_sg,
+    filter: (event, player) => player.countCards('h') > 0 && player.getStorage('vl_dmoa_sg', '') !== '' && player.getStorage('vl_dmoa_sg', ''),
     direct: true,
     init: (player) => {
-        player.storage.vl_dmoa_sg = ''
+        player.setStorage('vl_dmoa_sg', '')
     },
     async content(event, trigger, player) {
         const choose = await player.chooseCard('h', get.prompt2("vl_dmoa_sg")).set('ai', function (card) {
-            if (player.storage.vl_dmoa_sg === '点数不大于其') return get.number(card);
-            if (player.storage.vl_dmoa_sg === '点数不小于其') return 14 - get.number(card);
-            if (player.storage.vl_dmoa_sg === '颜色与其不同') return Math.random();
-            if (player.storage.vl_dmoa_sg === '类型与其相同') return get.type(card) == 'basic' ? 4 : 5 * Math.random();
+            if (player.getStorage('vl_dmoa_sg', '') === '点数不大于其') return get.number(card);
+            if (player.getStorage('vl_dmoa_sg', '') === '点数不小于其') return 14 - get.number(card);
+            if (player.getStorage('vl_dmoa_sg', '') === '颜色与其不同') return Math.random();
+            if (player.getStorage('vl_dmoa_sg', '') === '类型与其相同') return get.type(card) == 'basic' ? 4 : 5 * Math.random();
             return Math.random();
         }).forResult();
         if (!choose.bool) return;
@@ -22,16 +22,16 @@ export default {
         event.cards = [];
         event.card = choose.cards[0];
         player.showCards(choose.cards);
-        while (player.storage.vl_dmoa_sg) {
+        while (player.getStorage('vl_dmoa_sg', '')) {
             const judge = await player.judge(function (result) {
                 let evt = _status.event.getParent('vl_dmoa_sg');
-                if (player.storage.vl_dmoa_sg === '点数不大于其') {
+                if (player.getStorage('vl_dmoa_sg', '') === '点数不大于其') {
                     if (evt && evt.card && get.number(evt.card) < get.number(result)) return 0;
-                } else if (player.storage.vl_dmoa_sg === '点数不小于其') {
+                } else if (player.getStorage('vl_dmoa_sg', '') === '点数不小于其') {
                     if (evt && evt.card && get.number(evt.card) > get.number(result)) return 0;
-                } else if (player.storage.vl_dmoa_sg === '颜色与其不同') {
+                } else if (player.getStorage('vl_dmoa_sg', '') === '颜色与其不同') {
                     if (evt && evt.card && get.color(evt.card) == get.color(result)) return 0;
-                } else if (player.storage.vl_dmoa_sg === '类型与其相同') {
+                } else if (player.getStorage('vl_dmoa_sg', '') === '类型与其相同') {
                     if (evt && evt.card && get.type2(evt.card) != get.type2(result)) return 0;
                 }
                 return 1;
@@ -85,7 +85,7 @@ export default {
                 }).forResult();
                 if (!result.bool) return;
                 game.log(player, '选择的', '#g【笙歌】', '条件为', '#b' + choiceList[result.index])
-                player.storage.vl_dmoa_sg = choiceList[result.index]
+                player.setStorage('vl_dmoa_sg', choiceList[result.index])
             },
         },
     },

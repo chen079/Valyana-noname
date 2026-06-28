@@ -16,9 +16,9 @@ export default {
 	forced: true,
 	async content(event, trigger, player) {
 		player.addSkill("vl_lucifer_cc_die");
-		player.storage.vl_lucifer_cc = game.addPlayer(((player.next.dataset.position == 0) ? (game.players.length) : (player.next.dataset.position)), 'vl_mountainbear').getId();
-		player.storage.vl_lucifer_cc.setPosition();
-		let target = player.storage.vl_lucifer_cc;
+		player.setStorage('vl_lucifer_cc', game.addPlayer(((player.next.dataset.position == 0) ? (game.players.length) : (player.next.dataset.position)), 'vl_mountainbear').getId());
+		player.getStorage('vl_lucifer_cc', null).setPosition();
+		let target = player.getStorage('vl_lucifer_cc', null);
 		target.init('vl_mountainbear');
 		if (player.identity == 'zhu' || player.identity == 'zhong') {
 			target.identity = 'zhong';
@@ -43,8 +43,11 @@ export default {
 			return get.attitude(from, to); //from,player
 		};
 		target.update();
-		target.storage.vl_lucifer_cc = player;
+		target.setStorage('vl_lucifer_cc', player);
 		target._trueMe = player;
+		if (target.isUnderControl()) {
+			game.swapPlayerAuto(target);
+		}
 		game.addGlobalSkill('autoswap');
 		if (target == game.me) {
 			game.notMe = true;
@@ -61,7 +64,8 @@ export default {
 			charlotte: true,
 			forced: true,
 			async content(event, trigger, player) {
-				await player.storage.vl_lucifer_cc.die();
+				const target = player.getStorage('vl_lucifer_cc', null);
+				if (target) await target.die();
 			},
 		},
 	},

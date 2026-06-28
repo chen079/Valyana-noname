@@ -4,7 +4,7 @@ export default {
 	enable: "phaseUse",
 	usable: 1,
 	filter(event, player) {
-		return player.storage.vl_dolina_sl[2].length
+		return player.getStorage('vl_dolina_sl', [[], [], []])[2].length
 	},
 	async content(event, trigger, player) {
 		let choice = ['失去体力']
@@ -28,7 +28,7 @@ export default {
 		const numberResult = await player.chooseNumbers(get.prompt2('vl_dolina_fh'), [{ prompt: '请选择数量', min: 1, max: num }], true)
 			.set("processAI", function () {
 				const player = _status.event.player;
-				return [Math.min(num, Math.floor(player.storage.vl_dolina_sl[2].length / 2))]
+				return [Math.min(num, Math.floor(player.getStorage('vl_dolina_sl', [[], [], []])[2].length / 2))]
 			}).forResult();
 		num = numberResult.numbers[0]
 		if (name1 == '失去体力') {
@@ -38,7 +38,8 @@ export default {
 			await player.chooseToDiscard(num, 'h', true)
 			await player.recover()
 		}
-		const dialog = ui.create.dialog('分海', [player.storage.vl_dolina_sl[2], 'vcard'])
+		const storage = player.getStorage('vl_dolina_sl', [[], [], []]);
+		const dialog = ui.create.dialog('分海', [storage[2], 'vcard'])
 		const buttonResult = await player.chooseButton(2 * num).set('ai', function (button) {
 			return Math.random();
 		}).set('forced', true)
@@ -46,11 +47,11 @@ export default {
 			.set('prompt2', '恢复' + get.cnNumber(2 * num) + '个记录').forResult();
 		dialog.close()
 		for (let i of buttonResult.links) {
-			let index = player.storage.vl_dolina_sl[2].findIndex(subArr => JSON.stringify(subArr) === JSON.stringify(i));
+			let index = storage[2].findIndex(subArr => JSON.stringify(subArr) === JSON.stringify(i));
 			if (index !== -1) {
-				player.storage.vl_dolina_sl[2].splice(index, 1);
+				storage[2].splice(index, 1);
 			}
-			player.storage.vl_dolina_sl[1].push(i)
+			storage[1].push(i)
 		}
 	},
 	ai: {

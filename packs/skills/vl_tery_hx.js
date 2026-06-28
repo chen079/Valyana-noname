@@ -16,7 +16,7 @@ export default {
 		return false
 	},
 	init(player) {
-		if (!player.storage.vl_tery_hx) player.storage.vl_tery_hx = [[], []]
+		if (!player.getStorage('vl_tery_hx', null)) player.setStorage('vl_tery_hx', [[], []])
 	},
 	check(event, player) {
 		if (player.hp == player.maxHp && event.num == 1) return false
@@ -36,8 +36,9 @@ export default {
 		game.log(player, '获得技能', '【' + get.translation(result.skill) + '】');
 		trigger.source.removeSkill(result.skill)
 		game.log(trigger.source, '失去技能', '【' + get.translation(result.skill) + '】')
-		player.storage.vl_tery_hx[0].push(trigger.source)
-		player.storage.vl_tery_hx[1].push(result.skill)
+		const storage = player.getStorage('vl_tery_hx', [[], []]);
+		storage[0].push(trigger.source)
+		storage[1].push(result.skill)
 	},
 	ai: {
 		maixie_defend: true,
@@ -57,24 +58,25 @@ export default {
 				global: "die",
 			},
 			filter(event, player) {
-				return player.storage.vl_tery_hx[0].length
+				return player.getStorage('vl_tery_hx', [[], []])[0].length
 			},
 			direct: true,
 			async content(event, trigger, player) {
+				const storage = player.getStorage('vl_tery_hx', [[], []]);
 				if (trigger.player == player) {
-					for (let i = 0; i < player.storage.vl_tery_hx[0].length; i++) {
-						if (player.storage.vl_tery_hx[0][i].isAlive()) {
-							player.storage.vl_tery_hx[0][i].addSkill(player.storage.vl_tery_hx[1][i])
-							if (player.hasSkill(player.storage.vl_tery_hx[1][i])) player.removeSkill(player.storage.vl_tery_hx[1][i])
+					for (let i = 0; i < storage[0].length; i++) {
+						if (storage[0][i].isAlive()) {
+							storage[0][i].addSkill(storage[1][i])
+							if (player.hasSkill(storage[1][i])) player.removeSkill(storage[1][i])
 						}
 					}
 				} else {
-					for (let i = 0; i < player.storage.vl_tery_hx[0].length; i++) {
-						if (player.storage.vl_tery_hx[0][i] == trigger.player) {
-							if (player.hasSkill(player.storage.vl_tery_hx[1][i])) {
-								player.removeSkill(player.storage.vl_tery_hx[1][i])
-								player.storage.vl_tery_hx[1].remove(player.storage.vl_tery_hx[1][i])
-								player.storage.vl_tery_hx[0].remove(player.storage.vl_tery_hx[0][i])
+					for (let i = 0; i < storage[0].length; i++) {
+						if (storage[0][i] == trigger.player) {
+							if (player.hasSkill(storage[1][i])) {
+								player.removeSkill(storage[1][i])
+								storage[1].remove(storage[1][i])
+								storage[0].remove(storage[0][i])
 							}
 						}
 					}

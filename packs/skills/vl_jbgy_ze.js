@@ -10,7 +10,7 @@ export default {
     direct: true,
     mark: true,
     init(player, storage) {
-        player.storage.vl_jbgy_ze = 0
+        player.setStorage('vl_jbgy_ze', 0)
     },
     intro: {
         content: "本回合已造成$点伤害",

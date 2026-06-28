@@ -14,10 +14,10 @@ export default {
             await target.draw(2);
             await player.draw(2);
         } else {
-            if (!target.storage.vl_aak_yj_1) target.storage.vl_aak_yj_1 = 0;
-            target.storage.vl_aak_yj_1 += 1;
-            if (!player.storage.vl_aak_yj_1) player.storage.vl_aak_yj_1 = 0;
-            player.storage.vl_aak_yj_1 += 1;
+            if (!target.getStorage('vl_aak_yj_1', 0)) target.setStorage('vl_aak_yj_1', 0);
+            target.setStorage('vl_aak_yj_1', target.getStorage('vl_aak_yj_1', 0) + 1);
+            if (!player.getStorage('vl_aak_yj_1', 0)) player.setStorage('vl_aak_yj_1', 0);
+            player.setStorage('vl_aak_yj_1', player.getStorage('vl_aak_yj_1', 0) + 1);
             target.addTempSkill('vl_aak_yj_1');
             player.addTempSkill('vl_aak_yj_1');
         }
@@ -38,7 +38,7 @@ export default {
     subSkill: {
         "1": {
             onremove(player) {
-                player.storage.vl_aak_yj_1 = 0
+                player.setStorage('vl_aak_yj_1', 0)
             },
             mark: true,
             forced: true,
@@ -48,7 +48,7 @@ export default {
             },
             mod: {
                 cardUsable(card, player, num) {
-                    if (card.name == 'sha') return num + player.storage.vl_aak_yj_1;
+                    if (card.name == 'sha') return num + player.getStorage('vl_aak_yj_1', 0);
                 },
             },
             sub: true,

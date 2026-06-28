@@ -73,7 +73,7 @@ export default {
 					sex: lib.character[result.links[0]][0],
 					hs: get.cards(4),
 				});
-				const name2 = player.storage[name1].name
+				const name2 = player.getStorage(name1, {}).name
 				lib.character[name1][4] = [get.avatarPath(name2)]
 				await player.callSubPlayer()
 			},

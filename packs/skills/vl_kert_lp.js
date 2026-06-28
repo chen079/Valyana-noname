@@ -18,7 +18,7 @@ export default {
     },
     skillAnimation: true,
     init(player, skill) {
-        player.storage[skill] = false;
+        player.setStorage(skill, false);
     },
     derivation: ["vl_kert_dp", "vl_kert_ql"],
     t: {

@@ -25,9 +25,9 @@ export default {
 	},
 	content(event, player) {
 		trigger.player.addTempSkill('vl_whitewolf_fz_1', { player: "phaseBegin" })
-		trigger.player.storage.vl_whitewolf_fz = [player]
-		if (!player.storage.vl_whitewolf_fz) player.storage.vl_whitewolf_fz = []
-		player.storage.vl_whitewolf_fz.push(trigger.player)
+		trigger.player.setStorage('vl_whitewolf_fz', [player])
+		if (!player.hasStorage('vl_whitewolf_fz')) player.setStorage('vl_whitewolf_fz', [])
+		player.markAuto('vl_whitewolf_fz', trigger.player)
 		trigger.player.addTempSkill('vl_whitewolf_fz_disable')
 		player.addTempSkill('vl_whitewolf_fz_disable')
 	},
@@ -46,17 +46,17 @@ export default {
 		},
 		disable: {
 			onremove(player) {
-				delete player.storage.vl_whitewolf_fz
+				player.setStorage('vl_whitewolf_fz', [])
 			},
 			mark: true,
 			intro: {
 				mark(dialog, storage, player) {
-					dialog.addText('你本回合只能对' + get.translation(player.storage.vl_whitewolf_fz) + '使用牌')
+					dialog.addText('你本回合只能对' + get.translation(player.getStorage('vl_whitewolf_fz', [])) + '使用牌')
 				},
 			},
 			mod: {
 				playerEnabled(card, player, target, now) {
-					if (!player.storage.vl_whitewolf_fz.includes(target)) return false;
+					if (!player.getStorage('vl_whitewolf_fz', []).includes(target)) return false;
 				},
 			},
 		},

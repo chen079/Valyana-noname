@@ -10,15 +10,15 @@ export default {
 	limited: true,
 	animationColor: "orange",
 	init(player) {
-		player.storage.vl_froh_sn = false;
+		player.setStorage('vl_froh_sn', false);
 	},
 	filter(event, player) {
-		if (player.storage.vl_froh_sn) return false;
+		if (player.getStorage('vl_froh_sn', false)) return false;
 		return true;
 	},
 	async content(event, trigger, player) {
 		player.awakenSkill('vl_froh_sn');
-		player.storage.vl_froh_sn = true;
+		player.setStorage('vl_froh_sn', true);
 		await player.discard(player.getCards('hej'));
 		player.link(false);
 		await player.turnOver(false);
@@ -26,7 +26,7 @@ export default {
 		await player.drawTo(player.maxHp);
 		await player.recover(player.maxHp - player.hp);
 		player.changeHubian();
-		if (!player.storage.hubian) {
+		if (!player.getStorage('hubian', false)) {
 			player.changeSkin({ characterName: player.name }, player.name)
 		} else {
 			player.changeSkin({ characterName: player.name }, player.name + '2')
@@ -35,7 +35,7 @@ export default {
 	ai: {
 		order: 1,
 		skillTagFilter(player, arg, target) {
-			if (player != target || player.storage.vl_froh_sn) return false;
+			if (player != target || player.getStorage('vl_froh_sn', false)) return false;
 		},
 		save: true,
 		result: {
@@ -46,7 +46,7 @@ export default {
 			},
 		},
 		threaten(player, target) {
-			if (!target.storage.vl_froh_sn) return 0.6;
+			if (!target.getStorage('vl_froh_sn', false)) return 0.6;
 		},
 	},
 	intro: {

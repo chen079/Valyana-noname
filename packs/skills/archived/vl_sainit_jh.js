@@ -25,12 +25,12 @@ export default {
             }
         })
         const target = result.targets[0]
-        target.storage.vl_sainit_jh = player
+        target.setStorage('vl_sainit_jh', player)
         game.hasPlayer(function (current) {
             if (current.hasSkill('vl_sainit_jh_draw')) current.removeSkill('vl_sainit_jh_draw')
         })
         target.addSkill('vl_sainit_jh_draw')
-        player.storage.vl_sainit_jh = target
+        player.setStorage('vl_sainit_jh', target)
     },
     group: "vl_sainit_jh_discard",
     subSkill: {
@@ -40,11 +40,11 @@ export default {
                 global: ["loseAsyncAfter"],
             },
             init(player) {
-                if (!player.storage.vl_sainit_jh_count) player.storage.vl_sainit_jh_count = 0;
+                if (!player.getStorage('vl_sainit_jh_count', null)) player.setStorage('vl_sainit_jh_count', 0);
             },
             filter(event, player) {
                 if (!event.getg?.(player)?.length) return;
-                return player.countCards('h') && player.countCards('h') > player.maxHp && !player.storage.vl_sainit_yq
+                return player.countCards('h') && player.countCards('h') > player.maxHp && !player.getStorage('vl_sainit_yq', false)
             },
             direct: true,
             async content(event, trigger, player) {
@@ -60,13 +60,14 @@ export default {
                 return event.getl(player)?.cards2?.length;
             },
             onremove(player) {
-                player.storage.vl_sainit_jh = ''
+                player.setStorage('vl_sainit_jh', '')
             },
             direct: true,
             charlotte: true,
             forced: true,
             async content(event, trigger, player) {
-                await player.storage.vl_sainit_jh.draw(trigger.cards.length);
+                const target = player.getStorage('vl_sainit_jh', null);
+                if (target) await target.draw(trigger.cards.length);
             },
         },
     },

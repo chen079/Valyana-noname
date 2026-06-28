@@ -6,23 +6,23 @@ export default {
 	direct: true,
 	usable: 1,
 	init(player) {
-		if (!player.storage.vl_ming_yc) {
-			player.storage.vl_ming_yc = {
+		if (!player.getStorage('vl_ming_yc', null)) {
+			player.setStorage('vl_ming_yc', {
 				'lib': [],
 				'used': [],
 				'last': ''
-			};
+			});
 		}
-		player.storage.vl_ming_yc.lib = idiom
+		player.getStorage('vl_ming_yc', {}).lib = idiom
 	},
 	mark: true,
 	intro: {
 		markcount(storage, player) {
-			return player.storage.vl_ming_yc.used.length
+			return player.getStorage('vl_ming_yc', { used: [] }).used.length
 		},
 		mark(dialog, storage, player) {
 			dialog.addText('已经使用过的成语')
-			dialog.addText(player.storage.vl_ming_yc.used.join('、'))
+			dialog.addText(player.getStorage('vl_ming_yc', { used: [] }).used.join('、'))
 		},
 	},
 	async content(event, trigger, player) {
@@ -36,43 +36,45 @@ export default {
 			}
 		}
 		while (true) {
-			const result = await player.chooseText().set('prompt', '是否发动【语出】').set('prompt2', player.storage.vl_ming_yc.last == '' ? get.translation('vl_ming_yc_info') : '你的上一个成语为：' + player.storage.vl_ming_yc.last + '，请输入一个以“' + player.storage.vl_ming_yc.last.charAt(player.storage.vl_ming_yc.last.length - 1) + '”开头的成语。').set('ai', function () {
+			const storage = player.getStorage('vl_ming_yc', { lib: [], used: [], last: '' });
+			const result = await player.chooseText().set('prompt', '是否发动【语出】').set('prompt2', storage.last == '' ? get.translation('vl_ming_yc_info') : '你的上一个成语为：' + storage.last + '，请输入一个以“' + storage.last.charAt(storage.last.length - 1) + '”开头的成语。').set('ai', function () {
+				const storage = player.getStorage('vl_ming_yc', { lib: [], used: [], last: '' });
 				if (ainum == 0) {
-					return player.storage.vl_ming_yc.lib.randomGet()
+					return storage.lib.randomGet()
 				} else if (ainum < Math.min(Math.max(draw, 5), 9)) {
-					let word = player.storage.vl_ming_yc.lib.find(function (item) {
-						return item.charAt(0) == player.storage.vl_ming_yc.last.charAt(player.storage.vl_ming_yc.last.length - 1) && !player.storage.vl_ming_yc.used.includes(item)
+					let word = storage.lib.find(function (item) {
+						return item.charAt(0) == storage.last.charAt(storage.last.length - 1) && !storage.used.includes(item)
 					})
 					if (word) {
 						return word
 					} else {
-						return player.storage.vl_ming_yc.lib.randomGet()
+						return storage.lib.randomGet()
 					}
 				} else {
-					return player.storage.vl_ming_yc.lib.randomGet()
+					return storage.lib.randomGet()
 				}
 			}).forResult();
 			if (result.bool) {
 				ainum++
-				if (player.storage.vl_ming_yc.lib.includes(result.text) && !player.storage.vl_ming_yc.used.includes(result.text)) {
-					if (!player.storage.vl_ming_yc.last || player.storage.vl_ming_yc.last.charAt(player.storage.vl_ming_yc.last.length - 1) == result.text.charAt(0)) {
+				if (storage.lib.includes(result.text) && !storage.used.includes(result.text)) {
+					if (!storage.last || storage.last.charAt(storage.last.length - 1) == result.text.charAt(0)) {
 						await player.draw()
-						player.storage.vl_ming_yc.last = result.text
-						player.storage.vl_ming_yc.used.push(result.text)
-						game.log(player, '接龙的成语为：' + player.storage.vl_ming_yc.last)
+						storage.last = result.text
+						storage.used.push(result.text)
+						game.log(player, '接龙的成语为：' + storage.last)
 						player.say(result.text)
 						await game.delay()
 						continue;
 					} else {
 						game.log(player, '输入错误')
-						player.storage.vl_ming_yc.last = ''
+						storage.last = ''
 					}
-				} else if (player.storage.vl_ming_yc.used.includes(result.text)) {
+				} else if (storage.used.includes(result.text)) {
 					game.log(player, '输入的内容已经使用过。')
-					player.storage.vl_ming_yc.last = ''
+					storage.last = ''
 				} else {
 					game.log(player, '输入错误')
-					player.storage.vl_ming_yc.last = ''
+					storage.last = ''
 				}
 			}
 			return;

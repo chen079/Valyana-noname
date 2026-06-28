@@ -6,7 +6,7 @@ export default {
 		player: ["gainEnd", "loseEnd"],
 	},
 	init(player, storage) {
-		player.storage.vl_nier_zj = [0]
+		player.setStorage('vl_nier_zj', [0])
 	},
 	mark: true,
 	intro: {
@@ -32,7 +32,7 @@ export default {
 	direct: true,
 	async content(event, trigger, player) {
 		let num = Math.abs(player.hp - player.countCards('h'))
-		if (player.storage.vl_nier_zj.includes(num)) {
+		if (player.getStorage('vl_nier_zj', [0]).includes(num)) {
 			player.removeSkill('vl_nier_zj_odd')
 			player.removeSkill('vl_nier_zj_even')
 			return
@@ -41,11 +41,11 @@ export default {
 		if ((num % 2) == 0 && num != 0) {
 			player.addSkill('vl_nier_zj_even')
 			player.removeSkill('vl_nier_zj_odd')
-			if (!player.storage.vl_nier_zj.includes(num)) player.storage.vl_nier_zj.push(num)
+			if (!player.getStorage('vl_nier_zj', [0]).includes(num)) player.markAuto('vl_nier_zj', num)
 		} else if ((num % 2) != 0) {
 			player.addSkill('vl_nier_zj_odd')
 			player.removeSkill('vl_nier_zj_even')
-			if (!player.storage.vl_nier_zj.includes(num)) player.storage.vl_nier_zj.push(num)
+			if (!player.getStorage('vl_nier_zj', [0]).includes(num)) player.markAuto('vl_nier_zj', num)
 		}
 	},
 	group: "vl_nier_zj_clean",
@@ -57,7 +57,7 @@ export default {
 			forced: true,
 			charlotte: true,
 			async content(event, trigger, player) {
-				player.storage.vl_nier_zj = [0]
+				player.setStorage('vl_nier_zj', [0])
 			},
 			sub: true,
 		},

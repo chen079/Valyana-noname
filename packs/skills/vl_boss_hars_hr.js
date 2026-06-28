@@ -1,31 +1,29 @@
 import { lib, game, ui, get, ai, _status } from '../../../../noname.js';
 
-function getRecorded(player) {
-    if (!player.storage.vl_boss_hars_hr) player.storage.vl_boss_hars_hr = [];
-    return player.storage.vl_boss_hars_hr;
-}
-
-function getUsableNames(event, player) {
-    const recorded = getRecorded(player);
-    const list = [];
-    for (const name of lib.inpile) {
-        if (recorded.includes(name)) continue;
-        const type = get.type(name);
-        if (type != 'basic' && type != 'trick') continue;
-        if (name == 'sha') {
-            if (event.filterCard({ name }, player, event)) list.push(['基本', '', name]);
-            for (const nature of lib.inpile_nature) {
-                if (event.filterCard({ name, nature }, player, event)) list.push(['基本', '', name, nature]);
+export default {
+    getRecorded(player) {
+        if (!player.hasStorage('vl_boss_hars_hr')) player.setStorage('vl_boss_hars_hr', []);
+        return player.getStorage('vl_boss_hars_hr');
+    },
+    getUsableNames(event, player) {
+        const recorded = lib.skill.vl_boss_hars_hr.getRecorded(player);
+        const list = [];
+        for (const name of lib.inpile) {
+            if (recorded.includes(name)) continue;
+            const type = get.type(name);
+            if (type != 'basic' && type != 'trick') continue;
+            if (name == 'sha') {
+                if (event.filterCard({ name }, player, event)) list.push(['基本', '', name]);
+                for (const nature of lib.inpile_nature) {
+                    if (event.filterCard({ name, nature }, player, event)) list.push(['基本', '', name, nature]);
+                }
+            }
+            else if (event.filterCard({ name }, player, event)) {
+                list.push([type == 'basic' ? '基本' : '锦囊', '', name]);
             }
         }
-        else if (event.filterCard({ name }, player, event)) {
-            list.push([type == 'basic' ? '基本' : '锦囊', '', name]);
-        }
-    }
-    return list;
-}
-
-export default {
+        return list;
+    },
     mark: true,
     intro: {
         content(storage) {
@@ -34,13 +32,13 @@ export default {
         },
     },
     init(player) {
-        getRecorded(player);
+        lib.skill.vl_boss_hars_hr.getRecorded(player);
     },
     trigger: {
         global: "useCard",
     },
     filter(event, player) {
-        return event.player != player && getRecorded(player).includes(event.card.name) && event.player.countCards('he') > 0;
+        return event.player != player && lib.skill.vl_boss_hars_hr.getRecorded(player).includes(event.card.name) && event.player.countCards('he') > 0;
     },
     forced: true,
     logTarget: "player",
@@ -75,9 +73,7 @@ export default {
             silent: true,
             popup: false,
             async content(event, trigger, player) {
-                const recorded = getRecorded(player);
-                recorded.add(trigger.card.name);
-                player.markSkill('vl_boss_hars_hr');
+                player.markAuto('vl_boss_hars_hr', trigger.card.name);
             },
             sub: true,
         },
@@ -89,7 +85,7 @@ export default {
             silent: true,
             popup: false,
             async content(event, trigger, player) {
-                player.storage.vl_boss_hars_hr = [];
+                player.setStorage('vl_boss_hars_hr', []);
                 player.unmarkSkill('vl_boss_hars_hr');
             },
             sub: true,
@@ -99,11 +95,11 @@ export default {
             usable: 1,
             filter(event, player) {
                 if (!player.countCards('he')) return false;
-                return getUsableNames(event, player).length > 0;
+                return lib.skill.vl_boss_hars_hr.getUsableNames(event, player).length > 0;
             },
             chooseButton: {
                 dialog(event, player) {
-                    return ui.create.dialog('浩然：选择要使用的牌名', [getUsableNames(event, player), 'vcard']);
+                    return ui.create.dialog('浩然：选择要使用的牌名', [lib.skill.vl_boss_hars_hr.getUsableNames(event, player), 'vcard']);
                 },
                 filter(button, player) {
                     const evt = _status.event.getParent();

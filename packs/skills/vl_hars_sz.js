@@ -47,6 +47,9 @@ export default {
             animationColor: "key",
             async content(event, trigger, player) {
                 trigger.player._trueMe = player;
+                if (trigger.player.isUnderControl()) {
+                    game.swapPlayerAuto(trigger.player);
+                }
                 game.addGlobalSkill('autoswap');
                 if (trigger.player == game.me) {
                     game.notMe = true;

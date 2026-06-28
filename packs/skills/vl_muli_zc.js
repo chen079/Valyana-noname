@@ -6,7 +6,7 @@ export default {
     },
     mark: true,
     init(player) {
-        if (!player.storage.vl_muli_zc) player.storage.vl_muli_zc = 0
+        if (!player.hasStorage('vl_muli_zc')) player.setStorage('vl_muli_zc', 0)
     },
     intro: {
         content: "当前有$个标记",
@@ -22,8 +22,8 @@ export default {
     async content(event, trigger, player) {
         const target = trigger.player
         target.addSkill('vl_muli_zc')
-        target.storage.vl_muli_zc += player.storage.vl_muli_zc
-        player.storage.vl_muli_zc = 0
+        target.setStorage('vl_muli_zc', target.getStorage('vl_muli_zc', 0) + player.getStorage('vl_muli_zc', 0))
+        player.setStorage('vl_muli_zc', 0)
         if (!player.hasSkill('vl_muli_cm')) player.loseHp()
         player.removeSkill('vl_muli_zc')
         player.unmarkSkill('vl_muli_zc')
@@ -36,12 +36,12 @@ export default {
             },
             forced: true,
             filter(event, player) {
-                return player.hasSkill('vl_muli_zc') && player.storage.vl_muli_zc != 0
+                return player.hasSkill('vl_muli_zc') && player.getStorage('vl_muli_zc', 0) != 0
             },
             content: async function content(event, trigger, player) {
-                const num = player.storage.vl_muli_zc
+                const num = player.getStorage('vl_muli_zc', 0)
                 await player.loseHp(num)
-                player.storage.vl_muli_zc += 1
+                player.setStorage('vl_muli_zc', player.getStorage('vl_muli_zc', 0) + 1)
             },
             sub: true,
         },
@@ -60,8 +60,8 @@ export default {
                     const target = result.targets[0]
                     player.logSkill('vl_muli_zc', target)
                     target.addSkill('vl_muli_zc')
-                    target.storage.vl_muli_zc += player.storage.vl_muli_zc
-                    player.storage.vl_muli_zc = 0
+                    target.setStorage('vl_muli_zc', target.getStorage('vl_muli_zc', 0) + player.getStorage('vl_muli_zc', 0))
+                    player.setStorage('vl_muli_zc', 0)
                     player.removeSkill('vl_muli_zc')
                     player.unmarkSkill('vl_muli_zc')
                 }

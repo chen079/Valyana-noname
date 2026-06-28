@@ -50,7 +50,7 @@ export default {
             charlotte: true,
             forced: true,
             async content(event, trigger, player) {
-                delete player.storage.vl_crow_my
+                player.setStorage('vl_crow_my', [])
             },
         },
     },

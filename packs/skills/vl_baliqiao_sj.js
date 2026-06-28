@@ -32,7 +32,7 @@ export default {
 			game.log(player, "交给了", result.targets[0], result.cards.length, "张牌");
 			await result.targets[0].gain(result.cards)
 			result.targets[0].addTempSkill('vl_baliqiao_sj_1', { player: "phaseAfter" })
-			result.targets[0].storage.vl_baliqiao_sj_1 = player
+			result.targets[0].setStorage('vl_baliqiao_sj_1', player)
 		}
 	},
 	subSkill: {
@@ -48,14 +48,16 @@ export default {
 				return player.countCards('he') > 0
 			},
 			async content(event, trigger, player) {
-				const next = player.chooseCard('将一张牌交给' + get.translation(player.storage.vl_baliqiao_sj_1), 'he', true);
+				const target = player.getStorage('vl_baliqiao_sj_1', null);
+				if (!target) return;
+				const next = player.chooseCard('将一张牌交给' + get.translation(target), 'he', true);
 				next.ai = function (card) {
 					if (get.type(card) == 'trick') return 8 - get.value(card);
 					return 6 - get.value(card);
 				};
 				const result = await next.forResult();
 				if (result.bool && result.cards.length) {
-					await player.storage.vl_baliqiao_sj_1.gain(result.cards, player, 'give');
+					await target.gain(result.cards, player, 'give');
 				}
 			},
 		},

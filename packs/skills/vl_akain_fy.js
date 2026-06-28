@@ -7,9 +7,9 @@ export default {
     },
     forced: true,
     filter(event, player) {
-        if (!event.player.storage.vl_akain_fy_nature) return false
+        if (!event.player.getStorage('vl_akain_fy_nature', false)) return false
         if (!event.nature) return false
-        return event.player.storage.vl_akain_fy_nature != event.nature
+        return event.player.getStorage('vl_akain_fy_nature', false) != event.nature
     },
     async content(event, trigger, player) {
         trigger.num++
@@ -31,7 +31,7 @@ export default {
             },
             async content(event, trigger, player) {
                 player.markSkill('vl_akain_fy_nature')
-                player.storage.vl_akain_fy_nature = trigger.nature
+                player.setStorage('vl_akain_fy_nature', trigger.nature)
             },
         },
     },

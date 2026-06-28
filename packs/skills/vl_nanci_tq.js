@@ -6,7 +6,7 @@ export default {
 		player: "phaseJieshuBegin",
 	},
 	init(player) {
-		if (!player.storage.vl_nanci_tq) player.storage.vl_nanci_tq = []
+		if (!player.hasStorage('vl_nanci_tq')) player.setStorage('vl_nanci_tq', [])
 	},
 	async content(event, trigger, player) {
 		let list = [];
@@ -30,7 +30,7 @@ export default {
 		let cards = list.slice(0, 2)
 		if (!cards.length) return;
 		player.gain(cards, 'gain2')
-		player.storage.vl_nanci_tq = cards
+		player.setStorage('vl_nanci_tq', cards)
 	},
 	t: {
 		name: "天祈",

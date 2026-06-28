@@ -6,7 +6,7 @@ export default {
     },
     direct: true,
     filter(event, player) {
-        return !player.storage.hubian
+        return !player.getStorage('hubian', false)
     },
     async content(event, trigger, player) {
         const result = await player.chooseTarget([1, Infinity], get.prompt2('vl_froh_sz'), function (card, player, target) {
@@ -30,7 +30,7 @@ export default {
             direct: true,
             filter(event, player) {
                 if (event.player == player) return false
-                return player.storage.hubian
+                return player.getStorage('hubian', false)
             },
             async content(event, trigger, player) {
                 trigger.player.addVuff('chuxue')

@@ -11,8 +11,8 @@ export default {
 	forced: true,
 	unique: true,
 	onremove(player) {
-		delete player.storage.vl_kulun_zn;
-		delete player.storage.vl_kulun_zn_current;
+		player.setStorage('vl_kulun_zn', []);
+		player.setStorage('vl_kulun_zn_current', []);
 		if (lib.skill.vl_kulun_zn.isSingleElement(player)) {
 			game.broadcastAll(function (player) {
 				player.name1 = player.name;
@@ -123,9 +123,10 @@ export default {
 		}
 		if (result.bool) {
 			let choice = result.links[0]
-			if (!player.storage.vl_kulun_zn_current) player.storage.vl_kulun_zn_current = []
+			if (!player.getStorage('vl_kulun_zn_current', null)) player.setStorage('vl_kulun_zn_current', [])
+			const current = player.getStorage('vl_kulun_zn_current', []);
 			if (player.name1 == player.name) {
-				player.storage.vl_kulun_zn_current[0] = choice
+				current[0] = choice
 				game.broadcastAll(function (player, choice) {
 					player.name1 = choice;
 					player.node.avatar.setBackground(choice, 'character');
@@ -135,7 +136,7 @@ export default {
 					}
 				}, player, choice)
 			} else {
-				player.storage.vl_kulun_zn_current[1] = choice
+				current[1] = choice
 				game.broadcastAll(function (player, choice) {
 					player.name2 = choice;
 					player.classList.add('fullskin2');
@@ -180,9 +181,10 @@ export default {
 		mark(dialog, storage, player) {
 			dialog.addText('剩余元素');
 			dialog.addSmall([storage, 'character']);
-			if (player.storage.vl_kulun_zn_current && player.isIn()) {
+			const current = player.getStorage('vl_kulun_zn_current', []);
+			if (current.length && player.isIn()) {
 				dialog.addText('当前元素');
-				dialog.addSmall([player.storage.vl_kulun_zn_current, 'character']);
+				dialog.addSmall([current, 'character']);
 			}
 		},
 	},
@@ -196,7 +198,7 @@ export default {
 			},
 			forced: true,
 			async content(event, trigger, player) {
-				delete player.storage.vl_kulun_zn_current;
+				player.setStorage('vl_kulun_zn_current', []);
 				if (lib.skill.vl_kulun_zn.isSingleElement(player)) {
 					game.broadcastAll(function (player) {
 						player.name1 = player.name;

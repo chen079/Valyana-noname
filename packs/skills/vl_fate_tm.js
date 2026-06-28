@@ -67,11 +67,11 @@ export default {
 			},
 			popup: false,
 			filter(event, player) {
-				return player.storage.vl_fate_ss < 100
+				return player.getStorage('vl_fate_ss', 0) < 100
 			},
 			forced: true,
 			async content(event, trigger, player) {
-				player.storage.vl_fate_ss += trigger.num
+				player.setStorage('vl_fate_ss', player.getStorage('vl_fate_ss', 0) + trigger.num)
 				player.updateMark('vl_fate_ss')
 			},
 			sub: true,

@@ -2,10 +2,10 @@ import { lib, game, ui, get, ai, _status } from '../../../../noname.js';
 
 export default {
 	trigger: {
-		source: "damageSource",
+	source: "damageSource",
 	},
 	init(player) {
-		if (!player.storage.vl_hundun_sp) player.storage.vl_hundun_sp = false
+		if (!player.hasStorage('vl_hundun_sp')) player.setStorage('vl_hundun_sp', false)
 	},
 	forced: true,
 	filter(event, player) {
@@ -32,7 +32,7 @@ export default {
 	async content(event, trigger, player) {
 		player.loseMaxHp()
 		player.awakenSkill('vl_hundun_sp')
-		player.storage.vl_hundun_sp = true
+		player.setStorage('vl_hundun_sp', true)
 	},
 	t: {
 		name: "审判",

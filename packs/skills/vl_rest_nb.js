@@ -4,17 +4,18 @@ export default {
     enable: "phaseUse",
     unique: true,
     filter(event, player) {
-        return player.storage.vl_rest_qf && player.storage.vl_rest_qf.length >= 2;
+        return player.getStorage('vl_rest_qf', []).length >= 2;
     },
     prompt: "移去两张“孽”并视为使用任意基本牌或普通锦囊牌使用",
     async content(event, trigger, player) {
-        const result = await player.chooseCardButton(2, '移去两张“孽”并当视为使用任意基本牌或普通锦囊牌使用', player.storage.vl_rest_qf, true).forResult();
+        const storage = player.getStorage('vl_rest_qf', []);
+        const result = await player.chooseCardButton(2, '移去两张“孽”并当视为使用任意基本牌或普通锦囊牌使用', storage, true).forResult();
         if (!result.bool) return;
         player.$throw(result.links);
         for (let i = 0; i < result.links.length; i++) {
-            player.storage.vl_rest_qf.remove(result.links[i]);
+            storage.remove(result.links[i]);
         }
-        game.cardsDiscard(player.storage.vl_rest_qf);
+        game.cardsDiscard(storage);
         player.syncStorage('vl_rest_qf');
         const list = [];
         for (let i = 0; i < lib.inpile.length; i++) {

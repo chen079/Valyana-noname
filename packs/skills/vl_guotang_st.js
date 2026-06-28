@@ -7,8 +7,9 @@ export default {
     enable: "phaseUse",
     async content(event, trigger, player) {
         player.awakenSkill('vl_guotang_st');
-        player.storage.vl_guotang_yl.sortBySeat();
-        const targets = player.storage.vl_guotang_yl.slice(0);
+        const storage = player.getStorage('vl_guotang_yl', []);
+        storage.sortBySeat();
+        const targets = storage.slice(0);
         for (const target of targets) {
             target.recover();
             const h = target.countCards('h');
@@ -26,14 +27,14 @@ export default {
             },
             direct: true,
             filter(event, player) {
-                return player.storage.vl_guotang_yl.length
+                return player.getStorage('vl_guotang_yl', []).length
             },
             content: async function content(event, trigger, player) {
                 const result = await player.chooseTarget('令一名角色摸三张牌，并执行一个额外的回合', 1).set('ai', function (target) {
                     let source = _status.event.player;
                     return get.attitude(source, target);
                 }).set('filterTarget', function (card, player, target) {
-                    return player.storage.vl_guotang_yl.includes(target);
+                    return player.getStorage('vl_guotang_yl', []).includes(target);
                 }).forResult();
                 if (result.bool) {
                     const target = result.targets[0];
@@ -48,7 +49,7 @@ export default {
         order: 1,
         result: {
             player(player, target) {
-                if (player.storage.vl_guotang_yl.length < 3) return 0
+                if (player.getStorage('vl_guotang_yl', []).length < 3) return 0
                 return 1
             },
             target: 1,

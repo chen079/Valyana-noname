@@ -60,11 +60,14 @@ export default {
 			const cards = list[0][1], player = _status.event.player;
 			const target = trigger.player;
 			const att = get.attitude(player, target);
+			const swapCards = function (index1, index2) {
+				if (cards[index1] && cards[index2]) [cards[index1], cards[index2]] = [cards[index2], cards[index1]];
+			};
 			if (att < 0) {
-				cards.swapElements(3, 4)
+				swapCards(3, 4)
 			} else {
 				if (target.countCards('h') < target.hp) {
-					cards.swapElements(1, 4)
+					swapCards(1, 4)
 				}
 			}
 			return [cards]

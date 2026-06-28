@@ -23,7 +23,7 @@ export default {
 		player.markSkill('vl_mile_tl');
 		await targets[0].gain(cardx).gaintag.add('vl_mile_tl');
 		targets[0].addSkill('vl_mile_tl_effect');
-		targets[0].storage.vl_mile_tl_effect = player;
+		targets[0].setStorage('vl_mile_tl_effect', player);
 	},
 	ai: {
 		order: 15,
@@ -86,7 +86,8 @@ export default {
 				if (cards.length) {
 					await player.gain(cards, 'gain2').gaintag.addArray(['vl_mile_tl', 'vl_mile_tl_clear']);
 					player.addTempSkill('vl_mile_tl_clear');
-					await player.storage.vl_mile_tl_effect.draw();
+					const target = player.getStorage('vl_mile_tl_effect', null);
+					if (target) await target.draw();
 				}
 			},
 			sub: true,

@@ -10,7 +10,7 @@ export default {
     forced: true,
     async content(event, trigger, player) {
         trigger.player.addSkill('vl_dragon_hy_damage')
-        trigger.player.storage.vl_dragon_hy_damage += 1
+        trigger.player.setStorage('vl_dragon_hy_damage', trigger.player.getStorage('vl_dragon_hy_damage', 0) + 1)
         await trigger.player.loseMaxHp()
         trigger.player.updateMark('vl_dragon_hy_damage')
     },
@@ -18,10 +18,10 @@ export default {
         damage: {
             unique: true,
             init(player) {
-                if (!player.storage.vl_dragon_hy_damage) player.storage.vl_dragon_hy_damage = 0;
+                if (!player.hasStorage('vl_dragon_hy_damage')) player.setStorage('vl_dragon_hy_damage', 0);
             },
             filter(event, player) {
-                return player.storage.vl_dragon_hy_damage
+                return player.getStorage('vl_dragon_hy_damage', 0)
             },
             mark: true,
             intro: {
@@ -32,16 +32,16 @@ export default {
                 player: "phaseUseEnd",
             },
             async content(event, trigger, player) {
-                const result = await player.chooseToDiscard('he', player.storage.vl_dragon_hy_damage).set('ai', function (card) {
+                const result = await player.chooseToDiscard('he', player.getStorage('vl_dragon_hy_damage', 0)).set('ai', function (card) {
                     if (card.name == 'tao') return -10;
                     if (card.name == 'jiu' && _status.event.player.hp == 1) return -10;
                     return get.unuseful(card) + 2.5 * (5 - get.owner(card).hp);
                 }).forResult();
                 if (result.bool == false) {
-                    await player.damage(player.storage.vl_dragon_hy_damage, 'fire', 'nosource');
+                    await player.damage(player.getStorage('vl_dragon_hy_damage', 0), 'fire', 'nosource');
                 }
-                await player.gainMaxHp(player.storage.vl_dragon_hy_damage)
-                player.storage.vl_dragon_hy_damage = 0
+                await player.gainMaxHp(player.getStorage('vl_dragon_hy_damage', 0))
+                player.setStorage('vl_dragon_hy_damage', 0)
                 player.removeSkill('vl_dragon_hy_damage')
             },
             sub: true,

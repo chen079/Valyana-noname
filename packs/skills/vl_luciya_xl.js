@@ -50,7 +50,7 @@ export default {
 			trigger.player.judging[0] = cards[0];
 			trigger.orderingCards.addArray(cards);
 			game.log(trigger.player, '的判定牌改为', cards[0]);
-			player.storage.vl_luciya_xl = cards[0];
+			player.setStorage('vl_luciya_xl', cards[0]);
 			await game.delay(2);
 		}
 	},

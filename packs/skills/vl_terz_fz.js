@@ -14,8 +14,8 @@ export default {
     async content(event, trigger, player) {
         const target = event.target;
         const skill = 'vl_terz_ly'
-        if (!target.storage.vl_terz_ly) target.storage.vl_terz_ly = false
-        target.storage.vl_terz_ly = !target.storage.vl_terz_ly
+        if (!target.getStorage('vl_terz_ly', null)) target.setStorage('vl_terz_ly', false)
+        target.setStorage('vl_terz_ly', !target.getStorage('vl_terz_ly', false))
         target.popup(skill, 'wood');
         game.log(target, '的', '#g【' + get.translation(skill) + '】', '发生了状态变更');
         await game.delayx();
@@ -24,7 +24,7 @@ export default {
         order: 8,
         result: {
             target(player, target) {
-                return target.storage.vl_terz_ly ? -1 : 1;
+                return target.getStorage('vl_terz_ly', false) ? -1 : 1;
             },
         },
     },

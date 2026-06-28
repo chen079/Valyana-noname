@@ -6,13 +6,13 @@ export default {
     },
     mark: true,
     filter(event, player) {
-        if (!player.storage.vl_milism_th_recode) return true;
+        if (!player.hasStorage('vl_milism_th_recode')) return true;
         return game.hasPlayer(function (current) {
-            return !player.storage.vl_milism_th_recode.includes(current);
+            return !player.getStorage('vl_milism_th_recode', []).includes(current);
         });
     },
     init(player) {
-        if (!player.storage.vl_milism_th_recode) player.storage.vl_milism_th_recode = [];
+        if (!player.hasStorage('vl_milism_th_recode')) player.setStorage('vl_milism_th_recode', []);
     },
     forced: true,
     async content(event, trigger, player) {
@@ -24,13 +24,13 @@ export default {
             if (att == 0) return Math.random();
             return att
         }).set("prompt", "请选择〖同游〗的目标").forResult();
-        if (!player.storage.vl_milism_th_recode) player.storage.vl_milism_th_recode = [];
-        player.storage.vl_milism_th_recode[0] = result.targets[0];
+        if (!player.hasStorage('vl_milism_th_recode')) player.setStorage('vl_milism_th_recode', []);
+        player.getStorage('vl_milism_th_recode', [])[0] = result.targets[0];
     },
     intro: {
         content(storage, player, skill) {
             let str = '当前〖同游〗目标：';
-            str += "<span style='color: red'>" + get.translation(player.storage.vl_milism_th_recode) + "</span>";
+            str += "<span style='color: red'>" + get.translation(player.getStorage('vl_milism_th_recode', [])) + "</span>";
             return str;
         },
     },
@@ -42,7 +42,7 @@ export default {
             },
             locked: true,
             filter(event, player) {
-                return event.player == player.storage.vl_milism_th_recode[0]
+                return event.player == player.getStorage('vl_milism_th_recode', [])[0]
             },
             check(event, player) {
                 let target = event.player;
@@ -63,7 +63,7 @@ export default {
                 global: "recoverBegin",
             },
             filter(event, player) {
-                return event.player == player.storage.vl_milism_th_recode[0]
+                return event.player == player.getStorage('vl_milism_th_recode', [])[0]
             },
             forced: true,
             async content(event, trigger, player) {

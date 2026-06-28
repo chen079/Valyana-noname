@@ -36,7 +36,7 @@ export default {
                 return true;
             }).forResult();
         if (!['红色', '黑色'].includes(result.links[0])) {
-            result.links.swapElements(0, 1)
+            [result.links[0], result.links[1]] = [result.links[1], result.links[0]]
         }
         const selectedColor = colors.find(function (item) {
             return get.translation(item) == result.links[0];

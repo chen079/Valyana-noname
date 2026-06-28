@@ -11,11 +11,12 @@ export default {
     limited: true,
     animationColor: "orange",
     init(player) {
-        player.storage.vl_mountainbear_xs = false;
+        player.setStorage('vl_mountainbear_xs', false);
     },
     filter(event, player) {
-        if (!player.storage.vl_lucifer_cc || player.storage.vl_mountainbear_xs) return false;
-        if (player.storage.vl_lucifer_cc != event.player) return false;
+        const target = player.getStorage('vl_lucifer_cc', null);
+        if (!target || player.getStorage('vl_mountainbear_xs', false)) return false;
+        if (target != event.player) return false;
         return true;
     },
     content: async function content(event, trigger, player) {
@@ -29,9 +30,11 @@ export default {
     ai: {
         order: 1,
         skillTagFilter(player) {
-            if (player.storage.vl_lucifer_cc.maxHp <= 1) return false;
-            if (player.storage.vl_lucifer_cc.hp > 0) return false;
-            if (player.storage.vl_lucifer_cc.countCards('h') == 0) return false;
+            const target = player.getStorage('vl_lucifer_cc', null);
+            if (!target) return false;
+            if (target.maxHp <= 1) return false;
+            if (target.hp > 0) return false;
+            if (target.countCards('h') == 0) return false;
         },
         save: true,
         result: {

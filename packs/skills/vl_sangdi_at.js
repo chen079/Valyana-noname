@@ -3,19 +3,18 @@ import { lib, game, ui, get, ai, _status } from '../../../../noname.js';
 export default {
     enable: "phaseUse",
     filterTarget(card, player, target) {
-        return target != player && target.countCards('h') > 0 && !player.storage.vl_sangdi_at.includes(target);
+        return target != player && target.countCards('h') > 0 && !player.getStorage('vl_sangdi_at', []).includes(target);
     },
     filter: (event, player) => !player.hasSkill('vl_sangdi_at_blocker'),
     init(player) {
-        if (!player.storage.vl_sangdi_at) player.storage.vl_sangdi_at = []
+        if (!player.hasStorage('vl_sangdi_at')) player.setStorage('vl_sangdi_at', [])
     },
     intro: {
         content: "本回合已对$发动过技能",
     },
     async content(event, trigger, player) {
         const target = event.target;
-        player.storage.vl_sangdi_at.push(target)
-        player.markSkill('vl_sangdi_at')
+        player.markAuto('vl_sangdi_at', target)
         const result = await player.chooseControl('没有【闪】', '有【闪】').set('ai', function (card) {
             const target = _status.event.getParent().target;
             if (target.countCards('h', 'shan') > 0 && Math.random() <= 0.55) return '有【闪】';
@@ -60,7 +59,7 @@ export default {
             charlotte: true,
             forced: true,
             content: () => {
-                player.storage.vl_sangdi_at = []
+                player.setStorage('vl_sangdi_at', [])
                 player.unmarkSkill('vl_sangdi_at')
             },
         },

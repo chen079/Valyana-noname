@@ -10,7 +10,7 @@ export default {
         return true
     },
     async content(event, trigger, player) {
-        player.storage.vl_olas_fh = 0;
+        player.setStorage('vl_olas_fh', 0);
         event.num = 0;
         event.cards = [];
         while (event.num < 2 * trigger.target.maxHp) {
@@ -32,7 +32,7 @@ export default {
             } else {
                 trigger.untrigger();
                 trigger.directHit = true;
-                player.storage.vl_olas_fh = event.num;
+                player.setStorage('vl_olas_fh', event.num);
                 break;
             }
         }
@@ -46,11 +46,11 @@ export default {
             forced: true,
             popup: false,
             filter(event, player) {
-                return event.card && event.card.name == 'sha' && player.storage.vl_olas_fh > 0 && event.parent.name != '_lianhuan' && event.parent.name != '_lianhuan2';
+                return event.card && event.card.name == 'sha' && player.getStorage('vl_olas_fh', 0) > 0 && event.parent.name != '_lianhuan' && event.parent.name != '_lianhuan2';
             },
             async content(event, trigger, player) {
-                trigger.num += player.storage.vl_olas_fh;
-                player.storage.vl_olas_fh = 0;
+                trigger.num += player.getStorage('vl_olas_fh', 0);
+                player.setStorage('vl_olas_fh', 0);
             },
             sub: true,
         },
@@ -60,7 +60,7 @@ export default {
             },
             silent: true,
             async content(event, trigger, player) {
-                player.storage.vl_olas_fh = 0;
+                player.setStorage('vl_olas_fh', 0);
             },
             forced: true,
             popup: false,

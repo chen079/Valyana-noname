@@ -21,7 +21,7 @@ export default {
         player.disableEquip('equip4');
         player.disableEquip('equip5');
         player.addTempSkill('vl_blame_jj_1');
-        player.storage.vl_blame_jj_1 = target;
+        player.setStorage('vl_blame_jj_1', target);
         target.addSkill('vl_blame_jj_2');
         target.markSkillCharacter('vl_blame_jj_1', player, '剑祭', '无法使用或打出任何手牌');
     },
@@ -29,9 +29,9 @@ export default {
     subSkill: {
         "1": {
             onremove(player) {
-                player.storage.vl_blame_jj_1.removeSkill('vl_blame_jj_2');
-                player.storage.vl_blame_jj_1.unmarkSkill('vl_blame_jj_1');
-                delete player.storage.vl_blame_jj_1;
+                player.getStorage('vl_blame_jj_1', null)?.removeSkill('vl_blame_jj_2');
+                player.getStorage('vl_blame_jj_1', null)?.unmarkSkill('vl_blame_jj_1');
+                player.setStorage('vl_blame_jj_1', null);
             },
             mod: {
                 targetInRange(card, player, target) {

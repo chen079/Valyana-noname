@@ -8,7 +8,7 @@ export default {
         return event.card && event.card.name == 'sha' && event.getParent().name == 'sha'
     },
     init(player) {
-        if (!player.storage.vl_miya_hz) player.storage.vl_miya_hz = 0
+        if (!player.hasStorage('vl_miya_hz')) player.setStorage('vl_miya_hz', 0)
     },
     intro: {
         content(storage, player, skill) { return '当前有' + storage + '个标记' },
@@ -16,8 +16,8 @@ export default {
     mark: true,
     direct: true,
     async content(event, trigger, player) {
-        trigger.num += player.storage.vl_miya_hz
-        player.storage.vl_miya_hz += 1
+        trigger.num += player.getStorage('vl_miya_hz', 0)
+        player.setStorage('vl_miya_hz', player.getStorage('vl_miya_hz', 0) + 1)
         player.markSkill('vl_miya_hz')
     },
     group: "vl_miya_hz_one",
@@ -30,7 +30,7 @@ export default {
                 global: "phaseEnd",
             },
             async content(event, trigger, player) {
-                player.storage.vl_miya_hz = 0
+                player.setStorage('vl_miya_hz', 0)
                 player.updateMark('vl_miya_hz')
             },
             sub: true,

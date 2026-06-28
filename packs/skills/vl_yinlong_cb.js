@@ -8,7 +8,7 @@ export default {
 		current => current != player && player.inRange(current) && player.countCards('h', { suit: 'club' }) > 0
 	),
 	init: (player) => {
-		if (!player.storage.vl_yinlong_jh) player.storage.vl_yinlong_jh = [2, 1]
+		if (!player.hasStorage('vl_yinlong_jh')) player.setStorage('vl_yinlong_jh', [2, 1])
 	},
 	direct: true,
 	async content(event, trigger, player) {
@@ -29,7 +29,7 @@ export default {
 			}
 		}).forResult();
 		if (result.bool) {
-			player.storage.vl_yinlong_jh.swapElements(0, 1)
+			player.setStorage('vl_yinlong_jh', [player.getStorage('vl_yinlong_jh', [2, 1])[1], player.getStorage('vl_yinlong_jh', [2, 1])[0]])
 			await player.discard(result.cards)
 			await result.targets[0].damage(player)
 		}

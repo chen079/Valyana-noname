@@ -40,10 +40,10 @@ export default {
 				if (info && info.indexOf(str) != -1) skills.add(j);
 			}
 		}
-		player.storage.jbgy_sj = skills
+		player.setStorage('jbgy_sj', skills)
 		if (player.isIn()) {
-			if (!player.storage.jbgy_sj) lib.skill.jbgy_sj.initList(player);
-			let list = player.storage.jbgy_sj.randomGets(3);
+			if (!player.getStorage('jbgy_sj', null)) lib.skill.jbgy_sj.initList(player);
+			let list = player.getStorage('jbgy_sj', []).randomGets(3);
 			if (!list.length) {
 				return;
 				return;

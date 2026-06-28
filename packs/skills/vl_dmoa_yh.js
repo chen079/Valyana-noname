@@ -45,13 +45,13 @@ export default {
 		const evt = getUseCardHistoryEvent(player, 0)
 		const card = event.result.cards[0]
 		if (evt && evt.card) {
-			if (player.storage.vl_dmoa_sg === '点数不大于其') {
+			if (player.getStorage('vl_dmoa_sg', '') === '点数不大于其') {
 				if (get.number(evt.card) >= get.number(card)) player.draw();
-			} else if (player.storage.vl_dmoa_sg === '点数不小于其') {
+			} else if (player.getStorage('vl_dmoa_sg', '') === '点数不小于其') {
 				if (get.number(evt.card) <= get.number(card)) player.draw();
-			} else if (player.storage.vl_dmoa_sg === '颜色与其不同') {
+			} else if (player.getStorage('vl_dmoa_sg', '') === '颜色与其不同') {
 				if (get.color(evt.card) != get.color(card)) player.draw();
-			} else if (player.storage.vl_dmoa_sg === '类型与其相同') {
+			} else if (player.getStorage('vl_dmoa_sg', '') === '类型与其相同') {
 				if (get.type2(evt.card) == get.type2(card)) player.draw();
 			}
 		}

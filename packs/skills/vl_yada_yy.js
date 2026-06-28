@@ -36,7 +36,7 @@ export default {
 				player.showCards(card)
 				const giveEvent = player.give(card, trigger.player)
 				trigger.player.addTempSkill('vl_yada_yy_1')
-				trigger.player.storage.vl_yada_yy_1 = get.suit(card)
+				trigger.player.setStorage('vl_yada_yy_1', get.suit(card))
 				await giveEvent;
 			}
 		} else {
@@ -47,13 +47,13 @@ export default {
 		"1": {
 			mod: {
 				cardname(card, player) {
-					if (card.suit == player.storage.vl_yada_yy_1) return 'du';
+					if (card.suit == player.getStorage('vl_yada_yy_1', '')) return 'du';
 				},
 			},
 			mark: true,
 			intro: {
 				content(storage, player, skill) {
-					return '你的' + get.translation(player.storage.vl_yada_yy_1) + '牌均视为【毒】直到回合结束。'
+					return '你的' + get.translation(player.getStorage('vl_yada_yy_1', '')) + '牌均视为【毒】直到回合结束。'
 				},
 			},
 		},

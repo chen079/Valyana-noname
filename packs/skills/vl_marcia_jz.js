@@ -7,7 +7,7 @@ export default {
         return player.countCards('h') > 0
     },
     init(player) {
-        if (!player.storage.vl_marcia_jz_suit) player.storage.vl_marcia_jz_suit = [];
+        if (!player.hasStorage('vl_marcia_jz_suit')) player.setStorage('vl_marcia_jz_suit', []);
     },
     filterCard(card) {
         let suit = get.suit(card);
@@ -25,7 +25,7 @@ export default {
     mark: true,
     intro: {
         content(storage, player, skill) {
-            if (player.storage.vl_marcia_jz_suit) { return "已记录花色：" + get.translation(player.storage.vl_marcia_jz_suit) }
+            if (player.hasStorage('vl_marcia_jz_suit')) { return "已记录花色：" + get.translation(player.getStorage('vl_marcia_jz_suit', [])) }
         },
         onunmark: true,
     },
@@ -33,8 +33,8 @@ export default {
         const cards = event.cards;
         await player.draw(cards.length);
         for (let i = 0; i < cards.length; i++) {
-            if (!player.storage.vl_marcia_jz_suit.includes(get.suit(cards[i]))) {
-                player.storage.vl_marcia_jz_suit.push(get.suit(cards[i]));
+            if (!player.getStorage('vl_marcia_jz_suit', []).includes(get.suit(cards[i]))) {
+                player.markAuto('vl_marcia_jz_suit', get.suit(cards[i]));
             }
         }
         player.addTempSkill("vl_marcia_jz_1");
@@ -53,14 +53,14 @@ export default {
             },
             forced: true,
             filter(event, player) {
-                return event.card.name == 'sha' && player.storage.vl_marcia_jz_suit.includes(get.suit(event.card));
+                return event.card.name == 'sha' && player.getStorage('vl_marcia_jz_suit', []).includes(get.suit(event.card));
             },
             async content(event, trigger, player) {
                 trigger.directHit.addArray(game.players)
             },
             mod: {
                 wuxieRespondable(card, player) {
-                    if (player.storage.vl_marcia_jz_suit.includes(get.suit(card))) return false;
+                    if (player.getStorage('vl_marcia_jz_suit', []).includes(get.suit(card))) return false;
                 },
             },
             sub: true,
@@ -75,7 +75,7 @@ export default {
                 player: "phaseAfter",
             },
             async content(event, trigger, player) {
-                player.storage.vl_marcia_jz_suit = []
+                player.setStorage('vl_marcia_jz_suit', [])
             },
             sub: true,
         },

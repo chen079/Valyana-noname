@@ -27,17 +27,18 @@ export default {
 		const cards = event.cards
 		await targets[0].gain(cards, player, 'giveAuto')
 		targets[0].addTempSkill('vl_kamijia_sx_unuse', { player: 'phaseAfter' })
-		if (!targets[0].storage.vl_kamijia_sx_unuse) {
-			targets[0].storage.vl_kamijia_sx_unuse = {
+		if (!targets[0].getStorage('vl_kamijia_sx_unuse', null)) {
+			targets[0].setStorage('vl_kamijia_sx_unuse', {
 				source: player,
 				target: [],
 				num: 0,
 				gain: 0
-			}
+			})
 		}
-		targets[0].storage.vl_kamijia_sx_unuse.gain += cards.length
-		targets[0].storage.vl_kamijia_sx_unuse.num++
-		targets[0].storage.vl_kamijia_sx_unuse.target.push(targets[1])
+		const storage = targets[0].getStorage('vl_kamijia_sx_unuse', {});
+		storage.gain += cards.length
+		storage.num++
+		storage.target.push(targets[1])
 		let evt = _status.event.getParent('phaseUse');
 		if (evt) {
 			evt.skipped = true;
@@ -73,13 +74,14 @@ export default {
 			mark: true,
 			intro: {
 				mark(dialog, storage, player) {
-					dialog.addText('<li>①出牌阶段，你可以额外使用' + get.cnNumber(player.storage.vl_kamijia_sx_unuse.num) + '张【杀】');
+					const data = player.getStorage('vl_kamijia_sx_unuse', { target: [], num: 0 });
+					dialog.addText('<li>①出牌阶段，你可以额外使用' + get.cnNumber(data.num) + '张【杀】');
 					dialog.addText('<li>②你使用牌无距离限制')
-					dialog.addText(' <li>③你只能对' + get.translation(player.storage.vl_kamijia_sx_unuse.target) + '和自己使用牌。')
+					dialog.addText(' <li>③你只能对' + get.translation(data.target) + '和自己使用牌。')
 				},
 			},
 			onremove(player) {
-				delete player.storage.vl_kamijia_sx_unuse
+				player.setStorage('vl_kamijia_sx_unuse', null)
 			},
 			trigger: {
 				player: "loseAfter",
@@ -88,23 +90,25 @@ export default {
 			charlotte: true,
 			forced: true,
 			filter(event, player) {
-				if (event.type != 'discard' || event.getlx === false || event.getParent('phaseDiscard').player != player || !player.storage.vl_kamijia_sx_unuse.source || !player.storage.vl_kamijia_sx_unuse.source.isIn()) return false;
+				const storage = player.getStorage('vl_kamijia_sx_unuse', {});
+				if (event.type != 'discard' || event.getlx === false || event.getParent('phaseDiscard').player != player || !storage.source || !storage.source.isIn()) return false;
 				let evt = event.getl(player);
 				return evt && evt.cards2.filterInD('d').length > 0;
 			},
 			logTarget(event, player) {
-				return player.storage.vl_kamijia_sx_unuse.source
+				return player.getStorage('vl_kamijia_sx_unuse', {}).source
 			},
 			async content(event, trigger, player) {
 				if (trigger.delay === false) game.delay();
 				let cards = trigger.getl(player).cards2.filterInD('d')
-				if (Math.floor(player.storage.vl_kamijia_sx_unuse.gain / 2) != 0 && cards.length) {
-					const result = await player.storage.vl_kamijia_sx_unuse.source.chooseCardButton('获得' + get.translation(player) + '弃置的牌中至多' + get.cnNumber(Math.min(cards.length, 5, Math.floor(player.storage.vl_kamijia_sx_unuse.gain / 2))) + '张牌', [1, Math.min(cards.length, 5, Math.floor(player.storage.vl_kamijia_sx_unuse.gain / 2))], cards)
+				const storage = player.getStorage('vl_kamijia_sx_unuse', {});
+				if (Math.floor(storage.gain / 2) != 0 && cards.length) {
+					const result = await storage.source.chooseCardButton('获得' + get.translation(player) + '弃置的牌中至多' + get.cnNumber(Math.min(cards.length, 5, Math.floor(storage.gain / 2))) + '张牌', [1, Math.min(cards.length, 5, Math.floor(storage.gain / 2))], cards)
 						.set('ai', function (button) {
 							get.useful(button.link);
 						}).forResult()
 					if (result.bool) {
-						await player.storage.vl_kamijia_sx_unuse.source.gain(result.links, 'gain2')
+						await storage.source.gain(result.links, 'gain2')
 					} else {
 						return
 					}
@@ -117,10 +121,10 @@ export default {
 					return true
 				},
 				playerEnabled(card, player, target) {
-					if (player != target && !player.storage.vl_kamijia_sx_unuse.target.includes(target)) return false;
+					if (player != target && !player.getStorage('vl_kamijia_sx_unuse', { target: [] }).target.includes(target)) return false;
 				},
 				cardUsable(card, player, num) {
-					if (card.name == 'sha') return num + player.storage.vl_kamijia_sx_unuse.num;
+					if (card.name == 'sha') return num + player.getStorage('vl_kamijia_sx_unuse', { num: 0 }).num;
 				},
 			},
 		},

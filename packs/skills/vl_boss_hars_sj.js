@@ -1,43 +1,42 @@
 import { lib, game, ui, get, ai, _status } from '../../../../noname.js';
 
-function isSingleTargetCard(card) {
-    const info = get.info(card);
-    if (!info || info.notarget) return false;
-    if (get.type(card) == 'equip') return false;
-    if (info.toself || info.singleCard) return true;
-    if (!info.selectTarget) return true;
-    if (info.selectTarget == 1) return true;
-    return Array.isArray(info.selectTarget) && info.selectTarget[0] == 1 && info.selectTarget[1] == 1;
-}
-
 export default {
+    isSingleTargetCard(card) {
+        const info = get.info(card);
+        if (!info || info.notarget) return false;
+        if (get.type(card) == 'equip') return false;
+        if (info.toself || info.singleCard) return true;
+        if (!info.selectTarget) return true;
+        if (info.selectTarget == 1) return true;
+        return Array.isArray(info.selectTarget) && info.selectTarget[0] == 1 && info.selectTarget[1] == 1;
+    },
     trigger: {
         player: "damageEnd",
     },
     direct: true,
     filter(event, player) {
         return player.countCards('hs', function (card) {
-            return isSingleTargetCard(card) && player.hasUseTarget(card);
+            return lib.skill.vl_boss_hars_sj.isSingleTargetCard(card) && player.hasUseTarget(card);
         }) > 0;
     },
     async content(event, trigger, player) {
-        player.storage.vl_boss_hars_sj_damage = false;
+        player.setStorage('vl_boss_hars_sj_damage', false);
         player.addTempSkill('vl_boss_hars_sj_check');
         const result = await player.chooseToUse(function (card, player, event) {
             const evt = event || _status.event;
-            return isSingleTargetCard(card) && lib.filter.filterCard(card, player, evt);
+            return lib.skill.vl_boss_hars_sj.isSingleTargetCard(card) && lib.filter.filterCard(card, player, evt);
         }, get.prompt('vl_boss_hars_sj') + '：使用一张单目标牌').set('ai1', function (card) {
             if (get.tag(card, 'damage')) return 9 - get.value(card);
             return 5 - get.value(card);
         }).forResult();
         player.removeSkill('vl_boss_hars_sj_check');
-        if (!result.bool || !player.storage.vl_boss_hars_sj_damage) return;
+        if (!result.bool || !player.getStorage('vl_boss_hars_sj_damage', false)) return;
         player.logSkill('vl_boss_hars_sj');
         const targets = game.filterPlayer(current => current != player && current.countCards('h') > 0);
         for (const target of targets) {
             await player.viewHandcards(target);
         }
-        delete player.storage.vl_boss_hars_sj_damage;
+        player.setStorage('vl_boss_hars_sj_damage', false);
         player.insertPhase();
     },
     ai: {
@@ -86,7 +85,7 @@ export default {
             popup: false,
             charlotte: true,
             async content(event, trigger, player) {
-                player.storage.vl_boss_hars_sj_damage = true;
+                player.setStorage('vl_boss_hars_sj_damage', true);
             },
             sub: true,
         },

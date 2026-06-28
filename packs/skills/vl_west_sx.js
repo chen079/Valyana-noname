@@ -39,7 +39,7 @@ export default {
         content: "limited",
     },
     init(player, skill) {
-        player.storage[skill] = false;
+        player.setStorage(skill, false);
     },
     t: {
         name: "圣洗",

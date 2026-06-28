@@ -6,13 +6,13 @@ export default {
 	},
 	forced: true,
 	filter(event, player) {
-		return player.storage.vl_edmond_jz && player.storage.vl_edmond_jz[0].length > 0;//=Math.max(1,player.getDamagedHp());
+		return player.getStorage('vl_edmond_jz', [[], []])[0].length > 0;//=Math.max(1,player.getDamagedHp());
 	},
 	async content(event, trigger, player) {
 		const result = await player.chooseControl("选项一", "选项二", true)
 			.set("choiceList", ["摸两张牌，并令原使用者依次对你使用所有的“战”，然后获得无法使用的“战”", "失去1点体力，并对所有原使用者依次使用所有的“战”，然后弃置无法使用的“战”"])
 			.forResult();
-		const list = player.storage.vl_edmond_jz;
+		const list = player.getStorage('vl_edmond_jz', [[], []]);
 		if (result.index == 0) {
 			await player.draw(2);
 			while (list[0].length) {

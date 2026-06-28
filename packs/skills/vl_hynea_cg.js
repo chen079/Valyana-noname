@@ -5,7 +5,7 @@ export default {
     mark: true,
     intro: {
         content(event, player, storage) {
-            return '当前[]内的数值为：' + player.storage.vl_hynea_cg
+            return '当前[]内的数值为：' + player.getStorage('vl_hynea_cg', 4)
         },
     },
     mod: {
@@ -14,7 +14,7 @@ export default {
         },
     },
     init(player, skill) {
-        if (!player.storage.vl_hynea_cg) player.storage.vl_hynea_cg = 4
+        if (!player.hasStorage('vl_hynea_cg')) player.setStorage('vl_hynea_cg', 4)
         player.addSkill('vl_hynea_jiu')
         player.addSkillBlocker(skill);
     },
@@ -23,7 +23,7 @@ export default {
         player.removeSkill('vl_hynea_jiu')
     },
     skillBlocker(skill, player) {
-        return skill == "vl_hynea_jiu" && player.hp < player.storage.vl_hynea_cg;
+        return skill == "vl_hynea_jiu" && player.hp < player.getStorage('vl_hynea_cg', 4);
     },
     ai: {
         skillTagFilter(player) {

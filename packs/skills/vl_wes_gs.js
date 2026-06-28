@@ -5,15 +5,19 @@ export default {
         player: "damageEnd",
     },
     filter(event, player) {
-        return event.source && event.source != player && event.source != player.storage.vl_wes_ts[0]
+        const target = player.getStorage('vl_wes_ts', [])[0];
+        return event.source && event.source != player && target && event.source != target
     },
     frequent: true,
     check(event, player, storage) {
-        return get.attitude(player, player.storage.vl_wes_ts[0])
+        const target = player.getStorage('vl_wes_ts', [])[0];
+        return target ? get.attitude(player, target) : 0
     },
     async content(event, trigger, player) {
+        const target = player.getStorage('vl_wes_ts', [])[0];
+        if (!target) return;
         for (let i = 0; i < trigger.num; i++) {
-            player.storage.vl_wes_ts[0].damage(1, trigger.nature, trigger.source, 'unreal')
+            target.damage(1, trigger.nature, trigger.source, 'unreal')
             game.delay(2)
         }
     },

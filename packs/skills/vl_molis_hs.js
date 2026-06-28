@@ -52,7 +52,7 @@ export default {
 	},
 	async content(event, trigger, player) {
 		player.awakenSkill('vl_molis_hs');
-		event.storage = player.storage.vl_molis_hs_save.slice(0);
+		event.storage = player.getStorage('vl_molis_hs_save', []).slice(0);
 		while (event.storage.length) {
 			const doing = event.storage.shift();
 			const target = doing.player;
@@ -109,13 +109,13 @@ export default {
 	ai: {
 		save: true,
 		skillTagFilter(player, arg, target) {
-			return player == target && player.storage.vl_molis_hs != true;
+			return player == target && player.getStorage('vl_molis_hs', false) != true;
 		},
 		result: {
 			player: 10,
 		},
 		threaten(player, target) {
-			if (!target.storage.vl_molis_hs) return 0.9;
+			if (!target.getStorage('vl_molis_hs', false)) return 0.9;
 		},
 	},
 	subSkill: {
@@ -128,7 +128,7 @@ export default {
 			firstDo: true,
 			forced: true,
 			filter(event, player) {
-				if (player.storage.vl_molis_hs) return false;
+				if (player.getStorage('vl_molis_hs', false)) return false;
 				return true;
 			},
 			async content(event, trigger, player) {
@@ -137,7 +137,7 @@ export default {
 				for (let i = 0; i < players.length; i++) {
 					storage.push(lib.skill.vl_molis_hs.getinfo(players[i]));
 				}
-				player.storage.vl_molis_hs_save = storage;
+				player.setStorage('vl_molis_hs_save', storage);
 			},
 			sub: true,
 		},

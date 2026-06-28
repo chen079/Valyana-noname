@@ -6,18 +6,18 @@ export default {
         player: "enterGame",
     },
     init(player) {
-        if (!player.storage.vl_mliy_lf_num) player.storage.vl_mliy_lf_num = [];
+        if (!player.hasStorage('vl_mliy_lf_num')) player.setStorage('vl_mliy_lf_num', []);
     },
     frequent: true,
     mark: true,
     intro: {
         content(storage, player, skill) {
-            if (player.storage.vl_mliy_lf_num) { return "已记录花色：" + get.translation(player.storage.vl_mliy_lf_num) }
+            if (player.hasStorage('vl_mliy_lf_num')) { return "已记录花色：" + get.translation(player.getStorage('vl_mliy_lf_num', [])) }
         },
         onunmark: true,
     },
     filter(event, player) {
-        if (player.storage.vl_mliy_lf_num.length == 4) return false
+        if (player.getStorage('vl_mliy_lf_num', []).length == 4) return false
         return true
     },
     async content(event, trigger, player) {

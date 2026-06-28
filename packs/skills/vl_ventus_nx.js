@@ -13,7 +13,7 @@ export default {
         },
     },
     init(player, storage) {
-        if (!player.storage.vl_ventus_nx) player.storage.vl_ventus_nx = 0
+        if (!player.hasStorage('vl_ventus_nx')) player.setStorage('vl_ventus_nx', 0)
     },
     trigger: {
         player: "useCard1",

@@ -4,17 +4,17 @@ export default {
 	trigger: {
 		player: "showCharacterAfter",
 	},
-	hiddenSkill: true,
+    hiddenSkill: true,
 	filter(event, player) {
 		return event.toShow.includes('vl_jet')
 	},
-	forced: true,
-	init(player) {
-		if (!player.storage.vl_jet_sl) player.storage.vl_jet_sl = false;
-	},
+    forced: true,
+    init(player) {
+        if (!player.hasStorage('vl_jet_sl')) player.setStorage('vl_jet_sl', false);
+    },
 	derivation: "luanwu",
-	async content(event, trigger, player) {
-		if (player.storage.vl_jet_sl == true) {
+    async content(event, trigger, player) {
+        if (player.getStorage('vl_jet_sl', false) == true) {
 			let list = [];
 			for (let name of lib.inpile) {
 				let type = get.type(name);
@@ -32,7 +32,7 @@ export default {
 			}).forResult();
 			if (result.bool) await player.chooseUseTarget(true, { name: result.links[0][2], isCard: true, nature: result.links[0][3] });
 		} else {
-			player.storage.vl_jet_sl = true;
+			player.setStorage('vl_jet_sl', true);
 			// let next = game.createEvent('luanwu', false);
 			// next.player = player;
 			// next.target = game.filterPlayer((current) => current != player);

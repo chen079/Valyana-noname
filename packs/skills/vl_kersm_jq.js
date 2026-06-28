@@ -5,7 +5,8 @@ export default {
         global: "loseAfter",
     },
     filter(event, player) {
-        return event.player != player && event.type == 'discard' && (!player.storage.vl_kersm_my || event.player != player.storage.vl_kersm_my[0])
+        const storage = player.getStorage('vl_kersm_my', null);
+        return event.player != player && event.type == 'discard' && (!storage || event.player != storage[0])
     },
     direct: true,
     async content(event, trigger, player) {

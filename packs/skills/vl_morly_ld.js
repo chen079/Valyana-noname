@@ -5,7 +5,7 @@ export default {
         player: "useCard1",
     },
     init(player) {
-        if (!player.storage.vl_morly_ld_num) player.storage.vl_morly_ld_num = 0;
+        if (!player.hasStorage('vl_morly_ld_num')) player.setStorage('vl_morly_ld_num', 0);
     },
     direct: true,
     filter(event, player) {
@@ -13,21 +13,21 @@ export default {
     },
     mark: true,
     intro: {
-        content(storage, player, skill) {
-            if (player.storage.vl_morly_ld_num == 0) return '你使用的下一张普通【杀】改为火属性'
-            else if (player.storage.vl_morly_ld_num == 1) return '你使用的下一张普通【杀】改为雷属性'
-            else if (player.storage.vl_morly_ld_num == 2) return '你使用的下一张普通【杀】改为冰属性'
-            else if (player.storage.vl_morly_ld_num == 3) return '你使用的下一张普通【杀】改为神属性'
+		content(storage, player, skill) {
+            if (player.getStorage('vl_morly_ld_num', 0) == 0) return '你使用的下一张普通【杀】改为火属性'
+            else if (player.getStorage('vl_morly_ld_num', 0) == 1) return '你使用的下一张普通【杀】改为雷属性'
+            else if (player.getStorage('vl_morly_ld_num', 0) == 2) return '你使用的下一张普通【杀】改为冰属性'
+            else if (player.getStorage('vl_morly_ld_num', 0) == 3) return '你使用的下一张普通【杀】改为神属性'
         },
     },
     async content(event, trigger, player) {
         let shanature = ['fire', 'thunder', 'ice', 'kami']
-        if (!player.storage.vl_morly_ld_num) { player.storage.vl_morly_ld_num = 0 }
-        let num = player.storage.vl_morly_ld_num
+        if (!player.hasStorage('vl_morly_ld_num')) { player.setStorage('vl_morly_ld_num', 0) }
+        let num = player.getStorage('vl_morly_ld_num', 0)
         trigger.card.nature = shanature[num]
-        player.storage.vl_morly_ld_num++
-        if (player.storage.vl_morly_ld_num == 4) {
-            player.storage.vl_morly_ld_num = 0
+        player.setStorage('vl_morly_ld_num', player.getStorage('vl_morly_ld_num', 0) + 1)
+        if (player.getStorage('vl_morly_ld_num', 0) == 4) {
+            player.setStorage('vl_morly_ld_num', 0)
         }
     },
     ai: {

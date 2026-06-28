@@ -10,7 +10,7 @@ export default {
     filterTarget: (card, player, target) => target != player,
     enable: "phaseUse",
     init(player) {
-        player.storage.vl_sisk_jx = false;
+        player.setStorage('vl_sisk_jx', false);
     },
     async content(event, trigger, player) {
         const target = event.target;

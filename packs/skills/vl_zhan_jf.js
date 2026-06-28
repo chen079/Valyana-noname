@@ -7,10 +7,10 @@ export default {
     skillAnimation: true,
     animationColor: "orange",
     init(player) {
-        if (!player.storage.vl_zhan_jf) player.storage.vl_zhan_jf = 0
+        if (!player.hasStorage('vl_zhan_jf')) player.setStorage('vl_zhan_jf', 0)
     },
     filter(event, player) {
-        return player.storage.vl_zhan_jf >= 2 * player.hp
+        return player.getStorage('vl_zhan_jf', 0) >= 2 * player.hp
     },
     juexingji: true,
     forced: true,
@@ -47,7 +47,7 @@ export default {
                 source: "damageBegin2",
             },
             async content(event, trigger, player) {
-                player.storage.vl_zhan_jf += trigger.num
+                player.setStorage('vl_zhan_jf', player.getStorage('vl_zhan_jf', 0) + trigger.num)
                 player.updateMark('vl_zhan_jf')
             },
             sub: true,

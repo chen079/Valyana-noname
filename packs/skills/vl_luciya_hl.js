@@ -1,11 +1,11 @@
 import { lib, game, ui, get, ai, _status } from '../../../../noname.js';
 
 export default {
-	trigger: {
-		player: "loseAfter",
-	},
-	init(player) {
-		if (!player.storage.vl_luciya_hl) player.storage.vl_luciya_hl = 0
+    trigger: {
+        player: "loseAfter",
+    },
+    init(player) {
+        if (!player.hasStorage('vl_luciya_hl')) player.setStorage('vl_luciya_hl', 0)
 	},
 	usable: 1,
 	filter(event, player) {
@@ -36,9 +36,9 @@ export default {
 		};
 		const judgeResult = await next.forResult();
 		if (judgeResult.bool == false) {
-			let num = Math.max(1, player.storage.vl_luciya_hl);
+			let num = Math.max(1, player.getStorage('vl_luciya_hl', 0));
 			await target.damage(num, 'thunder', 'nosource');
-			player.storage.vl_luciya_hl += 1;
+			player.setStorage('vl_luciya_hl', player.getStorage('vl_luciya_hl', 0) + 1);
 		}
 	},
 	ai: {

@@ -129,7 +129,7 @@ player.changeSkin("potzhongao", "pot_weiyan_achieve");
 
 ②新杀谋周瑜根据转换技〖英谋〗的状态更换武将原画，阳：`dc_sb_zhouyu`；阴：`dc_sb_zhouyu_shadow`;
 ```javascript
-const type = player.storage["dcsbyingmou"];
+const type = player.getStorage("dcsbyingmou", false);
 player.changeSkin({ characterName: "dc_sb_zhouyu" }, "dc_sb_zhouyu" + (type ? "_shadow" : ""));
 ```
 

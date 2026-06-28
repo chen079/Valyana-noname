@@ -11,7 +11,7 @@ export default {
 	discard: false,
 	usable: 1,
 	filterTarget(card, player, target) {
-		if (player.storage.hubian) {
+		if (player.getStorage('hubian', false)) {
 			return target.countCards('h') > 0
 		} else {
 			return player.canUse({ name: 'sha' }, target, false)
@@ -19,7 +19,7 @@ export default {
 	},
 	selectTarget() {
 		let player = _status.event.player
-		if (player.storage.hubian) {
+		if (player.getStorage('hubian', false)) {
 			return 2
 		} else {
 			return 1
@@ -27,7 +27,7 @@ export default {
 	},
 	filterCard: true,
 	filter(event, player) {
-		if (player.storage.hubian) {
+		if (player.getStorage('hubian', false)) {
 			return true
 		} else {
 			return player.countCards('h') > 0
@@ -35,14 +35,14 @@ export default {
 	},
 	selectCard() {
 		let player = _status.event.player
-		if (player.storage.hubian) {
+		if (player.getStorage('hubian', false)) {
 			return 0
 		} else {
 			return -1
 		}
 	},
 	async content(event, trigger, player) {
-		if (player.storage.hubian) {
+		if (player.getStorage('hubian', false)) {
 			await event.targets[0].swapHandcards(event.targets[1]);
 			await player.draw(2)
 			await player.recover()
@@ -64,7 +64,7 @@ export default {
 		result: {
 			player: 4,
 			target(player, target) {
-				if (player.storage.hubian) {
+				if (player.getStorage('hubian', false)) {
 					if (!ui.selected.targets.length) return -Math.sqrt(target.countCards('h'));
 					let h1 = ui.selected.targets[0].getCards('h'), h2 = target.getCards('h');
 					if (h2.length > h1.length) return 0;

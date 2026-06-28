@@ -7,10 +7,10 @@ export default {
     animationColor: "thunder",
     skillAnimation: "epic",
     filter(event, player) {
-        return !player.storage.vl_mika_pl && game.players.length >= 3
+        return !player.getStorage('vl_mika_pl', false) && game.players.length >= 3
     },
     init(player) {
-        player.storage.vl_mika_pl = false;
+        player.setStorage('vl_mika_pl', false);
     },
     filterTarget(card, player, target) {
         if (target == player) return false;
@@ -27,7 +27,7 @@ export default {
     async content(event, trigger, player) {
         const targets = event.targets;
         player.awakenSkill('vl_mika_pl');
-        player.storage.vl_mika_pl = true;
+        player.setStorage('vl_mika_pl', true);
         await targets[0].gain(event.cards, player, 'give');
         const list = targets[0].getCards('h');
         while (list.length) {

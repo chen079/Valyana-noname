@@ -252,7 +252,7 @@ export default {
 			onremove: true,
 			filter(event, player) {
 				if (event.name == 'lose' && event.position != ui.discardPile) return false;
-				let storage = player.storage.vl_mislee_tj_destroy;
+				let storage = player.getStorage('vl_mislee_tj_destroy', []);
 				if (!storage) return false;
 				for (let i of event.cards) {
 					if (storage.includes(i)) return true;
@@ -261,7 +261,7 @@ export default {
 			},
 			async content(event, trigger, player) {
 				let cards = [];
-				let storage = player.storage.vl_mislee_tj_destroy;
+				let storage = player.getStorage('vl_mislee_tj_destroy', []);
 				for (let i of trigger.cards) {
 					if (storage.includes(i)) {
 						delete _status.vl_mislee_tj_map[i.name];

@@ -5,17 +5,17 @@ export default {
     usable: 1,
     forced: true,
     async content(event, trigger, player) {
-        player.storage.vl_baixi_lj = !player.storage.vl_baixi_lj
+        player.setStorage('vl_baixi_lj', !player.getStorage('vl_baixi_lj', false))
     },
     init(player, skill) {
         player.addSkillBlocker(skill);
-        if (!player.storage.vl_baixi_lj) player.storage.vl_baixi_lj = false
+        if (!player.hasStorage('vl_baixi_lj')) player.setStorage('vl_baixi_lj', false)
     },
     onremove(player, skill) {
         player.removeSkillBlocker(skill);
     },
     skillBlocker(skill, player) {
-        return skill == 'vl_baixi_lj_change' && !player.storage.vl_baixi_lj;
+        return skill == 'vl_baixi_lj_change' && !player.getStorage('vl_baixi_lj', false);
     },
     mod: {
         ignoredHandcard(card, player) {

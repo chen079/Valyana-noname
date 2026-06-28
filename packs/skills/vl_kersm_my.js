@@ -6,7 +6,7 @@ export default {
 	},
 	mark: true,
 	init(player) {
-		if (!player.storage.vl_kersm_my) player.storage.vl_kersm_my = [];
+		if (!player.hasStorage('vl_kersm_my')) player.setStorage('vl_kersm_my', []);
 	},
 	check(event, player) {
 		if (player.countCards('h') * 2 < player.hp) return false;
@@ -56,7 +56,7 @@ export default {
 			player.line(target, 'green');
 			const next = target.gain(result.cards, player, 'giveAuto');
 			player.skip('phaseDiscard')
-			player.storage.vl_kersm_my[0] = target
+			player.getStorage('vl_kersm_my', [])[0] = target
 			await next
 		}
 	},

@@ -137,8 +137,8 @@ export function initVuffSystem(vuffs) {
                     vuff = get.vuffName(arguments[i]);
                 }
             }
-            if (!player.storage[vuff] || player.storage[vuff] < 0) return 0;
-            return player.storage[vuff];
+            if (!player.getStorage(vuff, 0) || player.getStorage(vuff, 0) < 0) return 0;
+            return player.getStorage(vuff, 0);
         },
         vuffRank: function (player, name, income, plies) {
             if (player.isImmVuff(name)) return 0
@@ -287,6 +287,7 @@ export function initVuffSystem(vuffs) {
             return next
         },
         addTempVuff: function () {
+            const player = this
             let source, num, expire, losetype, buff
             for (let i in arguments) {
                 if (get.itemtype(arguments[i]) == 'player') {
@@ -302,7 +303,7 @@ export function initVuffSystem(vuffs) {
                 }
             }
             if (!num) num = 1
-            num = Math.min(num, get.vuffLimit(buff) - this.countVuffNum(buff))
+            num = Math.min(num, get.vuffLimit(buff) - player.countVuffNum(buff))
             if (num > 0) {
                 if (!expire) {
                     expire = {
@@ -313,20 +314,16 @@ export function initVuffSystem(vuffs) {
                         global: expire
                     }
                 }
-                this.when(expire).then(async () => {
-                    const buff = event.buff
-                    const num = event.num
-                    const type = event.type
-                    if (num > 0 && player.hasVuff(buff)) {
-                        await player.reduceVuff(buff, num, type)
+                const reduceBuff = buff;
+                const reduceNum = num;
+                const reduceType = losetype;
+                player.when(expire).then(async () => {
+                    if (reduceNum > 0 && player.hasVuff(reduceBuff)) {
+                        await player.reduceVuff(reduceBuff, reduceNum, reduceType)
                     }
-                }).assign({
-                    buff: buff,
-                    num: num,
-                    type: losetype
                 })
             }
-            return this.addVuff(buff, num, source)
+            return player.addVuff(buff, num, source)
         },
         clearVuff: function (buff, type) {
             const player = this
@@ -485,34 +482,34 @@ export function initVuffSystem(vuffs) {
                 let num = event.num;
                 let tip1, tip2;
                 if (event.num > 0) {
-                    if (!player.storage[vuff]) {
-                        player.storage[vuff] = 0;
+                    if (!player.getStorage(vuff, 0)) {
+                        player.setStorage(vuff, 0);
                         tip1 = '附加了';
                     } else {
                         tip1 = '增加了';
                     }
-                    num = Math.min(get.vuffInfo(vuff, 'limit') - player.storage[vuff], num);
+                    num = Math.min(get.vuffInfo(vuff, 'limit') - player.getStorage(vuff, 0), num);
                 } else {
                     tip1 = event.naturalLose == true ? '自然减少了' : '移除了';
-                    num = -Math.min(player.storage[vuff] || 0, -num);
+                    num = -Math.min(player.getStorage(vuff, 0), -num);
                 }
                 if (event.source != 'nosource') {
-                    if (!player.storage[vuff + '_Source']) player.storage[vuff + '_Source'] = [];
-                    player.storage[vuff + '_Source'].push(event.source);
+                    if (!player.getStorage(vuff + '_Source', null)) player.setStorage(vuff + '_Source', []);
+                    player.getStorage(vuff + '_Source', []).push(event.source);
                     tip2 = get.translation(event.source);
                 } else {
                     tip2 = '';
                 }
                 if (num != 0) {
-                    player.storage[vuff] += num;
+                    player.setStorage(vuff, player.getStorage(vuff, 0) + num);
                     player.syncStorage(vuff);
-                    if (player.storage[vuff] > 0) {
+                    if (player.getStorage(vuff, 0) > 0) {
                         player.addAdditionalSkill('vuff', vuff, true);
                         player.markSkill(vuff);
                     } else {
                         player.removeAdditionalSkill('vuff', vuff);
                         player.unmarkSkill(vuff);
-                        delete player.storage[vuff + '_Source'];
+                        player.setStorage(vuff + '_Source', []);
                     }
                     game.log(player, event.source != 'nosource' ? '因' : '', '#b' + tip2, tip1, Math.abs(num), '层', '#g「' + get.translation(vuff) + '」');
                 }
@@ -534,9 +531,9 @@ export function initVuffSystem(vuffs) {
             const from = event.from, num1 = event.num1;
             const to = event.to;
             let num2 = event.num2;
-            player.storage[from] += num1;
+            player.setStorage(from, player.getStorage(from, 0) + num1);
             player.syncStorage(from);
-            if (player.storage[from] > 0) {
+            if (player.getStorage(from, 0) > 0) {
                 player.addAdditionalSkill('vuff', from, true);
                 player.markSkill(from);
             } else {
@@ -553,9 +550,9 @@ export function initVuffSystem(vuffs) {
                     rejectCost += num3;
                     num2 -= num3;
                     const rejectBuff = get.vuffName(reject[i]);
-                    player.storage[rejectBuff] -= num3;
+                    player.setStorage(rejectBuff, player.getStorage(rejectBuff, 0) - num3);
                     player.syncStorage(rejectBuff);
-                    if (player.storage[rejectBuff] <= 0) {
+                    if (player.getStorage(rejectBuff, 0) <= 0) {
                         player.removeAdditionalSkill('vuff', rejectBuff);
                         player.unmarkSkill(rejectBuff);
                     }
@@ -563,11 +560,11 @@ export function initVuffSystem(vuffs) {
                     if (num2 <= 0) break;
                 }
             }
-            if (!player.storage[to]) player.storage[to] = 0;
-            num2 = Math.min(get.vuffInfo(to, 'limit') - player.storage[to], num2);
-            player.storage[to] += num2;
+            if (!player.getStorage(to, 0)) player.setStorage(to, 0);
+            num2 = Math.min(get.vuffInfo(to, 'limit') - player.getStorage(to, 0), num2);
+            player.setStorage(to, player.getStorage(to, 0) + num2);
             player.syncStorage(to);
-            if (player.storage[to] > 0) {
+            if (player.getStorage(to, 0) > 0) {
                 player.addAdditionalSkill('vuff', to, true);
                 player.markSkill(to);
             } else {

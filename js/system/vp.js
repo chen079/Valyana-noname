@@ -120,16 +120,16 @@ export function initVpSystem() {
 			return next;
 		},
 		disableVp: function () {
-			this.storage.Vp = 0;
-			this.storage.maxVp = 0;
-			this.storage.VpDisabled = true;
+			this.setStorage('Vp', 0);
+			this.setStorage('maxVp', 0);
+			this.setStorage('VpDisabled', true);
 			updateVpBar(this);
 		},
 		isVpEnabled: function () {
-			return !this.storage.VpDisabled;
+			return !this.getStorage('VpDisabled', false);
 		},
 		isVpDisabled: function () {
-			return this.storage.VpDisabled;
+			return this.getStorage('VpDisabled', false);
 		},
 	};
 	const vlgame = {
@@ -192,8 +192,8 @@ export function initVpSystem() {
 					: has2 ? data2.cur
 						: 0;
 
-			player.storage.maxVp = maxVp;
-			player.storage.Vp = curVp;
+			player.setStorage('maxVp', maxVp);
+			player.setStorage('Vp', curVp);
 
 			// 5. UI 更新函数
 			const updateBar = () => updateVpBar(player);
@@ -210,10 +210,10 @@ export function initVpSystem() {
 			};
 
 			Object.defineProperty(player, 'Vp', {
-				get: () => player.storage.Vp,
+				get: () => player.getStorage('Vp', 0),
 				set(value) {
 					if (typeof value === 'number') {
-						player.storage.Vp = value;
+						player.setStorage('Vp', value);
 						updateBar();
 						return;
 					}
@@ -222,7 +222,7 @@ export function initVpSystem() {
 					if (mode && vpActions[mode]) {
 						vpActions[mode](num);
 					} else {
-						player.storage.Vp = num;
+						player.setStorage('Vp', num);
 						updateBar();
 					}
 				},
@@ -231,10 +231,10 @@ export function initVpSystem() {
 			});
 
 			Object.defineProperty(player, 'maxVp', {
-				get: () => player.storage.maxVp,
+				get: () => player.getStorage('maxVp', 0),
 				set(value) {
 					if (typeof value === 'number') {
-						player.storage.maxVp = value;
+						player.setStorage('maxVp', value);
 						updateBar();
 						return;
 					}
@@ -243,7 +243,7 @@ export function initVpSystem() {
 					if (mode && maxVpActions[mode]) {
 						maxVpActions[mode](num);
 					} else {
-						player.storage.maxVp = num;
+						player.setStorage('maxVp', num);
 						updateBar();
 					}
 				},
@@ -303,9 +303,9 @@ export function initVpSystem() {
 				event.changedVp = 0;
 				return;
 			}
-			player.storage.Vp += num;
-			if (isNaN(player.storage.Vp) || player.storage.Vp < 0) player.storage.Vp = 0;
-			if (player.storage.Vp > player.storage.maxVp) player.storage.Vp = player.storage.maxVp;
+			player.setStorage('Vp', player.getStorage('Vp', 0) + num);
+			if (isNaN(player.getStorage('Vp', 0)) || player.getStorage('Vp', 0) < 0) player.setStorage('Vp', 0);
+			if (player.getStorage('Vp', 0) > player.getStorage('maxVp', 0)) player.setStorage('Vp', player.getStorage('maxVp', 0));
 			updateVpBar(player);
 			event.originalMaxVp = player.maxVp;
 			event.changedMaxVp = 0;
@@ -363,11 +363,11 @@ export function initVpSystem() {
 		async changeMaxVp(event, trigger, player) {
 			let { num } = event;
 			updateVpBar(player);
-			player.storage.maxVp += num;
-			if (isNaN(player.storage.maxVp) || player.storage.maxVp < 0) player.storage.maxVp = 0;
+			player.setStorage('maxVp', player.getStorage('maxVp', 0) + num);
+			if (isNaN(player.getStorage('maxVp', 0)) || player.getStorage('maxVp', 0) < 0) player.setStorage('maxVp', 0);
 			event.changedMaxVp = player.maxVp - event.originalMaxVp;
-			if (player.storage.Vp > player.storage.maxVp) {
-				await player.changeVp(player.storage.maxVp - player.storage.Vp);
+			if (player.getStorage('Vp', 0) > player.getStorage('maxVp', 0)) {
+				await player.changeVp(player.getStorage('maxVp', 0) - player.getStorage('Vp', 0));
 			}
 			updateVpBar(player);
 			event.changedVp = player.Vp - Math.max(0, event.originalVp);

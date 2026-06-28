@@ -56,7 +56,7 @@ export default {
             .set('prompt', get.prompt2('vl_kuangluan'))
         if (result.index == 0) {
             await player.draw(2)
-            player.storage.vl_kuangluan_unlimitSha[0] = target
+            player.setStorage('vl_kuangluan_unlimitSha', [target])
             player.addTempSkill('vl_kuangsha_unlimitSha')
         } else {
             await target.chooseToGive(true, "he", player).set("prompt", '义父：交给' + get.translation(player) + '一张牌，然后你本回合不能使用或打出【闪】')
@@ -64,8 +64,8 @@ export default {
         }
     },
     init(player) {
-        if (!player.storage.vl_kuangluan_unlimitSha) {
-            player.storage.vl_kuangluan_unlimitSha = [];
+        if (!player.hasStorage('vl_kuangluan_unlimitSha')) {
+            player.setStorage('vl_kuangluan_unlimitSha', []);
         }
     },
     ai: {

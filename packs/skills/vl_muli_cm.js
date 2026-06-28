@@ -13,7 +13,7 @@ export default {
     },
     async content(event, trigger, player) {
         player.addSkill("vl_muli_zc")
-        player.storage.vl_muli_zc += 1
+        player.setStorage('vl_muli_zc', player.getStorage('vl_muli_zc', 0) + 1)
     },
     group: "vl_muli_cm_change",
     derivation: "vl_muli_zc",
@@ -24,7 +24,7 @@ export default {
             },
             check(event, player) {
                 let att = get.attitude(player, event.player)
-                return att > 0 && event.player.storage.vl_muli_zc >= event.player.hp && player.hp > 1
+                return att > 0 && event.player.getStorage('vl_muli_zc', 0) >= event.player.hp && player.hp > 1
             },
             prompt2: "每名其他角色回合开始时，若其有【终策】，你可以弃置两张手牌然后获得【终策】与其所有策标记，然后其失去【终策】并失去1点体力。",
             filter(event, player) {
@@ -36,8 +36,8 @@ export default {
                     let target = trigger.player
                     player.logSkill('vl_muli_cm', target)
                     player.addSkill('vl_muli_zc')
-                    player.storage.vl_muli_zc += target.storage.vl_muli_zc
-                    target.storage.vl_muli_zc = 0
+                    player.setStorage('vl_muli_zc', player.getStorage('vl_muli_zc', 0) + target.getStorage('vl_muli_zc', 0))
+                    target.setStorage('vl_muli_zc', 0)
                     target.removeSkill('vl_muli_zc')
                     target.unmarkSkill('vl_muli_zc')
                     await target.loseHp()

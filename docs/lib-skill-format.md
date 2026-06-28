@@ -298,10 +298,10 @@ skillName: {
     markcount: "expansion",
   },
   init(player, skill) {
-    player.storage[skill] = 0;
+    player.setStorage(skill, 0);
   },
   onremove(player, skill) {
-    delete player.storage[skill];
+    player.setStorage(skill, 0);
   },
 }
 ```

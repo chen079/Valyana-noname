@@ -15,16 +15,16 @@ export default {
     enable: "phaseUse",
     usable: 1,
     init(player, skill) {
-        if (!player.storage[skill]) player.storage[skill] = [];
+        if (!player.hasStorage(skill)) player.setStorage(skill, []);
     },
     filter(event, player) {
-        return player.storage.vl_rest_qf.length < 4 && player.countCards('h') > 0;
+        return player.getStorage('vl_rest_qf', []).length < 4 && player.countCards('h') > 0;
     },
     visible: true,
     filterCard: true,
     selectCard() {
         let player = _status.event.player;
-        return [1, 4 - player.storage.vl_rest_qf.length];
+        return [1, 4 - player.getStorage('vl_rest_qf', []).length];
     },
     discard: false,
     toStorage: true,
@@ -32,14 +32,13 @@ export default {
     async content(event, trigger, player) {
         const cards = event.cards;
         player.$give(cards, player, false);
-        player.storage.vl_rest_qf = player.storage.vl_rest_qf.concat(cards);
-        player.markSkill('vl_rest_qf');
+        player.markAuto('vl_rest_qf', cards);
     },
     check(card) {
         return 8 - get.value(card);
     },
     onremove(player, skill) {
-        let cards = player.storage.vl_rest_qf;
+        let cards = player.getStorage('vl_rest_qf', []);
         if (cards.length) player.loseToDiscardpile(cards);
     },
     ai: {

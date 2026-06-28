@@ -6,17 +6,17 @@ export default {
     },
     direct: true,
     init(player) {
-        if (!player.storage.vl_telina_th) player.storage.vl_telina_th = 0
+        if (!player.hasStorage('vl_telina_th')) player.setStorage('vl_telina_th', 0)
     },
     mark: true,
     intro: {
         content(storage, player, skill) { return '当前有' + storage + '个标记' },
     },
     async content(event, trigger, player) {
-        if (player.storage.vl_telina_th > 0) { player.addTempSkill("qixi", "phaseEnd") }
-        if (player.storage.vl_telina_th > 1) { player.addTempSkill("duanliang", "phaseEnd") }
-        if (player.storage.vl_telina_th > 2) { player.addTempSkill("guose", "phaseEnd") }
-        if (player.storage.vl_telina_th > 2) { player.addTempSkill("luanji", "phaseEnd") }
+        if (player.getStorage('vl_telina_th', 0) > 0) { player.addTempSkill("qixi", "phaseEnd") }
+        if (player.getStorage('vl_telina_th', 0) > 1) { player.addTempSkill("duanliang", "phaseEnd") }
+        if (player.getStorage('vl_telina_th', 0) > 2) { player.addTempSkill("guose", "phaseEnd") }
+        if (player.getStorage('vl_telina_th', 0) > 2) { player.addTempSkill("luanji", "phaseEnd") }
     },
     group: "vl_telina_th_int",
     subSkill: {
@@ -26,7 +26,7 @@ export default {
                 player: "phaseAfter",
             },
             async content(event, trigger, player) {
-                player.storage.vl_telina_th = 0
+                player.setStorage('vl_telina_th', 0)
                 player.updateMark("vl_telina_th")
             },
             sub: true,

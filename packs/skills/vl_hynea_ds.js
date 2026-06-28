@@ -5,17 +5,17 @@ export default {
     usable: 1,
     unique: true,
     filter(event, player) {
-        return player.storage.vl_hynea_cg > 0
+        return player.getStorage('vl_hynea_cg', 0) > 0
     },
     check(event, player) {
-        return player.storage.vl_hynea_cg > player.hp
+        return player.getStorage('vl_hynea_cg', 0) > player.hp
     },
     filterTarget(card, player, target) {
         return player != target;
     },
     async content(event, trigger, player) {
         const target = event.target
-        player.storage.vl_hynea_cg -= 1
+        player.setStorage('vl_hynea_cg', player.getStorage('vl_hynea_cg', 0) - 1)
         await target.damage(1, player)
         player.updateMark('vl_hynea_cg')
     },

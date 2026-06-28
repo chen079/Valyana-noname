@@ -11,7 +11,7 @@ export default {
 		content: "已发动技能$次",
 	},
 	init(player) {
-		if (!player.storage.vl_siji_ys) player.storage.vl_siji_ys = 0
+		if (!player.hasStorage('vl_siji_ys')) player.setStorage('vl_siji_ys', 0)
 	},
 	filter: (event, player) => {
 		return player.countCards('h') > 0 && game.hasPlayer(current => current.countDiscardableCards('h', player) > 0 && current != player)
@@ -36,14 +36,14 @@ export default {
 			const discardCardResult = await player.discardPlayerCard('h', targetResult.targets[0], true).forResult();
 			if (discardCardResult.bool && discardCardResult.cards && discardCardResult.cards.length) {
 				const card2 = discardCardResult.cards[0];
-				player.storage.vl_siji_ys++
+				player.setStorage('vl_siji_ys', player.getStorage('vl_siji_ys', 0) + 1)
 				if (get.color(card1) === get.color(card2)) {
 					await trigger.player.recover()
 				}
 			} else {
 				return
 			}
-			if (player.storage.vl_siji_ys >= 3) {
+			if (player.getStorage('vl_siji_ys', 0) >= 3) {
 				const drawResult = await player.chooseTarget(get.prompt('vl_siji_ys'), '选择一名其他角色，你与其摸牌阶段摸牌+1且手牌上限+1。', function (card, player, target) {
 					return target != player
 				}).forResult();

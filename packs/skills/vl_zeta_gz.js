@@ -117,7 +117,7 @@ export default {
 			}
 		}
 		if (!event.cards.length) {
-			player.storage.vl_zeta_fg = ['basic', 'trick', 'equip']
+			player.setStorage('vl_zeta_fg', ['basic', 'trick', 'equip'])
 			player.updateMark('vl_zeta_fg')
 			const targetResult = await player.chooseTarget('令一名角色执行一个额外的出牌阶段').set('ai', function (target) {
 				const player = _status.event.target

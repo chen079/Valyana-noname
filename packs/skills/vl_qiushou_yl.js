@@ -37,7 +37,7 @@ export default {
 				popname: true,
 				ignoreMod: true,
 				onuse(result, player) {
-					if (!player.storage.vl_liuqing_yf) {
+					if (!player.getStorage('vl_liuqing_yf', false)) {
 						player.when({ global: "phaseAfter" }).then(() => {
 							player.unmarkSkill("vl_qiushou_yl");
 						});

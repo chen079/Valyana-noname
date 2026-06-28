@@ -17,7 +17,9 @@ export const translation = {
     airenzhixin: "矮人之心洞穴",
     Valyana: "瓦尔亚纳",
     vl_kela: "克拉",
+    vl_yangzu: "羊族",
     vl_tiaodan: "挑担的游戏",
     vl_furry_migration: "福瑞迁移",
-    FurryExt: "福瑞拓展"
+    FurryExt: "福瑞拓展",
+    vl_azao_huxi_hand:"护"
 };
