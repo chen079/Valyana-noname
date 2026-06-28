@@ -7,6 +7,7 @@ export const translation = {
     youdangzhe: "游荡旅行者",
     renyu: "人鱼之海",
     jianaier: "迦奈尔联邦",
+    dalu_lingmian: "大陆另面",
     dragongu: "龙之谷",
     milan: "米兰寺",
     jixiezaowu: "机械造物",

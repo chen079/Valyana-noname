@@ -7,16 +7,19 @@ export default {
     direct: true,
     shaRelated: true,
     filter(event, player) {
-        return event.card.name == 'sha' && event.target.countCards('he') > 0;
+        return event.card.name == 'sha' && event.target.countCards('h') > 0;
     },
     async content(event, trigger, player) {
-        player.addTempSkill("vl_xieji", { player: "phaseEnd" })
         const handResult = await player.choosePlayerCard('h', trigger.target).forResult();
+        if (!handResult.bool || !handResult.cards || !handResult.cards.length) return;
+        player.addTempSkill("vl_xieji", { player: "phaseEnd" })
         const expansion = player.addToExpansion(handResult.cards, 'gain2');
         expansion.gaintag.add('vl_xieji');
         await expansion;
-        let next = player.choosePlayerCard(trigger.target, 'he', [1, Math.min(trigger.target.hp - 1, trigger.target.countCards('he'))], get.prompt('vl_bofeng_aj', trigger.target))
-            .set('prompt2', '将目标角色至多' + Math.min(trigger.target.hp - 1, trigger.target.countCards('he')) + '张牌置于其武将牌上');
+        const max = Math.min(trigger.target.hp - 1, trigger.target.countCards('he'));
+        if (max <= 0) return;
+        let next = player.choosePlayerCard(trigger.target, 'he', [1, max], get.prompt('vl_bofeng_aj', trigger.target))
+            .set('prompt2', '将目标角色至多' + max + '张牌置于其武将牌上');
         next.set('ai', function (button) {
             if (!_status.event.goon) return 0;
             let val = get.value(button.link);
@@ -66,5 +69,6 @@ export default {
     t: {
         name: "玄技",
         info: "当你使用【杀】指定目标后，你可以将目标角色的一张手牌置于你的武将牌上，称为“协”，然后你将其的至多X-1张牌置于其武将牌上（X为其体力值），其于当前回合结束时获得这些牌。",
+        taici: ["剑先取势，再断其心。", "牌与刃，都由我来裁。"],
     },
 };

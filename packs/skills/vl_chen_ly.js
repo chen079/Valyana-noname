@@ -18,7 +18,7 @@ export default {
                 const player = _status.event.player;
                 const target = _status.event.getTrigger().target;
                 return get.effect(target, _status.event.getTrigger().card, player, player) > 0 || player.getHistory('sourceDamage').length == 0;
-            }).forResult();
+            }).set('frequent', true).forResult();
             if (!result.bool) return;
             player.logSkill('vl_chen_ly', trigger.target);
             await player.draw();
@@ -79,5 +79,6 @@ export default {
     t: {
         name: "落羽",
         info: "当你使用【杀】指定距离大于1的角色为目标时，你可以摸一张牌；若你本回合未造成过伤害，你可以令此【杀】无视防具且不可被响应。当你使用【杀】指定距离为1的角色为目标时，你可令此【杀】造成的伤害+1。若你的装备区内有武器牌，你可令【杀】额外结算一次。",
+        taici: ['龙影破云，雷霆随我。', '仰望吧，天穹已被我点亮。'],
     },
 };

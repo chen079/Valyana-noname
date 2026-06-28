@@ -6,6 +6,7 @@ export default {
     t: {
         name: '靡奢',
         info: '锁定技，每回合限一次，当你进入濒死状态时，你可以将体力回复至1点，然后摸X张牌（X为你已损失的体力值）。',
+        taici: ['看着我，然后忘记反抗。', '迷蛇入瞳，意志归王。'],
     },
     usable: 1,
     logTarget: "player",

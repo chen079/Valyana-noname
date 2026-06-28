@@ -164,6 +164,14 @@ export let config = {
         clear: true,
         nopointer: true,
     },
+    vlWorldview: {
+        name: '世界观',
+        clear: true,
+        onclick() {
+            game.closeMenu();
+            ui.create.iframe(`${lib.assetURL}extension/瓦尔亚纳/docs/worldview.md`);
+        },
+    },
     VlcheckNew: {
         name: '点击查看更新公告',
         clear: true,

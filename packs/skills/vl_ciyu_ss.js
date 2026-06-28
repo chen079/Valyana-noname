@@ -6,12 +6,12 @@ export default {
     },
     direct: true,
     async content(event, trigger, player) {
-        const cards = await player.draw(2);
+        const { cards = [] } = await player.draw(2).forResult();
         let remainingCards = cards.slice();
         while (remainingCards.length) {
             const result = await player.chooseCardTarget({
                 filterCard(card) {
-                    return _status.event.getParent().cards.includes(card);
+                    return (_status.event.cards || []).includes(card);
                 },
                 selectCard: [1, remainingCards.length],
                 filterTarget(card, player, target) {
@@ -107,5 +107,6 @@ export default {
     t: {
         name: "素术",
         info: "回合开始时，你摸两张牌然后任意分配给任意角色，并置于其武将牌上称为“协”；当一名角色使用【杀】或普通锦囊牌指定目标后，若其有“协”，你可以弃置其一张“协”为此牌增加或减少一个目标（无距离限制且至少有一个目标）；结束阶段，其获得其武将牌上的所有“协”。",
+        taici: ["协先落定，局才算开。", "增一减一，都在我手中。"],
     },
 };

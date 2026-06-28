@@ -51,6 +51,7 @@ export default {
     },
     t: {
         name: "惊鸿",
-        info: "锁定技，弃牌阶段开始时，若你不是全场手牌唯一最多的角色，本回合手牌上限+2，否则你摸一张牌。你的♣手牌因弃置进入弃牌堆时，你可以摸<span class=\"bluetext\">2</span>张牌并可以使用至多<span class=\"bluetext\">1</span>张牌。",
+        info: `锁定技，弃牌阶段开始时，若你不是全场手牌唯一最多的角色，本回合手牌上限+2，否则你摸一张牌。你的♣手牌因弃置进入弃牌堆时，你可以摸<span class="bluetext">2</span>张牌并可以使用至多<span class="bluetext">1</span>张牌。`,
+        taici: ['银鳞映日，剑气化龙。', '此身一动，长空皆裂。'],
     },
 };

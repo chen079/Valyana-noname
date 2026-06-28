@@ -12,7 +12,9 @@ export default {
     },
     t: {
         name: '茂放',
-        info: '其他角色造成伤害时，你可以弃置至多X张牌，令此伤害+X（X为你已损体力值）。'
+        info: '其他角色造成伤害时，你可以弃置至多X张牌，令此伤害+X（X为你已损体力值）。',
+    
+        taici: ['圣芒成防，罪火难侵。', '我立于此，便是壁垒。'],
     },
     filter(event, player) {
         return event.source != player && player.hp < player.maxHp && player.countDiscardableCards(player, "h") > 0;

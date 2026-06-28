@@ -1,5 +1,6 @@
 {
   "_files": [
+    "agent.md",
     "AGENTS.md",
     "extension.css",
     "extension.js",
@@ -21,7 +22,8 @@
       "how-to-start.md",
       "lib-skill-format.md",
       "skin-guide.md",
-      "step-to-async-guide.md"
+      "step-to-async-guide.md",
+      "worldview.md"
     ],
     "game-event": {
       "_files": [
@@ -211,6 +213,7 @@
         "vl_yinhu.jpg",
         "vl_yinlong.jpg",
         "vl_youying.jpg",
+        "vl_yue.jpg",
         "vl_zenia.jpg",
         "vl_zeron.jpg",
         "vl_zeta.jpg",

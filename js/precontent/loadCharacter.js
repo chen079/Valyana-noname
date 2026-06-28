@@ -96,6 +96,7 @@ async function parseCharacterPack(name, characterPack, options = {}) {
             if (name) translate[skillName] = name;
             if (info) translate[skillName + '_info'] = info;
             if (Array.isArray(taici)) {
+                skill[skillName].audio ??= `ext:瓦尔亚纳/audio/skill:${taici.length}`;
                 taici.forEach((text, index) => {
                     translate['#ext:瓦尔亚纳/audio/skill/' + skillName + (index + 1)] = text;
                 });

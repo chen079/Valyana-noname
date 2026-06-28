@@ -86,5 +86,6 @@ export default {
 	t: {
 		name: "时移",
 		info: `你或在你攻击范围内的角色回合开始时，你可以令其于结束阶段后获得一个${get.poptip("zhuyaojieduan")}，且你可以调换其本回合的${get.poptip("jieduan")}顺序。`,
-	},
+        taici: ['深渊有声，正唤你名。', '沉下去吧，那里才安静。'],
+    },
 };

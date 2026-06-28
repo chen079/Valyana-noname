@@ -21,13 +21,13 @@ export default {
 		const cards = get.cards(num);
 		await game.cardsGotoOrdering(cards);
 		let selected;
-		if (cards.length <= 2) {
+		if (cards.length <= 1) {
 			selected = cards.slice(0);
 		} else {
 			const result = await player.chooseCardButton(1, '护契：将其中一张牌作为“护”' + (player.getStorage('vl_azao_huxi_hand', false) ? '放入手牌' : '置于你的武将牌上'), true, cards)
 				.set('ai', button => get.value(button.link, _status.event.player))
 				.forResult();
-			selected = result.links || cards.slice(0, 2);
+			selected = result.links || cards.slice(0, 1);
 		}
 		const rest = cards.slice(0);
 		rest.removeArray(selected);
@@ -77,15 +77,21 @@ export default {
 	async content(event, trigger, player) {
 		await lib.skill.vl_azao_huxi.chooseQizhe(player);
 	},
-	group: "vl_azao_huxi_prevent",
+	group: ["vl_azao_huxi_prevent", "vl_azao_huxi_recover"],
 	subSkill: {
 		prevent: {
 			trigger: {
 				global: "damageBegin3",
 			},
-			forced: true,
 			filter(event, player) {
 				return event.num > 0 && (event.player.countMark('vl_azao_huxi_qizhe') > 0 || (event.player == player));
+			},
+			logTarget: "player",
+			prompt2(event, player) {
+				return '防止' + get.translation(event.player) + '即将受到的' + get.cnNumber(event.num) + '点伤害，然后移除“契者”标记，你流失1点体力并结算“护”。';
+			},
+			check(event, player) {
+				return event.player == player || get.attitude(player, event.player) > 0;
 			},
 			async content(event, trigger, player) {
 				trigger.cancel();
@@ -94,6 +100,20 @@ export default {
 				});
 				await lib.skill.vl_azao_huxi.resolveGuard(player);
 				await lib.skill.vl_azao_huxi.chooseQizhe(player);
+			},
+			sub: true,
+		},
+		recover: {
+			trigger: {
+				global: "recoverAfter",
+			},
+			forced: true,
+			filter(event, player) {
+				return event.player != player && event.player.countMark('vl_azao_huxi_qizhe') > 0 && event.num > 0 && player.isDamaged();
+			},
+			logTarget: "player",
+			async content(event, trigger, player) {
+				await player.recover(trigger.num);
 			},
 			sub: true,
 		},
@@ -109,6 +129,7 @@ export default {
 	derivation: "vl_azao_qihui",
 	t: {
 		name: "护契",
-		info: "锁定技，游戏开始时，你可以令一名其他角色获得“契者”标记。当“契者”或你将受到伤害时，防止此伤害并移除标记，然后你流失1点体力并观看牌堆顶X张牌，将其中一张置于你的武将牌上，称之为“护”（X为你发动此技能的次数且至少为1）。然后，你可以令一名其他角色获得“契者”标记。",
-	},
+		info: "锁定技，游戏开始时，你可以令一名其他角色获得“契者”标记。当“契者”或你将受到伤害时，你可以防止此伤害并移除标记，然后你流失1点体力并观看牌堆顶X张牌，将其中一张置于你的武将牌上，称之为“护”（X为你发动此技能的次数且至少为1）。然后，你可以令一名其他角色获得“契者”标记。当“契者”回复体力后，你回复等量体力。",
+        taici: ['一息尚存，暗潮不止。', '随我的呼吸，坠入深渊。'],
+    },
 };

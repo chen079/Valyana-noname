@@ -23,7 +23,7 @@ export default {
 			}
 		}
 	},
-	content(event, player) {
+	async content(event, player) {
 		trigger.player.addTempSkill('vl_whitewolf_fz_1', { player: "phaseBegin" })
 		trigger.player.setStorage('vl_whitewolf_fz', [player])
 		if (!player.hasStorage('vl_whitewolf_fz')) player.setStorage('vl_whitewolf_fz', [])
@@ -64,5 +64,6 @@ export default {
 	t: {
 		name: "峰峙",
 		info: "当你对其他角色造成伤害时，你可以令其所有红色手牌均视为【闪】，黑色手牌均视为【无懈可击】直到其下个回合开始，若如此做，本回合你/其使用牌仅能指定其/你为目标。",
-	},
+		taici: ['霜白狼影，踏碎寒夜。', '风雪会掩埋你的退路。'],
+    },
 };

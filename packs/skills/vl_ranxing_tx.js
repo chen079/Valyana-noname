@@ -9,7 +9,7 @@ export default {
 		if (event.player == player || event.target == player) return false;
 		if (!event.targets || event.targets.length != 1) return false;
 		if (!event.card || get.type(event.card) == 'equip' || get.type(event.card) == 'delay') return false;
-		return lib.filter.targetEnabled(event.card, event.player, player);
+		return true;
 	},
 	async content(event, trigger, player) {
 		const result = await player.chooseBool(get.prompt('vl_ranxing_tx', trigger.target), '摸一张牌并代替其成为此牌目标').set('ai', function () {
@@ -32,5 +32,6 @@ export default {
 	t: {
 		name: "同心",
 		info: "其他角色使用仅指定一名目标的即时牌时，你可以摸一张牌并代替其成为此牌目标。",
-	},
+        taici: ['天隙已开，群星为刃。', '抬头吧，终局从天而降。'],
+    },
 };
