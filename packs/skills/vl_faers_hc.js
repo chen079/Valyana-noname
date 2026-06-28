@@ -2,11 +2,14 @@ import { lib, game, ui, get, ai, _status } from '../../../../noname.js';
 
 export default {
     trigger: {
-        player: "loseAfter",
+        player: ["gameDrawAfter", "loseAfter", "changeHp"],
         global: ["equipAfter", "addJudgeAfter", "gainAfter", "loseAsyncAfter", "addToExpansionAfter"],
     },
     forced: true,
     filter(event, player) {
+        if (event.name == "gameDraw" || event.name == "changeHp") {
+            return player.countCards("h") != player.getHp();
+        }
         if (event.name == "gain" && event.player == player) {
             return player.countCards("h") > player.getHp();
         }
