@@ -1,16 +1,15 @@
 import { lib, game, ui, get, ai, _status } from "../../../../noname.js";
 
-export default {
+	export default {
 	trigger: {
-		player: "damageBegin3",
+		player: "changeHp",
 	},
 	forced: true,
 	filter(event, player) {
-		return event.num > 0;
+		return event.num < 0 && event.changedHp < 0 && event.getParent().name == "damage";
 	},
 	async content(event, trigger, player) {
-		const num = trigger.num;
-		trigger.cancel();
+		const num = -trigger.changedHp;
 		await player.loseMaxHp();
 		await player.changeHujia(num, null, true);
 	},
@@ -21,6 +20,6 @@ export default {
 	},
 	t: {
 		name: "化躯",
-		info: "锁定技，体力值小于等于你的角色视为在你的攻击范围内。当你因伤害造成体力值减少时，改为失去1点体力上限，并获得等同于此次伤害值的护盾。",
+		info: "锁定技，体力值小于等于你的角色视为在你的攻击范围内。当你因伤害使体力值减少后，你失去1点体力上限，并获得等同于此次体力减少值的护盾。",
 	},
 };

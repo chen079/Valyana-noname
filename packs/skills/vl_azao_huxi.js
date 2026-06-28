@@ -16,7 +16,7 @@ export default {
 	},
 	async resolveGuard(player) {
 		player.setStorage('vl_azao_huxi_count', player.getStorage('vl_azao_huxi_count', 0) + 1);
-		const num = Math.max(2, player.getStorage('vl_azao_huxi_count', 0));
+		const num = Math.max(1, player.getStorage('vl_azao_huxi_count', 0));
 		await player.loseHp();
 		const cards = get.cards(num);
 		await game.cardsGotoOrdering(cards);
@@ -24,7 +24,7 @@ export default {
 		if (cards.length <= 2) {
 			selected = cards.slice(0);
 		} else {
-			const result = await player.chooseCardButton(2, '护契：将其中两张牌作为“护”' + (player.getStorage('vl_azao_huxi_hand', false) ? '放入手牌' : '置于你的武将牌上'), true, cards)
+			const result = await player.chooseCardButton(1, '护契：将其中一张牌作为“护”' + (player.getStorage('vl_azao_huxi_hand', false) ? '放入手牌' : '置于你的武将牌上'), true, cards)
 				.set('ai', button => get.value(button.link, _status.event.player))
 				.forResult();
 			selected = result.links || cards.slice(0, 2);
@@ -109,6 +109,6 @@ export default {
 	derivation: "vl_azao_qihui",
 	t: {
 		name: "护契",
-		info: "锁定技，游戏开始时，你可以令一名其他角色获得“契者”标记。当“契者”或你将受到伤害时，防止此伤害并移除标记，然后你流失1点体力并观看牌堆顶X张牌，将其中两张置于你的武将牌上，称之为“护”（X为你发动此技能的次数且至少为2）。然后，你可以令一名其他角色获得“契者”标记。",
+		info: "锁定技，游戏开始时，你可以令一名其他角色获得“契者”标记。当“契者”或你将受到伤害时，防止此伤害并移除标记，然后你流失1点体力并观看牌堆顶X张牌，将其中一张置于你的武将牌上，称之为“护”（X为你发动此技能的次数且至少为1）。然后，你可以令一名其他角色获得“契者”标记。",
 	},
 };
