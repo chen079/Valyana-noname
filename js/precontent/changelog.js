@@ -1,10 +1,10 @@
 import { lib, game, ui, get, ai, _status } from '../../../../noname.js';
 export const changelog = {
-    "1.0.2": [
+    "1.0.3": [
         {
             type: 'text',
             data: [
-                '瓦尔亚纳 1.0.2 历史更新日志',
+                '瓦尔亚纳 1.0.3 历史更新日志',
                 '<a href="https://github.com/chen079/Valyana-noname.git">点击前往瓦尔亚纳Github仓库</a>'
             ],
         },
@@ -30,7 +30,39 @@ export const changelog = {
                         });
                     })(),
                     '新增世界观资料文档，补充瓦尔亚纳大陆设定说明。',
-                    '补充多名角色头像资源，完善角色在选将界面的展示。',
+                ];
+            },
+        },
+    ],
+    "1.0.2": [
+        {
+            type: 'text',
+            data: [
+                '瓦尔亚纳 1.0.2 历史更新日志',
+                '<a href="https://github.com/chen079/Valyana-noname.git">点击前往瓦尔亚纳Github仓库</a>'
+            ],
+        },
+        {
+            type: 'players',
+            data: (() => {
+                _status.Valyana_ChangeLog_character = {
+                    'Valyana': [],
+                };
+                return Object.values(_status.Valyana_ChangeLog_character).flat();
+            })(),
+        },
+        {
+            type: 'text',
+            textAlign: 'left',
+            get data() {
+                return [
+                    ...(() => {
+                        const map = _status.Valyana_ChangeLog_character ?? {};
+                        return Object.keys(map).map(ext => {
+                            const str = lib.translate[`${ext}_character_config`] || lib.translate[ext] || ext;
+                            return `${str}：${map[ext].map(name => lib.translate[name]).join('、')}`;
+                        });
+                    })(),
                     '集中调整角色技能与动态描述，优化多个技能的触发、结算和显示文本。',
                     '优化角色加载与配置入口，更新角色、势力、分类等扩展数据。',
                     '更新文件索引，确保新增资源与技能文件能够被扩展正确加载。',
