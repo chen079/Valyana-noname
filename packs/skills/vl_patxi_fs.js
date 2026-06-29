@@ -26,7 +26,7 @@ export default {
 			list2.push("弃置一张黑色牌令此伤害+1")
 		}
 		list1.push('cancel2')
-		const result = await player.chooseControl(list1).set("choiceList", list2).set('prompt', '是否对' + get.translation(trigger.player) + '发动〖覆身〗').set("ai", function () {
+		const result = await player.chooseControl(list1).set("choiceList", list2).set('prompt', '是否对' + get.translation(trigger.player) + `发动${get.poptip("vl_patxi_fs")}`).set("ai", function () {
 			if (get.attitude(player, trigger.player) > 0) {
 				if (player.countCards('h', { color: 'red' }) > 0) {
 					return '弃置红色'

@@ -6,7 +6,7 @@ export default {
     },
     mark: true,
     intro: {
-        content: "已被选为〖神降〗的对象",
+        content: `已被选为${get.poptip("vl_hars_sj")}的对象`,
     },
     lastDo: true,
     charlotte: true,
@@ -28,6 +28,6 @@ export default {
     popup: false,
     t: {
         name: "附身",
-        info: "锁定技，你的回合开始时，你改为由〖神降〗的发动者控制。",
+        info: `锁定技，你的回合开始时，你改为由${get.poptip("vl_hars_sj")}的发动者控制。`,
     },
 };

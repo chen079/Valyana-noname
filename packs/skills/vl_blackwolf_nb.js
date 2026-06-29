@@ -41,7 +41,7 @@ export default {
     },
     mark: true,
     intro: {
-        content: "可以发动〖匿波〗",
+        content: `可以发动${get.poptip("vl_blackwolf_nb")}`,
     },
     group: "vl_blackwolf_nb_clean",
     subSkill: {

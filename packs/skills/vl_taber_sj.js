@@ -62,6 +62,6 @@ export default {
     },
     t: {
         name: "掘金",
-        info: `出牌阶段限一次，你可以弃置任意张牌并${get.poptip("found")}</a>等量的牌，若你在发动〖掘金〗时弃置了所有手牌，你额外发掘一张牌。`,
+        info: `出牌阶段限一次，你可以弃置任意张牌并${get.poptip("found")}</a>等量的牌，若你在发动${get.poptip("vl_taber_sj")}时弃置了所有手牌，你额外发掘一张牌。`,
     },
 };

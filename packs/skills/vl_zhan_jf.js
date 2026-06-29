@@ -10,7 +10,7 @@ export default {
         if (!player.hasStorage('vl_zhan_jf')) player.setStorage('vl_zhan_jf', 0)
     },
     filter(event, player) {
-        return player.getStorage('vl_zhan_jf', 0) >= 2 * player.hp
+        return player.getStorage('vl_zhan_jf', 0) >= 2 * player.maxHp
     },
     juexingji: true,
     forced: true,

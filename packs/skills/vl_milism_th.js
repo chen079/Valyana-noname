@@ -23,13 +23,13 @@ export default {
             if (att > 0) return att + 1;
             if (att == 0) return Math.random();
             return att
-        }).set("prompt", "请选择〖同游〗的目标").forResult();
+        }).set("prompt", `请选择${get.poptip("vl_milism_th")}的目标`).forResult();
         if (!player.hasStorage('vl_milism_th_recode')) player.setStorage('vl_milism_th_recode', []);
         player.getStorage('vl_milism_th_recode', [])[0] = result.targets[0];
     },
     intro: {
         content(storage, player, skill) {
-            let str = '当前〖同游〗目标：';
+            let str = `当前${get.poptip("vl_milism_th")}目标：`;
             str += "<span style='color: red'>" + get.translation(player.getStorage('vl_milism_th_recode', [])) + "</span>";
             return str;
         },

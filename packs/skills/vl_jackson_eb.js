@@ -11,7 +11,7 @@ export default {
         if (!player.hasStorage('vl_jackson_eb')) player.setStorage('vl_jackson_eb', []);
     },
     async content(event, trigger, player) {
-        const result = await player.chooseTarget(Math.min(2, game.players.length - 1), true, "请选择〖纵沙〗的目标", "令" + Math.min(2, game.players.length - 1) + "名角色被标记", function (card, player, target) {
+        const result = await player.chooseTarget(Math.min(2, game.players.length - 1), true, `请选择${get.poptip("vl_jackson_eb")}的目标`, "令" + Math.min(2, game.players.length - 1) + "名角色被标记", function (card, player, target) {
             return target != player
         }).forResult();
         if (result.targets.length == 1) {
@@ -61,7 +61,7 @@ export default {
             async content(event, trigger, player) {
                 event.togain = trigger.player.getCards('he');
                 if (event.togain.length) await player.gain(event.togain, trigger.player, 'giveAuto');
-                const result = await player.chooseTarget(1, true, "请选择〖纵沙〗的目标").set("filterTarget", function (card, player, target, skill) {
+                const result = await player.chooseTarget(1, true, `请选择${get.poptip("vl_jackson_eb")}的目标`).set("filterTarget", function (card, player, target, skill) {
                     return target.countMark('vl_jackson_eb') == 0 && player != target
                 }).forResult()
                 result.targets[0].addMark('vl_jackson_eb')

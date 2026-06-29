@@ -221,6 +221,19 @@ export let config = {
             game.saveConfig('VpBarLocation', item);
         },
     },
+    shunfaButtonLoc: {
+        name: '<b>瞬发技按钮位置</b>',
+        intro: '可以设置瞬发技按钮在头像上显示的位置，切换后重启或重新进入游戏生效',
+        init: lib.config.extension_瓦尔亚纳_shunfaButtonLoc || 'youce',
+        item: {
+            youce: '右侧',
+            shangcenei: '上侧靠内',
+            shangcewai: '上侧靠外',
+            xiacenei: '下侧靠内',
+            xiacewai: '下侧靠外',
+            xiaceyou: '下侧靠右',
+        },
+    },
     "vuffList": {
         name: "<b>查看Vuff列表",
         clear: true,

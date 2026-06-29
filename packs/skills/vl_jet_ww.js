@@ -10,7 +10,7 @@ export default {
 		return event.target != player && event.player != player && event.target != event.player && event.card.name == 'sha' && event.player.countCards('he') > 0
 	},
 	async content(event, trigger, player) {
-		const give = await trigger.player.chooseCard('〖危望〗：是否交给' + get.translation(player) + '一张牌').set('ai', function (card) {
+		const give = await trigger.player.chooseCard(`${get.poptip("vl_jet_ww")}：是否交给` + get.translation(player) + '一张牌').set('ai', function (card) {
 			let source = _status.event.source
 			let player = _status.event.target
 			let att = get.attitude(source, player)

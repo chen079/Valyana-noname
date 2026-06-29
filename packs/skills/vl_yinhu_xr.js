@@ -11,7 +11,7 @@ export default {
     },
     direct: true,
     async content(event, trigger, player) {
-        const result = await player.chooseTarget([1, Math.floor(game.countPlayer() / 2)], "令至多" + get.translation(Math.floor(game.countPlayer() / 2)) + "名角色获得〖祝福〗", false)
+        const result = await player.chooseTarget([1, Math.floor(game.countPlayer() / 2)], "令至多" + get.translation(Math.floor(game.countPlayer() / 2)) + `名角色获得${get.poptip("vl_zhufu")}`, false)
             .set('ai', function (target) {
                 return get.attitude(_status.event.player, target) * (1 + target.countCards('j'));
             }).forResult();
@@ -27,6 +27,6 @@ export default {
     },
     t: {
         name: "祥瑞",
-        info: "一轮游戏开始时，你可以选择至多X名角色，你可以令这些角色获得1层「祈愿」，并获得〖祝福〗直到其回合结束（X为场上角色数的一半并向下取整）。",
+        info: `一轮游戏开始时，你可以选择至多X名角色，你可以令这些角色获得1层「祈愿」，并获得${get.poptip("vl_zhufu")}直到其回合结束（X为场上角色数的一半并向下取整）。`,
     },
 };

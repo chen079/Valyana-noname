@@ -53,7 +53,7 @@ export default {
             locked: true,
             direct: true,
             async content(event, trigger, player) {
-                const result = await player.chooseTarget('请选择〖终策〗的目标', '选择一名其他角色，令其获得技能〖终策〗', true, lib.filter.notMe).set('forceDie', true).set('ai', function (target) {
+                const result = await player.chooseTarget(`请选择${get.poptip("vl_muli_zc")}的目标`, `选择一名其他角色，令其获得技能${get.poptip("vl_muli_zc")}`, true, lib.filter.notMe).set('forceDie', true).set('ai', function (target) {
                     return -get.attitude(_status.event.player, target);
                 }).forResult();
                 if (result.bool) {
@@ -71,6 +71,6 @@ export default {
     },
     t: {
         name: "终策",
-        info: "锁定技，你对其他角色造成伤害时，令其获得技能〖终策〗与你的所有“策”并失去技能〖终策〗(若你没有〖绸缪〗，你先失去1点体力)。结束阶段，若你拥有“策”，你失去X点体力（X为“策”的数量），然后“策”的数量+1；当你死亡后，你令一名其他角色获得〖终策〗与你的所有“策”。",
+        info: `锁定技，你对其他角色造成伤害时，令其获得技能${get.poptip("vl_muli_zc")}与你的所有“策”并失去技能${get.poptip("vl_muli_zc")}(若你没有${get.poptip("vl_muli_cm")}，你先失去1点体力)。结束阶段，若你拥有“策”，你失去X点体力（X为“策”的数量），然后“策”的数量+1；当你死亡后，你令一名其他角色获得${get.poptip("vl_muli_zc")}与你的所有“策”。`,
     },
 };

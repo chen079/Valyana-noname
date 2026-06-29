@@ -35,7 +35,7 @@ export default {
     },
     intro: {
         markcount: () => undefined,
-        content: "已对$发动过〖压制〗",
+        content: `已对$发动过${get.poptip("vl_kaye_yj")}`,
     },
     t: {
         name: "压制",

@@ -56,7 +56,7 @@ export default {
 			} else {
 				str = '令一名角色弃置' + get.cnNumber(trigger.cards.length) + '张牌'
 			}
-			const result = await player.chooseTarget('请选择〖歃血〗的目标', 1, false, function (card, player, target) {
+			const result = await player.chooseTarget(`请选择${get.poptip("vl_zeron_sx")}的目标`, 1, false, function (card, player, target) {
 				if (event.name == 'lose') {
 					return target.countCards('he') > 0 && target != player
 				} else if (event.name == 'recover') {

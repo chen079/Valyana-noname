@@ -125,6 +125,7 @@ function initValyanaBrawl() {
 }
 
 export async function precontent(ValyanaCharacters) {
+    lib.init.css(lib.assetURL + 'extension/瓦尔亚纳', 'extension')
     lib.init.css(lib.assetURL + 'extension/瓦尔亚纳/css', 'vp');
     lib.init.css(lib.assetURL + 'extension/瓦尔亚纳/css', 'vuff');
     lib.init.css(lib.assetURL + 'extension/瓦尔亚纳/css', 'valyanaGallery');

@@ -34,6 +34,6 @@ export default {
     },
     t: {
         name: "预见",
-        info: `你的回合开始时，根据本轮你〖慧视〗预言成功的次数获得以下技能效果： 一次：${get.poptip("qixi")}；两次：${get.poptip("duanliang")}；三次：${get.poptip("guose")}；四次：${get.poptip("luanji")}`,
+        info: `你的回合开始时，根据本轮你${get.poptip("vl_telina_hs")}预言成功的次数获得以下技能效果： 一次：${get.poptip("qixi")}；两次：${get.poptip("duanliang")}；三次：${get.poptip("guose")}；四次：${get.poptip("luanji")}`,
     },
 };

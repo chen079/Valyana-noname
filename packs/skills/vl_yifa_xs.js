@@ -42,7 +42,7 @@ export default {
 			for (let i = 0; i < choices.length; i++) {
 				list.push(get.translation(choices[i] + '_info'))
 			}
-			const choiceResult = await player.chooseControl().set('choiceList', list).set('prompt', '选择〖' + get.translation(choices[0]) + '〗的版本').forResult()
+			const choiceResult = await player.chooseControl().set('choiceList', list).set('prompt', `选择${get.poptip(choices[0])}的版本`).forResult()
 			const skills2 = event.choice[choiceResult.index]
 			if (trigger.name == "phaseZhunbei") {
 				player.addTempSkill(skills2, { player: "phaseEnd" });

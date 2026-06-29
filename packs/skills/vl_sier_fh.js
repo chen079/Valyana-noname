@@ -44,6 +44,6 @@ export default {
     derivation: "vl_sier_xlg",
     t: {
         name: "伏虎",
-        info: "觉醒技，当你进入濒死状态时，你回复3点体力并摸四种花色的牌各一张，然后修改〖降龙〗。",
+        info: `觉醒技，当你进入濒死状态时，你回复3点体力并摸四种花色的牌各一张，然后修改${get.poptip("vl_sier_xl")}。`,
     },
 };

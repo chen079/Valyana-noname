@@ -34,7 +34,7 @@ export default {
         player.markSkill('vl_hars_sj');
     },
     intro: {
-        content: "上回合已对$发动过〖神降〗",
+        content: `上回合已对$发动过${get.poptip("vl_hars_sj")}`,
     },
     ai: {
         order(card, player) {

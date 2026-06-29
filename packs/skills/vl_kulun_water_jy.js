@@ -14,7 +14,7 @@ export default {
         }, 'hes') && ((player.name1 == 'vl_kulun_nature') || (player.name2 == 'vl_kulun_nature'));;
     },
     viewAs: {
-        name: "shuiyanqijun",
+        name: "shuiyanqijunx",
     },
     prompt: "将一张非基本牌当水淹七军使用",
     check(card) { return 8 - get.value(card) },

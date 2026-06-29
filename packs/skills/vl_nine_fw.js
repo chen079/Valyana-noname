@@ -12,7 +12,7 @@ export default {
 	},
 	mark: true,
 	intro: {
-		content: "可以发动〖附尾〗",
+		content: `可以发动${get.poptip("vl_nine_fw")}`,
 	},
 	onremove(player) {
 		player.removeSkill('vl_nine_fw_blocker')

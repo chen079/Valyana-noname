@@ -180,7 +180,7 @@ export default {
 				card.skills.addArray(skills);
 				str += '你视为拥有技能';
 				for (let skill of skills) {
-					str += '〖' + get.translation(skill) + '〗';
+					str += get.poptip(skill);
 					str += '、';
 				}
 				str = str.slice(0, str.length - 1);
@@ -245,7 +245,7 @@ export default {
 						card.skills.addArray(skills);
 						str += '你视为拥有技能';
 						for (const skill of skills) {
-							str += '〖' + get.translation(skill) + '〗';
+							str += get.poptip(skill);
 							str += '、';
 						}
 						str = str.slice(0, str.length - 1);
@@ -305,7 +305,7 @@ export default {
 	},
     t: {
         name: "激活",
-        info: `你变更势力后(包含开局选势力)，你获得1点魔力。${get.poptip("mpcost")}你可以从未登场的5张武将牌中选一张称为“法球”置入你的宝物区。若你的势力为魏，你的“法球”视为「宝物（弃置）」，否则，将你的“法球”视为宝物（伤害牌名）。`,
+        info: "你变更势力后(包含开局选势力)，你获得1点魔力。①你可以从未登场的5张武将牌中选一张称为“法球”置入你的宝物区。若你的势力为魏，你的“法球”视为「宝物（弃置）」，否则，将你的“法球”视为宝物（伤害牌名）。",
         taici: ["法球，落定。", "让我看看，下一张是谁。"],
     },
 };

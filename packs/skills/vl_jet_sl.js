@@ -27,7 +27,7 @@ export default {
 					list.push([type, '', name]);
 				}
 			}
-			const result = await player.chooseButton(['〖始乱〗：选择要使用的牌', [list, 'vcard']], function (button) {
+			const result = await player.chooseButton([`${get.poptip("vl_jet_sl")}：选择要使用的牌`, [list, 'vcard']], function (button) {
 				return _status.event.player.getUseValue({ name: button.link[2], nature: button.link[3] });
 			}, function (button) {
 				return _status.event.player.hasUseTarget({ name: button.link[2], nature: button.link[3] });

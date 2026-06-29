@@ -11,7 +11,7 @@ export default {
             return target != player;
         }).set('ai', function (target) {
             return -get.attitude(_status.event.player, target) / (1 + target.countCards('h'));
-        }).set("prompt", "是否选择一名角色发动〖死搏〗").set("prompt2", "若结果为♥，该角色翻至背面；若结果为♦，受该角色到来自你的1点伤害；若结果为♣，该角色跳过下个摸牌阶段；若结果为♠，你弃置该角色两张牌。").forResult();
+        }).set("prompt", `是否选择一名角色发动${get.poptip("vl_sam_bz")}`).set("prompt2", "若结果为♥，该角色翻至背面；若结果为♦，受该角色到来自你的1点伤害；若结果为♣，该角色跳过下个摸牌阶段；若结果为♠，你弃置该角色两张牌。").forResult();
         if (result.bool) {
             const target = result.targets[0];
             player.logSkill('vl_sam_bz', target);

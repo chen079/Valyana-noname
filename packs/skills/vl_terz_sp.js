@@ -16,9 +16,9 @@ export default {
 			current.addSkill('vl_terz_ly');
 			current.markSkill('vl_terz_ly_mark')
 		});
-		game.log(player, '令所有其他角色获得了技能', '#g〖流域〗')
+		game.log(player, '令所有其他角色获得了技能', `#g${get.poptip("vl_terz_ly")}`)
 		await game.delayx();
-		const result = await player.chooseTarget('是否减1点体力上限，并令一名其他角色获得技能〖复攥〗？', lib.filter.notMe).set('ai', function (target) {
+		const result = await player.chooseTarget(`是否减1点体力上限，并令一名其他角色获得技能${get.poptip("vl_terz_fz")}？`, lib.filter.notMe).set('ai', function (target) {
 			const player = _status.event.player;
 			if (player.hasUnknown() && !target.isZhu) return 0;
 			if (player.getEnemies().includes(target)) return 0;

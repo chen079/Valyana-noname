@@ -52,7 +52,7 @@ export default {
 	},
 	marktext: "论",
 	intro: {
-		content: "本回合已因〖刈论〗使用过$",
+		content: `本回合已因${get.poptip("vl_qiushou_yl")}使用过$`,
 		onunmark: true,
 	},
 	t: {

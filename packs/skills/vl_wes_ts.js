@@ -19,7 +19,7 @@ export default {
 			}
 		});
 		if (player.getStorage('vl_wes_ts', []).length == 0) player.unmarkSkill('vl_wes_ts');
-		const result = await player.chooseTarget('请选择〖同生〗的目标', lib.translate.vl_wes_ts_info, function (card, player, target) {
+		const result = await player.chooseTarget(`请选择${get.poptip("vl_wes_ts")}的目标`, lib.translate.vl_wes_ts_info, function (card, player, target) {
 			return target != player && !target.hasSkill('vl_wes_ts_a');
 		}).set('ai', function (target) {
 			const att = get.attitude(_status.event.player, target);
@@ -40,7 +40,7 @@ export default {
 	charlotte: true,
 	intro: {
 		content(storage, player, skill) {
-			let str = '当前〖同生〗目标：';
+			let str = `当前${get.poptip("vl_wes_ts")}目标：`;
 			str += "<span style='color: red'>" + get.translation(player.getStorage('vl_wes_ts', [])) + "</span>";
 			return str;
 		},

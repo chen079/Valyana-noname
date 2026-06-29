@@ -20,22 +20,21 @@ export default {
 		};
 		const result = await next.forResult();
 		if (result.bool) {
-			event.targets = result.targets
-			let then = event.targets[0].chooseCard(1, 'he').set('prompt', "交给" + get.translation(player) + "一张牌或视为其对你使用一张【杀】")
-			then.ai = function (card) {
+			const target = result.targets[0];
+			next = target.chooseCard(1, 'he').set('prompt', "交给" + get.translation(player) + "一张牌或视为其对你使用一张【杀】")
+			next.ai = function (card) {
 				return 6 - get.value(card);
+			}
+			const cardResult = await next.forResult();
+			if (cardResult.cards && cardResult.bool) {
+				if (player.isIn()) {
+					await player.gain(cardResult.cards, target, 'giveAuto');
+				}
+			} else {
+				await player.useCard({ name: 'sha', nature: 'fire' }, target, false);
 			}
 		} else {
 			return
-			return;
-		}
-		const cardResult = await then.forResult();
-		if (cardResult.cards && cardResult.bool) {
-			if (player.isIn()) {
-				await player.gain(cardResult.cards, event.targets[0], 'giveAuto');
-			}
-		} else {
-			await player.useCard(event.targets[0], { name: 'sha', nature: 'fire' }, false);
 		}
 	},
 	ai: {

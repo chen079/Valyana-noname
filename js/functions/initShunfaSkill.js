@@ -4,6 +4,7 @@ export function initShunfaSkill(skillname) {
     const info = lib.skill[skillname];
     if (!info?.shunfa) return;
     const button = ui.create.div('.vl-shunfaanniu', this);
+    button.classList.add('vl-shunfaanniu-' + (lib.config.extension_瓦尔亚纳_shunfaButtonLoc || 'youce'));
     button.innerHTML = get.translation(skillname);
     const player = this;
     button.listen(function () {

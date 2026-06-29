@@ -42,7 +42,7 @@ export default {
                 })
             },
             async content(event, trigger, player) {
-                const result = await player.chooseTarget(lib.skill.vl_terz_fz.filterTarget, get.prompt('vl_terz_fz'), '变更一名角色的〖流域〗的状态').set('ai', function (target) {
+                const result = await player.chooseTarget(lib.skill.vl_terz_fz.filterTarget, get.prompt('vl_terz_fz'), `变更一名角色的${get.poptip("vl_terz_ly")}的状态`).set('ai', function (target) {
                     const player = _status.event.player;
                     return get.effect(target, 'vl_terz_fz', player, player);
                 }).forResult();
@@ -61,6 +61,6 @@ export default {
     },
     t: {
         name: "复攥",
-        info: "出牌阶段限一次/当你受到伤害后/当你对其他角色造成伤害后，你可选择一名拥有〖流域〗的角色，变更其〖流域〗的状态。",
+        info: `出牌阶段限一次/当你受到伤害后/当你对其他角色造成伤害后，你可选择一名拥有${get.poptip("vl_terz_ly")}的角色，变更其${get.poptip("vl_terz_ly")}的状态。`,
     },
 };

@@ -62,7 +62,7 @@ export default {
 	},
 	intro: {
 		markcount: () => undefined,
-		content: "上次已对$发动过〖盟约〗",
+		content: `上次已对$发动过${get.poptip("vl_kersm_my")}`,
 	},
 	t: {
 		name: "盟约",
