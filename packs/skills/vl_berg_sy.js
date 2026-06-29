@@ -89,8 +89,9 @@ export default {
 	ai: {
 		usedu: true,
 	},
-	t: {
-		name: "水月",
-		info: `当你对唯一目标声明使用一张牌时，你可以${get.poptip("rule_faxian")}一张牌代替此牌结算。`,
-	},
+    t: {
+        name: "水月",
+        info: `当你对唯一目标声明使用一张牌时，你可以${get.poptip("rule_faxian")}一张牌代替此牌结算。`,
+        taici: ["看清楚了么？", "这一张，不是原来的那张。"],
+    },
 };

@@ -6,6 +6,7 @@ import { chooseText } from './functions/chooseText.js'
 import { avatarPath } from './functions/avatarPath.js'
 import { fenfaSkill } from './functions/fenfaSkill.js'
 import { initShunfaSkill } from './functions/initShunfaSkill.js'
+import { qianghua } from './functions/qianghua.js'
 
 export const initFunctions = function (lib, game, ui, get, _status) {
     const importBody = {
@@ -16,7 +17,8 @@ export const initFunctions = function (lib, game, ui, get, _status) {
             '$changeHubian': $changeHubian,
             'chooseText': chooseText,
             'fenfaSkill': fenfaSkill,
-            'initShunfaSkill': initShunfaSkill
+            'initShunfaSkill': initShunfaSkill,
+            'qianghua': qianghua
         },
         game: {
             'getInCenter': getInCenter

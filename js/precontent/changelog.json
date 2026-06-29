@@ -1,4 +1,47 @@
 {
+  "1.0.4": {
+    "links": [
+      {
+        "text": "点击前往瓦尔亚纳Github仓库",
+        "href": "https://github.com/chen079/Valyana-noname.git"
+      }
+    ],
+    "characters": {
+      "Valyana": [
+        "vl_akain",
+        "vl_alas",
+        "vl_berg",
+        "vl_bladewolf",
+        "vl_horn",
+        "vl_jet",
+        "vl_kmjia",
+        "vl_knier",
+        "vl_lamost",
+        "vl_marxya",
+        "vl_ming",
+        "vl_mountainbear",
+        "vl_nore",
+        "vl_tiers",
+        "vl_verb",
+        "vl_wes",
+        "vl_west",
+        "vl_wind",
+        "vl_yas_klin",
+        "vl_youying",
+        "vl_zeron",
+        "vl_zeta",
+        "vl_zhan"
+      ]
+    },
+    "changes": [
+      "将一批福瑞拓展迁移角色并入瓦尔亚纳主角色表，统一角色包归属与加载入口。",
+      "补充或更新阿卡因、奥拉斯、伯格、刃狼、霍恩、杰特、卡米加、科妮尔、拉莫斯特、马尔西亚、鸣、山熊、诺尔、缇尔斯、韦贝尔、维斯、韦斯特、温迪、亚瑟、游影、泽罗恩、泽塔、展等角色头像资源。",
+      "补充多名迁移角色的角色背景文本，完善其在瓦尔亚纳世界观中的展示信息。",
+      "调整多名迁移角色技能的描述、结算与显示逻辑，减少标记和状态显示异常。",
+      "新增通用强化函数与对应技能模块，为后续技能复用强化逻辑提供支持。",
+      "更新文件索引，确保新增函数、技能与资源路径能够被扩展正确加载。"
+    ]
+  },
   "1.0.3": {
     "links": [
       {

@@ -22,8 +22,9 @@ export default {
 		}
 		game.updateRoundNumber()
 	},
-	t: {
-		name: "逢生",
-		info: `当你成为其他角色使用牌的目标时，若你的手牌数不大于你的体力上限，你可${get.poptip("found")}一张牌。`,
-	},
+    t: {
+        name: "逢生",
+        info: `当你成为其他角色使用牌的目标时，若你的手牌数不大于你的体力上限，你可${get.poptip("found")}一张牌。`,
+        taici: ["还没到绝路。", "能翻出来，就还有生路。"],
+    },
 };

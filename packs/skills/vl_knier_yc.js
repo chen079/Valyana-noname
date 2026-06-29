@@ -13,7 +13,7 @@ export default {
 		return false
 	},
 	async content(event, trigger, player) {
-		const result = await player.choosePlayerCard(trigger.player, false, 'ej', '选择' + get.translation(target) + '其判定区或装备区的一张牌').set('ai', function (card) {
+		const result = await player.choosePlayerCard(trigger.player, false, 'ej', '选择' + get.translation(trigger.player) + '判定区或装备区的一张牌').set('ai', function (card) {
 			let player = _status.event.player
 			let target = _status.event.target
 			if (get.attitude(player, target) > 0) {
@@ -33,7 +33,7 @@ export default {
 			} else {
 				switch (get.suit(card)) {
 					case 'heart': return Math.random;
-					case 'dimond': return Math.random;
+					case 'diamond': return Math.random;
 					case 'spade': return -1;
 					case 'club': return -1;
 				}
@@ -96,8 +96,9 @@ export default {
 			sub: true,
 		},
 	},
-	t: {
-		name: "意缠",
-		info: "其他角色的准备阶段，你可以选择该角色场上的一张牌，其将此牌当【杀】对你使用。若此牌的花色是：<li>♥：其跳过下个出牌阶段<li>♦：其跳过下个摸牌阶段<li>♠：其跳过下个判定阶段<li>♣：其跳过下个弃牌阶段",
-	},
+    t: {
+        name: "意缠",
+        info: "其他角色的准备阶段，你可以选择该角色场上的一张牌，其将此牌当【杀】对你使用。若此牌的花色是：<li>♥：其跳过下个出牌阶段<li>♦：其跳过下个摸牌阶段<li>♠：其跳过下个判定阶段<li>♣：其跳过下个弃牌阶段",
+        taici: ["把你的牌，借我一会儿。", "花色不同，代价也不同。"],
+    },
 };

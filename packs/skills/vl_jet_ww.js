@@ -21,8 +21,9 @@ export default {
 			return 5 - get.value(card)
 		}).set('target', player).set('source', trigger.player).forResult()
 		if (give.cards) await player.gain(give.cards, trigger.player, 'giveAuto')
+		let result;
 		if (give.bool) {
-			let result = await player.chooseControl('选项一', '选项二').set('choiceList', ['令此【杀】不可被响应', '你成为此杀的目标'])
+			result = await player.chooseControl('选项一', '选项二').set('choiceList', ['令此【杀】不可被响应', '你成为此杀的目标'])
 				.set('ai', function () {
 					let player = _status.event.player
 					let target = _status.event.target
@@ -53,8 +54,9 @@ export default {
 			game.log(player, '成为了', trigger.card, '的额外目标')
 		}
 	},
-	t: {
-		name: "危望",
-		info: "一名其他角色使用【杀】指定另一名其他角色为目标后，使用者可以交给你一张牌，然后你选择一项：①令此【杀】不可被响应；②成为此【杀】的额外目标。",
-	},
+    t: {
+        name: "危望",
+        info: "一名其他角色使用【杀】指定另一名其他角色为目标后，使用者可以交给你一张牌，然后你选择一项：①令此【杀】不可被响应；②成为此【杀】的额外目标。",
+        taici: ["给我筹码，我就开门。", "要么打穿，要么拖我下水。"],
+    },
 };

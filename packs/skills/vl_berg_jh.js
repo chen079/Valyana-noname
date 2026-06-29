@@ -66,7 +66,6 @@ export default {
 		else {
 			return;
 		}
-		await trigger;
 		player.$throw(event.card, null, null, true);
 		if (player == trigger.player) {
 			player.line(trigger.targets[0], 'green');
@@ -80,8 +79,9 @@ export default {
 		threaten: 0.1,
 	},
 	group: ["vl_berg_jh_roundcount"],
-	t: {
-		name: "镜花",
-		info: `每轮限一次，当你成为一名其他角色的卡牌唯一目标时，你可以${get.poptip("rule_faxian")}一张牌代替此牌`,
-	},
+    t: {
+        name: "镜花",
+        info: `每轮限一次，当你成为一名其他角色的卡牌唯一目标时，你可以${get.poptip("rule_faxian")}一张牌代替此牌`,
+        taici: ["镜里看花，花里看人。", "你看到的，不一定是真的。"],
+    },
 };

@@ -14,6 +14,8 @@ export default {
     },
 	derivation: "luanwu",
     async content(event, trigger, player) {
+		if (trigger._vl_jet_sl_done) return;
+		trigger._vl_jet_sl_done = true;
         if (player.getStorage('vl_jet_sl', false) == true) {
 			let list = [];
 			for (let name of lib.inpile) {
@@ -50,8 +52,9 @@ export default {
 			},
 		},
 	},
-	t: {
-		name: "始乱",
-		info: `锁定技，隐匿技，当你登场时，若此为你的首次登场，你视为发动一次${get.poptip("luanwu")}，否则你视为使用一张非伤害类普通锦囊牌(【调虎离山】除外)`,
-	},
+    t: {
+        name: "始乱",
+        info: `锁定技，隐匿技，当你登场时，若此为你的首次登场，你视为发动一次${get.poptip("luanwu")}，否则你视为使用一张非伤害类普通锦囊牌(【调虎离山】除外)`,
+        taici: ["先乱起来，再说别的。", "这局，从来不按顺序走。"],
+    },
 };
