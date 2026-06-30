@@ -43,16 +43,6 @@
   "image": {
     "character": {
       "_files": [
-        "vl_kulun_dark_die.jpg",
-        "vl_kulun_dirt_die.jpg",
-        "vl_kulun_fire_die.jpg",
-        "vl_kulun_ice_die.jpg",
-        "vl_kulun_light_die.jpg",
-        "vl_kulun_metal_die.jpg",
-        "vl_kulun_nature_die.jpg",
-        "vl_kulun_thunder_die.jpg",
-        "vl_kulun_water_die.jpg",
-        "vl_kulun_wind_die.jpg",
         "vl_aak.jpg",
         "vl_aerte.jpg",
         "vl_akain.jpg",
@@ -115,15 +105,25 @@
         "vl_krikt.jpg",
         "vl_kulun.jpg",
         "vl_kulun_dark.jpg",
+        "vl_kulun_dark_die.jpg",
         "vl_kulun_dirt.jpg",
+        "vl_kulun_dirt_die.jpg",
         "vl_kulun_fire.jpg",
+        "vl_kulun_fire_die.jpg",
         "vl_kulun_ice.jpg",
+        "vl_kulun_ice_die.jpg",
         "vl_kulun_light.jpg",
+        "vl_kulun_light_die.jpg",
         "vl_kulun_metal.jpg",
+        "vl_kulun_metal_die.jpg",
         "vl_kulun_nature.jpg",
+        "vl_kulun_nature_die.jpg",
         "vl_kulun_thunder.jpg",
+        "vl_kulun_thunder_die.jpg",
         "vl_kulun_water.jpg",
+        "vl_kulun_water_die.jpg",
         "vl_kulun_wind.jpg",
+        "vl_kulun_wind_die.jpg",
         "vl_laays.jpg",
         "vl_lamas.jpg",
         "vl_lamost.jpg",
@@ -381,11 +381,11 @@
     "skills": {
       "archived": {
         "_files": [
-          "vl_sainit_jh.js",
-          "vl_sainit_yj.js",
-          "vl_sainit_yq.js",
-          "vl_yue_hengshen.js",
-          "vl_yue_qibu.js"
+          "vl_old_miya_hz.js",
+          "vl_old_miya_ks.js",
+          "vl_old_sainit_jh.js",
+          "vl_old_sainit_yj.js",
+          "vl_old_sainit_yq.js"
         ]
       },
       "_files": [

@@ -33,12 +33,26 @@ async function parseCharacterPack(name, characterPack, options = {}) {
     const characterSort = {}
     const skillSet = new Set();
 
+    const buildCharacterIntro = function (char) {
+        let intro = char.intro || '';
+        const credits = [
+            ['原画设计', char.drawer],
+            ['代码编写', char.coder],
+            ['武将设计', char.designer],
+            ['背景设计', char.writer],
+        ].filter(item => item[1]);
+        if (credits.length) {
+            intro += '<br><br>' + credits.map(item => item[0] + '：' + item[1]).join('<br>');
+        }
+        return intro;
+    };
+
     for (const charName in characterPack) {
         const char = characterPack[charName]
         if (char.enable) {
             const title = char.title;
             const name = char.name;
-            const intro = char.intro
+            const intro = buildCharacterIntro(char)
             const skills = char.skills
             const sort = char.sort
             const pack = char.pack
