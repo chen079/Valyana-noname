@@ -58,7 +58,7 @@ export default {
             }));
         }
         const buttonResult = await player.chooseButton({
-            createDialog: ['请选择一个技能', [skills1, 'textbutton']],
+            createDialog: ['请选择一个技能', [lib.skill.vl_shark_yz.getSkillButtons(skills1), 'textbutton']],
             selectButton: [1, 1],
             ai(button) {
                 return skills1.includes(button.link) ? Math.random() : 0;
@@ -74,6 +74,12 @@ export default {
         result: {
             player: 1,
         },
+    },
+    getSkillButtons(skills) {
+        return skills.map(skill => [
+            skill,
+            '<div class="popup text" style="width:calc(100% - 10px);display:inline-block"><div class="skill">【' + get.translation(skill) + '】</div><div>' + get.skillInfoTranslation(skill) + '</div></div>',
+        ]);
     },
     group: "vl_shark_yz_add",
     subSkill: {
@@ -98,7 +104,7 @@ export default {
                 }
                 if (!list.length || !skills.length) { return; }
                 const map = await player.chooseButton({
-                    createDialog: ['请选择要获得的技能', [skills, 'textbutton']],
+                    createDialog: ['请选择要获得的技能', [lib.skill.vl_shark_yz.getSkillButtons(skills), 'textbutton']],
                     selectButton: [1, 3],
                     ai(button) {
                         return skills.includes(button.link) ? Math.random() : 0;

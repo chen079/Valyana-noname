@@ -1,4 +1,40 @@
 {
+  "1.0.5": {
+    "links": [
+      {
+        "text": "点击前往瓦尔亚纳Github仓库",
+        "href": "https://github.com/chen079/Valyana-noname.git"
+      }
+    ],
+    "characters": {
+      "Valyana": [
+        "vl_sheep",
+        "vl_shark",
+        "vl_blam",
+        "vl_bwol",
+        "vl_charlin",
+        "vl_crow",
+        "vl_delta",
+        "vl_derk",
+        "vl_dier",
+        "vl_dolina",
+        "vl_dragon",
+        "vl_edmon",
+        "vl_francium",
+        "vl_gairtelu",
+        "vl_harald",
+        "vl_hynea"
+      ]
+    },
+    "changes": [
+      "新增羊羊角色及对应技能与头像资源。",
+      "新增弗兰西亚替换头像资源，并更新相关资源索引。",
+      "调整鲨克〖易珠〗的技能获取与重铸流程，优化技能按钮展示和记录方式。",
+      "调整鲍尔〖魔爆〗的昂扬恢复、火焰伤害与「劣势」处理逻辑。",
+      "调整查尔林〖服说〗、〖曲实〗的拼点、质疑、扣置牌与「失声」结算流程。",
+      "更新多名角色头像资源，移除不再使用的旧头像文件。"
+    ]
+  },
   "1.0.4": {
     "links": [
       {

@@ -16,12 +16,12 @@ export default {
 	multitarget: true,
 	multiline: true,
 	content: async function content(event, trigger, player) {
-		const target = event.target
-		const targets = event.targets
-		player.chooseToCompare(targets).callback = async (event, trigger, player) => {
-			if (event.num1 > event.num2) {
+		const targets = event.targets;
+		const result = await player.chooseToCompare(targets).forResult();
+		for (let i = 0; i < targets.length; i++) {
+			if (result.num1[i] > result.num2[i]) {
 				await player.draw();
-				target.addVuff('shisheng', 2);
+				targets[i].addVuff('shisheng', 2);
 			}
 		}
 	},

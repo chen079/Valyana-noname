@@ -96,6 +96,7 @@ export default {
 			},
 			async content(event, trigger, player) {
 				const card = trigger.cards[0];
+				event.fake = card.name != trigger.card.name || (card.name == 'sha' && !get.is.sameNature(trigger.card, card));
 				player.markAuto('vl_charlin_qs', trigger.card.name);
 				player.line(trigger.targets, get.nature(trigger.card));
 				event.cardTranslate = get.translation(trigger.card.name);
@@ -142,19 +143,36 @@ export default {
 				};
 				event.targets2 = event.targets.slice(0);
 				player.lose(card, ui.ordering).relatedEvent = trigger;
-				const result = await player.chooseButton([event.prompt, [
-					['reguhuo_ally', 'reguhuo_betray'], 'vcard']], true, function (button) {
-						const player = _status.event.player;
+				event.betrays = [];
+				if (event.targets.length) {
+					const list = event.targets.map(function (target) {
+						return [target, [event.prompt, [
+							['reguhuo_ally', 'reguhuo_betray'], 'vcard']], true];
+					});
+					const result = await player.chooseButtonOL(list).set('switchToAuto', function () {
+						_status.event.result = 'ai';
+					}).set('processAI', function () {
+						let choice = Math.random() > 0.5 ? 'reguhuo_ally' : 'reguhuo_betray';
+						const playerx = _status.event.player;
 						const evt = _status.event.getParent('vl_charlin_qs_guess');
-						if (!evt) return Math.random();
-						const ally = button.link[2] == 'reguhuo_ally';
-						if (ally && (player.hp <= 1 || get.attitude(player, evt.player) >= 0)) return 1.1;
-						return Math.random();
+						if (playerx.hp <= 1 || evt && get.attitude(playerx, evt.player) >= 0) choice = 'reguhuo_ally';
+						return {
+							bool: true,
+							links: [['', '', choice]],
+						};
 					}).forResult();
-				if (!result.links || !result.links.length) return;
-				if (result.links[0][2] == 'reguhuo_betray') {
-					event.betrays.push(player);
-					player.addExpose(0.2);
+					for (const i in result) {
+						if (result[i].links[0][2] == 'reguhuo_betray') {
+							const current = (_status.connectMode ? lib.playerOL : game.playerMap)[i];
+							event.betrays.push(current);
+							current.addExpose(0.2);
+						}
+					}
+				}
+				for (const target of event.targets2) {
+					const betrayed = event.betrays.includes(target);
+					target.popup(betrayed ? '质疑' : '不质疑', betrayed ? 'fire' : 'wood');
+					game.log(target, betrayed ? '#y质疑' : '#g不质疑');
 				}
 				game.broadcastAll(function (onEnd) {
 					_status.guhuoNode.listenTransition(onEnd);
@@ -176,7 +194,10 @@ export default {
 						next.setContent(lib.skill.vl_charlin_fs.content);
 					}
 					game.broadcastAll(ui.clear);
-				} else return;
+				} else {
+					player.showCards(trigger.cards);
+					return;
+				}
 				game.delayx();
 			},
 			_priority: 1,
