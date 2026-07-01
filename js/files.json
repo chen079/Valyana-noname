@@ -1,6 +1,5 @@
 {
   "_files": [
-    "agent.md",
     "AGENTS.md",
     "extension.css",
     "extension.js",
@@ -153,20 +152,16 @@
         "vl_mouse.jpg",
         "vl_muen.jpg",
         "vl_muliy.jpg",
-        "vl_nanci.jpg",
         "vl_nashu.jpg",
         "vl_neises.jpg",
         "vl_nier.jpg",
-        "vl_nine.jpg",
         "vl_nore.jpg",
         "vl_nulia.jpg",
         "vl_oert.jpg",
         "vl_paers.jpg",
-        "vl_patxi.jpg",
         "vl_peter_likes.jpg",
         "vl_pluvia.jpg",
         "vl_qima.jpg",
-        "vl_qiushou.jpg",
         "vl_rabby.jpg",
         "vl_ranxing.jpg",
         "vl_rasali.jpg",
@@ -185,11 +180,9 @@
         "vl_slen.jpg",
         "vl_souls.jpg",
         "vl_taber.jpg",
-        "vl_tails.jpg",
         "vl_telina.jpg",
         "vl_terlk.jpg",
         "vl_tery.jpg",
-        "vl_terz.jpg",
         "vl_thunder.jpg",
         "vl_tiers.jpg",
         "vl_tiger.jpg",
@@ -215,8 +208,7 @@
         "vl_zeron.jpg",
         "vl_zeta.jpg",
         "vl_zhan.jpg",
-        "vl_zhanggu.jpg",
-        "vl_zhongyu.jpg"
+        "vl_zhanggu.jpg"
       ]
     },
     "gallery": {
@@ -366,7 +358,6 @@
       "character.js",
       "characterSubstitute.js",
       "dynamicTranslate.js",
-      "furryExtcharacter.js",
       "translation.js"
     ],
     "jsons": {

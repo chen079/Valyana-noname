@@ -34,7 +34,7 @@ export default {
 		}
 		if (num % (hp + 2) == 0) {
 			player.addVuff('kangfen', 2)
-			await player.insertPhase()
+			player.insertPhase()
 		}
 	},
 	t: {

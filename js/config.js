@@ -247,11 +247,6 @@ export let config = {
         intro: '将除【海族】、【翼族】、【龙族】、【机器】以外的势力合并为【兽族】',
         init: false,
     },
-    loadFurryExtPack: {
-        name: '加载旧福瑞扩展武将',
-        intro: '开启后加载旧福瑞扩展武将包（FR旧扩展）',
-        init: false,
-    },
     valyanaBrawl: {
         name: '扩展乱斗',
         intro: '开启后，身份模式中AI只会从瓦尔亚纳武将包里选择武将，不会选择Boss包武将',

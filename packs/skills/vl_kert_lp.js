@@ -9,8 +9,16 @@ export default {
     unique: true,
     async content(event, trigger, player) {
         player.awakenSkill("vl_kert_lp");
-        player.addTempSkill("vl_kert_ql", { player: "phaseEnd" });
-        player.addTempSkill("vl_kert_dp", { player: "phaseEnd" });
+        player.addSkill("vl_kert_ql");
+        player.addSkill("vl_kert_dp");
+        const currentPhase = trigger.getParent('phase');
+        player.when('phaseAfter')
+            .filter(event => event != currentPhase)
+            .then(() => {
+                player.removeSkill("vl_kert_ql");
+                player.removeSkill("vl_kert_dp");
+            })
+            .vars({ currentPhase });
     },
     mark: true,
     intro: {

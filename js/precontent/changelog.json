@@ -1,4 +1,54 @@
 {
+  "1.0.6": {
+    "links": [
+      {
+        "text": "点击前往瓦尔亚纳Github仓库",
+        "href": "https://github.com/chen079/Valyana-noname.git"
+      }
+    ],
+    "characters": {
+      "Valyana": [
+        "vl_milite",
+        "vl_morly",
+        "vl_mouse",
+        "vl_muliy",
+        "vl_nashu",
+        "vl_neises",
+        "vl_nier",
+        "vl_nulia",
+        "vl_oert",
+        "vl_paers",
+        "vl_peter_likes",
+        "vl_pluvia",
+        "vl_rabby",
+        "vl_rasali",
+        "vl_rest",
+        "vl_sayisu",
+        "vl_shisan",
+        "vl_sier",
+        "vl_siji",
+        "vl_slen",
+        "vl_souls",
+        "vl_taber",
+        "vl_telina",
+        "vl_terlk",
+        "vl_tery",
+        "vl_thunder",
+        "vl_tiger",
+        "vl_ventus",
+        "vl_wore",
+        "vl_zenia"
+      ]
+    },
+    "changes": [
+      "将最后一批旧福瑞拓展角色并入瓦尔亚纳主角色表，统一使用 Valyana 角色包与主加载入口。",
+      "删除旧角色表 furryExtcharacter.js，并移除旧福瑞扩展武将包的配置项、翻译与加载引用。",
+      "为巴兹、莫雷、缪斯、穆里耶、内瑟斯、怒力亚、帕尔斯、普鲁维亚、萨伊苏、拾弎、希尔、萨冷、莎尔丝、塔贝尔、特尔里克、兰德、凡图斯、泽妮雅等角色补写背景故事。",
+      "调整多名迁移角色的正式分组，使其归入龙之谷、迦奈尔联邦、万灵之森、人鱼之海、米兰寺、克拉王国、游荡旅行者等分类。",
+      "补充内瑟斯、路西法的角色称号，清理非 Kulun 角色的空背景、空称号与临时迁移分组残留。",
+      "更新文件索引，确保删除的旧角色表和新增整理后的资源路径状态一致。"
+    ]
+  },
   "1.0.5": {
     "links": [
       {

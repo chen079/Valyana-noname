@@ -21,6 +21,5 @@ export const translation = {
     vl_yangzu: "羊族",
     vl_tiaodan: "挑担的游戏",
     vl_furry_migration: "福瑞迁移",
-    FurryExt: "福瑞拓展",
     vl_azao_huxi_hand:"护"
 };

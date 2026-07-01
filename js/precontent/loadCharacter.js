@@ -1,7 +1,6 @@
 import { lib, game, ui, get, ai, _status } from '../../../../noname.js';
 //角色包
 import { character } from '../../packs/character.js'
-import { furryCharacter } from '../../packs/furryExtcharacter.js'
 import { boss as bossCharacters } from '../../packs/boss.js'
 //翻译、势力等
 import { dynamicTranslate } from '../../packs/dynamicTranslate.js'
@@ -146,7 +145,6 @@ const packs = async function () {
     const parseOptions = {
         mergeShouzu: lib.config.extension_瓦尔亚纳_mergeShouzu,
     };
-    const loadFurryExtPack = lib.config.extension_瓦尔亚纳_loadFurryExtPack;
     const Valyana = await parseCharacterPack('Valyana', character, parseOptions)
     const bossPack = await parseCharacterPack('ValyanaBoss', bossCharacters, parseOptions)
     const importedPacks = [Valyana, bossPack];
@@ -159,13 +157,6 @@ const packs = async function () {
     lib.translate['Valyana_character_config'] = '瓦尔亚纳';
     lib.config.all.sgscharacters.push('ValyanaBoss');
     lib.translate['ValyanaBoss_character_config'] = '瓦尔亚纳Boss';
-    if (loadFurryExtPack) {
-        const furryExtPack = await parseCharacterPack('furryExtPack', furryCharacter, parseOptions)
-        addAvaterAndVideo(furryExtPack)
-        lib.config.all.sgscharacters.push('furryExtPack');
-        lib.translate['furryExtPack_character_config'] = 'FR旧扩展';
-        importedPacks.push(furryExtPack);
-    }
     return importedPacks
 };
 

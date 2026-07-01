@@ -17,24 +17,22 @@ export default {
     },
     async content(event, trigger, player) {
         await player.recover()
-        if (game.hasPlayer(function (current) {
+        if (!game.hasPlayer(function (current) {
             return current.countGainableCards(player, 'ej') > 0;
-        })) {
-            let result = await player.chooseTarget('请选择一名角色，获得其装备区或判定区内的一张牌', true, function (card, player, target) {
-                return target.countGainableCards(player, 'ej') > 0;
-            }).set('ai', function (target) {
-                let player = _status.event.player;
-                let att = get.attitude(player, target);
-                if (att > 0 && target.countCards('ej', function (card) {
-                    return get.position(card) == 'j' || get.value(card, target) <= 0;
-                })) return 2 * att;
-                else if (att < 0 && target.countCards('e', function (card) {
-                    return get.value(card, target) > 5;
-                })) return -att;
-                return -1;
-            }).forResult();
-        }
-        else return;
+        })) return;
+        const result = await player.chooseTarget('请选择一名角色，获得其装备区或判定区内的一张牌', true, function (card, player, target) {
+            return target.countGainableCards(player, 'ej') > 0;
+        }).set('ai', function (target) {
+            let player = _status.event.player;
+            let att = get.attitude(player, target);
+            if (att > 0 && target.countCards('ej', function (card) {
+                return get.position(card) == 'j' || get.value(card, target) <= 0;
+            })) return 2 * att;
+            else if (att < 0 && target.countCards('e', function (card) {
+                return get.value(card, target) > 5;
+            })) return -att;
+            return -1;
+        }).forResult();
         if (result.bool) {
             let target = result.targets[0];
             player.logSkill('vl_jbgy_ze', target);

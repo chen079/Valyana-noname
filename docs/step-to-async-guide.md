@@ -309,14 +309,7 @@ const next = event.insertAfter(content, {
 - `event.insert(...)` 放进当前事件的 `next`，适合当前流程中插入执行
 - `event.insertAfter(...)` 放进当前事件的 `after`，要等当前事件主体和 End/After 流程推进到对应位置后才执行
 
-因此：
-
-```js
-// 不推荐：这个事件被安排在 after，不属于当前可立即等待的 next 流程
-await event.insertAfter(content, { player });
-```
-
-应写成：
+因此，不要等待 `event.insertAfter(content, { player })`。这个事件被安排在 after，不属于当前可立即等待的 next 流程。应写成：
 
 ```js
 event.insertAfter(content, { player });
@@ -343,13 +336,7 @@ if (!["useSkill", "trigger"].includes(evt.name)) {
 return next;
 ```
 
-所以转换时不要写：
-
-```js
-await player.showCharacter(0);
-```
-
-应写成：
+所以转换时不要等待 `player.showCharacter(0)`。应写成：
 
 ```js
 player.showCharacter(0);
@@ -374,13 +361,7 @@ if (evt && insert && evt.next.includes(next)) {
 
 这个 `phase` 是给 `phaseLoop` 或父级流程执行的，不是当前技能 content 的普通子事件。
 
-不要写：
-
-```js
-await player.insertPhase();
-```
-
-应写成：
+不要等待 `player.insertPhase()`。应写成：
 
 ```js
 player.insertPhase();
