@@ -35,16 +35,10 @@ export default {
 			prompt: '将' + get.cnNumber(num) + '张手牌交给一名其他角色',
 			forced: true,
 			ai1: function (card) {
-				let goon = false, player = _status.event.player;
-				for (let i of _status.event.targets) {
-					if (get.attitude(i, target) > 0 && get.attitude(target, i) > 0) { goon = true; break };
-				}
-				if (goon) {
-					if (!player.hasValueTarget(card) || card.name == 'sha' && player.countCards('h', function (cardx) {
-						return cardx.name == 'sha' && !ui.selected.cards.includes(cardx);
-					}) > player.getCardUsable('sha')) return 2;
-					return Math.max(2, get.value(card) / 4);
-				}
+				const player = _status.event.player;
+				if (!player.hasValueTarget(card) || card.name == 'sha' && player.countCards('h', function (cardx) {
+					return cardx.name == 'sha' && !ui.selected.cards.includes(cardx);
+				}) > player.getCardUsable('sha')) return 2;
 				return 1 / Math.max(1, get.value(card));
 			},
 			ai2: function (target) {
@@ -56,7 +50,7 @@ export default {
 			player.line(target, 'green');
 			const next = target.gain(result.cards, player, 'giveAuto');
 			player.skip('phaseDiscard')
-			player.getStorage('vl_kersm_my', [])[0] = target
+			player.setStorage('vl_kersm_my', [target]);
 			await next
 		}
 	},

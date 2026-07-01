@@ -5,14 +5,14 @@ export default {
 	usable: 1,
 	filter(event, player) {
 		return event.filterCard({
-			name: 'fr_card_gzbj',
+			name: 'vl_card_gzbj',
 		}, player, event) || event.filterCard({
 			name: 'diaobingqianjiang',
 		}, player, event);
 	},
 	chooseButton: {
 		dialog() {
-			return ui.create.dialog('多谋', [['fr_card_gzbj', 'diaobingqianjiang'], 'vcard']);
+			return ui.create.dialog('多谋', [['vl_card_gzbj', 'diaobingqianjiang'], 'vcard']);
 		},
 		filter(button, player) {
 			let evt = _status.event.getParent();
@@ -42,7 +42,7 @@ export default {
 	},
 	ai: {
 		order(item, player) {
-			return Math.max(get.order({ name: 'fr_card_gzbj' }), get.order({ name: 'diaobingqianjiang' })) + 0.2;
+			return Math.max(get.order({ name: 'vl_card_gzbj' }), get.order({ name: 'diaobingqianjiang' })) + 0.2;
 		},
 		result: {
 			player: 1,

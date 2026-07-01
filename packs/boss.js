@@ -8,7 +8,7 @@ export const boss = {
         hp: 6,
         intro: "哈尔斯，兽人的智慧之神。其拥有惑人心魄的能力。根据矮人族与部分兽人族内部记录。哈尔斯能够直接降临到任何一人身上，据此观察世界。而被降临的人则被称为「神降者」。由于任何人都有可能成为「神降者」。因此，哈尔斯的眼线遍布整个大陆，而其本人也被称为「全知之神」。<br><br>Boss版本。",
         prefix: "",
-        skills: ["vl_boss_hars_hr", "vl_boss_hars_sj"],
+        skills: ["vl_hars_sj", "vl_hars_hr"],
         addition: ["boss", "bossallowed"],
         pack: 'ValyanaBoss',
         vp: 0,

@@ -44,6 +44,8 @@ import hunluan from './hunluan.js';
 import lingmi from './lingmi.js';
 import zuijiu from './zuijiu.js';
 import yingneng from './yingneng.js';
+import bingyuan from './bingyuan.js';
+import ganran from './ganran.js';
 
 export const vuffs = {
     "ningzhi": ningzhi,
@@ -92,4 +94,6 @@ export const vuffs = {
     "lingmi": lingmi,
     "zuijiu": zuijiu,
     "yingneng": yingneng,
+    "bingyuan": bingyuan,
+    "ganran": ganran,
 };

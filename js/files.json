@@ -6,6 +6,13 @@
     "info.json",
     "README.md"
   ],
+  "audio": {
+    "card": {
+      "_files": [
+        "vl_wxpp_skill1.mp3"
+      ]
+    }
+  },
   "css": {
     "_files": [
       "valyanaGallery.css",
@@ -40,15 +47,19 @@
     }
   },
   "image": {
+    "card": {
+      "_files": [
+        "vl_card_gzbj.png",
+        "vl_equip5_wxpp.png"
+      ]
+    },
     "character": {
       "_files": [
-        "vl_aak.jpg",
         "vl_aerte.jpg",
         "vl_akain.jpg",
         "vl_ala.jpg",
         "vl_alas.jpg",
         "vl_azao.jpg",
-        "vl_baixi.jpg",
         "vl_berg.jpg",
         "vl_blackwolf.jpg",
         "vl_bladewolf.jpg",
@@ -72,7 +83,6 @@
         "vl_faers.jpg",
         "vl_fangsuan.jpg",
         "vl_fate.jpg",
-        "vl_fengkn.jpg",
         "vl_fox.jpg",
         "vl_francium.jpg",
         "vl_francium2.jpg",
@@ -133,7 +143,6 @@
         "vl_lucifer.jpg",
         "vl_lusiya.jpg",
         "vl_luwu.jpg",
-        "vl_luyezhi.jpg",
         "vl_mala.jpg",
         "vl_markn.jpg",
         "vl_marxya.jpg",
@@ -208,6 +217,7 @@
         "vl_zeron.jpg",
         "vl_zeta.jpg",
         "vl_zhan.jpg",
+        "vl_zhan2.jpg",
         "vl_zhanggu.jpg"
       ]
     },
@@ -258,6 +268,7 @@
     "vuff": {
       "_files": [
         "bihu.png",
+        "bingyuan.png",
         "chaofeng.png",
         "chaoshi.png",
         "chihuan.png",
@@ -265,6 +276,7 @@
         "dimi.png",
         "dongshang.png",
         "dragonfire.png",
+        "ganran.png",
         "guwu.png",
         "huisheng.png",
         "hunluan.png",
@@ -337,6 +349,7 @@
     },
     "scripts": {
       "_files": [
+        "checkSkills.cjs",
         "generateFiles.cjs",
         "run.bat"
       ]
@@ -360,6 +373,12 @@
       "dynamicTranslate.js",
       "translation.js"
     ],
+    "cards": {
+      "_files": [
+        "vl_card_gzbj.js",
+        "vl_equip5_wxpp.js"
+      ]
+    },
     "jsons": {
       "_files": [
         "idiom.json",
@@ -455,6 +474,7 @@
         "vl_fangsuan_kuangluan.js",
         "vl_fangsuan_ximing.js",
         "vl_fangsun_mishe.js",
+        "vl_fanruosi_rs.js",
         "vl_fate_gz.js",
         "vl_fate_ss.js",
         "vl_fate_tm.js",
@@ -793,6 +813,7 @@
     "vuffs": {
       "_files": [
         "bihu.js",
+        "bingyuan.js",
         "chaofeng.js",
         "chaoshi.js",
         "chihuan.js",
@@ -800,6 +821,7 @@
         "dimi.js",
         "dongshang.js",
         "dragonfire.js",
+        "ganran.js",
         "guwu.js",
         "huisheng.js",
         "hunluan.js",

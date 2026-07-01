@@ -21,7 +21,6 @@ export default {
 			let cards = player.getCards('hes');
 			let list = [];
 			for (let i of lib.inpile) {
-				if (i == 'fr_card_zh') continue
 				if (get.type(i) == 'trick' && event.filterCard({
 					name: i,
 					cards: cards,

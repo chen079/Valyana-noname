@@ -17,7 +17,7 @@ export default {
     },
     mod: {
         playerEnabled: function (card, player, target) {
-            if (player.getStorage('vuff_zhenhan_Source', []).includes(target)) return false;
+            if (player.getStorage('zhenhan_Source', []).includes(target)) return false;
         },
     },
     vuffInfo: {

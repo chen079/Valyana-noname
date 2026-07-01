@@ -22,6 +22,7 @@ export default {
         player.awakenSkill('vl_zhan_jf');
         await player.gainMaxHp();
         await player.recover()
+        player.changeSkin({ characterName: player.name }, player.name + '2')
         player.removeSkill('vl_zhan_sf')
         player.addSkill('vl_zhan_jn')
         player.addSkill('vl_zhan_zb')

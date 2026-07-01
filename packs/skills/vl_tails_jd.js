@@ -53,14 +53,14 @@ export default {
 			} else {
 				trigger.cancel()
 			}
-			result = await player.chooseButton(['谋弈：请选择一种策略', [[['', '', 'fr_card_chongci'], ['', '', 'fr_card_zhuanyi']], 'vcard']], true).set('ai', function (button) {
+			result = await player.chooseButton(['谋弈：请选择一种策略', [[['', '', 'vl_card_chongci'], ['', '', 'vl_card_zhuanyi']], 'vcard']], true).set('ai', function (button) {
 				let player = _status.event.player;
 				let target = _status.event.target;
 				if (!target.mayHaveSha() && get.attitude(player, target) < 0) {
-					return (button.link[2] == "fr_card_zhuanyi") ? (1.7 + Math.random()) : (1 + Math.random());
+					return (button.link[2] == "vl_card_zhuanyi") ? (1.7 + Math.random()) : (1 + Math.random());
 				}
 				if (!target.mayHaveShan() && get.attitude(player, target) < 0) {
-					return (button.link[2] == "fr_card_chongci") ? (1.7 + Math.random()) : (1 + Math.random());
+					return (button.link[2] == "vl_card_chongci") ? (1.7 + Math.random()) : (1 + Math.random());
 				}
 				return 1 + Math.random();
 			}).set('target', event.target).forResult();
@@ -91,7 +91,7 @@ export default {
 			game.log(player, '选择的对策为', '#g' + get.translation(event.mes));
 			game.delay(0, 1500);
 		}
-		if ((event.tes && event.tes.name == 'sha' && event.mes == 'fr_card_zhuanyi') || (event.tes && event.tes.name == 'shan' && event.mes == 'fr_card_chongci')) {
+		if ((event.tes && event.tes.name == 'sha' && event.mes == 'vl_card_zhuanyi') || (event.tes && event.tes.name == 'shan' && event.mes == 'vl_card_chongci')) {
 			const storage = player.getStorage('vl_tails_jd', [0, true]);
 			if (storage[1]) storage[1] = false
 			game.log(player, '谋弈失败');
@@ -104,7 +104,7 @@ export default {
 				if (storage[0] >= 8) {
 				}
 			}
-			if (event.mes == 'fr_card_zhuanyi') {
+			if (event.mes == 'vl_card_zhuanyi') {
 				if (game.hasPlayer(target => {
 					return !player.getStorage('vl_tails_jd_target', []).includes(target) && target != player
 				})) {

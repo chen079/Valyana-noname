@@ -7,18 +7,18 @@ export default {
     },
     charlotte: true,
     trigger: {
-        player: ["addVuffAfter", 'changeHp', "reduceVuffAfter"],
+        player: ["changeVuff", "addVuffAfter", "reduceVuffAfter", 'changeHp'],
     },
     forced: true,
     silent: true,
     priority: 3,
     filter(event, player, onrewrite) {
-        if (!player.hasVuff('ohuxue')) return false
-        return player.countVuffNum('ohuxue') > player.hp
+        if (!player.hasVuff('chuxue')) return false
+        return player.countVuffNum('chuxue') > player.hp
     },
     async content(event, trigger, player) {
-        const num = player.countVuffNum('ohuxue')
-        player.olearVuff('ohuxue')
+        const num = player.countVuffNum('chuxue')
+        await player.clearVuff('chuxue')
         await player.loseHp(Math.max(1, Math.floor(num / 2)))
     },
     vuffInfo: {

@@ -41,6 +41,7 @@ export default {
 			}
 		}
 		player.setStorage('jbgy_sj', skills)
+		let result;
 		if (player.isIn()) {
 			if (!player.getStorage('jbgy_sj', null)) lib.skill.jbgy_sj.initList(player);
 			let list = player.getStorage('jbgy_sj', []).randomGets(3);
@@ -60,7 +61,7 @@ export default {
 			}
 			if (player.isOnline()) player.send(func, list, event.videoId);
 			else if (player == game.me) func(list, event.videoId);
-			let result = await player.chooseControl(list).forResult();
+			result = await player.chooseControl(list).forResult();
 		}
 		else return;
 		game.broadcastAll('closeDialog', event.videoId);

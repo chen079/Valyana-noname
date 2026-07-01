@@ -5,7 +5,7 @@ export default {
 		global: "phaseBegin",
 	},
 	ensurePhaseCard(name) {
-		const cardName = 'fr_' + name;
+		const cardName = 'vl_' + name;
 		if (!lib.card[cardName]) {
 			lib.card[cardName] = {
 				fullskin: true,
@@ -38,17 +38,17 @@ export default {
 			const att = get.attitude(_status.event.player, trigger.player)
 			if (att > 0) {
 				switch (button.link.name) {
-					case 'fr_phaseUse': return 1;
-					case 'fr_phaseDraw': return 2;
-					case 'fr_phaseJudge': return -1
-					case 'fr_phaseDiscard': return -2
+					case 'vl_phaseUse': return 1;
+					case 'vl_phaseDraw': return 2;
+					case 'vl_phaseJudge': return -1
+					case 'vl_phaseDiscard': return -2
 				}
 			} else {
 				switch (button.link.name) {
-					case 'fr_phaseUse': return -1;
-					case 'fr_phaseDraw': return -2;
-					case 'fr_phaseJudge': return 1
-					case 'fr_phaseDiscard': return 2
+					case 'vl_phaseUse': return -1;
+					case 'vl_phaseDraw': return -2;
+					case 'vl_phaseJudge': return 1
+					case 'vl_phaseDiscard': return 2
 				}
 			}
 		}).forResult();
@@ -81,7 +81,7 @@ export default {
 		} else {
 			return
 		}
-		trigger.phaseList = event.cards.map(i => i.name.replace('fr_', ''))
+		trigger.phaseList = event.cards.map(i => i.name.replace('vl_', ''))
 	},
 	t: {
 		name: "时移",

@@ -155,8 +155,10 @@ const packs = async function () {
     addAvaterAndVideo(bossPack)
     lib.config.all.sgscharacters.push('Valyana');
     lib.translate['Valyana_character_config'] = '瓦尔亚纳';
+    lib.translate['Valyana_charactersInfo'] = `<img src="${lib.assetURL}extension/瓦尔亚纳/image/ui/logo.png" style="width:280px; max-width:80%; height:auto; display:block; margin:8px auto 12px;">`;
     lib.config.all.sgscharacters.push('ValyanaBoss');
     lib.translate['ValyanaBoss_character_config'] = '瓦尔亚纳Boss';
+    lib.translate['ValyanaBoss_charactersInfo'] = lib.translate['Valyana_charactersInfo'];
     return importedPacks
 };
 

@@ -16,8 +16,9 @@ export default {
 	async content(event, trigger, player) {
 		const target = event.target
 		player.markAuto('vl_jbgy_qx', target)
+		let result;
 		if (player.countCards('he', { subtype: 'equip1' }) > 0) {
-			let result = await player.chooseCard('是否弃置一张武器牌', 1, 'he', false, function (card) {
+			result = await player.chooseCard('是否弃置一张武器牌', 1, 'he', false, function (card) {
 				return get.subtype(card) == 'equip1'
 			}).set('ai', function (card) {
 				return 7 - get.value(card)

@@ -23,6 +23,16 @@
 
 通常不要改 `js/precontent/loadCharacter.js`。它已经会读取角色数据、头像、技能翻译、稀有度、分包分类和技能文件。
 
+### 换肤与原画切换
+
+技能中使用 `player.changeSkin(...)` 切换到 `vl_角色名2`、`vl_角色名_die` 等替换原画时，不能只放图片和调用 `changeSkin`。必须同时在 `packs/characterSubstitute.js` 为原角色注册替换原画，例如：
+
+```javascript
+vl_zhan: [['vl_zhan2', ['ext:瓦尔亚纳/image/character/vl_zhan2.jpg']]],
+```
+
+替换图仍放在 `image/character/`，并在增删图片后运行 `node js/scripts/generateFiles.cjs`，确保 `js/files.json` 包含新图片。可参考 `vl_froh -> vl_froh2` 的写法。
+
 ## 重做角色流程
 
 当用户明确要求“重做角色”时，不要直接覆盖或删除旧技能实现。先确认该角色在角色表中的 `skills` 列表，然后把对应 `packs/skills/技能名.js` 移动到 `packs/skills/archived/`。若归档目录中已有同名文件，先改成清晰的备份名，例如 `技能名_old.js` 或带日期后缀。

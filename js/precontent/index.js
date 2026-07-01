@@ -1,5 +1,6 @@
 import { lib, game, ui, get, ai, _status } from '../../../../noname.js';
 import characterPacks from './loadCharacter.js';
+import cardPack from '../../packs/card.js';
 import poptips from './poptips.json'
 import changelog from './changelog.js'
 import { vuffs } from '../../packs/vuffs/index.js';
@@ -44,17 +45,32 @@ function applyRainbowExtensionName(leftBar, name) {
 @keyframes vl-rainbow-shift {
     0% { filter: hue-rotate(0deg); text-shadow: 0 0 6px rgba(255,255,255,0.45); }
     100% { filter: hue-rotate(360deg); text-shadow: 0 0 10px rgba(255,255,255,0.75); }
+}
+.vl-rainbow-extension-name {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-family: yuanli, "Microsoft YaHei", sans-serif;
+    line-height: 1;
+    white-space: nowrap;
+    transform: translate(-50%, -50%);
+}
+.vl-rainbow-extension-name > span {
+    display: inline-block;
+    line-height: 1;
 }`;
         document.head.appendChild(style);
     }
-    leftBar.style.display = 'inline-flex';
-    leftBar.style.alignItems = 'center';
+    leftBar.style.position = 'relative';
     leftBar.style.whiteSpace = 'nowrap';
     leftBar.style.fontWeight = 'bold';
     leftBar.style.animation = 'vl-rainbow-shift 4s linear infinite';
-    leftBar.innerHTML = [...name].map((char, index) => {
-        return `<span style="display:inline-block; animation:vl-rainbow-shift 3s linear ${index * 0.18}s infinite;">${char}</span>`;
-    }).join('');
+    leftBar.innerHTML = `<span class="vl-rainbow-extension-name">${[...name].map((char, index) => {
+        return `<span style="animation:vl-rainbow-shift 3s linear ${index * 0.18}s infinite;">${char}</span>`;
+    }).join('')}</span>`;
 }
 
 function getValyanaBrawlCharacters() {
@@ -144,6 +160,7 @@ export async function precontent(ValyanaCharacters) {
             game.import('character', packs[i]);
         }
         //--------------------卡牌包--------------------//
+        game.import('card', cardPack);
     }
     lib.arenaReady.push(initValyanaBrawl);
     for (let poptip of poptips) {

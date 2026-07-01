@@ -21,6 +21,7 @@ export default {
 	selectTarget: -1,
 	async content(event, trigger, player) {
 		await player.draw(2)
+		const targets = event.targets || [];
 		if (targets.length == 0) return;
 		let result;
 		if (targets.length == 1) {
@@ -29,14 +30,13 @@ export default {
 			result = await player.chooseToCompare(targets).setContent('chooseToCompareMeanwhile').forResult()
 		}
 		if (result.winner) {
-			let targets = [player].addArray(event.targets).sortBySeat(player);
-			targets.remove(result.winner);
-			for (let i = 0; i < targets.length; i++) {
-				if (!result.winner.canUse({ name: 'sha', nature: 'fire', isCard: true }, targets[i], false) || !lib.filter.targetEnabled2({ name: 'sha', nature: 'fire', isCard: true }, result.winner, targets[i])) {
-					targets.remove(targets[i])
-				}
+			const card = { name: 'sha', nature: 'fire', isCard: true };
+			const shaTargets = [player].addArray(targets).sortBySeat(player).filter(target => {
+				return target != result.winner && result.winner.canUse(card, target, false) && lib.filter.targetEnabled2(card, result.winner, target);
+			});
+			if (shaTargets.length) {
+				await result.winner.useCard(card, shaTargets, 'noai').set('addCount', false);
 			}
-			await result.winner.useCard({ name: 'sha', nature: 'fire', isCard: true }, targets, 'noai').set('addCount', false);
 		}
 	},
 	ai: {

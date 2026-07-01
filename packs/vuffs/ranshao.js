@@ -20,7 +20,7 @@ export default {
     async content(event, trigger, player) {
         const onrewrite = event.triggername;
         if (onrewrite == 'damage') {
-            player.olearVuff('ranshao', num)
+            await player.reduceVuff('ranshao', trigger.num)
         } else {
             await player.damage('fire', 'nosource');
         }
